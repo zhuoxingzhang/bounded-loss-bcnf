@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\begin{axis}[ybar, width=\columnwidth, height=4.2cm, bar width=4.5pt, enlarge x limits=0.25,
+  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={{10,000},{20,000},{30,000}}, xtick=data,
+  ymin=0, legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, legend columns=1, draw=none, fill=none},
+  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]
+\addplot coordinates {({10,000},1.634) ({20,000},3.326) ({30,000},4.960)};
+\addlegendentry{$\dec_1$, FDs by triggers}
+\addplot coordinates {({10,000},1.057) ({20,000},2.077) ({30,000},3.147)};
+\addlegendentry{3NF, $Z\rightarrow T$ by trigger}
+\addplot coordinates {({10,000},0.160) ({20,000},0.296) ({30,000},0.465)};
+\addlegendentry{$\dec_1$ (loss 2)}
+\addplot coordinates {({10,000},0.235) ({20,000},0.495) ({30,000},0.773)};
+\addlegendentry{$\dec_2$ (loss 1)}
+\addplot coordinates {({10,000},0.322) ({20,000},0.653) ({30,000},0.958)};
+\addlegendentry{$\dec_4$ (loss 1)}
+\end{axis}
+\end{tikzpicture}

@@ -190,7 +190,7 @@ def fig_teaser(recs):
     sizes = sorted(set(r["size"] for r in recs))
     out = [r"\begin{tikzpicture}",
            r"\begin{axis}[ybar, width=\columnwidth, height=4.2cm, bar width=4.5pt, enlarge x limits=0.25,",
-           r"  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={%s}, xtick=data," % ",".join("{:,}".format(s) for s in sizes),
+           r"  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={%s}, xtick=data," % ",".join("{" + "{:,}".format(s) + "}" for s in sizes),
            r"  ymin=0, legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, legend columns=1, draw=none, fill=none},",
            r"  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]"]
     for d in TEASER_ORDER:
@@ -198,7 +198,7 @@ def fig_teaser(recs):
         for size in sizes:
             xs = [r["seconds"] for r in recs if r["design"] == d and r["size"] == size]
             if xs:
-                pts.append("({:,},{:.3f})".format(size, statistics.mean(xs)))
+                pts.append("({" + "{:,}".format(size) + "}," + "{:.3f})".format(statistics.mean(xs)))
         out.append(r"\addplot coordinates {%s};" % " ".join(pts))
         out.append(r"\addlegendentry{%s}" % TEASER_LABELS[d])
     out.append(r"\end{axis}")
