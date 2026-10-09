@@ -420,6 +420,8 @@ def drop_plain(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, 
 # reached as well. The first feasible candidate is optimal because the bounds increase.
 # ---------------------------------------------------------------------------------------------------------------
 
+STRICT_COVER = True
+
 def _subset_sums(weights, cap, limit=60):
     """the distinct subset sums of the weights in increasing order (unit weights: 0..m), at most `limit`"""
     if all(x == 1 for x in weights):
@@ -455,7 +457,10 @@ def _structured(n, Da, w, R, deadline, max_w, max_extra, max_weight, stats, verb
     stats.setdefault("tested", 0)
 
     def unsatisfied(Delta):
-        C = [f for (f, viol) in crit_viol if any(v in Delta for v in viol)]
+        # a critical minimal FD of Sigma is uncritical for the enforced FDs only if every violator of its schema
+        # is unenforced (the proof of the cover condition), so it joins the cover only when all its violators
+        # are in Delta; STRICT_COVER = False keeps the weaker condition (some violator in Delta)
+        C = [f for (f, viol) in crit_viol if (all if STRICT_COVER else any)(v in Delta for v in viol)]
         F = FDSet(n, unc + C + list(Delta))
         return [g for g in crit if g not in Delta and not F.implies(g[0], g[1])]
 
