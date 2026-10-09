@@ -13,10 +13,9 @@ CREATE TABLE lineitem (
   `8` CHAR(1) NOT NULL, `9` CHAR(1) NOT NULL, `10` DATE NOT NULL, `11` DATE NOT NULL, `12` DATE NOT NULL,
   `13` CHAR(25) NOT NULL, `14` CHAR(10) NOT NULL, `15` VARCHAR(44) NOT NULL
 ) ENGINE=InnoDB;
-SET autocommit=0;
 SQL
-# strip the literal \" around every value, then load inside one transaction per 1,000,000 statements
-sed 's/\\"//g' $D/lineitem.sql | $M --defaults-file=$C --database=bl --init-command="SET autocommit=0; SET unique_checks=0; SET foreign_key_checks=0;"
+# strip the literal \" around every value and load everything in one transaction, committed at the end
+(sed 's/\\"//g' $D/lineitem.sql; echo "COMMIT;") | $M --defaults-file=$C --database=bl --init-command="SET autocommit=0; SET unique_checks=0; SET foreign_key_checks=0;"
 $M --defaults-file=$C --database=bl <<'SQL'
 ALTER TABLE lineitem
   RENAME COLUMN `0` TO c0, RENAME COLUMN `1` TO c1, RENAME COLUMN `2` TO c2, RENAME COLUMN `3` TO c3,
