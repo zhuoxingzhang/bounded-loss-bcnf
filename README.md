@@ -33,8 +33,9 @@ python experiments.py --one abalone
 ```
 
 Validation status: with the plain enumeration, 44,943 five-attribute and 21,156 six-attribute random instances
-without failure (`validate_n5.log`, `validate_n5b.log`, `validate_n6b.log`); with the tree search, 292,751
-five-attribute and 69,359 six-attribute random instances without failure (`validate_n5c.log`, `validate_n6c.log`).
+without failure (`validate_n5.log`, `validate_n5b.log`, `validate_n6b.log`); with the tree search and the final
+`Repair`, 300,322 five-attribute and 73,730 six-attribute random instances without failure (`validate_n5e.log`,
+`validate_n6d.log`; earlier runs `validate_n5c.log`, `validate_n5d.log`, `validate_n6c.log`).
 
 ## Data
 
