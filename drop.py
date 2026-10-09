@@ -275,6 +275,27 @@ def greedy_restarts(n, Da, w, R, deadline, stats, restarts=20, seed=0):
             stats["greedy_improved"] = stats.get("greedy_improved", 0) + 1
     return best
 
+def uncritical_fixpoint(n, Da, w, R, deadline, stats):
+    """The mass version of the greedy for large schemata: drop every obstruction at once and repeat,
+    E_0 = Sigma^+ and E_{i+1} = (uncritical minimal FDs of E_i)^+, until E_i is enforceable (Theorem 3.17).
+    Every round costs one atomic cover; the sequence decreases and stops at an enforceable subset of Sigma^+.
+    Returns (Delta, Psi, Pa, U) like greedy_plain (Pa the atomic cover of the enforced set, U its uncritical
+    minimal FDs, Delta the minimal FDs of Sigma it does not imply), or None at the deadline."""
+    Pa = Da
+    rounds = 0
+    while True:
+        if deadline is not None and time.time() > deadline:
+            return None
+        unc, crit = split_critical(Pa)
+        U = FDSet(n, unc)
+        if all(U.implies(g[0], g[1]) for g in crit):
+            stats["fixpoint_rounds"] = rounds
+            Delta = set(f for f in Da.fds if not Pa.implies(f[0], f[1]))
+            Psi = FDSet(n, [f for f in Da.fds if f not in Delta])
+            return Delta, Psi, Pa, U
+        Pa = atomic_cover(U)
+        rounds += 1
+
 def drop_plain(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_delta=None, heuristic=True, verbose=False):
     """Drop with the plain enumeration of the sets Delta by increasing weight (closed choices only, then the
     cover condition, then search_W); kept for cross-checks, drop() below is the default implementation."""
@@ -558,9 +579,18 @@ def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_de
         return res
     res.lower_bound = incomplete_at if incomplete_at < inf else 0
     if heuristic:
-        g = greedy_restarts(n, Da, w, R, (time.time() + 30) if time_limit is None else max(time.time() + 30, t0 + 1.5 * time_limit), stats)
+        # the uncritical fixpoint first (cheap), then the greedy with the remaining budget; the lighter wins
+        hdeadline = (time.time() + 30) if time_limit is None else max(time.time() + 30, t0 + 1.5 * time_limit)
+        cands = []
+        fx = uncritical_fixpoint(n, Da, w, R, hdeadline, stats)
+        if fx is not None:
+            cands.append(fx)
+        g = greedy_restarts(n, Da, w, R, hdeadline, stats)
         if g is not None:
-            Delta, Psi, Pa, U = g
+            cands.append(g)
+        if cands:
+            Delta, Psi, Pa, U = min(cands, key=lambda c: sum(_weight(w, f) for f in c[0]))
+            stats["heuristic_source"] = "greedy" if (g is not None and cands[-1] is g and len(cands) == 1) else ("fixpoint" if fx is not None and (g is None or sum(_weight(w, f) for f in fx[0]) <= sum(_weight(w, f) for f in g[0])) else "greedy")
             res.heuristic = True
             res.loss = sum(_weight(w, f) for f in Delta)
             res.delta = sorted(Delta)

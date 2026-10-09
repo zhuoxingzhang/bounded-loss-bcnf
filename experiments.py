@@ -43,10 +43,26 @@ DROP_MAX_MINIMAL = 1000   # run Drop on the whole schema only when |Sigma_a| is 
 LOCAL_TIME = 120          # seconds per critical schema in Repair
 DROP_TIME = 600           # seconds for the global Drop / fallback
 MAX_W = 4                 # weakened FDs per candidate
-DATASET_TIMEOUT = 7200    # seconds per FD set (each runs in its own process)
+DATASET_TIMEOUT = 14400   # seconds per FD set (each runs in its own process)
 
 def max_extra_for(n):
     return None if n <= 12 else 3
+
+def design_json(n, Da, design, triggers=False, max_cover=10000):
+    """The schemata of a key design as attribute lists with their keys and, with triggers, the non-key FDs of
+    a minimal cover of the projection that a trigger has to enforce (experiment E3)."""
+    out = []
+    for S, keys in design:
+        d = {"attrs": list(bits(S)), "keys": [list(bits(K)) for K in keys]}
+        if triggers:
+            DaS = Da.restrict(S)
+            if len(DaS) <= max_cover:
+                C = minimal_cover(DaS)
+                d["fds"] = [[list(bits(X)), A] for (X, A) in C.fds if DaS.closure(X) & S != S]
+            else:
+                d["fds"] = None
+        out.append(d)
+    return out
 
 def run(name, path):
     rec = {"name": name}
@@ -67,7 +83,8 @@ def run(name, path):
     rec["time_cover"] = time.time() - t0
     rec["minimal_fds"] = len(Da)
     R = (1 << n) - 1
-    rec["keys"] = len(minimal_keys(Da, R))
+    keys_R = minimal_keys(Da, R)
+    rec["keys"] = len(keys_R)
     rec["nu"] = nonkey_count(Da)
     unc, crit = split_critical(Da)
     rec["critical_minimal_fds"] = len(crit)
@@ -83,6 +100,8 @@ def run(name, path):
     crit_s = [S for S in dec if not is_bcnf(Da, S)]
     rec["3nf_critical"] = [(popcount(S), len(Da.restrict(S)), len(violators(Da, S))) for S in crit_s]
     rec["time_3nf"] = time.time() - t1
+    rec["designs"] = {"3nf": design_json(n, Da, des, triggers=True),
+                      "orig": design_json(n, Da, [(R, keys_R)], triggers=True)}
     # classical BCNF decomposition
     t1 = time.time()
     bdec = bcnf_decomposition(Da)
@@ -96,6 +115,7 @@ def run(name, path):
     except Exception:
         rec["bcnf_sound"] = None
     rec["time_bcnf"] = time.time() - t1
+    rec["designs"]["bcnf"] = design_json(n, Da, bdes)
     # Repair
     t1 = time.time()
     rr = repair(n, F, Da=Da, local_time_limit=LOCAL_TIME, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n))
@@ -117,6 +137,7 @@ def run(name, path):
         sound, local, Ea = check_bcnf_design(n, rr.design, Da)
         rec["repair_design_ok"] = bool(sound and local)
         rec["repair_loss_check"] = loss_of(Da, key_dependencies(n, rr.design))
+        rec["designs"]["repair"] = design_json(n, Da, rr.design)
     # Drop on the whole schema
     if len(Da) <= DROP_MAX_MINIMAL:
         t1 = time.time()
@@ -128,6 +149,8 @@ def run(name, path):
         rec["drop_delta_size"] = None if dr.delta is None else len(dr.delta)
         rec["drop_w_size"] = None if dr.W is None else len(dr.W)
         rec["drop_stats"] = {k: v for k, v in dr.stats.items() if k != "time"}
+        if dr.design is not None:
+            rec["designs"]["drop"] = design_json(n, Da, dr.design)
         rec["time_drop"] = time.time() - t1
     rec["time_total"] = time.time() - t0
     return rec
@@ -161,7 +184,7 @@ def run_one(name):
         rec = {"name": name, "error": traceback.format_exc()[-600:]}
     with open(os.path.join("results", "e1_%s.jsonl" % safe(name)), "w", encoding="utf-8") as out:
         out.write(json.dumps(rec) + "\n")
-    print("   ", {k: v for k, v in rec.items() if not k.startswith("time") and k != "drop_stats"}, flush=True)
+    print("   ", {k: v for k, v in rec.items() if not k.startswith("time") and k not in ("drop_stats", "designs")}, flush=True)
 
 def load_rows():
     rows = {}

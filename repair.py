@@ -14,7 +14,7 @@ is reported as `lower_bound`.
 """
 import time
 from fdlib import *
-from drop import drop, DropResult, _weight, greedy_restarts
+from drop import drop, DropResult, _weight, greedy_restarts, uncritical_fixpoint
 
 class RepairResult:
     def __init__(self, **kw):
@@ -87,6 +87,14 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         t1 = time.time()
         deadline = None if time_limit is None else t1 + time_limit
         candidates = []
+        # (0) the uncritical fixpoints of Gamma^+ and of Sigma^+ (cheap: a few atomic covers each)
+        for label, Xa in (("gamma-fix", Ga), ("sigma-fix", Da)):
+            t3 = time.time()
+            fx = uncritical_fixpoint(n, Xa, None, R, deadline, res.stats)
+            res.stats["time_" + label] = time.time() - t3
+            if fx is not None:
+                d0 = design_from_cover(fx[2], fx[3], R)
+                candidates.append((label, loss_of(Da, key_dependencies(n, d0), w), d0, None))
         # (1) an enforceable subset of Gamma^+ by the greedy (unit weights in the search, loss measured on Sigma_a)
         g = greedy_restarts(n, Ga, None, R, None if time_limit is None else t1 + time_limit / 2, res.stats)
         if g is not None:
