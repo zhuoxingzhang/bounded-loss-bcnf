@@ -1,4 +1,4 @@
-C:\Users\zzha969\OneDrive - The University of Auckland\Desktop\PhD\bounded dependency-preserved normal form\tools\minloss_bruteforce.py:1: SyntaxWarning: invalid escape sequence '\ '
+<project>\bounded dependency-preserved normal form\tools\minloss_bruteforce.py:1: SyntaxWarning: invalid escape sequence '\ '
   """
 2480 closure systems on 4 attributes
   ... 400/2480 (8s) {'total': 362, 'nontrivial': 92, 'plain_gap': 0, 'kc_gap': 0}

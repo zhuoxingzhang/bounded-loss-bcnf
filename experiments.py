@@ -17,13 +17,7 @@ from repair import repair
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data", "fds")          # the FD sets shipped with the repository
-SIBLING = os.path.join(HERE, "..", "..", "iCONF(SIGMOD'25)")   # the original location in the sibling project
-if os.path.isdir(DATA):
-    COMPLETE, NULLEQ, TPCH = os.path.join(DATA, "complete"), os.path.join(DATA, "null-equality"), os.path.join(DATA, "tpch")
-else:
-    COMPLETE = os.path.join(SIBLING, "FD", "FD on Complete", "FD")
-    NULLEQ = os.path.join(SIBLING, "FD", "FD on Incomplete", "FD on NULL EQUALITY", "FD")
-    TPCH = os.path.join(SIBLING, "TPCH", "tpch-fds")
+COMPLETE, NULLEQ, TPCH = os.path.join(DATA, "complete"), os.path.join(DATA, "null-equality"), os.path.join(DATA, "tpch")
 SETS = []
 for f in sorted(glob.glob(os.path.join(COMPLETE, "*.json"))):
     name = os.path.basename(f)[:-5]

@@ -13,7 +13,7 @@ Contents
   enforceability      : Theorem 3.17: the uncritical minimal FDs of E must cover E
   designs             : BCNF design from an enforceable set, enforced FDs, loss, local enforcement, chase
   classical baselines : minimal cover, 3NF synthesis (BCNF whenever possible), BCNF decomposition
-  I/O                 : the JSON format of the sibling iConf project and the Metanome text format
+  I/O                 : the JSON format of the FD files in data/fds and the Metanome text format
 """
 from itertools import combinations
 import json, re
@@ -420,7 +420,7 @@ def nonkey_count(Fa, R=None):
 # ----------------------------------------------------------------------------- I/O
 
 def load_json(path):
-    """{"R": n, "fds": [{"lhs": [...], "rhs": [...]}, ...]} (iConf project); returns (n, FDSet)."""
+    """{"R": n, "fds": [{"lhs": [...], "rhs": [...]}, ...]} (the FD files in data/fds); returns (n, FDSet)."""
     d = json.load(open(path, encoding="utf-8"))
     n = d["R"]
     fds = []
