@@ -10,11 +10,13 @@ When the collected key dependencies are enforceable, Repair returns the lightest
 the obstruction design (Theorem "Obstruction bound") and, with ascend_time > 0, the ascents (Algorithm
 "Ascend") from the uncritical minimal FDs of Gamma^+ and of Sigma, each within half of ascend_time.
 
-The fallback never fails: it returns the lightest of (0) the uncritical fixpoints of Gamma^+ and Sigma^+ and
-the ascent from the former, (1) an enforceable subset of Gamma^+ found by the greedy on the atomic cover of
-Gamma^+ within half of the budget, (2) the result of the global Drop within the remaining budget (exact, or
-its heuristic with the ascent), and (3) the key-only design of R (every minimal key declared on the single
-schema R, loss nu). The certified lower bound of the global Drop is reported as `lower_bound`.
+The fallback never fails: it returns the lightest of (0) the uncritical fixpoints of Gamma^+ and Sigma^+,
+(1) an enforceable subset of Gamma^+ found by the greedy on the atomic cover of Gamma^+ within half of the
+budget, (2) the result of the global Drop within the remaining budget (exact, or its heuristic with the
+ascents within ascend_time), (3) the key-only design of R (every minimal key declared on the single schema R,
+loss nu), and (4) the ascent from the fixpoint of Gamma^+ within half of ascend_time, after the others so that
+it does not consume the budget of the fallback. The certified lower bound of the global Drop is reported as
+`lower_bound`.
 """
 import time
 from fdlib import *
@@ -122,6 +124,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         t1 = time.time()
         deadline = None if time_limit is None else t1 + time_limit
         candidates = []
+        gamma_fix = None
         # (0) the uncritical fixpoints of Gamma^+ and of Sigma^+ (cheap: a few atomic covers each)
         for label, Xa in (("gamma-fix", Ga), ("sigma-fix", Da)):
             t3 = time.time()
@@ -130,13 +133,8 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
             if fx is not None:
                 d0 = design_from_cover(fx[2], fx[3], R)
                 candidates.append((label, loss_of(Da, key_dependencies(n, d0), w), d0, None))
-                if label == "gamma-fix" and ascend_time:
-                    # the ascent from the fixpoint of Gamma^+ (the global Drop below ascends from Sigma's)
-                    astats = {}
-                    a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=list(fx[3].fds))
-                    if a is not None:
-                        candidates.append(("ascend-gamma", a[1], a[0], None))
-                        res.stats["ascend-gamma"] = astats
+                if label == "gamma-fix":
+                    gamma_fix = fx
         # (1) an enforceable subset of Gamma^+ by the greedy (unit weights in the search, loss measured on Sigma_a)
         g = greedy_restarts(n, Ga, None, R, None if time_limit is None else t1 + time_limit / 2, res.stats)
         if g is not None:
@@ -155,6 +153,15 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         # (3) the key-only design
         d3, loss3 = key_only_design(n, Da, R, w)
         candidates.append(("keys", loss3, d3, None))
+        # (4) the ascent from the fixpoint of Gamma^+ within its own budget (the global Drop ascends from Sigma's)
+        if ascend_time and gamma_fix is not None:
+            t4 = time.time()
+            astats = {}
+            a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=list(gamma_fix[3].fds))
+            if a is not None:
+                candidates.append(("ascend-gamma", a[1], a[0], None))
+                res.stats["ascend-gamma"] = astats
+            res.stats["time_ascend"] = time.time() - t4
         stage, loss, design, r = min(candidates, key=lambda c: c[1])
         res.design, res.loss = design, loss
         res.exact = (stage == "drop" and r2.exact and not r2.heuristic) or (res.lower_bound is not None and loss <= res.lower_bound)
