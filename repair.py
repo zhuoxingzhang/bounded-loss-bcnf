@@ -14,8 +14,9 @@ The fallback never fails: it returns the lightest of (0) the uncritical fixpoint
 (1) an enforceable subset of Gamma^+ found by the greedy on the atomic cover of Gamma^+ within half of the
 budget, (2) the result of the global Drop within the remaining budget (exact, or its heuristic with the
 ascents within ascend_time), (3) the key-only design of R (every minimal key declared on the single schema R,
-loss nu), and (4) the ascent from the fixpoint of Gamma^+ within half of ascend_time, after the others so that
-it does not consume the budget of the fallback. The certified lower bound of the global Drop is reported as
+loss nu), and (4) the ascents from the fixpoints of Gamma^+ and of Sigma^+ within half of ascend_time each,
+after the others so that they do not consume the budget of the fallback (the latter is skipped when the heuristic
+of the global Drop has already ascended from it). The certified lower bound of the global Drop is reported as
 `lower_bound`.
 """
 import time
@@ -124,7 +125,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         t1 = time.time()
         deadline = None if time_limit is None else t1 + time_limit
         candidates = []
-        gamma_fix = None
+        gamma_fix = sigma_fix = None
         # (0) the uncritical fixpoints of Gamma^+ and of Sigma^+ (cheap: a few atomic covers each)
         for label, Xa in (("gamma-fix", Ga), ("sigma-fix", Da)):
             t3 = time.time()
@@ -135,6 +136,8 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
                 candidates.append((label, loss_of(Da, key_dependencies(n, d0), w), d0, None))
                 if label == "gamma-fix":
                     gamma_fix = fx
+                else:
+                    sigma_fix = fx
         # (1) an enforceable subset of Gamma^+ by the greedy (unit weights in the search, loss measured on Sigma_a)
         g = greedy_restarts(n, Ga, None, R, None if time_limit is None else t1 + time_limit / 2, res.stats)
         if g is not None:
@@ -153,14 +156,23 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         # (3) the key-only design
         d3, loss3 = key_only_design(n, Da, R, w)
         candidates.append(("keys", loss3, d3, None))
-        # (4) the ascent from the fixpoint of Gamma^+ within its own budget (the global Drop ascends from Sigma's)
-        if ascend_time and gamma_fix is not None:
+        # (4) the ascents from the fixpoints of Gamma^+ and of Sigma^+ within their own budget, after the others so
+        # that they do not consume the budget of the fallback; the ascent from Sigma's fixpoint is skipped when the
+        # heuristic of the global Drop has already ascended from it
+        if ascend_time:
             t4 = time.time()
-            astats = {}
-            a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=list(gamma_fix[3].fds))
-            if a is not None:
-                candidates.append(("ascend-gamma", a[1], a[0], None))
-                res.stats["ascend-gamma"] = astats
+            starts = [("ascend-gamma", gamma_fix)]
+            drop_ascended = any(c[0] == "ascend-fixpoint" for c in (r2.stats.get("ascend_candidates") or []))
+            if not drop_ascended:
+                starts.append(("ascend-sigma", sigma_fix))
+            for label, fx in starts:
+                if fx is None:
+                    continue
+                astats = {}
+                a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=list(fx[3].fds))
+                if a is not None:
+                    candidates.append((label, a[1], a[0], None))
+                    res.stats[label] = astats
             res.stats["time_ascend"] = time.time() - t4
         stage, loss, design, r = min(candidates, key=lambda c: c[1])
         res.design, res.loss = design, loss
