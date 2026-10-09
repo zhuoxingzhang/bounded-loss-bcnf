@@ -185,11 +185,12 @@ def search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra=None):
             return None, state["cut"], False
     return None, True, False
 
-def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3):
+def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3, max_options=8):
     """A plain BCNF design by greedy repair: while the uncritical minimal FDs of Psi^+ do not imply some
     critical one g, drop g or one of the violators of its schema (the cheapest option measured by the
     weight added to Delta and the obstructions that remain), keeping Delta a closed choice.
-    With rng, the obstruction and the option are chosen at random among the best `top` ones."""
+    With rng, the obstruction and the option are chosen at random among the best `top` ones.
+    At most `max_options` options are evaluated per step (g and the lightest violators)."""
     fds = list(Da.fds)
     idx = {f: i for i, f in enumerate(fds)}
     def close_choice(Delta):
@@ -232,6 +233,9 @@ def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3):
             return Delta, Psi, Pa, U
         g = obstructions[0] if rng is None else rng.choice(obstructions[:top])
         options = [g] + [v for v in violators(Pa, g[0] | (1 << g[1])) if v != g]
+        if len(options) > max_options:
+            # every option costs an evaluation (an atomic cover): keep g and the lightest violators
+            options = options[:1] + sorted(options[1:], key=lambda h: (_weight(w, h), idx.get(h, len(fds))))[:max_options - 1]
         scored = []
         for h in options:
             if h in Da.fds:

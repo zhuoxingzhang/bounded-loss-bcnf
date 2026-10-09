@@ -108,6 +108,9 @@ def run(name, path):
     if rr.mode == "fallback":
         rec["repair_fallback_lb"] = rr.stats.get("fallback_lower_bound")
         rec["repair_fallback_heuristic"] = rr.stats.get("fallback_heuristic")
+        rec["repair_fallback_stage"] = rr.stats.get("fallback_stage")
+        rec["repair_fallback_candidates"] = rr.stats.get("fallback_candidates")
+        rec["time_repair_local"] = rr.stats.get("time_local")
     rec["time_repair"] = time.time() - t1
     if rr.design is not None:
         sound, local, Ea = check_bcnf_design(n, rr.design, Da)
@@ -121,6 +124,8 @@ def run(name, path):
         rec["drop_lb"] = dr.lower_bound
         rec["drop_exact"] = dr.exact
         rec["drop_heuristic"] = dr.heuristic
+        rec["drop_delta_size"] = None if dr.delta is None else len(dr.delta)
+        rec["drop_w_size"] = None if dr.W is None else len(dr.W)
         rec["drop_stats"] = {k: v for k, v in dr.stats.items() if k != "time"}
         rec["time_drop"] = time.time() - t1
     rec["time_total"] = time.time() - t0
@@ -133,9 +138,10 @@ def table(rows):
         if "error" in r:
             print("| %s | %s | %s | error: %s |" % (r["name"], r.get("n"), r.get("fds"), r["error"][:80].replace("\n", " ")))
             continue
-        rep = "%s [%s%s, lb %s%s]" % (r["repair_loss"], r["repair_mode"], "" if r["repair_exact"] else "*",
-                                      r.get("repair_fallback_lb", r["repair_local_lb_sum"]),
-                                      ", greedy" if r.get("repair_fallback_heuristic") or any(x[4] for x in r["repair_local"]) else "")
+        rep = "%s [%s%s%s, lb %s%s]" % (r["repair_loss"], r["repair_mode"], "" if r["repair_exact"] else "*",
+                                        "/" + r["repair_fallback_stage"] if r.get("repair_fallback_stage") else "",
+                                        r.get("repair_fallback_lb", r["repair_local_lb_sum"]),
+                                        ", greedy" if r.get("repair_fallback_heuristic") or any(x[4] for x in r["repair_local"]) else "")
         dr = "-" if "drop_loss" not in r else "%s [%s%s%s]" % (r["drop_loss"], r["drop_lb"], "" if r["drop_exact"] else "*",
                                                                ", greedy" if r["drop_heuristic"] else "")
         print("| %s | %d | %d | %d%s | %d | %d | %s | %d | %s | %d (%s) | %s | %s | %.0fs |" % (
