@@ -175,7 +175,7 @@ def table_e4(e4recs):
         for mode, _ in E4_MODES:
             m = r["modes"].get(mode)
             cells.append("--" if m is None else "%.1f" % (100.0 * m["risk"]))
-        out.append("%s & %s & %s & %s\\\\" % (name.replace("_", r"\_"), num(r["rows"]), num(r["harmful"]), " & ".join(cells)))
+        out.append("%s & %s & %s & %s\\\\" % (tex_name(name.replace("tpch_", "tpch-")), num(r["rows"]), num(r["harmful"]), " & ".join(cells)))
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
     return "\n".join(out)
