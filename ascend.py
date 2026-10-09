@@ -111,13 +111,22 @@ class Ascent:
         self._refresh(None, None)
 
     def _refresh(self, touched, new_wits):
-        """closures of every schema of psi and of every left-hand side of Sigma_a under the current G. The
-        witnesses of the elements whose schema closure contained no touched left-hand side stay valid, since no
-        closure inside their schema changed; the witnesses of the other elements were updated by the move."""
+        """closures of every schema of psi and of every left-hand side of Sigma_a under the current G. A closure
+        changes only if it contained a touched left-hand side (the added FD cannot fire otherwise, and no removed
+        FD fired), so after a move only those closures are recomputed. The witnesses of the elements whose schema
+        closure contained no touched left-hand side stay valid, since no closure inside their schema changed; the
+        witnesses of the other elements were updated by the move."""
         G = self.G
         old_sc, old_wit = self.sc, self.wit
-        self.sc = {h: G.closure(h[0] | (1 << h[1])) for h in self.psi}
-        self.lc = {f: G.closure(f[0]) for f in self.fds}
+        if touched is None:
+            self.sc = {h: G.closure(h[0] | (1 << h[1])) for h in self.psi}
+            self.lc = {f: G.closure(f[0]) for f in self.fds}
+        else:
+            old_lc = self.lc
+            self.sc = {h: (old_sc[h] if h in old_sc and not any(Z & ~old_sc[h] == 0 for Z in touched)
+                           else G.closure(h[0] | (1 << h[1]))) for h in self.psi}
+            self.lc = {f: (c if not any(Z & ~c == 0 for Z in touched) else G.closure(f[0]))
+                       for f, c in old_lc.items()}
         self.enforced = set(f for f in self.fds if (self.lc[f] >> f[1]) & 1)
         self.wit = {}
         if touched is not None:

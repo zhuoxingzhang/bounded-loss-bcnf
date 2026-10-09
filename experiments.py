@@ -42,7 +42,7 @@ ASSUME_ATOMIC_ABOVE = 2000  # above this many input FDs the discovered set is ta
 DROP_MAX_MINIMAL = 1000   # run Drop on the whole schema only when |Sigma_a| is at most this
 LOCAL_TIME = 120          # seconds per critical schema in Repair
 DROP_TIME = 600           # seconds for the global Drop / fallback
-ASCEND_TIME = 300         # seconds for the ascent (Algorithm "Ascend") in Repair and in the heuristic of Drop
+ASCEND_TIME = 900         # seconds for the ascents (Algorithm "Ascend") in Repair and in the heuristic of Drop
 MAX_W = 4                 # weakened FDs per candidate
 DATASET_TIMEOUT = 14400   # seconds per FD set (each runs in its own process)
 
