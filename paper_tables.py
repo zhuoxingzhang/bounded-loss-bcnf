@@ -80,7 +80,7 @@ def table_e2(rows):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
-E3_MODES = [("orig", r"original"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
+E3_MODES = [("orig", r"original"), ("keys", r"keys only"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
 
 def load_e3():
     """the E3 records per set: {set: [records]} (results/e3_<set>.jsonl)"""

@@ -15,7 +15,7 @@ tuple that agrees with the record on X inside U agrees with it on A for every FD
 fresh attribute, and fresh values are unique. A trigger lookup on X inside U finds the template's group and
 compares right-hand sides; a lookup on X outside U finds nothing.
 
-usage: python3 e3.py [--sizes 10000,20000,30000] [--reps 5] [--modes orig,3nf,bcnf,repair,drop] [--noindex]
+usage: python3 e3.py [--sizes 10000,20000,30000] [--reps 5] [--modes orig,3nf,bcnf,repair,drop,keys] [--noindex]
                      [--budget 7200] [--parallel K] [set ...]     (budget: seconds per mode and set)
        python3 e3.py --check [set ...]      verify the minimal cover and the keys on the source tables
        python3 e3.py --table                summarise results/e3_<set>.jsonl
@@ -35,7 +35,7 @@ SETS = {  # E3 set: E1 name
     "echo": "echo(null)", "fdred": "fd-red", "hepatitis": "hepatitis(null)", "letter": "letter(non-dup)",
     "ncvoter": "ncvoter(null)", "weather": "china_weather(null)", "tpch_orders": "tpch-orders", "tpch_part": "tpch-part",
 }
-MODES = ["orig", "3nf", "bcnf", "repair", "drop"]
+MODES = ["orig", "3nf", "bcnf", "repair", "drop", "keys"]   # keys: the original relation with its keys only
 BATCH = 1000
 TEMPLATE_SEED = 42
 
@@ -206,10 +206,13 @@ class Harness:
         designs = self.rec["designs"]
         done = {}
         for mode in modes:
-            if mode not in designs or designs[mode] is None:
+            if mode == "keys" and designs.get("orig"):
+                d = [dict(attrs=s["attrs"], keys=s["keys"], fds=[]) for s in designs["orig"]]
+            elif mode not in designs or designs[mode] is None:
                 self.write(dict(set=self.name, mode=mode, skipped="no design"))
                 continue
-            d = designs[mode]
+            else:
+                d = designs[mode]
             if any(s.get("fds") is None and mode in ("orig", "3nf") for s in d):
                 self.write(dict(set=self.name, mode=mode, skipped="trigger FDs not computed"))
                 continue
@@ -219,7 +222,7 @@ class Harness:
                 self.log(mode, "same design as", dup)
                 continue
             done[mode] = d
-            loss = {"orig": self.rec.get("nu"), "3nf": self.rec.get("3nf_loss"), "bcnf": self.rec.get("bcnf_loss"),
+            loss = {"orig": 0, "keys": self.rec.get("nu"), "3nf": self.rec.get("3nf_loss"), "bcnf": self.rec.get("bcnf_loss"),
                     "repair": self.rec.get("repair_loss"), "drop": self.rec.get("drop_loss")}[mode]
             self.run_mode(mode, d, loss)
         self.out.close()
@@ -235,7 +238,8 @@ def check(name):
     orig = rec["designs"]["orig"][0]
     for X, A in orig["fds"] or []:
         cols = ["c%d" % a for a in X]
-        cur.execute("SELECT 1 FROM e3.%s GROUP BY %s HAVING COUNT(DISTINCT %s) > 1 LIMIT 1" % (q(name), ", ".join(q(c) for c in cols), q("c%d" % A)))
+        group = ("GROUP BY " + ", ".join(q(c) for c in cols)) if cols else ""   # an empty left-hand side: a constant column
+        cur.execute("SELECT 1 FROM e3.%s %s HAVING COUNT(DISTINCT %s) > 1 LIMIT 1" % (q(name), group, q("c%d" % A)))
         if cur.fetchone():
             bad += 1
             print("  violated: %s -> %s" % (",".join(cols), "c%d" % A))
