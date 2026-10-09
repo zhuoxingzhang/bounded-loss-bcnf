@@ -1,0 +1,6 @@
+FAIL some (nonopt): D=['bd->c', 'ac->e', 'de->a', 'ac->e'] Psi=['de->a', 'abd->e'] crit=['abd'] |F|=1
+FAIL some (nonopt): D=['c->a', 'ce->b', 'be->c', 'd->e', 'b->d', 'be->d'] Psi=['ce->b', 'ce->d', 'b->e'] crit=['ce'] |F|=10
+  ... 46s {'instances': 100, 'Psi_opt': 7, 'Psi_nonopt': 91, 'some_fail_opt': 0, 'some_fail_nonopt': 5, 'min_fail_opt': 0, 'min_fail_nonopt': 11, 'Psi_plain': 3108}
+  ... 88s {'instances': 200, 'Psi_opt': 17, 'Psi_nonopt': 147, 'some_fail_opt': 0, 'some_fail_nonopt': 6, 'min_fail_opt': 0, 'min_fail_nonopt': 12, 'Psi_plain': 8039}
+  ... 189s {'instances': 300, 'Psi_opt': 20, 'Psi_nonopt': 195, 'some_fail_opt': 0, 'some_fail_nonopt': 12, 'min_fail_opt': 0, 'min_fail_nonopt': 20, 'Psi_plain': 12694}
+DONE {'instances': 324, 'Psi_opt': 22, 'Psi_nonopt': 219, 'some_fail_opt': 0, 'some_fail_nonopt': 14, 'min_fail_opt': 0, 'min_fail_nonopt': 22, 'Psi_plain': 14062} 200s

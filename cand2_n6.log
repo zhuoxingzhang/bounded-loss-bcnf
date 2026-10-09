@@ -1,0 +1,3 @@
+  ... 51s {'instances': 6000, 'nontrivial': 1471, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 10433, 'sum_G': 4864, 'sum_Up': 5520}
+  ... 221s {'instances': 24000, 'nontrivial': 6505, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 46051, 'sum_G': 21710, 'sum_Up': 24557}
+DONE {'instances': 31972, 'nontrivial': 8762, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 62092, 'sum_G': 29328, 'sum_Up': 33274} 301s

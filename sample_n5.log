@@ -1,0 +1,34 @@
+PLAIN GAP lambda=2 plain=3 kc=2 |Da|=8 fams=7871 D_a=['e->a', 'ad->b', 'de->b', 'd->c', 'abc->d', 'bce->d', 'abc->e', 'ad->e']
+PLAIN GAP lambda=2 plain=3 kc=2 |Da|=7 fams=6800 D_a=['bd->a', 'e->a', 'e->c', 'abc->d', 'e->d', 'abc->e', 'bcd->e']
+  ... 197s {'instances': 400, 'nontrivial': 102, 'plain_gap': 2, 'kc_gap': 0, 'skipped': 27}
+PLAIN GAP lambda=2 plain=3 kc=3 |Da|=8 fams=4976 D_a=['b->a', 'e->a', 'acd->b', 'cde->b', 'bc->d', 'bc->e', 'ad->e', 'bd->e']
+KC GAP lambda=2 plain=3 kc=3 |Da|=8 fams=4976 D_a=['b->a', 'e->a', 'acd->b', 'cde->b', 'bc->d', 'bc->e', 'ad->e', 'bd->e'] optE_kept=['acd->b', 'cde->b', 'bc->d', 'bc->e', 'ad->e', 'bd->e']
+  ... 238s {'instances': 500, 'nontrivial': 125, 'plain_gap': 3, 'kc_gap': 1, 'skipped': 28}
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=7 fams=2556 D_a=['b->a', 'cde->a', 'ace->b', 'cde->b', 'bc->d', 'ace->d', 'b->e']
+  ... 295s {'instances': 600, 'nontrivial': 151, 'plain_gap': 4, 'kc_gap': 1, 'skipped': 37}
+PLAIN GAP lambda=1 plain=3 kc=1 |Da|=8 fams=4158 D_a=['ad->b', 'ace->b', 'ad->c', 'bd->c', 'be->c', 'be->d', 'ace->d', 'd->e']
+  ... 357s {'instances': 700, 'nontrivial': 181, 'plain_gap': 5, 'kc_gap': 1, 'skipped': 44}
+PLAIN GAP lambda=2 plain=3 kc=2 |Da|=7 fams=2076 D_a=['ac->b', 'ae->b', 'abd->c', 'e->c', 'ac->e', 'bc->e', 'abd->e']
+  ... 413s {'instances': 800, 'nontrivial': 211, 'plain_gap': 6, 'kc_gap': 1, 'skipped': 56}
+KC GAP lambda=2 plain=2 kc=3 |Da|=7 fams=1925 D_a=['bc->a', 'ce->a', 'ce->b', 'ade->b', 'abd->c', 'ade->c', 'b->e'] optE_kept=['ce->a', 'ce->b', 'ade->b', 'abd->c', 'ade->c']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=5 fams=525 D_a=['bd->a', 'd->c', 'be->c', 'abc->d', 'abe->d']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=7 fams=910 D_a=['bcd->a', 'bce->a', 'ad->c', 'abe->c', 'abe->d', 'bce->d', 'd->e']
+KC GAP lambda=2 plain=2 kc=3 |Da|=11 fams=12141 D_a=['bd->a', 'cd->a', 'bce->a', 'ab->c', 'bd->c', 'a->d', 'bce->d', 'ab->e', 'ac->e', 'bd->e', 'cd->e'] optE_kept=['bd->a', 'cd->a', 'bce->a', 'ab->c', 'bd->c', 'bce->d', 'ab->e', 'bd->e', 'cd->e']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=7 fams=1915 D_a=['bce->a', 'bde->a', 'a->b', 'ac->d', 'bc->d', 'ac->e', 'ad->e']
+  ... 611s {'instances': 1200, 'nontrivial': 325, 'plain_gap': 9, 'kc_gap': 3, 'skipped': 81}
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=7 fams=1092 D_a=['ce->a', 'bde->a', 'ce->b', 'ade->b', 'ade->c', 'bde->c', 'c->d']
+PLAIN GAP lambda=2 plain=3 kc=2 |Da|=7 fams=2064 D_a=['bcd->a', 'bce->a', 'ad->b', 'ab->d', 'bce->d', 'ab->e', 'd->e']
+  ... 671s {'instances': 1300, 'nontrivial': 353, 'plain_gap': 11, 'kc_gap': 3, 'skipped': 89}
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=6 fams=879 D_a=['bc->a', 'd->a', 'abe->d', 'ace->d', 'bce->d', 'bd->e']
+PLAIN GAP lambda=2 plain=3 kc=2 |Da|=10 fams=6876 D_a=['bc->a', 'be->a', 'de->a', 'abd->c', 'e->c', 'ae->d', 'be->d', 'abd->e', 'acd->e', 'bcd->e']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=5 fams=772 D_a=['bc->a', 'bde->a', 'abd->c', 'de->c', 'c->d']
+KC GAP lambda=2 plain=2 kc=3 |Da|=7 fams=1925 D_a=['bcd->a', 'bde->a', 'e->c', 'ac->d', 'ae->d', 'ac->e', 'bcd->e'] optE_kept=['bcd->a', 'bde->a', 'ac->d', 'ac->e', 'bcd->e']
+PLAIN GAP lambda=2 plain=3 kc=3 |Da|=6 fams=1171 D_a=['d->b', 'e->b', 'abc->d', 'ace->d', 'ab->e', 'ad->e']
+KC GAP lambda=2 plain=3 kc=3 |Da|=6 fams=1171 D_a=['d->b', 'e->b', 'abc->d', 'ace->d', 'ab->e', 'ad->e'] optE_kept=['abc->d', 'ace->d', 'ab->e', 'ad->e']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=5 fams=376 D_a=['bce->a', 'cde->a', 'ac->d', 'bce->d', 'a->e']
+PLAIN GAP lambda=1 plain=3 kc=1 |Da|=8 fams=2412 D_a=['cd->a', 'bde->a', 'c->b', 'abd->c', 'bde->c', 'ab->e', 'ac->e', 'cd->e']
+PLAIN GAP lambda=1 plain=2 kc=1 |Da|=7 fams=910 D_a=['bcd->a', 'bce->a', 'a->c', 'ae->d', 'bce->d', 'abd->e', 'bcd->e']
+KC GAP lambda=2 plain=2 kc=3 |Da|=7 fams=2392 D_a=['be->a', 'ce->a', 'abd->c', 'bde->c', 'ac->d', 'ce->d', 'a->e'] optE_kept=['be->a', 'ce->a', 'abd->c', 'bde->c', 'ce->d']
+  ... 1344s {'instances': 2400, 'nontrivial': 672, 'plain_gap': 18, 'kc_gap': 6, 'skipped': 170}
+  ... 1407s {'instances': 2500, 'nontrivial': 711, 'plain_gap': 18, 'kc_gap': 6, 'skipped': 178}
+DONE {'instances': 2663, 'nontrivial': 769, 'plain_gap': 18, 'kc_gap': 6, 'skipped': 196} 1501s

@@ -1,0 +1,3 @@
+  ... 241s {'instances': 200, 'skipped': 5, 'min_Delta': 18, 'min_Delta_nonplain': 18, 'T1_fail': 0, 'T2_fail': 0, 'bad_pairs': 5, 'U_any_fail': 0, 'U_loc_fail': 2, 'U_all_loc_fail': 5, 'bad_Delta_loc_empty': 0}
+UNDROP-FAIL: D=['bde->a', 'a->b', 'cd->a', 'be->c'] Delta=['ae->c', 'be->c', 'cd->a', 'cd->b'] crit=['bde'] E_a=['bde->a', 'cde->a', 'a->b', 'cde->b', 'ade->c', 'bde->c'] W_c=['ade->c', 'bde->c']
+DONE {'instances': 263, 'skipped': 6, 'min_Delta': 23, 'min_Delta_nonplain': 23, 'T1_fail': 0, 'T2_fail': 0, 'bad_pairs': 29, 'U_any_fail': 1, 'U_loc_fail': 7, 'U_all_loc_fail': 12, 'bad_Delta_loc_empty': 0} 306s

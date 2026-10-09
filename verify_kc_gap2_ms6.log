@@ -1,0 +1,1 @@
+cross-check key_complete_designs(max_schemas=6): lambda_kc = 3  design: (['abc', 'abde', 'acde'], ['bc->abc', 'ade->abde', 'abd->abde', 'cde->acde', 'ade->acde'])

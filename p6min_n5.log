@@ -1,0 +1,6 @@
+NONCOMPLIANT minimal E: lambda=1 D=['bc->a', 'ce->a', 'bcd->a', 'ae->b', 'ad->e', 'b->c'] Delta=['b->a'] E_a=['bd->a', 'be->a', 'ce->a', 'ad->b', 'ae->b', 'ce->b', 'b->c', 'ad->c', 'ae->c', 'ad->e', 'bd->e']
+NONCOMPLIANT minimal E: lambda=2 D=['ce->d', 'a->b', 'bd->a', 'a->c', 'bcd->a', 'c->b'] Delta=['c->b', 'a->c'] E_a=['bd->a', 'cd->a', 'ce->a', 'a->b', 'cd->b', 'ce->b', 'ad->c', 'bd->c', 'ae->c', 'ae->d', 'ce->d']
+  ... 4s {'instances': 5000, 'nonplain': 240, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 43, 'sum_Wall': 3189, 'sum_Wc': 2807, 'minE_noncompliant': 25, 'minE_count': 549}
+  ... 50s {'instances': 40000, 'nonplain': 2643, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 432, 'sum_Wall': 30337, 'sum_Wc': 27634, 'minE_noncompliant': 304, 'minE_count': 5913}
+  ... 85s {'instances': 65000, 'nonplain': 4852, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 749, 'sum_Wall': 53708, 'sum_Wc': 49275, 'minE_noncompliant': 614, 'minE_count': 10541}
+DONE {'instances': 88649, 'nonplain': 7180, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 1017, 'sum_Wall': 75808, 'sum_Wc': 70098, 'minE_noncompliant': 846, 'minE_count': 15104} 120s

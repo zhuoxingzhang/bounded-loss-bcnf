@@ -1,0 +1,2 @@
+  ... 57s {'instances': 5000, 'nonplain': 252, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 128, 'sum_Wall': 30067, 'sum_Wc': 21510}
+DONE {'instances': 20703, 'nonplain': 984, 'any_E_fail': 0, 'min_E_fail': 0, 'all_E_fail': 483, 'sum_Wall': 102888, 'sum_Wc': 73555} 240s

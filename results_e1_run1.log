@@ -1,0 +1,5 @@
+== abalone
+    {'name': 'abalone', 'n': 9, 'fds': 137, 'minimal_fds': 137, 'keys': 29, 'nu': 31, 'critical_minimal_fds': 30, 'enforceable': False, '3nf_schemata': 1, '3nf_loss': 31, '3nf_critical': [(9, 137)], 'bcnf_schemata': 4, 'bcnf_loss': 95, 'bcnf_dp': False, 'bcnf_sound': True, 'repair_mode': 'repair', 'repair_loss': 31, 'repair_exact': False, 'repair_schemata': 1, 'repair_local': [(9, None, False, 120.0)], 'repair_design_ok': True}
+== adult
+    {'name': 'adult', 'n': 15, 'fds': 78, 'minimal_fds': 78, 'keys': 2, 'nu': 78, 'critical_minimal_fds': 0, 'enforceable': True, '3nf_schemata': 42, '3nf_loss': 0, '3nf_critical': [], 'bcnf_schemata': 5, 'bcnf_loss': 68, 'bcnf_dp': False, 'bcnf_sound': True, 'repair_mode': 'bcnf', 'repair_loss': 0, 'repair_exact': True, 'repair_schemata': 42, 'repair_local': [], 'repair_design_ok': True}
+== fd-red

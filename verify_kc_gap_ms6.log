@@ -1,0 +1,1 @@
+lambda_kc = 3  design: (['abcd', 'ade'], ['acd->abcd', 'bc->abcd', 'de->ade', 'ad->ade'])

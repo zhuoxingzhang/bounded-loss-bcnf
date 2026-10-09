@@ -1,0 +1,4 @@
+  ... 124s {'instances': 4000, 'nontrivial': 1862, 'nonplain': 901, 'any_E_fail': 0, 'skipped': 0}
+  ... 357s {'instances': 11000, 'nontrivial': 5203, 'nonplain': 2512, 'any_E_fail': 0, 'skipped': 0}
+  ... 401s {'instances': 12000, 'nontrivial': 5696, 'nonplain': 2753, 'any_E_fail': 0, 'skipped': 0}
+DONE {'instances': 12384, 'nontrivial': 5881, 'nonplain': 2847, 'any_E_fail': 0, 'skipped': 0} 420s

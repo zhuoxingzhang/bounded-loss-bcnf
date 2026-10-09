@@ -1,0 +1,4 @@
+  ... 43s {'instances': 100, 'unit_opt': 6, 'incl_min': 15, 'other': 171, 'fail_unit_opt': 0, 'fail_incl_min': 0, 'fail_other': 7, 'plain': 4103}
+  ... 112s {'instances': 200, 'unit_opt': 13, 'incl_min': 16, 'other': 271, 'fail_unit_opt': 0, 'fail_incl_min': 0, 'fail_other': 11, 'plain': 9086}
+  ... 204s {'instances': 300, 'unit_opt': 19, 'incl_min': 18, 'other': 356, 'fail_unit_opt': 0, 'fail_incl_min': 0, 'fail_other': 16, 'plain': 13665}
+DONE {'instances': 364, 'unit_opt': 21, 'incl_min': 24, 'other': 396, 'fail_unit_opt': 0, 'fail_incl_min': 0, 'fail_other': 20, 'plain': 15387} 240s

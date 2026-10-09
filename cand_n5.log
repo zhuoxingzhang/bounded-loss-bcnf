@@ -1,0 +1,77 @@
+  ... 2s {'instances': 2000, 'nontrivial': 565, 'C1_fail': 0, 'C2_fail': 0, 'skipped': 0}
+FAIL C1: lambda=3 D=['abd->e', 'd->b', 'e->a', 'a->b', 'cd->e', 'b->d'] D_a=['bc->a', 'cd->a', 'e->a', 'a->b', 'd->b', 'e->b', 'a->d', 'b->d', 'e->d', 'a->e', 'bc->e', 'cd->e'] G=['a->b', 'cd->a', 'bc->a', 'cd->e', 'a->d', 'e->b', 'bc->e', 'e->d'] Deltas=[['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d'], ['a->b', 'a->d', 'a->e'], ['a->b', 'a->d', 'a->e']]
+FAIL C2: lambda=3 D=['abd->e', 'd->b', 'e->a', 'a->b', 'cd->e', 'b->d'] G2=['a->b', 'cd->a', 'bc->a', 'cd->e', 'a->d', 'e->b', 'bc->e', 'e->d'] Deltas=[['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d'], ['a->b', 'a->d', 'a->e'], ['a->b', 'a->d', 'a->e']]
+  ... 15s {'instances': 18000, 'nontrivial': 6378, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 17s {'instances': 20000, 'nontrivial': 7191, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 19s {'instances': 22000, 'nontrivial': 8013, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 21s {'instances': 24000, 'nontrivial': 8810, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 23s {'instances': 26000, 'nontrivial': 9646, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 27s {'instances': 30000, 'nontrivial': 11272, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 29s {'instances': 32000, 'nontrivial': 12153, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 31s {'instances': 34000, 'nontrivial': 13012, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 33s {'instances': 36000, 'nontrivial': 13895, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 40s {'instances': 42000, 'nontrivial': 16593, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 45s {'instances': 46000, 'nontrivial': 18412, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 50s {'instances': 50000, 'nontrivial': 20277, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 52s {'instances': 52000, 'nontrivial': 21188, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 54s {'instances': 54000, 'nontrivial': 22103, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+  ... 57s {'instances': 56000, 'nontrivial': 23081, 'C1_fail': 1, 'C2_fail': 1, 'skipped': 0}
+FAIL C1: lambda=3 D=['e->b', 'ad->b', 'c->a', 'a->c', 'abc->e', 'b->c'] D_a=['b->a', 'c->a', 'e->a', 'ad->b', 'cd->b', 'e->b', 'a->c', 'b->c', 'e->c', 'b->e', 'ad->e', 'cd->e'] G=['ad->e', 'b->c', 'b->a', 'cd->e', 'ad->b', 'cd->b', 'e->c', 'e->a'] Deltas=[['b->a', 'b->c', 'b->e'], ['b->a', 'b->c', 'b->e'], ['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c']]
+FAIL C2: lambda=3 D=['e->b', 'ad->b', 'c->a', 'a->c', 'abc->e', 'b->c'] G2=['ad->e', 'b->c', 'b->a', 'cd->e', 'ad->b', 'cd->b', 'e->c', 'e->a'] Deltas=[['b->a', 'b->c', 'b->e'], ['b->a', 'b->c', 'b->e'], ['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c']]
+  ... 64s {'instances': 62000, 'nontrivial': 25857, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 74s {'instances': 70000, 'nontrivial': 29705, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 79s {'instances': 74000, 'nontrivial': 31653, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 87s {'instances': 80000, 'nontrivial': 34572, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 89s {'instances': 82000, 'nontrivial': 35555, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 94s {'instances': 86000, 'nontrivial': 37510, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 99s {'instances': 90000, 'nontrivial': 39452, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 105s {'instances': 94000, 'nontrivial': 41433, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 110s {'instances': 98000, 'nontrivial': 43401, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+  ... 115s {'instances': 102000, 'nontrivial': 45365, 'C1_fail': 2, 'C2_fail': 2, 'skipped': 0}
+FAIL C1: lambda=3 D=['a->c', 'd->e', 'a->d', 'c->a', 'e->d', 'bde->c'] D_a=['c->a', 'bd->a', 'be->a', 'a->c', 'bd->c', 'be->c', 'a->d', 'c->d', 'e->d', 'a->e', 'c->e', 'd->e'] G=['be->c', 'c->e', 'be->a', 'bd->c', 'a->d', 'bd->a', 'c->d', 'a->e'] Deltas=[['c->a', 'c->d', 'c->e'], ['c->a', 'c->d', 'c->e'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+FAIL C2: lambda=3 D=['a->c', 'd->e', 'a->d', 'c->a', 'e->d', 'bde->c'] G2=['be->c', 'c->e', 'be->a', 'bd->c', 'a->d', 'bd->a', 'c->d', 'a->e'] Deltas=[['c->a', 'c->d', 'c->e'], ['c->a', 'c->d', 'c->e'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+  ... 121s {'instances': 106000, 'nontrivial': 47402, 'C1_fail': 3, 'C2_fail': 3, 'skipped': 0}
+  ... 123s {'instances': 108000, 'nontrivial': 48438, 'C1_fail': 3, 'C2_fail': 3, 'skipped': 0}
+  ... 126s {'instances': 110000, 'nontrivial': 49391, 'C1_fail': 3, 'C2_fail': 3, 'skipped': 0}
+  ... 129s {'instances': 112000, 'nontrivial': 50418, 'C1_fail': 3, 'C2_fail': 3, 'skipped': 0}
+  ... 134s {'instances': 116000, 'nontrivial': 52408, 'C1_fail': 3, 'C2_fail': 3, 'skipped': 0}
+FAIL C1: lambda=3 D=['e->b', 'acd->b', 'abd->e', 'd->a', 'b->a', 'a->d'] D_a=['b->a', 'd->a', 'e->a', 'ac->b', 'cd->b', 'e->b', 'a->d', 'b->d', 'e->d', 'b->e', 'ac->e', 'cd->e'] G=['b->d', 'b->a', 'cd->e', 'e->a', 'ac->e', 'cd->b', 'e->d', 'ac->b'] Deltas=[['b->a', 'b->d', 'b->e'], ['b->a', 'b->d', 'b->e'], ['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d']]
+FAIL C2: lambda=3 D=['e->b', 'acd->b', 'abd->e', 'd->a', 'b->a', 'a->d'] G2=['b->d', 'b->a', 'cd->e', 'e->a', 'ac->e', 'cd->b', 'e->d', 'ac->b'] Deltas=[['b->a', 'b->d', 'b->e'], ['b->a', 'b->d', 'b->e'], ['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d']]
+  ... 140s {'instances': 120000, 'nontrivial': 54432, 'C1_fail': 4, 'C2_fail': 4, 'skipped': 0}
+  ... 148s {'instances': 126000, 'nontrivial': 57440, 'C1_fail': 4, 'C2_fail': 4, 'skipped': 0}
+FAIL C1: lambda=3 D=['ad->e', 'c->e', 'a->d', 'd->a', 'e->c', 'bc->a'] D_a=['bc->a', 'd->a', 'be->a', 'a->c', 'd->c', 'e->c', 'a->d', 'bc->d', 'be->d', 'a->e', 'c->e', 'd->e'] G=['be->a', 'd->c', 'bc->a', 'bc->d', 'd->e', 'a->c', 'a->e', 'be->d'] Deltas=[['d->a', 'd->c', 'd->e'], ['d->a', 'd->c', 'd->e'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+FAIL C2: lambda=3 D=['ad->e', 'c->e', 'a->d', 'd->a', 'e->c', 'bc->a'] G2=['be->a', 'd->c', 'bc->a', 'bc->d', 'd->e', 'a->c', 'a->e', 'be->d'] Deltas=[['d->a', 'd->c', 'd->e'], ['d->a', 'd->c', 'd->e'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+  ... 151s {'instances': 128000, 'nontrivial': 58498, 'C1_fail': 5, 'C2_fail': 5, 'skipped': 0}
+FAIL C1: lambda=3 D=['e->b', 'c->b', 'd->e', 'b->c', 'e->d', 'ac->d'] D_a=['c->b', 'd->b', 'e->b', 'b->c', 'd->c', 'e->c', 'ab->d', 'ac->d', 'e->d', 'ab->e', 'ac->e', 'd->e'] G=['ab->d', 'd->c', 'ac->d', 'ab->e', 'e->b', 'ac->e', 'd->b', 'e->c'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['e->b', 'e->c', 'e->d'], ['e->b', 'e->c', 'e->d']]
+FAIL C2: lambda=3 D=['e->b', 'c->b', 'd->e', 'b->c', 'e->d', 'ac->d'] G2=['ab->d', 'd->c', 'ac->d', 'ab->e', 'e->b', 'ac->e', 'd->b', 'e->c'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['e->b', 'e->c', 'e->d'], ['e->b', 'e->c', 'e->d']]
+  ... 154s {'instances': 130000, 'nontrivial': 59513, 'C1_fail': 6, 'C2_fail': 6, 'skipped': 0}
+  ... 157s {'instances': 132000, 'nontrivial': 60515, 'C1_fail': 6, 'C2_fail': 6, 'skipped': 0}
+  ... 159s {'instances': 134000, 'nontrivial': 61531, 'C1_fail': 6, 'C2_fail': 6, 'skipped': 0}
+FAIL C1: lambda=3 D=['c->b', 'ae->c', 'bd->a', 'e->a', 'a->e', 'b->c'] D_a=['bd->a', 'cd->a', 'e->a', 'a->b', 'c->b', 'e->b', 'a->c', 'b->c', 'e->c', 'a->e', 'bd->e', 'cd->e'] G=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Deltas=[['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+FAIL C2: lambda=3 D=['c->b', 'ae->c', 'bd->a', 'e->a', 'a->e', 'b->c'] G2=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Deltas=[['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+  ... 165s {'instances': 138000, 'nontrivial': 63571, 'C1_fail': 7, 'C2_fail': 7, 'skipped': 0}
+FAIL C1: lambda=3 D=['e->d', 'b->a', 'a->b', 'ad->e', 'bc->d', 'd->b'] D_a=['b->a', 'd->a', 'e->a', 'a->b', 'd->b', 'e->b', 'ac->d', 'bc->d', 'e->d', 'ac->e', 'bc->e', 'd->e'] G=['d->a', 'ac->d', 'bc->d', 'e->b', 'ac->e', 'bc->e', 'd->b', 'e->a'] Deltas=[['d->a', 'd->b', 'd->e'], ['d->a', 'd->b', 'd->e'], ['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d']]
+FAIL C2: lambda=3 D=['e->d', 'b->a', 'a->b', 'ad->e', 'bc->d', 'd->b'] G2=['d->a', 'ac->d', 'bc->d', 'e->b', 'ac->e', 'bc->e', 'd->b', 'e->a'] Deltas=[['d->a', 'd->b', 'd->e'], ['d->a', 'd->b', 'd->e'], ['e->a', 'e->b', 'e->d'], ['e->a', 'e->b', 'e->d']]
+  ... 171s {'instances': 142000, 'nontrivial': 65605, 'C1_fail': 8, 'C2_fail': 8, 'skipped': 0}
+  ... 174s {'instances': 144000, 'nontrivial': 66653, 'C1_fail': 8, 'C2_fail': 8, 'skipped': 0}
+  ... 177s {'instances': 146000, 'nontrivial': 67715, 'C1_fail': 8, 'C2_fail': 8, 'skipped': 0}
+  ... 180s {'instances': 148000, 'nontrivial': 68749, 'C1_fail': 8, 'C2_fail': 8, 'skipped': 0}
+FAIL C1: lambda=3 D=['bc->a', 'd->c', 'ac->e', 'c->d', 'e->a', 'a->c'] D_a=['bc->a', 'bd->a', 'e->a', 'a->c', 'd->c', 'e->c', 'a->d', 'c->d', 'e->d', 'a->e', 'bc->e', 'bd->e'] G=['bc->a', 'a->d', 'bd->a', 'a->c', 'bd->e', 'bc->e', 'e->d', 'e->c'] Deltas=[['e->a', 'e->c', 'e->d'], ['e->a', 'e->c', 'e->d'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+FAIL C2: lambda=3 D=['bc->a', 'd->c', 'ac->e', 'c->d', 'e->a', 'a->c'] G2=['bc->a', 'a->d', 'bd->a', 'a->c', 'bd->e', 'bc->e', 'e->d', 'e->c'] Deltas=[['e->a', 'e->c', 'e->d'], ['e->a', 'e->c', 'e->d'], ['a->c', 'a->d', 'a->e'], ['a->c', 'a->d', 'a->e']]
+FAIL C1: lambda=3 D=['a->d', 'a->b', 'd->a', 'bc->a', 'e->b', 'b->e'] D_a=['bc->a', 'd->a', 'ce->a', 'a->b', 'd->b', 'e->b', 'a->d', 'bc->d', 'ce->d', 'a->e', 'b->e', 'd->e'] G=['a->b', 'ce->d', 'bc->a', 'ce->a', 'bc->d', 'd->e', 'a->e', 'd->b'] Deltas=[['d->a', 'd->b', 'd->e'], ['d->a', 'd->b', 'd->e'], ['a->b', 'a->d', 'a->e'], ['a->b', 'a->d', 'a->e']]
+FAIL C2: lambda=3 D=['a->d', 'a->b', 'd->a', 'bc->a', 'e->b', 'b->e'] G2=['a->b', 'ce->d', 'bc->a', 'ce->a', 'bc->d', 'd->e', 'a->e', 'd->b'] Deltas=[['d->a', 'd->b', 'd->e'], ['d->a', 'd->b', 'd->e'], ['a->b', 'a->d', 'a->e'], ['a->b', 'a->d', 'a->e']]
+  ... 191s {'instances': 156000, 'nontrivial': 72903, 'C1_fail': 10, 'C2_fail': 10, 'skipped': 0}
+  ... 194s {'instances': 158000, 'nontrivial': 73933, 'C1_fail': 10, 'C2_fail': 10, 'skipped': 0}
+FAIL C1: lambda=3 D=['d->b', 'e->c', 'b->c', 'b->d', 'c->e', 'ac->d'] D_a=['ac->b', 'd->b', 'ae->b', 'b->c', 'd->c', 'e->c', 'b->d', 'ac->d', 'ae->d', 'b->e', 'c->e', 'd->e'] G=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['b->c', 'b->d', 'b->e'], ['b->c', 'b->d', 'b->e']]
+FAIL C2: lambda=3 D=['d->b', 'e->c', 'b->c', 'b->d', 'c->e', 'ac->d'] G2=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['b->c', 'b->d', 'b->e'], ['b->c', 'b->d', 'b->e']]
+  ... 211s {'instances': 170000, 'nontrivial': 80129, 'C1_fail': 11, 'C2_fail': 11, 'skipped': 0}
+FAIL C1: lambda=3 D=['b->e', 'ae->c', 'bd->a', 'c->a', 'a->e', 'e->b'] D_a=['c->a', 'bd->a', 'de->a', 'a->b', 'c->b', 'e->b', 'a->c', 'bd->c', 'de->c', 'a->e', 'b->e', 'c->e'] G=['c->e', 'a->b', 'de->c', 'de->a', 'bd->c', 'bd->a', 'c->b', 'a->e'] Deltas=[['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+FAIL C2: lambda=3 D=['b->e', 'ae->c', 'bd->a', 'c->a', 'a->e', 'e->b'] G2=['c->e', 'a->b', 'de->c', 'de->a', 'bd->c', 'bd->a', 'c->b', 'a->e'] Deltas=[['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+  ... 220s {'instances': 176000, 'nontrivial': 83278, 'C1_fail': 12, 'C2_fail': 12, 'skipped': 0}
+  ... 226s {'instances': 180000, 'nontrivial': 85364, 'C1_fail': 12, 'C2_fail': 12, 'skipped': 0}
+FAIL C1: lambda=3 D=['c->a', 'a->c', 'd->b', 'b->d', 'ac->b', 'bde->a'] D_a=['c->a', 'be->a', 'de->a', 'a->b', 'c->b', 'd->b', 'a->c', 'be->c', 'de->c', 'a->d', 'b->d', 'c->d'] G=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Deltas=[['c->a', 'c->b', 'c->d'], ['c->a', 'c->b', 'c->d'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+FAIL C2: lambda=3 D=['c->a', 'a->c', 'd->b', 'b->d', 'ac->b', 'bde->a'] G2=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Deltas=[['c->a', 'c->b', 'c->d'], ['c->a', 'c->b', 'c->d'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+  ... 232s {'instances': 184000, 'nontrivial': 87498, 'C1_fail': 13, 'C2_fail': 13, 'skipped': 0}
+  ... 235s {'instances': 186000, 'nontrivial': 88537, 'C1_fail': 13, 'C2_fail': 13, 'skipped': 0}
+  ... 238s {'instances': 188000, 'nontrivial': 89633, 'C1_fail': 13, 'C2_fail': 13, 'skipped': 0}
+DONE {'instances': 189154, 'nontrivial': 90245, 'C1_fail': 13, 'C2_fail': 13, 'skipped': 0} 240s

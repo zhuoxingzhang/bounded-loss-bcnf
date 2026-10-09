@@ -1,0 +1,55 @@
+  ... 4s {'instances': 4000, 'nontrivial': 1212, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 6950, 'sum_G': 3729, 'sum_Up': 4274}
+  ... 10s {'instances': 10000, 'nontrivial': 3284, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 19066, 'sum_G': 10191, 'sum_Up': 11677}
+  ... 14s {'instances': 14000, 'nontrivial': 4781, 'C3_fail': 0, 'C4_fail': 0, 'C5_fail': 0, 'skipped': 0, 'sum_Da': 28046, 'sum_G': 14969, 'sum_Up': 17194}
+FAIL C4: lambda=3 D=['b->a', 'c->b', 'b->c', 'ade->b', 'e->a', 'a->e'] G=['c->e', 'de->c', 'b->a', 'b->e', 'ad->b', 'de->b', 'c->a', 'ad->c'] Up=['c->e', 'de->c', 'b->a', 'b->e', 'ad->b', 'de->b', 'c->a', 'ad->c'] Deltas=[['b->a', 'b->c', 'b->e'], ['b->a', 'b->c', 'b->e'], ['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e']]
+FAIL C5: lambda=3 D=['b->a', 'c->b', 'b->c', 'ade->b', 'e->a', 'a->e'] G=['c->e', 'de->c', 'b->a', 'b->e', 'ad->b', 'de->b', 'c->a', 'ad->c'] Up=['c->e', 'de->c', 'b->a', 'b->e', 'ad->b', 'de->b', 'c->a', 'ad->c'] Deltas=[['b->a', 'b->c', 'b->e'], ['b->a', 'b->c', 'b->e'], ['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e']]
+  ... 21s {'instances': 20000, 'nontrivial': 7193, 'C3_fail': 0, 'C4_fail': 1, 'C5_fail': 1, 'skipped': 0, 'sum_Da': 42681, 'sum_G': 22790, 'sum_Up': 26233}
+  ... 28s {'instances': 26000, 'nontrivial': 9646, 'C3_fail': 0, 'C4_fail': 1, 'C5_fail': 1, 'skipped': 0, 'sum_Da': 57742, 'sum_G': 30629, 'sum_Up': 35374}
+  ... 30s {'instances': 28000, 'nontrivial': 10480, 'C3_fail': 0, 'C4_fail': 1, 'C5_fail': 1, 'skipped': 0, 'sum_Da': 62825, 'sum_G': 33313, 'sum_Up': 38486}
+  ... 33s {'instances': 30000, 'nontrivial': 11332, 'C3_fail': 0, 'C4_fail': 1, 'C5_fail': 1, 'skipped': 0, 'sum_Da': 68214, 'sum_G': 36106, 'sum_Up': 41732}
+FAIL C4: lambda=3 D=['ce->a', 'e->c', 'cd->a', 'a->e', 'c->b', 'b->c'] G=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Up=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Deltas=[['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+FAIL C5: lambda=3 D=['ce->a', 'e->c', 'cd->a', 'a->e', 'c->b', 'b->c'] G=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Up=['a->b', 'cd->a', 'cd->e', 'bd->a', 'a->c', 'e->b', 'bd->e', 'e->c'] Deltas=[['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c'], ['a->b', 'a->c', 'a->e'], ['a->b', 'a->c', 'a->e']]
+  ... 46s {'instances': 40000, 'nontrivial': 15701, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 95405, 'sum_G': 50176, 'sum_Up': 58139}
+  ... 48s {'instances': 42000, 'nontrivial': 16567, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 100923, 'sum_G': 52946, 'sum_Up': 61394}
+  ... 56s {'instances': 48000, 'nontrivial': 19332, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 118578, 'sum_G': 62020, 'sum_Up': 72064}
+  ... 70s {'instances': 58000, 'nontrivial': 24007, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 148646, 'sum_G': 77508, 'sum_Up': 90350}
+  ... 73s {'instances': 60000, 'nontrivial': 24946, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 154694, 'sum_G': 80635, 'sum_Up': 94057}
+  ... 76s {'instances': 62000, 'nontrivial': 25926, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 160881, 'sum_G': 83908, 'sum_Up': 97947}
+  ... 78s {'instances': 64000, 'nontrivial': 26845, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 166873, 'sum_G': 86958, 'sum_Up': 101580}
+  ... 84s {'instances': 68000, 'nontrivial': 28746, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 179118, 'sum_G': 93375, 'sum_Up': 109212}
+  ... 87s {'instances': 70000, 'nontrivial': 29678, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 185205, 'sum_G': 96522, 'sum_Up': 112932}
+  ... 96s {'instances': 76000, 'nontrivial': 32563, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 204149, 'sum_G': 106299, 'sum_Up': 124474}
+  ... 101s {'instances': 80000, 'nontrivial': 34518, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 216831, 'sum_G': 112675, 'sum_Up': 132139}
+  ... 104s {'instances': 82000, 'nontrivial': 35488, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 223211, 'sum_G': 115953, 'sum_Up': 136063}
+  ... 107s {'instances': 84000, 'nontrivial': 36429, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 229299, 'sum_G': 119098, 'sum_Up': 139830}
+  ... 113s {'instances': 88000, 'nontrivial': 38385, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 242155, 'sum_G': 125682, 'sum_Up': 147699}
+  ... 116s {'instances': 90000, 'nontrivial': 39391, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 248917, 'sum_G': 129091, 'sum_Up': 151796}
+  ... 119s {'instances': 92000, 'nontrivial': 40374, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 255554, 'sum_G': 132469, 'sum_Up': 155844}
+  ... 128s {'instances': 98000, 'nontrivial': 43345, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 275499, 'sum_G': 142535, 'sum_Up': 167877}
+  ... 131s {'instances': 100000, 'nontrivial': 44336, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 282154, 'sum_G': 145877, 'sum_Up': 171925}
+  ... 137s {'instances': 104000, 'nontrivial': 46312, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 295387, 'sum_G': 152630, 'sum_Up': 180065}
+  ... 146s {'instances': 110000, 'nontrivial': 49346, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 315719, 'sum_G': 163021, 'sum_Up': 192490}
+  ... 155s {'instances': 116000, 'nontrivial': 52286, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 335591, 'sum_G': 173130, 'sum_Up': 204582}
+  ... 159s {'instances': 118000, 'nontrivial': 53310, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 342485, 'sum_G': 176690, 'sum_Up': 208795}
+  ... 165s {'instances': 122000, 'nontrivial': 55390, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 356373, 'sum_G': 183728, 'sum_Up': 217259}
+  ... 174s {'instances': 128000, 'nontrivial': 58409, 'C3_fail': 0, 'C4_fail': 2, 'C5_fail': 2, 'skipped': 0, 'sum_Da': 376810, 'sum_G': 194099, 'sum_Up': 229752}
+FAIL C4: lambda=3 D=['e->c', 'a->b', 'ac->e', 'c->a', 'b->a', 'bd->c'] G=['ad->e', 'bd->c', 'c->b', 'e->a', 'e->b', 'bd->e', 'c->a', 'ad->c'] Up=['ad->e', 'bd->c', 'c->b', 'e->a', 'e->b', 'bd->e', 'c->a', 'ad->c'] Deltas=[['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e'], ['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c']]
+FAIL C5: lambda=3 D=['e->c', 'a->b', 'ac->e', 'c->a', 'b->a', 'bd->c'] G=['ad->e', 'bd->c', 'c->b', 'e->a', 'e->b', 'bd->e', 'c->a', 'ad->c'] Up=['ad->e', 'bd->c', 'c->b', 'e->a', 'e->b', 'bd->e', 'c->a', 'ad->c'] Deltas=[['c->a', 'c->b', 'c->e'], ['c->a', 'c->b', 'c->e'], ['e->a', 'e->b', 'e->c'], ['e->a', 'e->b', 'e->c']]
+FAIL C4: lambda=3 D=['c->b', 'd->b', 'bde->a', 'a->c', 'bc->a', 'b->d'] G=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Up=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Deltas=[['c->a', 'c->b', 'c->d'], ['c->a', 'c->b', 'c->d'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+FAIL C5: lambda=3 D=['c->b', 'd->b', 'bde->a', 'a->c', 'bc->a', 'b->d'] G=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Up=['be->c', 'a->b', 'de->c', 'be->a', 'de->a', 'a->d', 'c->b', 'c->d'] Deltas=[['c->a', 'c->b', 'c->d'], ['c->a', 'c->b', 'c->d'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+  ... 184s {'instances': 134000, 'nontrivial': 61500, 'C3_fail': 0, 'C4_fail': 4, 'C5_fail': 4, 'skipped': 0, 'sum_Da': 398072, 'sum_G': 204940, 'sum_Up': 242780}
+FAIL C4: lambda=3 D=['c->b', 'a->d', 'be->d', 'd->c', 'bcd->a', 'b->c'] G=['a->b', 'ce->d', 'be->a', 'd->c', 'ce->a', 'a->c', 'd->b', 'be->d'] Up=['a->b', 'ce->d', 'be->a', 'd->c', 'ce->a', 'a->c', 'd->b', 'be->d'] Deltas=[['d->a', 'd->b', 'd->c'], ['d->a', 'd->b', 'd->c'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+FAIL C5: lambda=3 D=['c->b', 'a->d', 'be->d', 'd->c', 'bcd->a', 'b->c'] G=['a->b', 'ce->d', 'be->a', 'd->c', 'ce->a', 'a->c', 'd->b', 'be->d'] Up=['a->b', 'ce->d', 'be->a', 'd->c', 'ce->a', 'a->c', 'd->b', 'be->d'] Deltas=[['d->a', 'd->b', 'd->c'], ['d->a', 'd->b', 'd->c'], ['a->b', 'a->c', 'a->d'], ['a->b', 'a->c', 'a->d']]
+  ... 191s {'instances': 138000, 'nontrivial': 63585, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 412441, 'sum_G': 212195, 'sum_Up': 251536}
+  ... 198s {'instances': 142000, 'nontrivial': 65664, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 426573, 'sum_G': 219365, 'sum_Up': 260290}
+  ... 201s {'instances': 144000, 'nontrivial': 66670, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 433504, 'sum_G': 222904, 'sum_Up': 264512}
+  ... 204s {'instances': 146000, 'nontrivial': 67714, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 440763, 'sum_G': 226556, 'sum_Up': 268936}
+  ... 214s {'instances': 152000, 'nontrivial': 70835, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 462457, 'sum_G': 237753, 'sum_Up': 282510}
+  ... 217s {'instances': 154000, 'nontrivial': 71879, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 469689, 'sum_G': 241458, 'sum_Up': 286956}
+  ... 224s {'instances': 158000, 'nontrivial': 73997, 'C3_fail': 0, 'C4_fail': 5, 'C5_fail': 5, 'skipped': 0, 'sum_Da': 484457, 'sum_G': 248934, 'sum_Up': 295978}
+FAIL C4: lambda=3 D=['d->b', 'e->c', 'ac->b', 'b->e', 'bc->d', 'c->e'] G=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Up=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['b->c', 'b->d', 'b->e'], ['b->c', 'b->d', 'b->e']]
+FAIL C5: lambda=3 D=['d->b', 'e->c', 'ac->b', 'b->e', 'bc->d', 'c->e'] G=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Up=['b->c', 'd->c', 'ac->d', 'b->e', 'd->e', 'ae->b', 'ae->d', 'ac->b'] Deltas=[['d->b', 'd->c', 'd->e'], ['d->b', 'd->c', 'd->e'], ['b->c', 'b->d', 'b->e'], ['b->c', 'b->d', 'b->e']]
+  ... 228s {'instances': 160000, 'nontrivial': 75045, 'C3_fail': 0, 'C4_fail': 6, 'C5_fail': 6, 'skipped': 0, 'sum_Da': 491776, 'sum_G': 252674, 'sum_Up': 300514}
+  ... 234s {'instances': 164000, 'nontrivial': 77147, 'C3_fail': 0, 'C4_fail': 6, 'C5_fail': 6, 'skipped': 0, 'sum_Da': 506541, 'sum_G': 260107, 'sum_Up': 309575}
+  ... 238s {'instances': 166000, 'nontrivial': 78174, 'C3_fail': 0, 'C4_fail': 6, 'C5_fail': 6, 'skipped': 0, 'sum_Da': 513660, 'sum_G': 263761, 'sum_Up': 313982}
+DONE {'instances': 167184, 'nontrivial': 78794, 'C3_fail': 0, 'C4_fail': 6, 'C5_fail': 6, 'skipped': 0, 'sum_Da': 518020, 'sum_G': 266013, 'sum_Up': 316711} 240s

@@ -1,0 +1,20 @@
+  ... 25s {'instances': 200, 'skipped': 0, 'min_Delta_nonplain': 77, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 2226}
+  ... 50s {'instances': 400, 'skipped': 0, 'min_Delta_nonplain': 132, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 2891}
+  ... 74s {'instances': 600, 'skipped': 0, 'min_Delta_nonplain': 200, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 3508}
+  ... 99s {'instances': 800, 'skipped': 0, 'min_Delta_nonplain': 263, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 4468}
+  ... 127s {'instances': 1000, 'skipped': 0, 'min_Delta_nonplain': 326, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 5158}
+  ... 153s {'instances': 1200, 'skipped': 0, 'min_Delta_nonplain': 418, 'T1_fail': 0, 'T2_fail': 0, 'sum_F': 7091}
+T1-FAIL: D=['e->a', 'cef->d', 'd->f', 'abf->c', 'bc->e', 'cf->d'] Delta=['bc->a', 'd->f', 'e->a'] crit=['bde', 'bef'] |F|=103
+  ... 186s {'instances': 1400, 'skipped': 0, 'min_Delta_nonplain': 490, 'T1_fail': 1, 'T2_fail': 0, 'sum_F': 7838}
+  ... 219s {'instances': 1600, 'skipped': 0, 'min_Delta_nonplain': 565, 'T1_fail': 1, 'T2_fail': 0, 'sum_F': 8415}
+  ... 242s {'instances': 1800, 'skipped': 0, 'min_Delta_nonplain': 649, 'T1_fail': 1, 'T2_fail': 0, 'sum_F': 9380}
+T1T2-FAIL: D=['bcd->f', 'cdf->b', 'bcd->f', 'c->d', 'bde->f', 'a->b', 'cef->a'] Delta=['a->b', 'c->d', 'cf->b'] crit=['cef'] |F|=14
+  ... 268s {'instances': 2000, 'skipped': 0, 'min_Delta_nonplain': 735, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 10656}
+  ... 300s {'instances': 2200, 'skipped': 0, 'min_Delta_nonplain': 810, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 13698}
+  ... 327s {'instances': 2400, 'skipped': 0, 'min_Delta_nonplain': 867, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 14828}
+  ... 347s {'instances': 2600, 'skipped': 0, 'min_Delta_nonplain': 931, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 15657}
+  ... 370s {'instances': 2800, 'skipped': 0, 'min_Delta_nonplain': 1010, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 17005}
+  ... 398s {'instances': 3000, 'skipped': 0, 'min_Delta_nonplain': 1081, 'T1_fail': 2, 'T2_fail': 1, 'sum_F': 17682}
+T1T2-FAIL: D=['df->c', 'ace->d', 'ae->b', 'af->d', 'bde->a', 'de->f'] Delta=['ae->b', 'af->c', 'af->d'] crit=['ace'] |F|=2
+T1-FAIL: D=['bdf->e', 'a->d', 'de->a', 'ce->b', 'ade->b'] Delta=['a->d', 'de->a', 'de->b'] crit=['abf'] |F|=52
+DONE {'instances': 3198, 'skipped': 0, 'min_Delta_nonplain': 1152, 'T1_fail': 4, 'T2_fail': 2, 'sum_F': 18778} 420s

@@ -1,0 +1,4 @@
+FAIL Ec: D=['acd->b', 'bc->a', 'ce->b', 'ac->e', 'a->b', 'c->d'] E_a=['bc->a', 'cde->a', 'a->b', 'cde->b', 'ac->d', 'bc->d', 'ac->e', 'bc->e'] Psi=['bc->a', 'a->b', 'ac->e', 'bc->e'] crit=['bc'] W_c=['ac->d', 'bc->d']
+FAIL Ec: D=['bd->c', 'e->d', 'e->d', 'c->e', 'b->a', 'ad->e'] E_a=['bd->a', 'be->a', 'bd->c', 'be->c', 'ac->d', 'e->d', 'ac->e', 'bd->e'] Psi=['bd->c', 'be->c', 'e->d', 'bd->e'] crit=['bd'] W_c=['bd->a', 'be->a']
+FAIL Ec: D=['bd->c', 'e->d', 'e->d', 'c->e', 'b->a', 'ad->e'] E_a=['bc->a', 'be->a', 'abd->c', 'be->c', 'bc->d', 'be->d', 'c->e', 'abd->e'] Psi=['be->c', 'c->e'] crit=['be'] W_c=['bc->a', 'be->a', 'bc->d', 'be->d']
+DONE {'instances': 170, 'sets': 710856, 'nontrivial_sets': 705793, 'Ec_fail': 19, 'Ecu_fail': 17, 'Ec_eq_E': 602} 151s

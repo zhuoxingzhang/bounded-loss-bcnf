@@ -1,0 +1,8 @@
+C:\Users\zzha969\OneDrive - The University of Auckland\Desktop\PhD\bounded dependency-preserved normal form\tools\minloss_bruteforce.py:1: SyntaxWarning: invalid escape sequence '\ '
+  """
+2480 closure systems on 4 attributes
+  ... 400/2480 (8s) {'total': 362, 'nontrivial': 92, 'plain_gap': 0, 'kc_gap': 0}
+  ... 600/2480 (11s) {'total': 540, 'nontrivial': 155, 'plain_gap': 0, 'kc_gap': 0}
+  ... 1000/2480 (18s) {'total': 908, 'nontrivial': 311, 'plain_gap': 0, 'kc_gap': 0}
+  ... 2200/2480 (32s) {'total': 2010, 'nontrivial': 694, 'plain_gap': 0, 'kc_gap': 0}
+DONE {'total': 2270, 'nontrivial': 744, 'plain_gap': 0, 'kc_gap': 0} 34s

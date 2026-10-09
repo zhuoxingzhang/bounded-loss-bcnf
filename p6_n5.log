@@ -1,0 +1,5 @@
+  ... 30s {'instances': 30000, 'nonplain': 1863, 'any_pair_fail': 0, 'all_E_fail': 300, 'all_pair_fail': 313, 'min_E_fail': 0, 'one_Y_fail': 0, 'nogen': 0}
+  ... 52s {'instances': 50000, 'nonplain': 3435, 'any_pair_fail': 0, 'all_E_fail': 538, 'all_pair_fail': 555, 'min_E_fail': 0, 'one_Y_fail': 1, 'nogen': 0}
+  ... 65s {'instances': 60000, 'nonplain': 4310, 'any_pair_fail': 0, 'all_E_fail': 649, 'all_pair_fail': 672, 'min_E_fail': 0, 'one_Y_fail': 1, 'nogen': 0}
+  ... 79s {'instances': 70000, 'nonplain': 5237, 'any_pair_fail': 0, 'all_E_fail': 748, 'all_pair_fail': 775, 'min_E_fail': 0, 'one_Y_fail': 1, 'nogen': 0}
+DONE {'instances': 121799, 'nonplain': 10538, 'any_pair_fail': 0, 'all_E_fail': 1425, 'all_pair_fail': 1474, 'min_E_fail': 0, 'one_Y_fail': 2, 'nogen': 0} 150s

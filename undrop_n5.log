@@ -1,0 +1,2 @@
+  ... 176s {'instances': 100, 'bad_pairs': 5, 'undrop_any_fail': 0, 'undrop_src_fail': 2, 'bad_pairs_unit_opt': 0}
+DONE {'instances': 131, 'bad_pairs': 6, 'undrop_any_fail': 0, 'undrop_src_fail': 2, 'bad_pairs_unit_opt': 0} 307s
