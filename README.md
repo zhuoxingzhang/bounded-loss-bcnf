@@ -17,7 +17,7 @@ Everything is plain Python 3 (tested with 3.12) and uses only the standard libra
 | `test_examples.py` | the schemata of the paper with their proved losses |
 | `experiments.py` | experiment E1 on the FD sets in `data/fds`; every FD set runs in its own process with a timeout; results in `results/e1.jsonl`, `--table` prints the table |
 | `minloss_bruteforce.py`, `weak_stats.py` | the brute-force layer: closure tables of size 2^n, enumeration of the closed FD sets, exact λ, level-wise exact solver (schemata with at most about seven attributes) |
-| `cand*_stats.py`, `p6*_stats.py`, `wmin_*.py`, `targeted_search*.py`, `gadget_try.py`, `price_stats.py`, `undrop_stats.py`, `mech_inspect.py`, `sample_kc.py`, `search4.py`, `verify_kc_gap*.py`, `inspect.py` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper; their logs are the `*.log` files next to them (the four largest logs are not in the repository) |
+| `cand*_stats.py`, `p6*_stats.py`, `wmin_*.py`, `targeted_search*.py`, `gadget_try.py`, `price_stats.py`, `undrop_stats.py`, `mech_inspect.py`, `sample_kc.py`, `search4.py`, `verify_kc_gap*.py`, `kc_inspect.py` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper; their logs are the `*.log` files next to them (the four largest logs are not in the repository) |
 | `data/fds` | the FD sets of the experiments (see below) |
 | `results` | the records written by `experiments.py` |
 
