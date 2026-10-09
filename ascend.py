@@ -105,8 +105,9 @@ class Ascent:
         self.fds = list(Da.fds)
         self.psi = sorted(set(psi))
         self.G = FDSet(n, self.psi)
-        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
+        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "kicks": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
         self.wit = {}
+        self.tabu = set()
         self.sc = {}
         self._refresh(None, None)
 
@@ -262,13 +263,21 @@ class Ascent:
                     gain -= _weight(self.w, f)
         return gain, psi2, touched, new_wits
 
-    def run(self, deadline, rng=None):
+    def _apply(self, r, kind):
+        gain, psi2, touched, new_wits = r
+        self.stats[kind] += 1
+        self.psi = sorted(psi2)
+        self.G = FDSet(self.n, self.psi)
+        self._refresh(touched, new_wits)
+
+    def _climb(self, deadline, rng=None):
+        """passes over the candidates until no move improves the loss; returns whether the deadline passed"""
         improved = True
         timed_out = False
         while improved and not timed_out:
             improved = False
             self.stats["passes"] += 1
-            cands = [f for f in self.fds if f not in self.enforced and popcount(f[0]) + 1 <= self.max_schema]
+            cands = [f for f in self.fds if f not in self.enforced and f not in self.tabu and popcount(f[0]) + 1 <= self.max_schema]
             if rng is not None:
                 rng.shuffle(cands)
             cands.sort(key=lambda f: (-_weight(self.w, f), popcount(f[0])))
@@ -289,14 +298,79 @@ class Ascent:
                     r = self._try(g, V)
                     if r is None or r[0] <= 0:
                         continue
-                    self.stats["swaps"] += 1
+                    self._apply(r, "swaps")
                 else:
-                    self.stats["adds"] += 1
-                gain, psi2, touched, new_wits = r
-                self.psi = sorted(psi2)
-                self.G = FDSet(self.n, self.psi)
-                self._refresh(touched, new_wits)
+                    self._apply(r, "adds")
                 improved = True
+        return timed_out
+
+    def _kick(self, rng, tries=20):
+        """a random perturbation that keeps the set uncritical whatever its gain: an exchange of a random
+        candidate for the violators of its schema, or, when no such exchange is feasible, the removal of a random
+        element together with the elements that turn critical without it. The removed elements are tabu for the
+        following climb, so that the climb does not undo the kick at once."""
+        if tries and rng.random() < 0.5:
+            cands = [f for f in self.fds if f not in self.enforced and popcount(f[0]) + 1 <= self.max_schema]
+            rng.shuffle(cands)
+            for g in cands[:tries]:
+                S = g[0] | (1 << g[1])
+                clos1 = virtual_closure(self.G, g[0], g[1])
+                V = element_violators(clos1, self.psi, S)
+                if not V:
+                    continue
+                r = self._try(g, V)
+                if r is not None:
+                    self.tabu = set(V)
+                    self._apply(r, "kicks")
+                    return True
+        if not self.psi:
+            return False
+        remove = set(rng.sample(self.psi, min(len(self.psi), rng.randint(1, 4))))
+        while True:
+            psi2 = [x for x in self.psi if x not in remove]
+            G2 = FDSet(self.n, psi2)
+            touched = [v[0] for v in remove]
+            broken, new_wits = [], {}
+            for x in psi2:
+                if any(Z & ~self.sc[x] == 0 for Z in touched):
+                    ok, keys, trivial = bcnf_witness(G2, x[0] | (1 << x[1]))
+                    self.stats["full_checks"] += 1
+                    if ok:
+                        new_wits[x] = (keys, trivial)
+                    else:
+                        broken.append(x)
+            if not broken:
+                break
+            remove |= set(broken)
+        self.tabu = set(remove)
+        self.stats["kicks"] += 1
+        self.psi, self.G = sorted(psi2), G2
+        self._refresh(touched, new_wits)
+        return True
+
+    def run(self, deadline, rng=None, max_kicks=0):
+        """the climb, followed by up to max_kicks perturbations (iterated local search) until the deadline or
+        until max_kicks consecutive kicks fail to improve the best state, which is restored at the end"""
+        self.tabu = set()
+        timed_out = self._climb(deadline, rng)
+        best = (self.loss(), list(self.psi))
+        krng = rng if rng is not None else random.Random(0)
+        stale = 0
+        while max_kicks and not timed_out and stale < max_kicks:
+            if not self._kick(krng):
+                break
+            timed_out = self._climb(deadline, krng)
+            self.tabu = set()
+            l = self.loss()
+            if l < best[0]:
+                best, stale = (l, list(self.psi)), 0
+            else:
+                stale += 1
+        if self.loss() > best[0]:
+            self.psi = sorted(best[1])
+            self.G = FDSet(self.n, self.psi)
+            self.wit, self.sc = {}, {}
+            self._refresh(None, None)
         self.stats["timed_out"] = timed_out
         return self
 
@@ -310,11 +384,12 @@ def plain_start(Ea):
     unc, crit = split_critical(Ea)
     return unc
 
-def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_schema=14):
+def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_schema=14, max_kicks=0):
     """Ascent from the obstruction design (start = the uncritical minimal FDs of Sigma) or from any plain state:
     the deterministic run first, then runs in random candidate order until the deadline or `restarts` runs, the
-    lightest state wins. Returns (design, loss, Delta, psi) with Delta the unenforced minimal FDs, or None if the
-    start is not plain."""
+    lightest state wins; with max_kicks > 0 every run continues as an iterated local search (random exchanges
+    followed by climbs) until the deadline or until max_kicks consecutive kicks bring no improvement.
+    Returns (design, loss, Delta, psi) with Delta the unenforced minimal FDs, or None if the start is not plain."""
     if start is None:
         start = plain_start(Da)
     base = Ascent(n, Da, w, R, start, max_schema)
@@ -327,7 +402,7 @@ def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_sc
         if i > 0 and (deadline is None or time.time() > deadline):
             break
         asc = base if i == 0 else Ascent(n, Da, w, R, start, max_schema)
-        asc.run(deadline, None if i == 0 else rng)
+        asc.run(deadline, None if i == 0 else rng, max_kicks)
         runs += 1
         if best is None or asc.loss() < best.loss():
             best = asc
@@ -348,12 +423,15 @@ if __name__ == "__main__":
     from fdlib import load_any
     budget = 600
     restarts = 20
+    kicks = 0
     names = [a for a in sys.argv[1:] if not a.startswith("--")]
     for a in sys.argv[1:]:
         if a.startswith("--budget="):
             budget = float(a[9:])
         if a.startswith("--restarts="):
             restarts = int(a[11:])
+        if a.startswith("--kicks="):
+            kicks = int(a[8:])
     for name in names or ["breast(null)", "bridges(null)", "abalone", "echo(null)"]:
         path = dict(experiments.SETS)[name]
         n, F, _ = load_any(path)
@@ -364,14 +442,14 @@ if __name__ == "__main__":
         unc, crit = split_critical(Da)
         U = FDSet(n, unc)
         obstr = sum(1 for g in crit if not U.implies(g[0], g[1]))
-        res = ascend(n, Da, None, R, time.time() + budget, stats, restarts=restarts)
+        res = ascend(n, Da, None, R, time.time() + budget, stats, restarts=restarts, max_kicks=kicks)
         design, loss, Delta, psi = res
         elapsed = time.time() - t0
         # independent check: soundness, local enforcement, and the loss of the design's own key dependencies
         from fdlib import check_bcnf_design, key_dependencies
         sound, local, Ea = check_bcnf_design(n, design, Da)
         loss_design = loss_of(Da, key_dependencies(n, design), None)
-        print("%-18s |Sa| %5d obstructions %4d -> ascent loss %4d (adds %d, swaps %d, passes %d, tried %d, full %d, fast %d, dead %d, runs %d, best run %d, %.1fs, %d schemata) check: sound %s local %s loss %d" % (
-            name, len(Da), obstr, loss, stats["ascend_adds"], stats["ascend_swaps"], stats["ascend_passes"],
+        print("%-18s |Sa| %5d obstructions %4d -> ascent loss %4d (adds %d, swaps %d, kicks %d, passes %d, tried %d, full %d, fast %d, dead %d, runs %d, best run %d, %.1fs, %d schemata) check: sound %s local %s loss %d" % (
+            name, len(Da), obstr, loss, stats["ascend_adds"], stats["ascend_swaps"], stats["ascend_kicks"], stats["ascend_passes"],
             stats["ascend_moves_tried"], stats["ascend_full_checks"], stats["ascend_fast_checks"], stats["ascend_dead_keys"],
             stats["ascend_runs"], stats["ascend_best_run"], elapsed, len(design), sound, local, loss_design), flush=True)
