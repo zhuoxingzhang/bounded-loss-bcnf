@@ -62,7 +62,16 @@ def table_e12(rows):
     out.append(r"\midrule")
     for r in rows:
         if "error" in r:
-            out.append(r"%s & \multicolumn{11}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
+            # a set that exceeded its budget: sizes from the FD file, the discovered FDs taken as the atomic cover
+            import experiments
+            from fdlib import load_any
+            path = dict(experiments.SETS).get(r["name"])
+            if path and r["error"].startswith("timeout"):
+                n, F, _ = load_any(path)
+                out.append(r"%s & %d & %s & \multicolumn{9}{l}{budget of four hours exceeded}\\" % (
+                    tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$"))
+            else:
+                out.append(r"%s & \multicolumn{11}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
         out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (

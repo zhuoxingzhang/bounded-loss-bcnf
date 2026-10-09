@@ -1,0 +1,5 @@
+diabetic(null): 30 attributes, 40195 FDs in the file
+  left-reduction check       exceeds 600 s
+  minimal keys                    2.2 s  -> 52
+  3NF synthesis              exceeds 600 s
+  enforceability of Sigma+      481.0 s  -> False
