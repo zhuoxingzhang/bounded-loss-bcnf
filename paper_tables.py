@@ -125,31 +125,44 @@ def e3_summary(recs, mode):
         times[size] = statistics.mean(xs)
     return des[-1], times, None
 
-def table_e3(e3recs, size=30000):
-    """one row per data set and design: loss, schemata, UNIQUE indexes, trigger checks, seconds for `size`
-    records (mean over the repetitions) and milliseconds per record"""
-    out = []
-    out.append(r"\begin{tabular}{llrrrrrr}")
-    out.append(r"\toprule")
-    out.append(r"Data set & design & loss & schemata & UNIQUE & triggers & time (s) & ms/record\\")
-    out.append(r"\midrule")
+E3_ORDER = [("orig", "original"), ("3nf", "3NF"), ("keys", "keys"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
+E3_NAMES = {"fdred": "fd-red"}
+
+def table_e3(e3recs, size=10000, budget=7200):
+    """one row per data set: the trigger checks of the original relation and of 3NF synthesis, and the mean seconds
+    (over the repetitions) for inserting `size` records into every design; a design equal to an earlier one shares
+    its measurement, and a mode whose repetition the budget interrupted shows the budget as a lower bound"""
+    out = [r"\begin{tabular}{lrrrrrrrr}", r"\toprule",
+           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF} & keys & BCNF & \repair & \drop\\",
+           r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
+           r" & triggers & s & triggers & s & s & s & s & s\\",
+           r"\midrule"]
+
+    def cell(t):
+        return "--" if t is None else ("%.1f" % t if t < 100 else "{:,.0f}".format(t))
+
     for name, recs in e3recs.items():
-        first = True
-        for mode, label in E3_MODES:
-            d, times, skipped = e3_summary(recs, mode)
+        cells = []
+        for mode, _ in E3_ORDER:
+            m = mode
+            d, times, skipped = e3_summary(recs, m)
+            if d is None and skipped and skipped.startswith("same design as "):
+                m = skipped[len("same design as "):]
+                d, times, _ = e3_summary(recs, m)
             if d is None:
-                if skipped and skipped.startswith("same design"):
-                    continue
+                cells += ["--", "--"] if mode in ("orig", "3nf") else ["--"]
                 continue
             t = times.get(size)
-            cell = "--" if t is None else ("%.1f" % t if t < 100 else "{:,.0f}".format(t))
-            per = "--" if t is None else "%.3f" % (1000.0 * t / size)
-            out.append("%s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
-                name.replace("_", r"\_") if first else "", label, num(d.get("loss")), num(d["schemata"]), num(d["unique"]),
-                num(d["fd_triggers"] + d["key_triggers"]), cell, per))
-            first = False
-    out.append(r"\bottomrule")
-    out.append(r"\end{tabular}")
+            if t is None and any(r.get("mode") == m and r.get("size") == size and "timeout_seconds" in r for r in recs):
+                c = r"$>$" + "{:,}".format(budget)
+            else:
+                c = cell(t)
+            if mode in ("orig", "3nf"):
+                cells.append(num(d["fd_triggers"] + d["key_triggers"]))
+            cells.append(c)
+        label = tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
+        out.append("%s & %s\\\\" % (label, " & ".join(cells)))
+    out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
 
 E4_MODES = [("keys", "keys only"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]

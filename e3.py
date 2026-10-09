@@ -21,7 +21,7 @@ usage: python3 e3.py [--sizes 10000,20000,30000] [--reps 5] [--modes orig,3nf,bc
        python3 e3.py --table                summarise results/e3_<set>.jsonl
 sets: abalone adult breast bridges echo fdred hepatitis letter ncvoter weather tpch_orders tpch_part
 """
-import sys, os, json, time, random, subprocess
+import sys, os, json, time, random, subprocess, threading
 import pymysql
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
@@ -129,6 +129,7 @@ class Harness:
         for i, sch in enumerate(design):
             table = "%s_%s_%d" % (self.name, mode, i)
             cols = [self.cols[a] for a in sch["attrs"]]
+            cur.execute("DROP TABLE IF EXISTS e3w.%s" % q(table))   # a table left behind by an interrupted run
             cur.execute("CREATE TABLE e3w.%s ENGINE=InnoDB AS SELECT DISTINCT %s FROM %s" % (q(table), ", ".join(q(c) for c in cols), self.src))
             self.tables.append((table, cols))
             keys = [[self.cols[a] for a in K] for K in sch["keys"]]
@@ -155,19 +156,39 @@ class Harness:
         self.con.commit()
 
     # ------------------------------------------------------------------ the measurement
-    def insert(self, recs):
+    def kill_query(self):
+        """watchdog: interrupt the statement that the measurement connection is executing (KILL QUERY from a second connection)"""
+        try:
+            k = connect(autocommit=True)
+            k.cursor().execute("KILL QUERY %d" % self.con.thread_id())
+            k.close()
+        except Exception as e:
+            self.log("watchdog failed:", e)
+
+    def insert(self, recs, deadline=None):
         cur = self.cur
         stmts = [(table, "INSERT IGNORE INTO e3w.%s (%s) VALUES (%s)" % (q(table), ", ".join(q(c) for c in cols), ", ".join(["%s"] * len(cols))),
                   [self.cols.index(c) for c in cols]) for table, cols in self.tables]
+        self.partial = 0           # rows of the completed batches, reported when the watchdog interrupts the insertion
         inserted = 0
+        killer = None
+        if deadline is not None:
+            killer = threading.Timer(max(1.0, deadline - time.time()), self.kill_query)
+            killer.daemon = True
+            killer.start()
         t0 = time.time()
-        for b in range(0, len(recs), BATCH):
-            batch = recs[b:b + BATCH]
-            for table, sql, idx in stmts:
-                rows = [tuple(r[i] for i in idx) for r in batch]
-                cur.executemany(sql, rows)
-                inserted += cur.rowcount
-        self.con.commit()
+        try:
+            for b in range(0, len(recs), BATCH):
+                batch = recs[b:b + BATCH]
+                for table, sql, idx in stmts:
+                    rows = [tuple(r[i] for i in idx) for r in batch]
+                    cur.executemany(sql, rows)
+                    inserted += cur.rowcount
+                self.partial = inserted
+            self.con.commit()
+        finally:
+            if killer is not None:
+                killer.cancel()
         return time.time() - t0, inserted
 
     def run_mode(self, mode, design, loss):
@@ -190,10 +211,20 @@ class Harness:
                 recs = self.records(size, rng)
                 if rep > 0:
                     self.restore()
+                t_rep = time.time()
                 try:
-                    secs, inserted = self.insert(recs)
-                except pymysql.err.OperationalError as e:
+                    secs, inserted = self.insert(recs, deadline=t_mode + self.budget)
+                except pymysql.err.MySQLError as e:
                     self.con.rollback()
+                    code = e.args[0] if e.args else None
+                    if code in (1317, 3024):   # query interrupted by the watchdog: the budget of the mode is exhausted
+                        elapsed = time.time() - t_rep
+                        self.write(dict(set=self.name, mode=mode, size=size, rep=rep, timeout_seconds=round(elapsed, 3), inserted_before_timeout=self.partial,
+                                        attempted=size * len(design), lhs_index=self.lhs_index,
+                                        truncated="budget of %d s exhausted during size %d repetition %d" % (self.budget, size, rep)))
+                        self.log(mode, size, rep, "TIMEOUT after %.0fs with %d rows of the completed batches" % (elapsed, self.partial))
+                        self.drop_tables()
+                        return
                     self.write(dict(set=self.name, mode=mode, size=size, rep=rep, error=str(e.args[:2])))
                     self.log(mode, size, rep, "ERROR", e.args[:2])
                     return
