@@ -7,8 +7,9 @@ with all minimal keys declared (BCNF whenever possible), the loss and soundness 
 decomposition, the critical schemata of the 3NF decomposition, Repair (mode, loss, certified lower bound of
 the local searches, time) and, when the schema is small enough, Drop on the whole schema.
 
-usage: python experiments.py [name-filter]   runs every FD set in its own process (DATASET_TIMEOUT each),
-       python experiments.py --one <name>    one FD set, python experiments.py --table   the table of results/e1.jsonl.
+usage: python experiments.py [--parallel K] [name-filter]   every FD set in its own process (K at a time,
+       DATASET_TIMEOUT each; records in results/e1_<name>.jsonl), python experiments.py --one <name> for one set,
+       python experiments.py --table for the table of the records.
 """
 import sys, os, json, time, glob, traceback
 from fdlib import *
@@ -38,11 +39,11 @@ SETS.sort(key=lambda t: ORDER.index(t[0]) if t[0] in ORDER else 99)
 MAX_MINIMAL = 300000      # cap on |Sigma_a|
 ASSUME_ATOMIC_ABOVE = 2000  # above this many input FDs the discovered set is taken as Sigma_a (after checking that
                             # every left-hand side is minimal); on every smaller set the computed Sigma_a equals the input
-DROP_MAX_MINIMAL = 400    # run Drop on the whole schema only when |Sigma_a| is at most this
+DROP_MAX_MINIMAL = 1000   # run Drop on the whole schema only when |Sigma_a| is at most this
 LOCAL_TIME = 120          # seconds per critical schema in Repair
-DROP_TIME = 300           # seconds for the global Drop / fallback
+DROP_TIME = 600           # seconds for the global Drop / fallback
 MAX_W = 4                 # weakened FDs per candidate
-DATASET_TIMEOUT = 2400    # seconds per FD set (each runs in its own process)
+DATASET_TIMEOUT = 7200    # seconds per FD set (each runs in its own process)
 
 def max_extra_for(n):
     return None if n <= 12 else 3
@@ -148,23 +149,28 @@ def table(rows):
             r["name"], r["n"], r["fds"], r["minimal_fds"], "+" if r.get("atomic_assumed") else "", r["keys"], r["nu"], "yes" if r["enforceable"] else "no",
             r["3nf_loss"], r["3nf_critical"], r["bcnf_loss"], r["bcnf_sound"], rep, dr, r["time_total"]))
 
+def safe(name):
+    return "".join(c if c.isalnum() or c in "-_" else "_" for c in name)
+
 def run_one(name):
-    """run one FD set and append its record to results/e1.jsonl (used in a subprocess with a timeout)"""
+    """run one FD set and write its record to results/e1_<name>.jsonl (used in a subprocess with a timeout)"""
     path = dict(SETS)[name]
     try:
         rec = run(name, path)
     except Exception:
         rec = {"name": name, "error": traceback.format_exc()[-600:]}
-    with open(os.path.join("results", "e1.jsonl"), "a", encoding="utf-8") as out:
+    with open(os.path.join("results", "e1_%s.jsonl" % safe(name)), "w", encoding="utf-8") as out:
         out.write(json.dumps(rec) + "\n")
     print("   ", {k: v for k, v in rec.items() if not k.startswith("time") and k != "drop_stats"}, flush=True)
 
 def load_rows():
     rows = {}
-    for line in open(os.path.join("results", "e1.jsonl"), encoding="utf-8"):
-        if line.strip():
-            r = json.loads(line)
-            rows[r["name"]] = r
+    for name, _ in SETS:
+        f = os.path.join("results", "e1_%s.jsonl" % safe(name))
+        if os.path.isfile(f):
+            for line in open(f, encoding="utf-8"):
+                if line.strip():
+                    rows[name] = json.loads(line)
     return [rows[name] for name, _ in SETS if name in rows]
 
 def main():
@@ -177,19 +183,32 @@ def main():
     if args[:1] == ["--table"]:
         table(load_rows())
         return
+    parallel = 1
+    if args[:1] == ["--parallel"]:
+        parallel = int(args[1])
+        args = args[2:]
     flt = args[0] if args else None
-    for name, path in SETS:
-        if flt and flt not in name:
-            continue
+    todo = [name for name, _ in SETS if not flt or flt in name]
+    running = {}
+    started = {}
+    def launch(name):
         print("==", name, flush=True)
-        t = time.time()
-        try:
-            subprocess.run([sys.executable, os.path.abspath(__file__), "--one", name], timeout=DATASET_TIMEOUT)
-        except subprocess.TimeoutExpired:
-            with open(os.path.join("results", "e1.jsonl"), "a", encoding="utf-8") as out:
-                out.write(json.dumps({"name": name, "error": "timeout after %d s" % DATASET_TIMEOUT}) + "\n")
-            print("    timeout after %d s" % DATASET_TIMEOUT, flush=True)
-        print("    %.0fs" % (time.time() - t), flush=True)
+        started[name] = time.time()
+        running[name] = subprocess.Popen([sys.executable, os.path.abspath(__file__), "--one", name])
+    while todo or running:
+        while todo and len(running) < parallel:
+            launch(todo.pop(0))
+        time.sleep(2)
+        for name, proc in list(running.items()):
+            if proc.poll() is not None:
+                print("    %s done in %.0fs" % (name, time.time() - started[name]), flush=True)
+                del running[name]
+            elif time.time() - started[name] > DATASET_TIMEOUT:
+                proc.kill()
+                with open(os.path.join("results", "e1_%s.jsonl" % safe(name)), "w", encoding="utf-8") as out:
+                    out.write(json.dumps({"name": name, "error": "timeout after %d s" % DATASET_TIMEOUT}) + "\n")
+                print("    %s timeout after %d s" % (name, DATASET_TIMEOUT), flush=True)
+                del running[name]
     print()
     table(load_rows())
 

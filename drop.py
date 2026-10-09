@@ -185,7 +185,7 @@ def search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra=None):
             return None, state["cut"], False
     return None, True, False
 
-def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3, max_options=8):
+def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3, max_options=6):
     """A plain BCNF design by greedy repair: while the uncritical minimal FDs of Psi^+ do not imply some
     critical one g, drop g or one of the violators of its schema (the cheapest option measured by the
     weight added to Delta and the obstructions that remain), keeping Delta a closed choice.
@@ -536,7 +536,9 @@ def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_de
     if method == "plain":
         return drop_plain(n, Da, w, R, time_limit, max_w, max_extra, max_delta, heuristic, verbose)
     t0 = time.time()
-    deadline = None if time_limit is None else t0 + time_limit
+    # on large schemata the exact search gets half of the budget and the greedy the rest (up to 1.5 budgets)
+    large = len(Da) > 200
+    deadline = None if time_limit is None else t0 + (time_limit / 2 if large and heuristic else time_limit)
     R = (1 << n) - 1 if R is None else R
     stats = {"nodes": 0, "candidates": 0, "pruned": 0, "extension": 0, "tested": 0, "incomplete": False}
     res = DropResult(stats=stats)
@@ -556,7 +558,7 @@ def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_de
         return res
     res.lower_bound = incomplete_at if incomplete_at < inf else 0
     if heuristic:
-        g = greedy_restarts(n, Da, w, R, time.time() + (30 if time_limit is None else max(30, time_limit / 2)), stats)
+        g = greedy_restarts(n, Da, w, R, (time.time() + 30) if time_limit is None else max(time.time() + 30, t0 + 1.5 * time_limit), stats)
         if g is not None:
             Delta, Psi, Pa, U = g
             res.heuristic = True

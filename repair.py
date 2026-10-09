@@ -6,15 +6,15 @@ collects the key dependencies of the BCNF schemata and of a minimum-loss design 
 schema (computed by Drop on the small schema), checks with one enforceability test whether the
 collected key dependencies Gamma are enforceable, and falls back to Drop on the whole schema otherwise.
 
-The fallback never fails: it returns the lightest of (1) a minimum-loss enforceable subset of Gamma^+
-(Drop on the atomic cover of Gamma^+, exact search then greedy, within a third of the budget), (2) the
-result of the global Drop within the remaining budget (exact or greedy), and (3) the key-only design of R
+The fallback never fails: it returns the lightest of (1) an enforceable subset of Gamma^+ found by the
+greedy on the atomic cover of Gamma^+ within half of the budget, (2) the result of the global Drop within
+the remaining budget (exact or greedy), and (3) the key-only design of R
 (every minimal key declared on the single schema R, loss nu). The certified lower bound of the global Drop
 is reported as `lower_bound`.
 """
 import time
 from fdlib import *
-from drop import drop, DropResult, _weight
+from drop import drop, DropResult, _weight, greedy_restarts
 
 class RepairResult:
     def __init__(self, **kw):
@@ -87,10 +87,12 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         t1 = time.time()
         deadline = None if time_limit is None else t1 + time_limit
         candidates = []
-        # (1) a minimum-loss enforceable subset of Gamma^+ (unit weights in the search, loss measured on Sigma_a)
-        r1 = drop(n, Ga, None, R=R, time_limit=None if time_limit is None else time_limit / 3, max_w=max_w, max_extra=max_extra, verbose=verbose)
-        if r1.design is not None:
-            candidates.append(("gamma", loss_of(Da, key_dependencies(n, r1.design), w), r1.design, r1))
+        # (1) an enforceable subset of Gamma^+ by the greedy (unit weights in the search, loss measured on Sigma_a)
+        g = greedy_restarts(n, Ga, None, R, None if time_limit is None else t1 + time_limit / 2, res.stats)
+        if g is not None:
+            Delta1, Psi1, Pa1, U1 = g
+            d1 = design_from_cover(Pa1, U1, R)
+            candidates.append(("gamma", loss_of(Da, key_dependencies(n, d1), w), d1, None))
         res.stats["time_gamma_drop"] = time.time() - t1
         # (2) the global Drop with the remaining budget
         t2 = time.time()
