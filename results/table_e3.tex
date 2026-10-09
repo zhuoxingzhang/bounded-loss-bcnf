@@ -1,6 +1,19 @@
-\begin{tabular}{llrrrrrr}
+\begin{tabular}{lrrrrrrrr}
 \toprule
-Data set & design & loss & schemata & UNIQUE & triggers & time (s) & ms/record\\
+Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF} & keys & BCNF & \repair & \drop\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & triggers & s & triggers & s & s & s & s & s\\
 \midrule
+abalone & 25 & 85.2 & 25 & 85.2 & 2.3 & 1.1 & 4.7 & 4.7\\
+adult & 46 & 380 & 0 & 7.8 & 0.4 & 0.9 & 7.8 & 7.8\\
+breast & 40 & 75.6 & 2 & 6.8 & 0.3 & 0.9 & 5.6 & 6.0\\
+bridges & 65 & 164 & 21 & 23.2 & 0.5 & 0.9 & 9.7 & 9.7\\
+echo & 89 & 232 & 73 & 161 & 18.1 & 1.4 & 11.1 & 11.7\\
+hepatitis & 2,557 & $>$7,200 & 1,386 & 2,100 & -- & 2.9 & 366 & --\\
+letter & 61 & 402 & 0 & 16.4 & 0.3 & 0.6 & 16.4 & 16.4\\
+ncvoter & 222 & 480 & 132 & 292 & 10.7 & 1.9 & 26.7 & 27.0\\
+weather & 516 & $>$7,200 & 226 & 494 & -- & -- & -- & --\\
+orders & 16 & 20.2 & 0 & 1.6 & 2.7 & 1.2 & 1.6 & 1.6\\
+part & 1 & 97.4 & 0 & 2.3 & 1.3 & 1.1 & 2.3 & 2.3\\
 \bottomrule
 \end{tabular}

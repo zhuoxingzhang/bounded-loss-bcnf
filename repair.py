@@ -6,15 +6,20 @@ collects the key dependencies of the BCNF schemata and of a minimum-loss design 
 schema (computed by Drop on the small schema), checks with one enforceability test whether the
 collected key dependencies Gamma are enforceable, and falls back to Drop on the whole schema otherwise.
 
-The fallback never fails: it returns the lightest of (1) an enforceable subset of Gamma^+ found by the
-greedy on the atomic cover of Gamma^+ within half of the budget, (2) the result of the global Drop within
-the remaining budget (exact or greedy), and (3) the key-only design of R
-(every minimal key declared on the single schema R, loss nu). The certified lower bound of the global Drop
-is reported as `lower_bound`.
+When the collected key dependencies are enforceable, Repair returns the lightest of the assembled design,
+the obstruction design (Theorem "Obstruction bound") and, with ascend_time > 0, the ascents (Algorithm
+"Ascend") from the uncritical minimal FDs of Gamma^+ and of Sigma, each within half of ascend_time.
+
+The fallback never fails: it returns the lightest of (0) the uncritical fixpoints of Gamma^+ and Sigma^+ and
+the ascent from the former, (1) an enforceable subset of Gamma^+ found by the greedy on the atomic cover of
+Gamma^+ within half of the budget, (2) the result of the global Drop within the remaining budget (exact, or
+its heuristic with the ascent), and (3) the key-only design of R (every minimal key declared on the single
+schema R, loss nu). The certified lower bound of the global Drop is reported as `lower_bound`.
 """
 import time
 from fdlib import *
 from drop import drop, DropResult, _weight, greedy_restarts, uncritical_fixpoint
+from ascend import ascend
 
 class RepairResult:
     def __init__(self, **kw):
@@ -39,7 +44,7 @@ def key_only_design(n, Da, R, w=None):
     design = [(R, minimal_keys(Da, R))]
     return design, loss_of(Da, key_dependencies(n, design), w)
 
-def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=4, max_extra=None, fallback=True, verbose=False):
+def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=4, max_extra=None, fallback=True, verbose=False, ascend_time=None):
     t0 = time.time()
     Da = atomic_cover(F) if Da is None else Da
     R = (1 << n) - 1
@@ -85,7 +90,9 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         if crit_schemata and res.loss > 0:
             # the obstruction design (Theorem "Obstruction bound": the closure of the uncritical minimal FDs of
             # Sigma is enforceable, loss = weight of the obstructions) is a polynomial baseline that the
-            # assembled design must not fall below; Repair returns the lighter of the two
+            # assembled design must not fall below, and the ascent (Algorithm "Ascend") climbs from the
+            # uncritical minimal FDs of Gamma^+ and of Sigma; Repair returns the lightest of these designs
+            candidates = [("assembled", res.loss, res.design)]
             t3 = time.time()
             fx = uncritical_fixpoint(n, Da, None, R, None, res.stats)
             res.stats["time_obstruction"] = time.time() - t3
@@ -93,10 +100,23 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
                 d0 = design_from_cover(fx[2], fx[3], R)
                 loss0 = loss_of(Da, key_dependencies(n, d0), w)
                 res.stats["obstruction_loss"] = loss0
-                if loss0 < res.loss:
-                    res.design, res.loss = d0, loss0
-                    res.exact = loss0 == 0
-                    res.stats["obstruction_taken"] = True
+                candidates.append(("obstruction", loss0, d0))
+            if ascend_time:
+                t4 = time.time()
+                for label, start in (("ascend-gamma", list(U.fds)), ("ascend-sigma", None)):
+                    astats = {}
+                    a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=start)
+                    if a is None:
+                        continue
+                    candidates.append((label, a[1], a[0]))
+                    res.stats[label] = astats
+                res.stats["time_ascend"] = time.time() - t4
+            stage, loss, design = min(candidates, key=lambda c: c[1])
+            res.stats["success_candidates"] = [(c[0], c[1]) for c in candidates]
+            res.stats["success_stage"] = stage
+            if stage != "assembled":
+                res.design, res.loss = design, loss
+                res.exact = loss == 0
     elif fallback:
         res.mode = "fallback"
         t1 = time.time()
@@ -110,6 +130,13 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
             if fx is not None:
                 d0 = design_from_cover(fx[2], fx[3], R)
                 candidates.append((label, loss_of(Da, key_dependencies(n, d0), w), d0, None))
+                if label == "gamma-fix" and ascend_time:
+                    # the ascent from the fixpoint of Gamma^+ (the global Drop below ascends from Sigma's)
+                    astats = {}
+                    a = ascend(n, Da, w, R, time.time() + ascend_time / 2, astats, start=list(fx[3].fds))
+                    if a is not None:
+                        candidates.append(("ascend-gamma", a[1], a[0], None))
+                        res.stats["ascend-gamma"] = astats
         # (1) an enforceable subset of Gamma^+ by the greedy (unit weights in the search, loss measured on Sigma_a)
         g = greedy_restarts(n, Ga, None, R, None if time_limit is None else t1 + time_limit / 2, res.stats)
         if g is not None:
@@ -119,7 +146,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         res.stats["time_gamma_drop"] = time.time() - t1
         # (2) the global Drop with the remaining budget
         t2 = time.time()
-        r2 = drop(n, Da, w, R=R, time_limit=None if deadline is None else max(10.0, deadline - t2), max_w=max_w, max_extra=max_extra, verbose=verbose)
+        r2 = drop(n, Da, w, R=R, time_limit=None if deadline is None else max(10.0, deadline - t2), max_w=max_w, max_extra=max_extra, verbose=verbose, ascend_time=ascend_time)
         res.stats["fallback"] = r2.stats
         res.lower_bound = r2.lower_bound
         if r2.design is not None:

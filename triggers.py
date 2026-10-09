@@ -45,6 +45,8 @@ def key_lookup(table, K, nullsafe, exclude=None):
     conds = [_eq("t." + q(x), "NEW." + q(x), nullsafe) for x in K]
     if exclude is not None:
         conds.append("NOT (t.%s <=> OLD.%s)" % (q(exclude), q(exclude)))
+    if not conds:   # the empty key: the table holds at most one tuple
+        return "SELECT 1 FROM %s t LIMIT 1" % q(table)
     return "SELECT 1 FROM %s t WHERE %s LIMIT 1" % (q(table), " AND ".join(conds))
 
 def trigger_statements(table, fds, keys=(), nullsafe=False, id_col=None, update=True):
@@ -104,6 +106,8 @@ def index_statements(table, indexes, col_types, prefix=32, max_bytes=MAX_INDEX_B
     index stays within InnoDB's byte limit"""
     out = []
     for i, cols in enumerate(indexes):
+        if not cols:
+            continue
         cols = cols[:MAX_INDEX_COLS]
         out.append("CREATE INDEX %s ON %s (%s)" % (q("%s_x%d" % (table, i)), q(table),
                                                    ", ".join(_indexed(c, col_types, prefix, len(cols), max_bytes) for c in cols)))
@@ -115,6 +119,13 @@ def unique_statements(table, keys, col_types, max_bytes=MAX_INDEX_BYTES):
     out = []
     for i, K in enumerate(keys):
         total = sum(_bytes(c, col_types) for c in K)
+        if len(K) == 0:
+            # the empty key (every attribute of the schema is a constant): a UNIQUE index on a generated constant
+            # column admits at most one tuple
+            ocol = "%s_one" % table
+            out.append("ALTER TABLE %s ADD COLUMN %s TINYINT GENERATED ALWAYS AS (1) STORED" % (q(table), q(ocol)))
+            out.append("ALTER TABLE %s ADD UNIQUE %s (%s)" % (q(table), q("%s_k%d" % (table, i)), q(ocol)))
+            continue
         if total > max_bytes or len(K) > MAX_INDEX_COLS:
             hcol = "%s_h%d" % (table, i)
             expr = "SHA1(CONCAT_WS(CHAR(31), %s))" % ", ".join("COALESCE(%s, CHAR(0))" % q(c) for c in K)

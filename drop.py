@@ -18,6 +18,7 @@ drop_plain() keeps the plain enumeration by increasing weight for cross-checks.
 import time
 from itertools import combinations
 from fdlib import *
+from ascend import ascend
 
 class DropResult:
     def __init__(self, **kw):
@@ -547,12 +548,14 @@ def _structured(n, Da, w, R, deadline, max_w, max_extra, max_weight, stats, verb
     return state["best"], state["incomplete_at"]
 
 def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_delta=None, max_weight=None,
-         heuristic=True, verbose=False, method="structured"):
+         heuristic=True, verbose=False, method="structured", ascend_time=None):
     """Drop(R, Sigma, w) with Sigma given by its atomic cover Da (an FDSet) over the universe R.
     w maps minimal FDs (X, A) to positive weights (default 1). max_w bounds |W|, max_extra the number of
     attributes a weakened FD may add to a left-hand side (None: unbounded), max_weight the weight of the sets
     Delta that are examined (None: unbounded). method "structured" (default) runs the tree search over the
     sets Delta, method "plain" lists the closed choices by increasing weight (max_delta bounds their size).
+    When the budget is exhausted, the heuristic returns the lightest of the uncritical fixpoint, the greedy and,
+    with ascend_time > 0, the ascent (Algorithm "Ascend") from each of these two states within ascend_time.
     Returns a DropResult; res.exact tells whether the loss is proved minimal, res.lower_bound is certified."""
     if method == "plain":
         return drop_plain(n, Da, w, R, time_limit, max_w, max_extra, max_delta, heuristic, verbose)
@@ -588,15 +591,40 @@ def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_de
         g = greedy_restarts(n, Da, w, R, hdeadline, stats)
         if g is not None:
             cands.append(g)
+        labels = {id(fx): "fixpoint", id(g): "greedy"}
         if cands:
-            Delta, Psi, Pa, U = min(cands, key=lambda c: sum(_weight(w, f) for f in c[0]))
-            stats["heuristic_source"] = "greedy" if (g is not None and cands[-1] is g and len(cands) == 1) else ("fixpoint" if fx is not None and (g is None or sum(_weight(w, f) for f in fx[0]) <= sum(_weight(w, f) for f in g[0])) else "greedy")
+            cands.sort(key=lambda c: sum(_weight(w, f) for f in c[0]))
+            Delta, Psi, Pa, U = cands[0]
+            stats["heuristic_source"] = labels[id(cands[0])]
             res.heuristic = True
             res.loss = sum(_weight(w, f) for f in Delta)
             res.delta = sorted(Delta)
             res.W = []
             res.E, res.Ea = Psi, Pa
             res.design = design_from_cover(Pa, U, R)
+            if ascend_time:
+                # the ascent (Algorithm "Ascend") from the uncritical minimal FDs of each candidate, lightest first,
+                # with an equal share of ascend_time each; the lightest result wins
+                t3 = time.time()
+                share = ascend_time / len(cands)
+                stats["ascend_candidates"] = [(labels[id(c)], sum(_weight(w, f) for f in c[0])) for c in cands]
+                for c in cands:
+                    astats = {}
+                    a = ascend(n, Da, w, R, time.time() + share, astats, start=list(c[3].fds))
+                    if a is None:
+                        continue
+                    design_a, loss_a, Delta_a, psi_a = a
+                    stats["ascend_candidates"].append(("ascend-" + labels[id(c)], loss_a))
+                    if labels[id(c)] == stats["heuristic_source"] or "ascend_moves_tried" not in stats:
+                        stats.update({k: v for k, v in astats.items()})
+                    if loss_a < res.loss:
+                        res.loss = loss_a
+                        res.delta = sorted(Delta_a)
+                        res.E = FDSet(n, psi_a)
+                        res.Ea = atomic_cover(res.E)
+                        res.design = design_a
+                        stats["heuristic_source"] = "ascend-" + labels[id(c)]
+                stats["time_ascend"] = time.time() - t3
     stats["time"] = time.time() - t0
     return res
 

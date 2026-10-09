@@ -42,6 +42,7 @@ ASSUME_ATOMIC_ABOVE = 2000  # above this many input FDs the discovered set is ta
 DROP_MAX_MINIMAL = 1000   # run Drop on the whole schema only when |Sigma_a| is at most this
 LOCAL_TIME = 120          # seconds per critical schema in Repair
 DROP_TIME = 600           # seconds for the global Drop / fallback
+ASCEND_TIME = 300         # seconds for the ascent (Algorithm "Ascend") in Repair and in the heuristic of Drop
 MAX_W = 4                 # weakened FDs per candidate
 DATASET_TIMEOUT = 14400   # seconds per FD set (each runs in its own process)
 
@@ -118,7 +119,7 @@ def run(name, path):
     rec["designs"]["bcnf"] = design_json(n, Da, bdes)
     # Repair
     t1 = time.time()
-    rr = repair(n, F, Da=Da, local_time_limit=LOCAL_TIME, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n))
+    rr = repair(n, F, Da=Da, local_time_limit=LOCAL_TIME, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n), ascend_time=ASCEND_TIME)
     rec["repair_mode"] = rr.mode
     rec["repair_loss"] = rr.loss
     rec["repair_exact"] = rr.exact
@@ -126,6 +127,10 @@ def run(name, path):
     rec["repair_local"] = [(popcount(S), r.loss, r.lower_bound, r.exact, r.heuristic, round(r.stats.get("time", 0), 1))
                            for S, r in rr.critical]
     rec["repair_local_lb_sum"] = sum(r.lower_bound for S, r in rr.critical) if rr.critical else 0
+    rec["repair_stage"] = rr.stats.get("success_stage") or rr.stats.get("fallback_stage")
+    rec["repair_candidates"] = rr.stats.get("success_candidates")
+    rec["repair_ascend"] = {k: v for k, v in rr.stats.items() if k.startswith("ascend-")}
+    rec["time_repair_ascend"] = rr.stats.get("time_ascend")
     if rr.mode == "fallback":
         rec["repair_fallback_lb"] = rr.stats.get("fallback_lower_bound")
         rec["repair_fallback_heuristic"] = rr.stats.get("fallback_heuristic")
@@ -141,7 +146,7 @@ def run(name, path):
     # Drop on the whole schema
     if len(Da) <= DROP_MAX_MINIMAL:
         t1 = time.time()
-        dr = drop(n, Da, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n))
+        dr = drop(n, Da, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n), ascend_time=ASCEND_TIME)
         rec["drop_loss"] = dr.loss
         rec["drop_lb"] = dr.lower_bound
         rec["drop_exact"] = dr.exact
