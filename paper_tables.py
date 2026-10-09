@@ -29,7 +29,7 @@ def drop_cell(r):
         lb = r.get("drop_lb")
         if lb is None and r.get("repair_fallback_lb") is not None:
             lb = r["repair_fallback_lb"]
-        return "--" if lb is None else r"$\geq$" + num(lb)
+        return "--" if not lb else r"$\geq$" + num(lb)
     s = num(r["drop_loss"])
     if not r.get("drop_exact"):
         s += r"$^{*}$ ($\geq$%s)" % num(r.get("drop_lb"))
@@ -53,10 +53,30 @@ def table_e1(rows):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
+def table_e12(rows):
+    """E1 and E2 in one full-width table: sizes, critical schemata, the losses of the five designs, running times"""
+    out = []
+    out.append(r"\begin{tabular}{lrrrrrrrrrrr}")
+    out.append(r"\toprule")
+    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & 3NF & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
+    out.append(r"\midrule")
+    for r in rows:
+        if "error" in r:
+            out.append(r"%s & \multicolumn{11}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
+            continue
+        bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
+        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
+            tex_name(r["name"]), r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
+            num(len(r.get("3nf_critical") or [])), num(r["nu"]), num(r["3nf_loss"]), bcnf, repair_cell(r), drop_cell(r),
+            secs(r.get("time_repair")), secs(r.get("time_drop"))))
+    out.append(r"\bottomrule")
+    out.append(r"\end{tabular}")
+    return "\n".join(out)
+
 def secs(x):
     if x is None:
         return "--"
-    return "%.1f" % x if x < 10 else "%.0f" % x
+    return "%.1f" % x if x < 10 else "{:,.0f}".format(x)
 
 def table_e2(rows):
     out = []
@@ -132,11 +152,68 @@ def table_e3(e3recs, size=30000):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
+E4_MODES = [("keys", "keys only"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
+
+def load_e4():
+    import e3
+    out = {}
+    for name in e3.SETS:
+        f = os.path.join("results", "e4_%s.jsonl" % name)
+        if os.path.isfile(f):
+            out[name] = json.loads(open(f, encoding="utf-8").readline())
+    return out
+
+def table_e4(e4recs):
+    """per data set: harmful updates and the integrity risk (per cent of harmful updates not caught) per design"""
+    out = []
+    out.append(r"\begin{tabular}{lrr" + "r" * len(E4_MODES) + "}")
+    out.append(r"\toprule")
+    out.append("Data set & rows & harmful & " + " & ".join(l for _, l in E4_MODES) + r"\\")
+    out.append(r"\midrule")
+    for name, r in e4recs.items():
+        cells = []
+        for mode, _ in E4_MODES:
+            m = r["modes"].get(mode)
+            cells.append("--" if m is None else "%.1f" % (100.0 * m["risk"]))
+        out.append("%s & %s & %s & %s\\\\" % (name.replace("_", r"\_"), num(r["rows"]), num(r["harmful"]), " & ".join(cells)))
+    out.append(r"\bottomrule")
+    out.append(r"\end{tabular}")
+    return "\n".join(out)
+
+TEASER_ORDER = ["D1+triggers", "3NF+trigger", "D1", "D2", "D4"]
+TEASER_LABELS = {"D1+triggers": r"$\dec_1$, FDs by triggers", "3NF+trigger": r"3NF, $Z\rightarrow T$ by trigger",
+                 "D1": r"$\dec_1$ (loss 2)", "D2": r"$\dec_2$ (loss 1)", "D4": r"$\dec_4$ (loss 1)"}
+
+def fig_teaser(recs):
+    """a pgfplots bar chart of the mean insertion time per design and number of records (results/teaser.jsonl)"""
+    import statistics
+    sizes = sorted(set(r["size"] for r in recs))
+    out = [r"\begin{tikzpicture}",
+           r"\begin{axis}[ybar, width=\columnwidth, height=4.2cm, bar width=4.5pt, enlarge x limits=0.25,",
+           r"  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={%s}, xtick=data," % ",".join("{:,}".format(s) for s in sizes),
+           r"  ymin=0, legend style={font=\scriptsize, at={(0.02,0.98)}, anchor=north west, legend columns=1, draw=none, fill=none},",
+           r"  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]"]
+    for d in TEASER_ORDER:
+        pts = []
+        for size in sizes:
+            xs = [r["seconds"] for r in recs if r["design"] == d and r["size"] == size]
+            if xs:
+                pts.append("({:,},{:.3f})".format(size, statistics.mean(xs)))
+        out.append(r"\addplot coordinates {%s};" % " ".join(pts))
+        out.append(r"\addlegendentry{%s}" % TEASER_LABELS[d])
+    out.append(r"\end{axis}")
+    out.append(r"\end{tikzpicture}")
+    return "\n".join(out)
+
 if __name__ == "__main__":
     rows = load_rows()
     os.makedirs("results", exist_ok=True)
     e3recs = load_e3()
-    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e3.tex", table_e3(e3recs))):
+    e4recs = load_e4()
+    tf = os.path.join("results", "teaser.jsonl")
+    teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
+    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)), ("table_e3.tex", table_e3(e3recs)),
+                  ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join("results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
         print(t)

@@ -2,24 +2,25 @@
 \toprule
 Data set & critical & \repair\ (s) & mode & \drop\ (s) & $|\Delta|$ & $|W|$ & exact\\
 \midrule
-region & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-nation & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-partsupp & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-supplier & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-customer & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-orders & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-part & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-abalone & 1 & 136 & repair & 316 & -- & -- & no\\
-breast & 2 & 0.0 & repair & 0.3 & -- & -- & yes\\
-pdbx & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-bridges & 15 & 7.0 & fallback & 7.1 & -- & -- & yes\\
-echo & 6 & 0.6 & repair & -- & -- & -- & --\\
-adult & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-letter & 0 & 0.0 & bcnf & 0.0 & -- & -- & yes\\
-ncvoter & 21 & 647 & fallback & -- & -- & -- & --\\
-weather & 117 & 454 & fallback & -- & -- & -- & --\\
-lineitem (TPC-H) & 1 & 220 & repair & -- & -- & -- & --\\
-lineitem & 1 & 276 & repair & -- & -- & -- & --\\
-uniprot & 215 & 493 & fallback & -- & -- & -- & --\\
+region & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+nation & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+partsupp & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+supplier & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+customer & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+orders & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+part & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+abalone & 1 & 136 & repair & 616 & 8 & 0 & no\\
+breast & 2 & 0.0 & repair & 0.3 & 3 & 0 & yes\\
+pdbx & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+bridges & 15 & 16 & fallback/drop & 7.4 & 11 & 0 & yes\\
+echo & 6 & 0.8 & repair & 566 & 21 & 0 & no\\
+adult & 0 & 0.0 & bcnf & 0.0 & 0 & 0 & yes\\
+letter & 0 & 0.1 & bcnf & 0.0 & 0 & 0 & yes\\
+ncvoter & 21 & 951 & fallback/sigma-fix & 901 & 88 & 0 & no\\
+weather & 117 & 756 & fallback/gamma & 905 & 192 & 0 & no\\
+lineitem (TPC-H) & 1 & 279 & repair & -- & -- & -- & --\\
+lineitem & 1 & 282 & repair & -- & -- & -- & --\\
+uniprot & 215 & 794 & fallback/sigma-fix & -- & -- & -- & --\\
+hepatitis & 568 & 1,840 & fallback/sigma-fix & -- & -- & -- & --\\
 \bottomrule
 \end{tabular}
