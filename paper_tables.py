@@ -53,12 +53,26 @@ def table_e1(rows):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
+def load_obstructions():
+    """{set name: number of obstructions} from results/obstructions.jsonl (obstruction_stats.py)"""
+    f = os.path.join("results", "obstructions.jsonl")
+    out = {}
+    if os.path.isfile(f):
+        for l in open(f, encoding="utf-8"):
+            if l.strip():
+                r = json.loads(l)
+                if "obstructions" in r:
+                    out[r["name"]] = r["obstructions"]
+    return out
+
 def table_e12(rows):
-    """E1 and E2 in one full-width table: sizes, critical schemata, the losses of the five designs, running times"""
+    """E1 and E2 in one full-width table: sizes, critical schemata, the obstruction bound, the losses of the five
+    designs, running times"""
+    obstr = load_obstructions()
     out = []
-    out.append(r"\begin{tabular}{lrrrrrrrrrrr}")
+    out.append(r"\begin{tabular}{lrrrrrrrrrrrr}")
     out.append(r"\toprule")
-    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & 3NF & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
+    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
     out.append(r"\midrule")
     for r in rows:
         if "error" in r:
@@ -68,16 +82,17 @@ def table_e12(rows):
             path = dict(experiments.SETS).get(r["name"])
             if path and r["error"].startswith("timeout"):
                 n, F, _ = load_any(path)
-                out.append(r"%s & %d & %s & \multicolumn{9}{l}{budget of four hours exceeded}\\" % (
+                out.append(r"%s & %d & %s & \multicolumn{10}{l}{budget of four hours exceeded}\\" % (
                     tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$"))
             else:
-                out.append(r"%s & \multicolumn{11}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
+                out.append(r"%s & \multicolumn{12}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
-        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
+        o = obstr.get(r["name"])
+        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
             tex_name(r["name"]), r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
-            num(len(r.get("3nf_critical") or [])), num(r["nu"]), num(r["3nf_loss"]), bcnf, repair_cell(r), drop_cell(r),
-            secs(r.get("time_repair")), secs(r.get("time_drop"))))
+            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), bcnf,
+            repair_cell(r), drop_cell(r), secs(r.get("time_repair")), secs(r.get("time_drop"))))
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
     return "\n".join(out)

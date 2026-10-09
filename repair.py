@@ -82,6 +82,21 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
             # of Repair is only claimed when every critical schema was solved exactly and the assembled
             # loss equals the sum of the local losses
             res.exact = res.loss == sum(r.loss for _, r in res.critical)
+        if crit_schemata and res.loss > 0:
+            # the obstruction design (Theorem "Obstruction bound": the closure of the uncritical minimal FDs of
+            # Sigma is enforceable, loss = weight of the obstructions) is a polynomial baseline that the
+            # assembled design must not fall below; Repair returns the lighter of the two
+            t3 = time.time()
+            fx = uncritical_fixpoint(n, Da, None, R, None, res.stats)
+            res.stats["time_obstruction"] = time.time() - t3
+            if fx is not None:
+                d0 = design_from_cover(fx[2], fx[3], R)
+                loss0 = loss_of(Da, key_dependencies(n, d0), w)
+                res.stats["obstruction_loss"] = loss0
+                if loss0 < res.loss:
+                    res.design, res.loss = d0, loss0
+                    res.exact = loss0 == 0
+                    res.stats["obstruction_taken"] = True
     elif fallback:
         res.mode = "fallback"
         t1 = time.time()
