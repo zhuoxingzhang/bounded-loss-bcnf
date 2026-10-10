@@ -1,38 +1,26 @@
-"""Print the E3 measurements per data set and design: trigger checks, mean seconds per size, growth from 10,000 to
-30,000 records, and the ratio to the keys-only design.  Usage: python3 e3_report.py"""
-import json, os, statistics
-import e3
-from paper_tables import load_e3, e3_summary, E3_ORDER
+"""Print the PostgreSQL E3 measurements (e3pg.py) per data set and design: exclusion constraints, UNIQUE constraints,
+schemata, mean and standard deviation of the seconds per size, growth from 10,000 to 30,000 records, and the ratio to
+the keys-only design at 10,000 records.  Usage: python3 e3_report.py"""
+from paper_tables import load_e3, e3_summary, e3_mean, E3_ORDER
 
-recs_by_set = load_e3()
-for name, recs in recs_by_set.items():
+for name, recs in load_e3().items():
     print("==", name)
-    base = None
-    rows = []
-    for mode, label in E3_ORDER:
-        m = mode
-        d, times, skipped = e3_summary(recs, m)
-        note = ""
-        if d is None and skipped and skipped.startswith("same design as "):
-            m = skipped[len("same design as "):]
-            d, times, _ = e3_summary(recs, m)
-            note = "= " + m
+    keys10 = e3_mean(recs, "keys", 10000)[0]
+    for mode, _ in E3_ORDER:
+        d, times, cancelled, skipped, measured = e3_summary(recs, mode)
         if d is None:
-            print("  %-8s %s" % (mode, skipped or "(not run)"))
+            sk = [r.get("skipped") for r in recs if r.get("mode") == mode and r.get("skipped")]
+            print("  %-7s %s" % (mode, sk[-1] if sk else "(not run)"))
             continue
-        to = [r for r in recs if r.get("mode") == m and "timeout_seconds" in r]
-        tr = [r for r in recs if r.get("mode") == m and r.get("truncated") and "timeout_seconds" not in r]
-        rows.append((mode, d, times, note, to, tr))
-    keys = next((t for mo, d, t, n, to, tr in rows if mo == "keys"), {})
-    for mode, d, times, note, to, tr in rows:
-        t10, t20, t30 = (times.get(s) for s in (10000, 20000, 30000))
-        f = lambda x: "    --" if x is None else "%6.1f" % x
+        cells = []
+        for size in (10000, 20000, 30000):
+            m, sd, n, cut = e3_mean(recs, mode, size)
+            cells.append("     --        " if m is None else "%8.2f+-%5.2f%s" % (m, sd, "" if n == 5 else "(%d)" % n))
+        t10, t30 = e3_mean(recs, mode, 10000)[0], e3_mean(recs, mode, 30000)[0]
         growth = "" if (t10 is None or t30 is None) else "  x%.2f" % (t30 / t10)
-        ratio = "" if (t10 is None or not keys.get(10000)) else "  %.1fx keys" % (t10 / keys[10000])
-        extra = ""
-        if to:
-            extra += "  TIMEOUT size %d after %.0f s with %d rows" % (to[0]["size"], to[0]["timeout_seconds"], to[0].get("inserted_before_timeout", 0))
-        if tr:
-            extra += "  truncated: " + tr[-1]["truncated"]
-        print("  %-8s sch %5d uniq %3d idx %3d trig %5d | %s %s %s%s%s %s%s" % (
-            mode, d["schemata"], d["unique"], d["indexes"], d["fd_triggers"] + d["key_triggers"], f(t10), f(t20), f(t30), growth, ratio, note, extra))
+        ratio = "" if (t10 is None or not keys10) else "  %.1fx keys" % (t10 / keys10)
+        note = "" if measured == mode else "  = " + measured
+        extra = "".join("  CANCELLED at %d after %.0f s" % (s, t) for s, t in sorted(cancelled.items()))
+        extra += "".join("  SKIPPED %d" % s for s in sorted(skipped))
+        print("  %-7s sch %5d uniq %4d excl %5d | %s%s%s%s%s" % (
+            mode, d["schemata"], d["unique"] + d.get("unique_md5", 0), d["exclusion"], " ".join(cells), growth, ratio, note, extra))
