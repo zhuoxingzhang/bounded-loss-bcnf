@@ -408,6 +408,75 @@ def bcnf_decomposition(Fa, R=None, pick="first"):
         todo.append(S1)
     return sorted(set(done), key=lambda S: (-popcount(S), S))
 
+def _complete_bcnf(Fa, done, todo):
+    """Finish a run of bcnf_decomposition(pick='first') from the state (done, todo)."""
+    done, todo = list(done), list(todo)
+    while todo:
+        S = todo.pop()
+        V = violators(Fa, S)
+        if not V:
+            done.append(S)
+            continue
+        Y = V[0][0]
+        S1 = Fa.closure(Y) & S
+        todo.append(S & ~(S1 & ~Y))
+        todo.append(S1)
+    return sorted(set(done), key=lambda S: (-popcount(S), S))
+
+def greedy_bcnf_decomposition(Fa, R=None, time_limit=None, attribute_splits=True):
+    """BCNF decomposition on violating FDs that chooses, for every schema S it splits, the split whose completion
+    by the classical algorithm (bcnf_decomposition with pick='first') leaves the fewest minimal FDs unenforced by
+    the minimal keys of the resulting schemata. The candidates are the classical splits into Y+ & S and
+    S - (Y+ & S - Y) for the left-hand side Y of every violating FD Y -> B and, with attribute_splits, the splits
+    into YB and S - B. Ties go to the classical choice, which is always examined first, so the result never
+    loses more minimal FDs than the classical decomposition, also when the time limit cuts the search (from then
+    on the classical choice is taken, which completes the best decomposition found). Returns (schemata, stats)."""
+    import time
+    n = Fa.n
+    R = (1 << n) - 1 if R is None else R
+    t0 = time.time()
+    keys_of = {}
+
+    def loss(schemata):
+        for S in schemata:
+            if S not in keys_of:
+                keys_of[S] = minimal_keys(Fa.restrict(S), S)
+        return loss_of(Fa, key_dependencies(n, [(S, keys_of[S]) for S in schemata]))
+
+    stats = {"steps": 0, "choices": 0, "rollouts": 0, "deviations": 0, "timed_out": False}
+    todo, done = [R], []
+    while todo:
+        S = todo.pop()
+        V = violators(Fa, S)
+        if not V:
+            done.append(S)
+            continue
+        splits = []
+        for (Y, B) in V:
+            S1 = Fa.closure(Y) & S
+            for sp in [(S1, S & ~(S1 & ~Y))] + ([(Y | (1 << B), S & ~(1 << B))] if attribute_splits else []):
+                if sp not in splits:
+                    splits.append(sp)
+        choice = splits[0]
+        if len(splits) > 1 and not stats["timed_out"]:
+            stats["choices"] += 1
+            best = None
+            for S1, S2 in splits:
+                if time_limit is not None and time.time() - t0 > time_limit:
+                    stats["timed_out"] = True
+                    break
+                l = loss(_complete_bcnf(Fa, done, todo + [S2, S1]))
+                stats["rollouts"] += 1
+                if best is None or l < best:
+                    best, choice = l, (S1, S2)
+            if choice != splits[0]:
+                stats["deviations"] += 1
+        stats["steps"] += 1
+        todo.append(choice[1])
+        todo.append(choice[0])
+    stats["time"] = time.time() - t0
+    return sorted(set(done), key=lambda S: (-popcount(S), S)), stats
+
 def keyed(Fa, schemata):
     """Declare all minimal keys of (S, Sigma[S]) on every schema: the classical key declaration."""
     return [(S, minimal_keys(Fa.restrict(S), S)) for S in schemata]
