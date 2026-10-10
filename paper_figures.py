@@ -4,7 +4,7 @@ e4.py (RQ4): one full-width figure with three panels that share the colours of t
 usage: python paper_figures.py            writes results/fig_results.tex and prints it
 """
 import os
-from paper_tables import load_rows, load_e3, e3_summary, load_e4, tex_name, E3_NAMES
+from paper_tables import paper_rows, load_e3, e3_summary, load_e4, tex_name, E3_NAMES
 
 # the designs in the order of the legend, with their colours (the same in every panel)
 STYLES = [("orig", "original", "black, fill=black!25"),
@@ -66,7 +66,7 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
     out = [r"\begin{tikzpicture}",
            r"\begin{groupplot}[group style={group size=1 by 3, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm,",
            r"  /pgf/bar width=2.6pt, enlarge x limits=0.06, ymajorgrids, tick label style={font=\scriptsize}, label style={font=\scriptsize},",
-           r"  xticklabel style={rotate=25, anchor=east, font=\scriptsize},",
+           r"  xticklabel style={font=\scriptsize},",
            r"  legend style={font=\scriptsize, at={(0.5,1.18)}, anchor=south, legend columns=-1, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},",
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]"]
     out += panel("(a) dependency loss (RQ1)", "minimal FDs", names1,
@@ -79,7 +79,7 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
     return "\n".join(out)
 
 if __name__ == "__main__":
-    rows = load_rows()
+    rows = paper_rows()
     t = fig_results(rows, load_e3(), load_e4())
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)

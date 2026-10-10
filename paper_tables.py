@@ -7,7 +7,13 @@ from experiments import SETS, load_rows
 
 NAMES = {"letter(non-dup)": "letter", "tpch-region": "region", "tpch-nation": "nation", "tpch-partsupp": "partsupp",
          "tpch-supplier": "supplier", "tpch-customer": "customer", "tpch-orders": "orders", "tpch-part": "part",
-         "tpch-lineitem": "lineitem (TPC-H)", "china_weather(null)": "weather"}
+         "tpch-lineitem": "lineitem", "china_weather(null)": "weather"}
+# FD sets that the paper leaves out: the lineitem table of the HPI benchmark duplicates the TPC-H table lineitem
+EXCLUDE = {"lineitem"}
+
+def paper_rows():
+    """the E1 records of the FD sets that the paper reports, in the order of experiments.SETS"""
+    return [r for r in load_rows() if r.get("name") not in EXCLUDE]
 
 def tex_name(name):
     base = NAMES.get(name, name.replace("(null)", ""))
@@ -246,7 +252,7 @@ def fig_teaser(recs):
     return "\n".join(out)
 
 if __name__ == "__main__":
-    rows = load_rows()
+    rows = paper_rows()
     os.makedirs("results", exist_ok=True)
     e3recs = load_e3()
     e4recs = load_e4()
