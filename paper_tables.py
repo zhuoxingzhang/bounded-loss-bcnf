@@ -95,14 +95,20 @@ def load_gbcnf():
     return out
 
 def table_e12(rows):
-    """E1 and E2 in one full-width table: sizes, critical schemata, the obstruction bound, the losses of the six
-    designs, running times"""
+    """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
+    the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times"""
     obstr = load_obstructions()
     greedy = load_gbcnf()
+    cols = 17
     out = []
-    out.append(r"\begin{tabular}{lrrrrrrrrrrrrr}")
+    out.append(r"\begin{tabular}{l" + "r" * (cols - 1) + "}")
     out.append(r"\toprule")
-    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF (iConf) & BCNF & greedy & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
+    out.append(r" & & & & & \multicolumn{8}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
+    out.append(r"\cmidrule(lr){6-13}\cmidrule(lr){14-15}\cmidrule(lr){16-17}")
+    out.append(r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & &\\")
+    out.append(r"\cmidrule(lr){8-9}\cmidrule(lr){10-11}")
+    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & \repair & \drop"
+               r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
         if "error" in r:
@@ -112,19 +118,20 @@ def table_e12(rows):
             path = dict(experiments.SETS).get(r["name"])
             if path and r["error"].startswith("timeout"):
                 n, F, _ = load_any(path)
-                out.append(r"%s & %d & %s & \multicolumn{11}{l}{budget of four hours exceeded}\\" % (
-                    tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$"))
+                out.append(r"%s & %d & %s & \multicolumn{%d}{l}{budget of four hours exceeded}\\" % (
+                    tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$", cols - 3))
             else:
-                out.append(r"%s & \multicolumn{13}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
+                out.append(r"%s & \multicolumn{%d}{l}{%s}\\" % (tex_name(r["name"]), cols - 1, r["error"][:40].replace("_", r"\_")))
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
         o = obstr.get(r["name"])
         g = greedy.get(r["name"])
         gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
-        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
-            tex_name(r["name"]), r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
-            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), bcnf, gcell,
-            repair_cell(r), drop_cell(r), secs(r.get("time_repair")), secs(r.get("time_drop"))))
+        out.append(" & ".join([
+            tex_name(r["name"]), "%d" % r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
+            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
+            bcnf, gcell, repair_cell(r), drop_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
+            secs(r.get("time_repair")), secs(r.get("time_drop"))]) + r"\\")
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
     return "\n".join(out)
