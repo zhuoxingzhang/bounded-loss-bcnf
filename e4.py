@@ -2,40 +2,42 @@ r"""e4.py: integrity risk of the unenforced FDs under random updates (experiment
 
 For a data set, `updates` random single-attribute updates are drawn: a random stored record, a random attribute
 A, and a new value for A taken from another random record (so that the value exists in the domain of A).
-Every update is evaluated on its own against the stored relation (the source table e3.<set> of e3load.py):
+Every update is evaluated on its own against the stored relation (the source table src.<set> in PostgreSQL,
+pgload.py, which holds the same rows as the table e3.<set> of e3load.py in MySQL):
 it is harmful if the updated relation violates some FD of Sigma (tested on the atomic cover, or on the discovered
 cover when the atomic cover is large), and a design catches it if the updated relation violates one of the key
 dependencies the design declares (a relation satisfies the enforced FDs iff it satisfies the declared key
 dependencies). The designs are those of E1 (results/e1_<name>.jsonl of experiments.py): the original relation
-with its keys only, 3NF synthesis with its keys only (the non-key FDs left to the application), classical BCNF,
-Repair and Drop. The integrity risk of a design is the share of harmful updates it does not catch.
+with its keys only, iCONF and the classical 3NF synthesis with their keys only (the non-key FDs left to the
+application), classical BCNF, Repair and Drop. The integrity risk of a design is the share of harmful updates it
+does not catch. Every seed draws its own updates; the record of a set holds one line per seed.
 
 An update of attribute A of record t to the value v violates X -> B with A = B iff another record agrees with t
 on X (the stored relation satisfies the FD, so the group of t agrees on B), and with A in X iff a stored record
 agrees with the updated t on X and differs on B. Both tests use a sorted hash of the X-values per FD.
 
-usage: python3 e4.py [--updates 10000] [--seed 1] [set ...]      results/e4_<set>.jsonl
+usage: python3 e4.py [--updates 10000] [--seeds 1,2,3,4,5] [set ...]      results/e4_<set>.jsonl
        python3 e4.py --table
 """
 import sys, os, json, time, random
 import numpy as np
-import pymysql
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
 import experiments
-from e3 import SETS, SOCK, e1_record, q
+from e3 import SETS, e1_record
+from pgdb import connect, qi
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAX_ATOMIC = 10000
-MODES = ["keys", "3nf", "bcnf", "repair", "drop"]
+MODES = ["keys", "3nf", "3nfc", "bcnf", "repair", "drop"]
 
 def load_table(name):
-    con = pymysql.connect(unix_socket=SOCK, user="root", database="e3", charset="utf8mb4")
+    con = connect()
     cur = con.cursor()
-    cur.execute("SELECT COUNT(*) FROM information_schema.columns WHERE table_schema='e3' AND table_name=%s", (name,))
+    cur.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema='src' AND table_name=%s", (name,))
     n = cur.fetchone()[0]
     cols = ["c%d" % i for i in range(n)]
-    cur.execute("SELECT %s FROM e3.%s" % (", ".join(q(c) for c in cols), q(name)))
+    cur.execute("SELECT %s FROM src.%s" % (", ".join(cols), qi(name)))
     rows = cur.fetchall()
     con.close()
     codes = np.empty((len(rows), n), dtype=np.int64)
@@ -110,7 +112,7 @@ def key_dependencies_of(design):
                 fds.append((tuple(K), b))
     return sorted(set(fds))
 
-def run(name, updates, seed):
+def run(name, updates, seeds):
     rec = e1_record(name)
     path = dict(experiments.SETS)[SETS[name]]
     n, F, _ = load_any(path)
@@ -118,6 +120,13 @@ def run(name, updates, seed):
     codes = load_table(name)
     rows = codes.shape[0]
     print("%s: %d rows, %d attributes loaded (%.0fs)" % (name, rows, n, time.time() - t0), flush=True)
+    with open(os.path.join(HERE, "results", "e4_%s.jsonl" % name), "w", encoding="utf-8") as f:
+        for seed in seeds:
+            f.write(json.dumps(run_seed(name, rec, n, F, codes, updates, seed)) + "\n")
+            f.flush()
+
+def run_seed(name, rec, n, F, codes, updates, seed):
+    rows = codes.shape[0]
     # the FDs of Sigma to test: the atomic cover when it is small, else the discovered cover
     if len(F) <= experiments.ASSUME_ATOMIC_ABOVE:
         Da = atomic_cover(F, cap=experiments.MAX_MINIMAL)
@@ -163,7 +172,8 @@ def run(name, updates, seed):
         # which minimal FDs of Sigma do the missed updates violate? (the unenforced ones, by construction)
         per_fd = V[missed].sum(axis=0) if missed.any() else np.zeros(len(sigma), dtype=int)
         top = sorted(((int(per_fd[j]), "%s -> %d" % (",".join(map(str, sigma[j][0])), sigma[j][1])) for j in range(len(sigma)) if per_fd[j] > 0), reverse=True)[:10]
-        loss = {"keys": rec.get("nu"), "3nf": rec.get("3nf_loss"), "bcnf": rec.get("bcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[mode]
+        loss = {"keys": rec.get("nu"), "3nf": rec.get("3nf_loss"), "3nfc": rec.get("3nfc_loss"), "bcnf": rec.get("bcnf_loss"),
+                "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[mode]
         m = {"loss": loss, "schemata": len(d), "key_dependencies": len(kd), "caught": int((harmful & caught).sum()),
              "missed": int(missed.sum()), "risk": (float(missed.sum() / harmful.sum()) if harmful.sum() else 0.0),
              "false_rejections": int((caught & ~harmful).sum()), "violated_unenforced_fds": int((per_fd > 0).sum()), "top": top,
@@ -171,8 +181,6 @@ def run(name, updates, seed):
         out["modes"][mode] = m
         print("   %-7s loss %5s | %4d schemata, %5d key deps | caught %5d, missed %5d, risk %.3f, false rejections %d (%.0fs)" % (
             mode, loss, len(d), len(kd), m["caught"], m["missed"], m["risk"], m["false_rejections"], m["time"]), flush=True)
-    with open(os.path.join(HERE, "results", "e4_%s.jsonl" % name), "w", encoding="utf-8") as f:
-        f.write(json.dumps(out) + "\n")
     return out
 
 def table():
@@ -180,25 +188,31 @@ def table():
         f = os.path.join(HERE, "results", "e4_%s.jsonl" % name)
         if not os.path.isfile(f):
             continue
-        r = json.loads(open(f, encoding="utf-8").readline())
-        cells = "  ".join("%s %.3f" % (m, r["modes"][m]["risk"]) for m in MODES if m in r["modes"])
-        print("%-12s %7d rows, %d FDs (%s), harmful %5d/%d | %s" % (name, r["rows"], r["fds_tested"], r["cover"], r["harmful"], r["updates"], cells))
+        rs = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
+        r = rs[0]
+        cells = []
+        for m in MODES:
+            xs = [x["modes"][m]["risk"] for x in rs if m in x["modes"]]
+            if xs:
+                cells.append("%s %.3f+-%.3f" % (m, float(np.mean(xs)), float(np.std(xs, ddof=1)) if len(xs) > 1 else 0.0))
+        print("%-12s %7d rows, %d FDs (%s), harmful %s/%d over %d seeds | %s" % (name, r["rows"], r["fds_tested"], r["cover"],
+              "/".join(str(x["harmful"]) for x in rs), r["updates"], len(rs), "  ".join(cells)))
 
 def main():
     args = sys.argv[1:]
-    updates, seed, names = 10000, 1, []
+    updates, seeds, names = 10000, [1, 2, 3, 4, 5], []
     i = 0
     while i < len(args):
         if args[i] == "--updates":
             updates = int(args[i + 1]); i += 2
-        elif args[i] == "--seed":
-            seed = int(args[i + 1]); i += 2
+        elif args[i] == "--seeds":
+            seeds = [int(x) for x in args[i + 1].split(",")]; i += 2
         elif args[i] == "--table":
             table(); return
         else:
             names.append(args[i]); i += 1
     for name in names or list(SETS):
-        run(name, updates, seed)
+        run(name, updates, seeds)
 
 if __name__ == "__main__":
     main()
