@@ -156,98 +156,129 @@ def table_e2(rows):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
-E3_MODES = [("orig", r"original"), ("keys", r"keys only"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
+# ----------------------------------------------------------------------------- RQ3 and RQ4 on PostgreSQL
+# the designs of E3 (e3pg.py modes) and E4 (e4.py modes), in the column order of the tables and figures
+E3_ORDER = [("orig-x", "original"), ("3nf-x", "3NF (iConf)"), ("3nfc-x", "3NF (classical)"), ("keys", "keys"),
+            ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("repair", r"\repair"), ("drop", r"\drop")]
+E3_NAMES = {"fdred": "fd-red"}
+E4_MODES = [("keys", "keys only"), ("3nf", "3NF (iConf)"), ("3nfc", "3NF (classical)"), ("bcnf", "BCNF"), ("gbcnf", "greedy"),
+            ("repair", r"\repair"), ("drop", r"\drop")]
+
+def e3_label(name):
+    return tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
 
 def load_e3():
-    """the E3 records per set: {set: [records]} (results/e3_<set>.jsonl)"""
+    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py)"""
     import e3
     out = {}
     for name in e3.SETS:
-        f = os.path.join("results", "e3_%s.jsonl" % name)
+        f = os.path.join("results", "e3pg_%s.jsonl" % name)
         if os.path.isfile(f):
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
     return out
 
 def e3_summary(recs, mode):
-    """(design record, {size: mean seconds}, skipped-or-None) of a mode"""
+    """the measurement of a mode: (design record, {size: [seconds of the completed repetitions]}, {size: elapsed
+    seconds of a repetition that the budget cancelled}, sizes the budget skipped, the mode measured). A mode whose
+    design repeats an earlier one shares that measurement; only the records after the last design record of the
+    mode count, so that a rerun replaces an earlier run."""
+    seen = set()
+    while True:
+        seen.add(mode)
+        idx = [i for i, r in enumerate(recs) if r.get("mode") == mode and r.get("design")]
+        if idx:
+            break
+        same = [r["same_as"] for r in recs if r.get("mode") == mode and r.get("same_as")]
+        if not same or same[-1] in seen:
+            return None, {}, {}, set(), None
+        mode = same[-1]
+    start = idx[-1]
+    times, cancelled, skipped = {}, {}, set()
+    for r in recs[start + 1:]:
+        if r.get("mode") != mode:
+            continue
+        if "seconds" in r:
+            times.setdefault(r["size"], []).append(r["seconds"])
+        elif "timeout_seconds" in r:
+            cancelled[r["size"]] = r["timeout_seconds"]
+        elif r.get("truncated") and "size" not in r:
+            skipped.add(int(r["truncated"].rsplit(" ", 1)[1]))
+    return recs[start], times, cancelled, skipped, mode
+
+def e3_mean(recs, mode, size):
+    """(mean, standard deviation, repetitions, cut by the budget) of the insertion of `size` records"""
     import statistics
-    sk = [r for r in recs if r.get("mode") == mode and r.get("skipped")]
-    des = [r for r in recs if r.get("mode") == mode and r.get("design")]
-    if not des:
-        return None, {}, (sk[-1]["skipped"] if sk else None)
-    times = {}
-    for size in sorted(set(r["size"] for r in recs if r.get("mode") == mode and "seconds" in r)):
-        xs = [r["seconds"] for r in recs if r.get("mode") == mode and r.get("size") == size and "seconds" in r]
-        times[size] = statistics.mean(xs)
-    return des[-1], times, None
-
-E3_ORDER = [("orig", "original"), ("3nf", "3NF"), ("keys", "keys"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
-E3_NAMES = {"fdred": "fd-red"}
-
-def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
-    """one row per data set: the trigger checks of the original relation and of 3NF synthesis, and the mean seconds
-    (over the repetitions) for inserting `size` records into every design; a design equal to an earlier one shares
-    its measurement, and a mode whose repetition the budget interrupted shows the budget as a lower bound; the last
-    two columns are the records of the data set and the harmful updates among its random updates (e4.py)"""
-    out = [r"\begin{tabular}{lrrrrrrrrrr}", r"\toprule",
-           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & keys & BCNF & \repair & \drop & data & harmful\\",
-           r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-           r" & checks & s & checks & s & s & s & s & s & rows & updates\\",
-           r"\midrule"]
-
-    def cell(t):
-        return "--" if t is None else ("%.1f" % t if t < 100 else "{:,.0f}".format(t))
-
-    for name, recs in e3recs.items():
-        cells = []
-        for mode, _ in E3_ORDER:
-            m = mode
-            d, times, skipped = e3_summary(recs, m)
-            if d is None and skipped and skipped.startswith("same design as "):
-                m = skipped[len("same design as "):]
-                d, times, _ = e3_summary(recs, m)
-            if d is None:
-                cells += ["--", "--"] if mode in ("orig", "3nf") else ["--"]
-                continue
-            t = times.get(size)
-            if t is None and any(r.get("mode") == m and r.get("size") == size and "timeout_seconds" in r for r in recs):
-                c = r"$>$" + "{:,}".format(budget)
-            else:
-                c = cell(t)
-            if mode in ("orig", "3nf"):
-                cells.append(num(d["fd_triggers"] + d["key_triggers"]))
-            cells.append(c)
-        r4 = (e4recs or {}).get(name)
-        cells += ["--", "--"] if r4 is None else [num(r4["rows"]), num(r4["harmful"])]
-        label = tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
-        out.append("%s & %s\\\\" % (label, " & ".join(cells)))
-    out += [r"\bottomrule", r"\end{tabular}"]
-    return "\n".join(out)
-
-E4_MODES = [("keys", "keys only"), ("3nf", "3NF"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
+    d, times, cancelled, skipped, _ = e3_summary(recs, mode)
+    xs = times.get(size, [])
+    cut = size in cancelled or size in skipped
+    if not xs:
+        return None, None, 0, cut
+    return statistics.mean(xs), (statistics.stdev(xs) if len(xs) > 1 else 0.0), len(xs), cut
 
 def load_e4():
+    """the E4 records per set, one per seed: {set: [records]} (results/e4_<set>.jsonl of e4.py)"""
     import e3
     out = {}
     for name in e3.SETS:
         f = os.path.join("results", "e4_%s.jsonl" % name)
         if os.path.isfile(f):
-            out[name] = json.loads(open(f, encoding="utf-8").readline())
+            out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
     return out
 
+def e4_risk(recs, mode):
+    """(mean, standard deviation) of the integrity risk in per cent over the seeds, or (None, None)"""
+    import statistics
+    xs = [100.0 * r["modes"][mode]["risk"] for r in recs if mode in r.get("modes", {})]
+    if not xs:
+        return None, None
+    return statistics.mean(xs), (statistics.stdev(xs) if len(xs) > 1 else 0.0)
+
+def e4_harmful(recs):
+    import statistics
+    return statistics.mean(r["harmful"] for r in recs)
+
+def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
+    """one row per data set: the exclusion constraints of the original relation and of the two 3NF syntheses, the
+    mean seconds (over the repetitions) for inserting `size` records into every design, where a design equal to an
+    earlier one shares its measurement and a design whose insertion the budget cancelled shows the budget as a lower
+    bound, and the records of the data set and the mean number of harmful updates among its random updates (e4.py)"""
+    out = [r"\begin{tabular}{l" + "r" * 15 + "}", r"\toprule",
+           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & \multicolumn{2}{c}{3NF (classical)} & keys & BCNF & greedy & \repair & \drop & records & harmful\\",
+           r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}",
+           r" & excl. & s & excl. & s & excl. & s & s & s & s & s & s & & updates\\",
+           r"\midrule"]
+
+    def cell(t):
+        return "--" if t is None else ("%.2f" % t if t < 10 else ("%.1f" % t if t < 100 else "{:,.0f}".format(t)))
+
+    for name, recs in e3recs.items():
+        cells = []
+        for mode, _ in E3_ORDER:
+            d = e3_summary(recs, mode)[0]
+            mean, sd, n, cut = e3_mean(recs, mode, size)
+            c = (r"$>$" + "{:,}".format(budget)) if (mean is None and cut) else cell(mean)
+            if mode.endswith("-x"):
+                cells.append("--" if d is None else num(d["exclusion"]))
+            cells.append(c)
+        r4 = (e4recs or {}).get(name)
+        cells += ["--", "--"] if not r4 else [num(r4[0]["rows"]), num(round(e4_harmful(r4)))]
+        out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
+    out += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(out)
+
 def table_e4(e4recs):
-    """per data set: harmful updates and the integrity risk (per cent of harmful updates not caught) per design"""
+    """per data set: rows, mean harmful updates and the mean integrity risk (per cent of harmful updates not caught)"""
     out = []
     out.append(r"\begin{tabular}{lrr" + "r" * len(E4_MODES) + "}")
     out.append(r"\toprule")
     out.append("Data set & rows & harmful & " + " & ".join(l for _, l in E4_MODES) + r"\\")
     out.append(r"\midrule")
-    for name, r in e4recs.items():
+    for name, recs in e4recs.items():
         cells = []
         for mode, _ in E4_MODES:
-            m = r["modes"].get(mode)
-            cells.append("--" if m is None else "%.1f" % (100.0 * m["risk"]))
-        out.append("%s & %s & %s & %s\\\\" % (tex_name(name.replace("tpch_", "tpch-")), num(r["rows"]), num(r["harmful"]), " & ".join(cells)))
+            m, _ = e4_risk(recs, mode)
+            cells.append("--" if m is None else "%.1f" % m)
+        out.append("%s & %s & %s & %s\\\\" % (e3_label(name), num(recs[0]["rows"]), num(round(e4_harmful(recs))), " & ".join(cells)))
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
     return "\n".join(out)

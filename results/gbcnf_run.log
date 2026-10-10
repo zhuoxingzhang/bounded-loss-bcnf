@@ -1,0 +1,20 @@
+tpch-region            |Da|      6  classical      0 (1 schemata)  greedy      0 (1 schemata)  0 rollouts, 0 deviations, 0.0s
+tpch-nation            |Da|      9  classical      0 (1 schemata)  greedy      0 (1 schemata)  0 rollouts, 0 deviations, 0.0s
+tpch-partsupp          |Da|     19  classical      0 (1 schemata)  greedy      0 (1 schemata)  0 rollouts, 0 deviations, 0.0s
+tpch-supplier          |Da|     34  classical      0 (1 schemata)  greedy      0 (1 schemata)  0 rollouts, 0 deviations, 0.0s
+tpch-customer          |Da|     51  classical      0 (1 schemata)  greedy      0 (1 schemata)  0 rollouts, 0 deviations, 0.0s
+tpch-orders            |Da|     52  classical      1 (3 schemata)  greedy      1 (3 schemata)  7 rollouts, 0 deviations, 0.0s
+tpch-part              |Da|     88  classical     16 (2 schemata)  greedy     16 (2 schemata)  0 rollouts, 0 deviations, 0.0s
+abalone                |Da|    137  classical     95 (4 schemata)  greedy     92 (4 schemata)  47 rollouts, 1 deviations, 0.0s
+breast(null)           |Da|     46  classical     38 (6 schemata)  greedy     37 (7 schemata, unsound)  97 rollouts, 1 deviations, 0.0s
+pdbx(null)             |Da|     68  classical     13 (5 schemata)  greedy     11 (6 schemata)  76 rollouts, 1 deviations, 0.0s
+bridges(null)          |Da|    142  classical    103 (5 schemata)  greedy     99 (9 schemata, unsound)  314 rollouts, 2 deviations, 0.1s
+echo(null)             |Da|    527  classical    463 (8 schemata)  greedy    392 (7 schemata)  264 rollouts, 4 deviations, 0.4s
+adult                  |Da|     78  classical     68 (5 schemata)  greedy     67 (6 schemata)  139 rollouts, 1 deviations, 0.0s
+letter(non-dup)        |Da|     61  classical     60 (2 schemata)  greedy     60 (2 schemata)  61 rollouts, 0 deviations, 0.0s
+ncvoter(null)          |Da|    758  classical    704 (11 schemata, unsound)  greedy    668 (14 schemata, unsound)  1509 rollouts, 3 deviations, 3.9s
+china_weather(null)    |Da|    918  classical    869 (9 schemata)  greedy    858 (9 schemata)  2579 rollouts, 3 deviations, 13.3s
+tpch-lineitem          |Da|   3687  classical   3487 (6 schemata)  greedy   3375 (8 schemata, unsound)  1402 rollouts, 5 deviations, 17.6s
+lineitem               |Da|   3984  classical   3494 (8 schemata)  greedy   3449 (6 schemata)  1177 rollouts, 2 deviations, 24.4s
+uniprot(null)          |Da|   3703  classical   3552 (17 schemata)  greedy   3526 (15 schemata)  11556 rollouts, 4 deviations, 290.9s
+hepatitis(null)        |Da|   8250  classical   8211 (16 schemata, unsound)  greedy   7995 (11 schemata)  11854 rollouts, 5 deviations, 565.8s
