@@ -99,13 +99,13 @@ def element_violators(clos, psi, S):
     return [h for h in psi if (h[0] | (1 << h[1])) & ~S == 0 and clos(h[0]) & S != S]
 
 class Ascent:
-    def __init__(self, n, Da, w, R, psi, max_schema=14):
+    def __init__(self, n, Da, w, R, psi, max_schema=14, cascade=0):
         self.n, self.Da, self.w, self.R = n, Da, w, R
-        self.max_schema = max_schema
+        self.max_schema, self.cascade = max_schema, cascade
         self.fds = list(Da.fds)
         self.psi = sorted(set(psi))
         self.G = FDSet(n, self.psi)
-        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "kicks": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
+        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "kicks": 0, "cascades": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
         self.wit = {}
         self.tabu = set()
         self.sc = {}
@@ -221,35 +221,49 @@ class Ascent:
     def loss(self):
         return sum(_weight(self.w, f) for f in self.fds if f not in self.enforced)
 
-    def _try(self, add, remove, clos=None):
+    def _try(self, add, remove, clos=None, cascade=0):
         """the state psi - remove + add if it is plain and lighter; returns (gain, psi2, touched, witnesses) or
         None. An add move is examined through the closures of the current G (virtual_closure), a swap through a
-        fresh FDSet of the new state."""
+        fresh FDSet of the new state. With cascade > 0, elements that turn critical are removed as well, up to
+        cascade further elements, instead of rejecting the move."""
         self.stats["moves_tried"] += 1
-        psi2 = [h for h in self.psi if h not in remove] + [add]
-        G2 = None
-        if remove:
-            G2 = FDSet(self.n, psi2)
-            clos = G2.closure
-        elif clos is None:
-            clos = virtual_closure(self.G, add[0], add[1])
-        touched = [add[0]] + [v[0] for v in remove]
+        remove = set(remove)
         S = add[0] | (1 << add[1])
-        self.stats["full_checks"] += 1
-        ok, keys, trivial = bcnf_witness(None, S, clos)
-        if not ok:
-            return None
-        new_wits = {add: (keys, trivial)}
-        # elements whose schema closure contained a touched left-hand side may change their status
-        for h in self.psi:
-            if h in remove:
-                continue
-            c = self.sc[h]
-            if any(Z & ~c == 0 for Z in touched):
-                wit = self._still_uncritical(h, clos, G2, add, remove)
-                if wit is None:
-                    return None
-                new_wits[h] = wit
+        while True:
+            psi2 = [h for h in self.psi if h not in remove] + [add]
+            G2 = None
+            if remove:
+                G2 = FDSet(self.n, psi2)
+                clos = G2.closure
+            elif clos is None:
+                clos = virtual_closure(self.G, add[0], add[1])
+            touched = [add[0]] + [v[0] for v in remove]
+            self.stats["full_checks"] += 1
+            ok, keys, trivial = bcnf_witness(None, S, clos)
+            if not ok:
+                return None
+            new_wits = {add: (keys, trivial)}
+            # elements whose schema closure contained a touched left-hand side may change their status
+            broken = []
+            for h in self.psi:
+                if h in remove:
+                    continue
+                c = self.sc[h]
+                if any(Z & ~c == 0 for Z in touched):
+                    wit = self._still_uncritical(h, clos, G2, add, remove)
+                    if wit is None:
+                        if not cascade:
+                            return None
+                        broken.append(h)
+                    else:
+                        new_wits[h] = wit
+            if not broken:
+                break
+            remove |= set(broken)
+            cascade -= len(broken)
+            if cascade < 0:
+                return None
+            self.stats["cascades"] += 1
         # the enforced minimal FDs of Sigma change only where a touched left-hand side was in reach
         gain = 0
         for f in self.fds:
@@ -295,7 +309,7 @@ class Ascent:
                     V = element_violators(clos1, self.psi, S)
                     if not V:
                         continue
-                    r = self._try(g, V)
+                    r = self._try(g, V, cascade=self.cascade)
                     if r is None or r[0] <= 0:
                         continue
                     self._apply(r, "swaps")
@@ -384,7 +398,7 @@ def plain_start(Ea):
     unc, crit = split_critical(Ea)
     return unc
 
-def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_schema=14, max_kicks=0):
+def ascend(n, Da, w, R, deadline, stats, start=None, restarts=60, seed=0, max_schema=14, max_kicks=0, cascade=0):
     """Ascent from the obstruction design (start = the uncritical minimal FDs of Sigma) or from any plain state:
     the deterministic run first, then runs in random candidate order until the deadline or `restarts` runs, the
     lightest state wins; with max_kicks > 0 every run continues as an iterated local search (random exchanges
@@ -392,7 +406,7 @@ def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_sc
     Returns (design, loss, Delta, psi) with Delta the unenforced minimal FDs, or None if the start is not plain."""
     if start is None:
         start = plain_start(Da)
-    base = Ascent(n, Da, w, R, start, max_schema)
+    base = Ascent(n, Da, w, R, start, max_schema, cascade)
     if not base.plain():
         return None
     rng = random.Random(seed)
@@ -401,7 +415,7 @@ def ascend(n, Da, w, R, deadline, stats, start=None, restarts=20, seed=0, max_sc
     for i in range(1 + restarts):
         if i > 0 and (deadline is None or time.time() > deadline):
             break
-        asc = base if i == 0 else Ascent(n, Da, w, R, start, max_schema)
+        asc = base if i == 0 else Ascent(n, Da, w, R, start, max_schema, cascade)
         asc.run(deadline, None if i == 0 else rng, max_kicks)
         runs += 1
         if best is None or asc.loss() < best.loss():
@@ -422,8 +436,9 @@ if __name__ == "__main__":
     import sys, experiments
     from fdlib import load_any
     budget = 600
-    restarts = 20
+    restarts = 60
     kicks = 0
+    cascade = 0
     names = [a for a in sys.argv[1:] if not a.startswith("--")]
     for a in sys.argv[1:]:
         if a.startswith("--budget="):
@@ -432,6 +447,8 @@ if __name__ == "__main__":
             restarts = int(a[11:])
         if a.startswith("--kicks="):
             kicks = int(a[8:])
+        if a.startswith("--cascade="):
+            cascade = int(a[10:])
     for name in names or ["breast(null)", "bridges(null)", "abalone", "echo(null)"]:
         path = dict(experiments.SETS)[name]
         n, F, _ = load_any(path)
@@ -442,14 +459,14 @@ if __name__ == "__main__":
         unc, crit = split_critical(Da)
         U = FDSet(n, unc)
         obstr = sum(1 for g in crit if not U.implies(g[0], g[1]))
-        res = ascend(n, Da, None, R, time.time() + budget, stats, restarts=restarts, max_kicks=kicks)
+        res = ascend(n, Da, None, R, time.time() + budget, stats, restarts=restarts, max_kicks=kicks, cascade=cascade)
         design, loss, Delta, psi = res
         elapsed = time.time() - t0
         # independent check: soundness, local enforcement, and the loss of the design's own key dependencies
         from fdlib import check_bcnf_design, key_dependencies
         sound, local, Ea = check_bcnf_design(n, design, Da)
         loss_design = loss_of(Da, key_dependencies(n, design), None)
-        print("%-18s |Sa| %5d obstructions %4d -> ascent loss %4d (adds %d, swaps %d, kicks %d, passes %d, tried %d, full %d, fast %d, dead %d, runs %d, best run %d, %.1fs, %d schemata) check: sound %s local %s loss %d" % (
-            name, len(Da), obstr, loss, stats["ascend_adds"], stats["ascend_swaps"], stats["ascend_kicks"], stats["ascend_passes"],
+        print("%-18s |Sa| %5d obstructions %4d -> ascent loss %4d (adds %d, swaps %d, cascades %d, kicks %d, passes %d, tried %d, full %d, fast %d, dead %d, runs %d, best run %d, %.1fs, %d schemata) check: sound %s local %s loss %d" % (
+            name, len(Da), obstr, loss, stats["ascend_adds"], stats["ascend_swaps"], stats["ascend_cascades"], stats["ascend_kicks"], stats["ascend_passes"],
             stats["ascend_moves_tried"], stats["ascend_full_checks"], stats["ascend_fast_checks"], stats["ascend_dead_keys"],
             stats["ascend_runs"], stats["ascend_best_run"], elapsed, len(design), sound, local, loss_design), flush=True)

@@ -476,13 +476,23 @@ def _structured(n, Da, w, R, deadline, max_w, max_extra, max_weight, stats, verb
         return reqs
 
     def packing(reqs):
+        # the lighter of two valid bounds: the greedy packing of pairwise disjoint requirement sets, and the
+        # fractional packing by dual ascent on the hitting-set relaxation (every requirement set raises its dual
+        # value up to the smallest remaining slack of its elements); both are feasible duals, so the larger wins
         used = set()
         total = 0
+        load = {}
+        frac = 0.0
         for r in sorted(reqs, key=len):
             if not (r & used):
                 used |= r
                 total += min(_weight(w, h) for h in r)
-        return total
+            slack = min(_weight(w, h) - load.get(h, 0.0) for h in r)
+            if slack > 1e-9:
+                frac += slack
+                for h in r:
+                    load[h] = load.get(h, 0.0) + slack
+        return max(total, frac - 1e-9)
 
     def dfs(Delta, wt, bound, seen):
         if state["best"] is not None or state["timeout"]:

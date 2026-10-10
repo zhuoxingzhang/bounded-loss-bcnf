@@ -40,11 +40,11 @@ MAX_MINIMAL = 300000      # cap on |Sigma_a|
 ASSUME_ATOMIC_ABOVE = 2000  # above this many input FDs the discovered set is taken as Sigma_a (after checking that
                             # every left-hand side is minimal); on every smaller set the computed Sigma_a equals the input
 DROP_MAX_MINIMAL = 1000   # run Drop on the whole schema only when |Sigma_a| is at most this
-LOCAL_TIME = 120          # seconds per critical schema in Repair
-DROP_TIME = 600           # seconds for the global Drop / fallback
-ASCEND_TIME = 900         # seconds for the ascents (Algorithm "Ascend") in Repair and in the heuristic of Drop
+LOCAL_TIME = 300          # seconds per critical schema in Repair
+DROP_TIME = 3600          # seconds for the global Drop / fallback
+ASCEND_TIME = 1800        # seconds for the ascents (Algorithm "Ascend") in Repair and in the heuristic of Drop
 MAX_W = 4                 # weakened FDs per candidate
-DATASET_TIMEOUT = 14400   # seconds per FD set (each runs in its own process)
+DATASET_TIMEOUT = 43200   # seconds per FD set (each runs in its own process)
 
 def max_extra_for(n):
     return None if n <= 12 else 3
