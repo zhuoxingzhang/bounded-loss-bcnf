@@ -10,10 +10,13 @@ non-key FDs of a minimal cover of every schema (the "fds" of the E1 record) by o
   t  (triggers) one BEFORE INSERT row trigger per table in PL/pgSQL that looks up, for every FD X -> A, one stored
      tuple that agrees with the new tuple on X (an index range scan on X: every left-hand side that is not the
      column set of a key gets a B-tree index) and raises an exception if it differs on A. One tuple suffices,
-     since the stored relation satisfies the FD.
+     since the stored relation satisfies the FD. The measurement session disables sequential and bitmap scans,
+     so that the lookups use the index: PL/pgSQL caches a generic plan, and the plan chosen while a table is
+     small would otherwise keep scanning the table as it grows.
 
-Modes: orig-x, orig-t (the original relation, every FD enforced), keys (the original relation with its minimal
-keys only), 3nf-x, 3nf-t (iCONF), 3nfc-x, 3nfc-t (classical 3NF synthesis), bcnf, repair, drop (keys only).
+Modes: orig-x (the original relation, every FD enforced), keys (the original relation with its minimal keys only),
+3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, repair, drop (keys only). The trigger modes orig-t, 3nf-t
+and 3nfc-t are not run by default (--modes selects them).
 A mode whose tables, keys and enforced FDs equal those of an earlier mode is not measured again.
 
 Then `size` synthetic records are inserted, projected onto every schema (INSERT ... ON CONFLICT DO NOTHING in
@@ -37,7 +40,8 @@ from pgdb import connect, qi
 from e3 import SETS, e1_record, atomic, same_design
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "bcnf", "repair", "drop"]
+MODES = ["orig-x", "keys", "3nf-x", "3nfc-x", "bcnf", "repair", "drop"]   # the paper enforces non-key FDs by exclusion constraints
+ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "bcnf", "repair", "drop"]   # -t: triggers, on request
 BATCH = 1000
 TEMPLATE_SEED = 42
 MAX_KEY_BYTES = 2000      # a UNIQUE B-tree entry must fit into a third of a page; wider keys get an md5 index
@@ -70,6 +74,8 @@ class Harness:
         self.cols = ["c%d" % i for i in range(n)]
         self.src = "src.%s" % qi(name)
         cur = self.cur
+        cur.execute("SET enable_seqscan = off")
+        cur.execute("SET enable_bitmapscan = off")
         cur.execute("SELECT %s FROM %s" % (", ".join("max(octet_length(%s))" % c for c in self.cols), self.src))
         self.width = dict(zip(self.cols, [w or 0 for w in cur.fetchone()]))
         cur.execute("SELECT setseed(%s)", (TEMPLATE_SEED / 100.0,))
@@ -318,7 +324,7 @@ def table():
             continue
         recs = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
         print("==", name)
-        for mode in MODES:
+        for mode in ALL_MODES:
             sk = [r for r in recs if r.get("mode") == mode and r.get("skipped")]
             if sk:
                 print("  %-7s %s" % (mode, sk[-1]["skipped"]))

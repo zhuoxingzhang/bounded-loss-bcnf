@@ -7,7 +7,7 @@ INSERT ... ON CONFLICT DO NOTHING in batches of 1,000 rows, one transaction, the
 per size. Half of the new customers move to an existing address, the other half to a new street of an existing
 town with a new zip code, so that every FD remains satisfied. Non-key FDs are enforced by exclusion constraints
 (btree_gist) or by a BEFORE INSERT trigger that probes one stored tuple through an index on the left-hand side,
-as in e3pg.py.
+as in e3pg.py (the session disables sequential and bitmap scans, so that the cached plans use the index).
 
   D1+triggers  CSTZ with key C, ST -> Z and Z -> T by triggers
   D1+exclude   CSTZ with key C, ST -> Z and Z -> T by exclusion constraints
@@ -68,7 +68,7 @@ def build(cur, table, attrs, keys, fds, how, fks):
 
 def main():
     args = sys.argv[1:]
-    base, sizes, reps, names = 100000, [10000, 20000, 30000], 5, list(DESIGNS)
+    base, sizes, reps, names = 100000, [10000, 20000, 30000], 5, [d for d in DESIGNS if "trigger" not in d]
     i = 0
     while i < len(args):
         if args[i] == "--base":
@@ -83,6 +83,9 @@ def main():
             i += 1
     con = connect()
     cur = con.cursor()
+    cur.execute("SET enable_seqscan = off")
+    cur.execute("SET enable_bitmapscan = off")
+    con.commit()
     out = open(os.path.join(HERE, "results", "teaser_pg.jsonl"), "a", encoding="utf-8")
     for name in names:
         tables = DESIGNS[name]
