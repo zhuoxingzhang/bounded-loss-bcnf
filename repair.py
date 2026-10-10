@@ -1,7 +1,8 @@
 r"""repair.py: the algorithm Repair(R, Sigma, w) of the paper (Alg. 2), on top of fdlib and drop.
 
 Repair computes a lossless, dependency-preserving 3NF decomposition that is in BCNF whenever possible
-(here: the BCNF construction when Sigma^+ is enforceable, else 3NF synthesis; the paper uses iConf),
+(iCONF through iconf.py when the caller passes its schemata as dec0, else the BCNF construction when Sigma^+ is
+enforceable and 3NF synthesis otherwise),
 collects the key dependencies of the BCNF schemata and of a minimum-loss design of every critical
 schema (computed by Drop on the small schema), checks with one enforceability test whether the
 collected key dependencies Gamma are enforceable, and falls back to Drop on the whole schema otherwise.
@@ -47,11 +48,12 @@ def key_only_design(n, Da, R, w=None):
     design = [(R, minimal_keys(Da, R))]
     return design, loss_of(Da, key_dependencies(n, design), w)
 
-def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=4, max_extra=None, fallback=True, verbose=False, ascend_time=None):
+def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=4, max_extra=None, fallback=True, verbose=False, ascend_time=None, dec0=None):
     t0 = time.time()
     Da = atomic_cover(F) if Da is None else Da
     R = (1 << n) - 1
-    dec0, bcnf_possible = synthesize_3nf_bcnf(F, Da)
+    if dec0 is None:
+        dec0, _ = synthesize_3nf_bcnf(F, Da)
     res = RepairResult(dec0=dec0, stats={})
     gamma = []
     crit_schemata = []
@@ -84,12 +86,11 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
         res.design = design_from_cover(Ga, U, R)
         res.loss = loss_of(Da, G, w)
         res.mode = "bcnf" if not crit_schemata else "repair"
-        res.exact = all(r.exact for _, r in res.critical) if crit_schemata else True
-        if res.exact and crit_schemata:
-            # the sum of the local optima is not a lower bound in general (see the paper), so exactness
-            # of Repair is only claimed when every critical schema was solved exactly and the assembled
-            # loss equals the sum of the local losses
-            res.exact = res.loss == sum(r.loss for _, r in res.critical)
+        # the sum of the local optima is neither a lower nor an upper bound in general (see the paper), so
+        # exactness is only claimed for loss zero, or when 3NF synthesis returns R itself and the local search
+        # on R (which is then the global one) was exact
+        whole = len(dec0) == 1 and dec0[0] == R
+        res.exact = (not crit_schemata) or res.loss == 0 or (whole and all(r.exact for _, r in res.critical))
         if crit_schemata and res.loss > 0:
             # the obstruction design (Theorem "Obstruction bound": the closure of the uncritical minimal FDs of
             # Sigma is enforceable, loss = weight of the obstructions) is a polynomial baseline that the

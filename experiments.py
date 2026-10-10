@@ -2,10 +2,11 @@ r"""experiments.py: loss statistics of classical designs, Repair and Drop on the
 on complete and incomplete data, TPC-H): the prototype of experiment E1.
 
 For every FD set: n, |Sigma| (atomic input FDs), |Sigma_a| (minimal FDs), the minimal keys, nu (non-key minimal
-FDs = loss of the key-only design), whether Sigma^+ is enforceable (lambda = 0), the loss of 3NF synthesis
-with all minimal keys declared (BCNF whenever possible), the loss and soundness of the classical BCNF
-decomposition, the critical schemata of the 3NF decomposition, Repair (mode, loss, certified lower bound of
-the local searches, time) and, when the schema is small enough, Drop on the whole schema.
+FDs = loss of the key-only design), whether Sigma^+ is enforceable (lambda = 0), the loss of the 3NF synthesis
+iCONF (BCNF whenever possible, iconf.py) and of the classical 3NF synthesis (Bernstein), each with all minimal
+keys declared, the loss and soundness of the classical BCNF decomposition, the critical schemata of the iCONF
+decomposition, Repair on top of iCONF (mode, loss, certified lower bound of the local searches, time) and, when
+the schema is small enough, Drop on the whole schema.
 
 usage: python experiments.py [--parallel K] [name-filter]   every FD set in its own process (K at a time,
        DATASET_TIMEOUT each; records in results/e1_<name>.jsonl), python experiments.py --one <name> for one set,
@@ -15,6 +16,7 @@ import sys, os, json, time, glob, traceback
 from fdlib import *
 from drop import drop
 from repair import repair
+from iconf import iconf_decomposition
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data", "fds")          # the FD sets shipped with the repository
@@ -91,9 +93,9 @@ def run(name, path):
     rec["critical_minimal_fds"] = len(crit)
     ok, U = enforceable(Da)
     rec["enforceable"] = ok
-    # 3NF synthesis with all minimal keys declared, BCNF whenever possible
+    # the 3NF synthesis iCONF with all minimal keys declared, BCNF whenever possible
     t1 = time.time()
-    dec, is_bcnf_dec = synthesize_3nf_bcnf(F, Da)
+    dec, rec["time_iconf"] = iconf_decomposition(n, Da)
     des = keyed(Da, dec)
     E = key_dependencies(n, des)
     rec["3nf_schemata"] = len(dec)
@@ -103,6 +105,15 @@ def run(name, path):
     rec["time_3nf"] = time.time() - t1
     rec["designs"] = {"3nf": design_json(n, Da, des, triggers=True),
                       "orig": design_json(n, Da, [(R, keys_R)], triggers=True)}
+    # the classical 3NF synthesis (Bernstein) with all minimal keys declared
+    t1 = time.time()
+    cdec = synthesize_3nf(F, Da)
+    cdes = keyed(Da, cdec)
+    rec["3nfc_schemata"] = len(cdec)
+    rec["3nfc_loss"] = loss_of(Da, key_dependencies(n, cdes))
+    rec["3nfc_critical"] = sum(1 for S in cdec if not is_bcnf(Da, S))
+    rec["time_3nfc"] = time.time() - t1
+    rec["designs"]["3nfc"] = design_json(n, Da, cdes, triggers=True)
     # classical BCNF decomposition
     t1 = time.time()
     bdec = bcnf_decomposition(Da)
@@ -119,7 +130,7 @@ def run(name, path):
     rec["designs"]["bcnf"] = design_json(n, Da, bdes)
     # Repair
     t1 = time.time()
-    rr = repair(n, F, Da=Da, local_time_limit=LOCAL_TIME, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n), ascend_time=ASCEND_TIME)
+    rr = repair(n, F, Da=Da, local_time_limit=LOCAL_TIME, time_limit=DROP_TIME, max_w=MAX_W, max_extra=max_extra_for(n), ascend_time=ASCEND_TIME, dec0=dec)
     rec["repair_mode"] = rr.mode
     rec["repair_loss"] = rr.loss
     rec["repair_exact"] = rr.exact

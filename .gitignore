@@ -5,3 +5,6 @@ weak_n5.log
 weak6_n5.log
 weak_n6.log
 weak6_n6.log
+
+# compiled iCONF classes (iconf/README.md)
+iconf/build/

@@ -22,13 +22,21 @@ def tex_name(name):
 def num(x):
     return "--" if x is None else ("{:,}".format(x) if isinstance(x, int) else str(x))
 
+def whole_schema_lb(r):
+    """the certified lower bound of the local search of Repair when 3NF synthesis returns R itself, so that the
+    single critical schema is R and the local search is the global one"""
+    loc = r.get("repair_local") or []
+    if len(loc) == 1 and loc[0][0] == r.get("n"):
+        return loc[0][2]
+    return None
+
 def repair_cell(r):
     """the loss of Repair; an asterisk unless it is proved minimal, by Repair itself or by the certified lower
     bound of Drop (the exact search of Drop or of the fallback of Repair)"""
     if "repair_loss" not in r or r["repair_loss"] is None:
         return "--"
     s = num(r["repair_loss"])
-    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), 0) if x is not None)
+    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r), 0) if x is not None)
     if not r.get("repair_exact") and r["repair_loss"] > lb:
         s += r"$^{*}$"
     return s
@@ -38,6 +46,8 @@ def drop_cell(r):
         lb = r.get("drop_lb")
         if lb is None and r.get("repair_fallback_lb") is not None:
             lb = r["repair_fallback_lb"]
+        if lb is None:
+            lb = whole_schema_lb(r)
         return "--" if not lb else r"$\geq$" + num(lb)
     s = num(r["drop_loss"])
     if not r.get("drop_exact"):
@@ -169,7 +179,7 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
     out = [r"\begin{tabular}{lrrrrrrrrrr}", r"\toprule",
            r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & keys & BCNF & \repair & \drop & data & harmful\\",
            r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-           r" & triggers & s & triggers & s & s & s & s & s & rows & updates\\",
+           r" & checks & s & checks & s & s & s & s & s & rows & updates\\",
            r"\midrule"]
 
     def cell(t):

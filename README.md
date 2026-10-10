@@ -43,7 +43,9 @@ without failure (`validate_n5.log`, `validate_n5b.log`, `validate_n6b.log`); wit
 the HPI repeatability page (JSON: `{"R": n, "fds": [{"lhs": [...], "rhs": [...]}]}`; attributes are column
 indices), on complete data (abalone, adult, fd-red, letter, lineitem) and on incomplete data under the null
 equality interpretation (breast, bridges, china_weather, diabetic, echo, hepatitis, ncvoter, pdbx, uniprot).
-`data/fds/tpch` holds the FDs of the eight TPC-H tables in the Metanome text format. The discovered sets are
+`data/fds/tpch` holds the FDs of the eight TPC-H tables in the Metanome text format. The discovery output for
+orders omits the FD with empty left-hand side of the constant column o_shippriority, which we added as the last
+line `->5` of `orders-fds.txt`. The discovered sets are
 complete sets of minimal FDs: on every set with at most 758 FDs the computed atomic cover equals the input, and
 above 2,000 input FDs `experiments.py` takes the input as Σ_a after checking that every left-hand side is minimal
 (marked `+` in the table).
