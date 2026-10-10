@@ -65,7 +65,7 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
                 risk[key][label] = "%.1f" % (100.0 * m["risk"])
     out = [r"\begin{tikzpicture}",
            r"\begin{groupplot}[group style={group size=1 by 3, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm,",
-           r"  /pgf/bar width=2.6pt, enlarge x limits=0.06, ymajorgrids, tick label style={font=\scriptsize}, label style={font=\scriptsize},",
+           r"  /pgf/bar width=2.6pt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize},",
            r"  xticklabel style={font=\scriptsize},",
            r"  legend style={font=\scriptsize, at={(0.5,1.18)}, anchor=south, legend columns=-1, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},",
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]"]
