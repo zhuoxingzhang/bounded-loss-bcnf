@@ -161,14 +161,15 @@ def e3_summary(recs, mode):
 E3_ORDER = [("orig", "original"), ("3nf", "3NF"), ("keys", "keys"), ("bcnf", "BCNF"), ("repair", r"\repair"), ("drop", r"\drop")]
 E3_NAMES = {"fdred": "fd-red"}
 
-def table_e3(e3recs, size=10000, budget=7200):
+def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
     """one row per data set: the trigger checks of the original relation and of 3NF synthesis, and the mean seconds
     (over the repetitions) for inserting `size` records into every design; a design equal to an earlier one shares
-    its measurement, and a mode whose repetition the budget interrupted shows the budget as a lower bound"""
-    out = [r"\begin{tabular}{lrrrrrrrr}", r"\toprule",
-           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & keys & BCNF & \repair & \drop\\",
+    its measurement, and a mode whose repetition the budget interrupted shows the budget as a lower bound; the last
+    two columns are the records of the data set and the harmful updates among its random updates (e4.py)"""
+    out = [r"\begin{tabular}{lrrrrrrrrrr}", r"\toprule",
+           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & keys & BCNF & \repair & \drop & data & harmful\\",
            r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-           r" & triggers & s & triggers & s & s & s & s & s\\",
+           r" & triggers & s & triggers & s & s & s & s & s & rows & updates\\",
            r"\midrule"]
 
     def cell(t):
@@ -193,6 +194,8 @@ def table_e3(e3recs, size=10000, budget=7200):
             if mode in ("orig", "3nf"):
                 cells.append(num(d["fd_triggers"] + d["key_triggers"]))
             cells.append(c)
+        r4 = (e4recs or {}).get(name)
+        cells += ["--", "--"] if r4 is None else [num(r4["rows"]), num(r4["harmful"])]
         label = tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
         out.append("%s & %s\\\\" % (label, " & ".join(cells)))
     out += [r"\bottomrule", r"\end{tabular}"]
@@ -258,7 +261,7 @@ if __name__ == "__main__":
     e4recs = load_e4()
     tf = os.path.join("results", "teaser.jsonl")
     teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
-    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)), ("table_e3.tex", table_e3(e3recs)),
+    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)), ("table_e3.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join("results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
