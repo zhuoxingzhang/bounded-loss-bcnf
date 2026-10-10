@@ -3,7 +3,7 @@ on complete and incomplete data, TPC-H): the prototype of experiment E1.
 
 For every FD set: n, |Sigma| (atomic input FDs), |Sigma_a| (minimal FDs), the minimal keys, nu (non-key minimal
 FDs = loss of the key-only design), whether Sigma^+ is enforceable (lambda = 0), the loss of the 3NF synthesis
-iCONF (BCNF whenever possible, iconf.py) and of the classical 3NF synthesis (Bernstein), each with all minimal
+iCONF (BCNF whenever possible, ported to Python in iconf.py) and of the classical 3NF synthesis (Bernstein), each with all minimal
 keys declared, the loss and soundness of the classical BCNF decomposition, the critical schemata of the iCONF
 decomposition, Repair on top of iCONF (mode, loss, certified lower bound of the local searches, time) and, when
 the schema is small enough, Drop on the whole schema.
@@ -95,7 +95,8 @@ def run(name, path):
     rec["enforceable"] = ok
     # the 3NF synthesis iCONF with all minimal keys declared, BCNF whenever possible
     t1 = time.time()
-    dec, rec["time_iconf"] = iconf_decomposition(n, Da)
+    dec = iconf_decomposition(n, Da)
+    rec["time_iconf"] = time.time() - t1
     des = keyed(Da, dec)
     E = key_dependencies(n, des)
     rec["3nf_schemata"] = len(dec)

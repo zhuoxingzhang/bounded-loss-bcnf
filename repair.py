@@ -1,7 +1,7 @@
 r"""repair.py: the algorithm Repair(R, Sigma, w) of the paper (Alg. 2), on top of fdlib and drop.
 
 Repair computes a lossless, dependency-preserving 3NF decomposition that is in BCNF whenever possible
-(iCONF through iconf.py when the caller passes its schemata as dec0, else the BCNF construction when Sigma^+ is
+(iCONF of iconf.py when the caller passes its schemata as dec0, else the BCNF construction when Sigma^+ is
 enforceable and 3NF synthesis otherwise),
 collects the key dependencies of the BCNF schemata and of a minimum-loss design of every critical
 schema (computed by Drop on the small schema), checks with one enforceability test whether the
