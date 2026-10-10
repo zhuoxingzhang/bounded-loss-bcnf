@@ -6,7 +6,11 @@ leaves a gap rather than moving the others. An insertion that the budget cancell
 hatched bar, a value of zero on a logarithmic axis by a circle at the bottom, and a missing value by a cross there.
 The figure needs \usetikzlibrary{patterns}.
 
-usage: python paper_figures.py            writes results/fig_results.tex and prints it
+The Pareto figure plots, per data set, the time for inserting 10,000 records (e3pg.py) against the integrity risk
+(e4.py) of the same designs, including the two 3NF syntheses both with their non-key FDs enforced by exclusion
+constraints (risk zero) and with keys only (e3pg.py modes 3nf and 3nfc), with the staircase of the Pareto front.
+
+usage: python paper_figures.py            writes results/fig_results.tex (printed) and results/fig_pareto.tex
 """
 import os
 from paper_tables import paper_rows, load_e3, e3_mean, load_e4, e4_risk, load_gbcnf, tex_name, e3_label
@@ -100,8 +104,97 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
     return "\n".join(out)
 
+# the designs of the Pareto figure: (e3pg.py mode, e4.py mode or None for the designs that enforce every FD and
+# have risk zero, legend label, mark style); the 3NF syntheses appear twice, with their non-key FDs enforced by
+# exclusion constraints (filled) and left to the application (hollow)
+PARETO = [("orig-x", None, "original, FDs by exclusion", "black, mark=square*"),
+          ("3nf-x", None, "3NF (iConf), FDs by exclusion", "red, mark=triangle*"),
+          ("3nfc-x", None, "3NF (classical), FDs by exclusion", "red!50!black, mark=triangle*"),
+          ("keys", "keys", "keys only", "gray, mark=*"),
+          ("3nf", "3nf", "3NF (iConf), keys only", "red, mark=triangle, mark options={fill=white}"),
+          ("3nfc", "3nfc", "3NF (classical), keys only", "red!50!black, mark=triangle, mark options={fill=white}"),
+          ("bcnf", "bcnf", "BCNF", "orange!80!black, mark=diamond*"),
+          ("gbcnf", "gbcnf", "BCNF (greedy)", "brown!80!black, mark=diamond, mark options={fill=white}"),
+          ("repair", "repair", r"\repair", "blue, mark=pentagon*"),
+          ("drop", "drop", r"\drop", "green!50!black, mark=star, mark size=2.4pt")]
+
+def pareto_points(e3recs, e4recs, size=10000, budget=7200):
+    """{set label: [(design index, seconds, risk in per cent, cut by the budget)]}: the mean time for inserting `size`
+    records against the mean integrity risk; a design whose insertion the budget cancelled sits at the budget"""
+    out = {}
+    for name, recs in e3recs.items():
+        r4 = e4recs.get(name)
+        if not r4:
+            continue
+        pts = []
+        for i, (m3, m4, _, _) in enumerate(PARETO):
+            mean, sd, n, cut = e3_mean(recs, m3, size)
+            if mean is None and not cut:
+                continue
+            risk = 0.0 if m4 is None else e4_risk(r4, m4)[0]
+            if risk is None:
+                continue
+            pts.append((i, budget if mean is None else mean, risk, mean is None))
+        out[e3_label(name)] = pts
+    return out
+
+def pareto_front(pts):
+    """the points that no other point beats in time and risk, in increasing order of time"""
+    front = []
+    for p in sorted(pts, key=lambda p: (p[1], p[2])):
+        if not front or p[2] < front[-1][2]:
+            front.append(p)
+    return front
+
+def log_ticks(lo, hi):
+    """tick values for a logarithmic axis from lo to hi: powers of ten over wide ranges, 1-2-5 steps otherwise"""
+    import math
+    steps = (1,) if hi / lo > 30 else (1, 2, 5)
+    ticks = [m * 10 ** e for e in range(math.floor(math.log10(lo)) - 1, math.ceil(math.log10(hi)) + 1) for m in steps]
+    ticks = [t for t in ticks if lo / 1.3 <= t <= hi * 1.3]
+    return ticks if len(ticks) >= 2 else [10 ** math.floor(math.log10(lo)), 10 ** math.ceil(math.log10(hi))]
+
+def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4):
+    """small multiples, one per data set: insertion time (logarithmic) against integrity risk, with the staircase of
+    the Pareto front; the legend is a named legend that the figure places above the plots"""
+    data = pareto_points(e3recs, e4recs, size, budget)
+    names = list(data)
+    rows = -(-(len(names) + 1) // cols)
+    out = [r"\begin{tikzpicture}",
+           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows),
+           r"  width=4.9cm, height=3.6cm, xmode=log, ymin=-6, ymax=106, ytick={0,25,50,75,100}, log ticks with fixed point,",
+           r"  xlabel={seconds for %s records}, ylabel={risk (\%%)}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
+           r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12]"]
+    for k, name in enumerate(names):
+        opts = ["title={%s}" % name]
+        xs = [p[1] for p in data[name]]
+        if xs:
+            opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
+        if k == 0:
+            opts.append(r"legend to name=paretolegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}")
+        out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
+        if k == 0:
+            for _, _, label, style in PARETO:
+                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style, label))
+        front = pareto_front(data[name])
+        if len(front) > 1:
+            out.append(r"\addplot[const plot, gray!70, forget plot] coordinates {%s};" % " ".join("(%.4g,%.4g)" % (p[1], p[2]) for p in front))
+        for i, x, y, cut in data[name]:
+            style = PARETO[i][3]
+            out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
+            if cut:
+                out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))
+    out += [r"\end{groupplot}",
+            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north east) {\ref{paretolegend}};" % (cols // 2) if cols % 2 == 0 else
+            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north) {\ref{paretolegend}};" % (cols // 2 + 1),
+            r"\end{tikzpicture}"]
+    return "\n".join(out)
+
 if __name__ == "__main__":
     rows = paper_rows()
-    t = fig_results(rows, load_e3(), load_e4())
+    e3recs, e4recs = load_e3(), load_e4()
+    t = fig_results(rows, e3recs, e4recs)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
+    p = fig_pareto(e3recs, e4recs)
+    open(os.path.join("results", "fig_pareto.tex"), "w", encoding="utf-8", newline="\n").write(p + "\n")

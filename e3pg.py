@@ -16,7 +16,8 @@ non-key FDs of a minimal cover of every schema (the "fds" of the E1 record) by o
 
 Modes: orig-x (the original relation, every FD enforced), keys (the original relation with its minimal keys only),
 3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, gbcnf (greedy BCNF, gbcnf.py), repair, drop (keys only). The trigger modes orig-t, 3nf-t
-and 3nfc-t are not run by default (--modes selects them).
+and 3nfc-t are not run by default (--modes selects them), and neither are 3nf and 3nfc, the two 3NF syntheses with
+keys only, whose times the Pareto figure of paper_figures.py needs (run_pareto_e3.sh on the server: 10,000 records).
 A mode whose tables, keys and enforced FDs equal those of an earlier mode is not measured again.
 
 Then `size` synthetic records are inserted, projected onto every schema (INSERT ... ON CONFLICT DO NOTHING in
