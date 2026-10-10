@@ -1,0 +1,98 @@
+{"set": "echo", "mode": "orig", "design": true, "loss": 0, "rows": 132, "lhs_index": true, "schemata": 1, "unique": 64, "indexes": 0, "key_triggers": 8, "fd_triggers": 81, "build_seconds": 1.887153148651123}
+{"set": "echo", "mode": "orig", "size": 10000, "rep": 0, "seconds": 227.351, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 10000, "rep": 1, "seconds": 235.258, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 10000, "rep": 2, "seconds": 233.828, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 10000, "rep": 3, "seconds": 229.595, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 10000, "rep": 4, "seconds": 234.22, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 20000, "rep": 0, "seconds": 625.532, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 20000, "rep": 1, "seconds": 622.054, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 20000, "rep": 2, "seconds": 626.466, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 20000, "rep": 3, "seconds": 656.846, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 20000, "rep": 4, "seconds": 631.009, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 30000, "rep": 0, "seconds": 1127.357, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 30000, "rep": 1, "seconds": 1155.607, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 30000, "rep": 2, "seconds": 1132.973, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "orig", "size": 30000, "truncated": "budget of 7200 s exhausted after 3 repetitions"}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 79, "rows": 132, "lhs_index": true, "schemata": 20, "unique": 97, "indexes": 4, "key_triggers": 4, "fd_triggers": 69, "build_seconds": 15.290616750717163}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 79, "rows": 132, "lhs_index": true, "schemata": 20, "unique": 97, "indexes": 4, "key_triggers": 4, "fd_triggers": 69, "build_seconds": 3.196903944015503}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 161.504, "inserted": 188010, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 79, "rows": 132, "lhs_index": true, "schemata": 20, "unique": 97, "indexes": 4, "key_triggers": 4, "fd_triggers": 69, "build_seconds": 3.220745801925659}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 158.046, "inserted": 188010, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 162.055, "inserted": 188058, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 162.176, "inserted": 187955, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 161.386, "inserted": 188123, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 162.01, "inserted": 187939, "attempted": 200000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 20000, "rep": 0, "seconds": 340.071, "inserted": 375869, "attempted": 400000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 20000, "rep": 1, "seconds": 342.023, "inserted": 375958, "attempted": 400000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 20000, "rep": 2, "seconds": 334.547, "inserted": 376001, "attempted": 400000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 20000, "rep": 3, "seconds": 344.973, "inserted": 376039, "attempted": 400000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 20000, "rep": 4, "seconds": 343.634, "inserted": 376011, "attempted": 400000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 30000, "rep": 0, "seconds": 525.684, "inserted": 563889, "attempted": 600000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 30000, "rep": 1, "seconds": 525.997, "inserted": 564004, "attempted": 600000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 30000, "rep": 2, "seconds": 524.724, "inserted": 564138, "attempted": 600000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 30000, "rep": 3, "seconds": 524.843, "inserted": 563829, "attempted": 600000, "lhs_index": true}
+{"set": "echo", "mode": "3nf", "size": 30000, "rep": 4, "seconds": 528.815, "inserted": 563748, "attempted": 600000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "design": true, "loss": 463, "rows": 132, "lhs_index": true, "schemata": 8, "unique": 16, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 0.327742338180542}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.443, "inserted": 68179, "attempted": 80000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.393, "inserted": 68108, "attempted": 80000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.415, "inserted": 68179, "attempted": 80000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.391, "inserted": 68218, "attempted": 80000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.393, "inserted": 68246, "attempted": 80000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 2.776, "inserted": 136446, "attempted": 160000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 2.831, "inserted": 136242, "attempted": 160000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 2.841, "inserted": 136491, "attempted": 160000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 2.84, "inserted": 136289, "attempted": 160000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 2.855, "inserted": 136338, "attempted": 160000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 4.215, "inserted": 204524, "attempted": 240000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 4.307, "inserted": 204486, "attempted": 240000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 4.246, "inserted": 204417, "attempted": 240000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 4.27, "inserted": 204549, "attempted": 240000, "lhs_index": true}
+{"set": "echo", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 4.28, "inserted": 204604, "attempted": 240000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "design": true, "loss": 126, "rows": 132, "lhs_index": true, "schemata": 1, "unique": 64, "indexes": 0, "key_triggers": 8, "fd_triggers": 0, "build_seconds": 2.201662540435791}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 0, "seconds": 17.658, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 1, "seconds": 18.279, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 2, "seconds": 18.12, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 3, "seconds": 18.196, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 4, "seconds": 18.041, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 20000, "rep": 0, "seconds": 36.155, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 20000, "rep": 1, "seconds": 37.123, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 20000, "rep": 2, "seconds": 37.007, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 20000, "rep": 3, "seconds": 37.266, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 20000, "rep": 4, "seconds": 37.563, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 30000, "rep": 0, "seconds": 55.278, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 30000, "rep": 1, "seconds": 56.738, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 30000, "rep": 2, "seconds": 56.466, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 30000, "rep": 3, "seconds": 56.73, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "keys", "size": 30000, "rep": 4, "seconds": 56.409, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "design": true, "loss": 11, "rows": 132, "lhs_index": true, "schemata": 62, "unique": 134, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 3.3254141807556152}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 0, "seconds": 12.856, "inserted": 602229, "attempted": 620000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 1, "seconds": 11.117, "inserted": 602259, "attempted": 620000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 2, "seconds": 10.989, "inserted": 602542, "attempted": 620000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 3, "seconds": 10.875, "inserted": 602689, "attempted": 620000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 4, "seconds": 11.737, "inserted": 602459, "attempted": 620000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 0, "seconds": 24.141, "inserted": 1204589, "attempted": 1240000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 1, "seconds": 22.294, "inserted": 1204601, "attempted": 1240000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 2, "seconds": 22.503, "inserted": 1204612, "attempted": 1240000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 3, "seconds": 23.346, "inserted": 1204570, "attempted": 1240000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 4, "seconds": 23.835, "inserted": 1205291, "attempted": 1240000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 0, "seconds": 34.312, "inserted": 1807477, "attempted": 1860000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 1, "seconds": 33.79, "inserted": 1807560, "attempted": 1860000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 2, "seconds": 34.858, "inserted": 1807299, "attempted": 1860000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 3, "seconds": 34.122, "inserted": 1807159, "attempted": 1860000, "lhs_index": true}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 4, "seconds": 34.064, "inserted": 1806975, "attempted": 1860000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "design": true, "loss": 12, "rows": 132, "lhs_index": true, "schemata": 57, "unique": 123, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 3.7072715759277344}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 0, "seconds": 12.623, "inserted": 552736, "attempted": 570000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 1, "seconds": 10.724, "inserted": 552647, "attempted": 570000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 2, "seconds": 10.792, "inserted": 553210, "attempted": 570000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 3, "seconds": 11.009, "inserted": 552726, "attempted": 570000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 4, "seconds": 10.431, "inserted": 552642, "attempted": 570000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 0, "seconds": 22.247, "inserted": 1105593, "attempted": 1140000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 1, "seconds": 21.286, "inserted": 1105480, "attempted": 1140000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 2, "seconds": 20.901, "inserted": 1105117, "attempted": 1140000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 3, "seconds": 20.989, "inserted": 1105071, "attempted": 1140000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 4, "seconds": 21.0, "inserted": 1105246, "attempted": 1140000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 0, "seconds": 31.706, "inserted": 1658020, "attempted": 1710000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 1, "seconds": 32.194, "inserted": 1658423, "attempted": 1710000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 2, "seconds": 31.2, "inserted": 1658044, "attempted": 1710000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 3, "seconds": 31.102, "inserted": 1658055, "attempted": 1710000, "lhs_index": true}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 4, "seconds": 31.647, "inserted": 1658341, "attempted": 1710000, "lhs_index": true}

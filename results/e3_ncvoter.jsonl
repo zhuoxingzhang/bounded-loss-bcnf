@@ -1,0 +1,74 @@
+{"set": "ncvoter", "mode": "orig", "design": true, "loss": 0, "rows": 1000, "lhs_index": true, "schemata": 1, "unique": 64, "indexes": 0, "key_triggers": 5, "fd_triggers": 217, "build_seconds": 2.950076103210449}
+{"set": "ncvoter", "mode": "orig", "size": 10000, "rep": 0, "seconds": 477.674, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 10000, "rep": 1, "seconds": 466.718, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 10000, "rep": 2, "seconds": 488.077, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 10000, "rep": 3, "seconds": 486.923, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 10000, "rep": 4, "seconds": 478.322, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 20000, "rep": 0, "seconds": 1086.549, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 20000, "rep": 1, "seconds": 1100.394, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 20000, "rep": 2, "seconds": 1117.776, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "orig", "size": 20000, "rep": 3, "seconds": 1080.256, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 191, "rows": 1000, "lhs_index": true, "schemata": 105, "unique": 184, "indexes": 33, "key_triggers": 0, "fd_triggers": 132, "build_seconds": 10.747385263442993}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 191, "rows": 1000, "lhs_index": true, "schemata": 105, "unique": 184, "indexes": 33, "key_triggers": 0, "fd_triggers": 132, "build_seconds": 11.020191669464111}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 292.834, "inserted": 988950, "attempted": 1050000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 291.326, "inserted": 988379, "attempted": 1050000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 289.843, "inserted": 989454, "attempted": 1050000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 293.982, "inserted": 988835, "attempted": 1050000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 291.011, "inserted": 989750, "attempted": 1050000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 0, "seconds": 599.478, "inserted": 1977539, "attempted": 2100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 1, "seconds": 596.468, "inserted": 1976317, "attempted": 2100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 2, "seconds": 606.33, "inserted": 1977237, "attempted": 2100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 3, "seconds": 605.823, "inserted": 1976356, "attempted": 2100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 4, "seconds": 606.709, "inserted": 1977581, "attempted": 2100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 0, "seconds": 926.361, "inserted": 2966834, "attempted": 3150000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 1, "seconds": 922.134, "inserted": 2966181, "attempted": 3150000, "lhs_index": true}
+{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 2, "timeout_seconds": 671.478, "inserted_before_timeout": 1980125, "attempted": 3150000, "lhs_index": true, "truncated": "budget of 7200 s exhausted during size 30000 repetition 2"}
+{"set": "ncvoter", "mode": "bcnf", "design": true, "loss": 704, "rows": 1000, "lhs_index": true, "schemata": 11, "unique": 14, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 1.7064316272735596}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.85, "inserted": 84552, "attempted": 110000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.845, "inserted": 84149, "attempted": 110000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.843, "inserted": 84473, "attempted": 110000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.938, "inserted": 84544, "attempted": 110000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.831, "inserted": 84969, "attempted": 110000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 3.761, "inserted": 168503, "attempted": 220000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 3.643, "inserted": 168767, "attempted": 220000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 3.77, "inserted": 169145, "attempted": 220000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 4.256, "inserted": 169264, "attempted": 220000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 3.794, "inserted": 168968, "attempted": 220000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 5.799, "inserted": 253916, "attempted": 330000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 5.953, "inserted": 254057, "attempted": 330000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 5.751, "inserted": 253622, "attempted": 330000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 5.655, "inserted": 253561, "attempted": 330000, "lhs_index": true}
+{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 5.494, "inserted": 253965, "attempted": 330000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "design": true, "loss": 403, "rows": 1000, "lhs_index": true, "schemata": 1, "unique": 64, "indexes": 0, "key_triggers": 5, "fd_triggers": 0, "build_seconds": 3.5893208980560303}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 0, "seconds": 10.173, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 1, "seconds": 10.771, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 2, "seconds": 10.923, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 3, "seconds": 10.62, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 4, "seconds": 10.983, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 0, "seconds": 20.321, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 1, "seconds": 22.397, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 2, "seconds": 22.377, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 3, "seconds": 22.36, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 4, "seconds": 22.154, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 0, "seconds": 31.234, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 1, "seconds": 33.489, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 2, "seconds": 33.554, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 3, "seconds": 33.673, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 4, "seconds": 33.738, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "design": true, "loss": 58, "rows": 1000, "lhs_index": true, "schemata": 170, "unique": 206, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 31.681814670562744}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 31.354, "inserted": 1608852, "attempted": 1700000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 26.787, "inserted": 1609799, "attempted": 1700000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 25.469, "inserted": 1607601, "attempted": 1700000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 25.373, "inserted": 1610780, "attempted": 1700000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 24.882, "inserted": 1606236, "attempted": 1700000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 0, "seconds": 58.148, "inserted": 3219593, "attempted": 3400000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 1, "seconds": 51.795, "inserted": 3216902, "attempted": 3400000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 2, "seconds": 50.3, "inserted": 3215517, "attempted": 3400000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 3, "seconds": 50.013, "inserted": 3215602, "attempted": 3400000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 4, "seconds": 51.42, "inserted": 3215639, "attempted": 3400000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 0, "seconds": 77.773, "inserted": 4825364, "attempted": 5100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 1, "seconds": 75.62, "inserted": 4828203, "attempted": 5100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 2, "seconds": 75.28, "inserted": 4829668, "attempted": 5100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 75.02, "inserted": 4824350, "attempted": 5100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 74.738, "inserted": 4824455, "attempted": 5100000, "lhs_index": true}
+{"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

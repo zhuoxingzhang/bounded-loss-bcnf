@@ -1,0 +1,58 @@
+{"set": "weather", "mode": "orig", "design": true, "loss": 0, "rows": 262920, "lhs_index": true, "schemata": 1, "unique": 2, "indexes": 62, "key_triggers": 0, "fd_triggers": 516, "build_seconds": 98.23468327522278}
+{"set": "weather", "mode": "orig", "size": 10000, "rep": 0, "timeout_seconds": 7100.433, "inserted_before_timeout": 0, "attempted": 10000, "lhs_index": true, "truncated": "budget of 7200 s exhausted during size 10000 repetition 0"}
+{"set": "weather", "mode": "3nf", "design": true, "loss": 149, "rows": 262920, "lhs_index": true, "schemata": 403, "unique": 553, "indexes": 100, "key_triggers": 0, "fd_triggers": 226, "build_seconds": 1950.449077129364}
+{"set": "weather", "mode": "3nf", "design": true, "loss": 149, "rows": 262920, "lhs_index": true, "schemata": 403, "unique": 553, "indexes": 100, "key_triggers": 0, "fd_triggers": 226, "build_seconds": 2162.112555503845}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 433.68, "inserted": 3742655, "attempted": 4030000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 379.142, "inserted": 3723420, "attempted": 4030000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 667.699, "inserted": 3733488, "attempted": 4030000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 369.377, "inserted": 3737181, "attempted": 4030000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 393.16, "inserted": 3736421, "attempted": 4030000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 20000, "rep": 0, "seconds": 769.814, "inserted": 7466819, "attempted": 8060000, "lhs_index": true}
+{"set": "weather", "mode": "3nf", "size": 20000, "truncated": "budget of 7200 s exhausted after 1 repetitions"}
+{"set": "weather", "mode": "3nf", "truncated": "budget of 7200 s exhausted before size 30000"}
+{"set": "weather", "mode": "bcnf", "design": true, "loss": 869, "rows": 262920, "lhs_index": true, "schemata": 9, "unique": 10, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 34.61191511154175}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 2.14, "inserted": 80465, "attempted": 90000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.925, "inserted": 80190, "attempted": 90000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.89, "inserted": 79941, "attempted": 90000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.899, "inserted": 80172, "attempted": 90000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.945, "inserted": 80020, "attempted": 90000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 3.731, "inserted": 160298, "attempted": 180000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 3.915, "inserted": 160581, "attempted": 180000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 3.85, "inserted": 160368, "attempted": 180000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 3.861, "inserted": 160576, "attempted": 180000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 3.755, "inserted": 160485, "attempted": 180000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 5.599, "inserted": 240538, "attempted": 270000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 5.229, "inserted": 240725, "attempted": 270000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 5.489, "inserted": 240520, "attempted": 270000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 5.476, "inserted": 241130, "attempted": 270000, "lhs_index": true}
+{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 5.446, "inserted": 240819, "attempted": 270000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "design": true, "loss": 894, "rows": 262920, "lhs_index": true, "schemata": 1, "unique": 2, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 7.4735283851623535}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.45, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.425, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.384, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.383, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.408, "inserted": 10000, "attempted": 10000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 20000, "rep": 0, "seconds": 0.758, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 20000, "rep": 1, "seconds": 0.737, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 20000, "rep": 2, "seconds": 0.76, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 20000, "rep": 3, "seconds": 0.754, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 20000, "rep": 4, "seconds": 0.744, "inserted": 20000, "attempted": 20000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 30000, "rep": 0, "seconds": 1.125, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 30000, "rep": 1, "seconds": 1.113, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 30000, "rep": 2, "seconds": 1.088, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 30000, "rep": 3, "seconds": 1.108, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "weather", "mode": "keys", "size": 30000, "rep": 4, "seconds": 1.118, "inserted": 30000, "attempted": 30000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "design": true, "loss": 114, "rows": 262920, "lhs_index": true, "schemata": 476, "unique": 507, "indexes": 0, "key_triggers": 0, "fd_triggers": 0, "build_seconds": 1845.2012133598328}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 116.674, "inserted": 4390389, "attempted": 4760000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 98.499, "inserted": 4393089, "attempted": 4760000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 2, "seconds": 97.029, "inserted": 4396395, "attempted": 4760000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 3, "seconds": 100.119, "inserted": 4397042, "attempted": 4760000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 4, "seconds": 100.86, "inserted": 4384887, "attempted": 4760000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 20000, "rep": 0, "seconds": 196.287, "inserted": 8790976, "attempted": 9520000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 20000, "rep": 1, "seconds": 193.072, "inserted": 8758757, "attempted": 9520000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 20000, "rep": 2, "seconds": 196.788, "inserted": 8775088, "attempted": 9520000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 20000, "rep": 3, "seconds": 204.522, "inserted": 8776735, "attempted": 9520000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 20000, "rep": 4, "seconds": 216.314, "inserted": 8784790, "attempted": 9520000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 30000, "rep": 0, "seconds": 296.519, "inserted": 13153128, "attempted": 14280000, "lhs_index": true}
+{"set": "weather", "mode": "repair", "size": 30000, "truncated": "budget of 7200 s exhausted after 1 repetitions"}
+{"set": "weather", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
