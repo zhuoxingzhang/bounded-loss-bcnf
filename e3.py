@@ -51,6 +51,14 @@ def e1_record(name):
             rec = json.loads(line)
     if rec is None or "designs" not in rec:
         raise SystemExit("no designs for %s in %s: run experiments.py --one '%s' first" % (name, f, SETS[name]))
+    # the greedy BCNF decomposition of gbcnf.py joins the designs as "gbcnf" when its record exists
+    g = os.path.join(HERE, "results", "gbcnf_%s.jsonl" % experiments.safe(SETS[name]))
+    if os.path.isfile(g):
+        for line in open(g, encoding="utf-8"):
+            if line.strip():
+                gr = json.loads(line)
+                rec["designs"]["gbcnf"] = gr["design"]
+                rec["gbcnf_loss"] = gr["gbcnf_loss"]
     return rec
 
 def atomic(name):

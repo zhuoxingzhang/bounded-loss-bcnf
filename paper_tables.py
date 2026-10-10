@@ -2,7 +2,7 @@ r"""paper_tables.py: LaTeX tables for Section 6 from the records of experiments.
 
 usage: python paper_tables.py            writes results/table_e1.tex, table_e2.tex, table_e3.tex and prints them
 """
-import os, json, sys
+import os, json, sys, glob
 from experiments import SETS, load_rows
 
 NAMES = {"letter(non-dup)": "letter", "tpch-region": "region", "tpch-nation": "nation", "tpch-partsupp": "partsupp",
@@ -84,14 +84,25 @@ def load_obstructions():
                     out[r["name"]] = r["obstructions"]
     return out
 
+def load_gbcnf():
+    """the greedy BCNF decomposition of gbcnf.py: name -> record"""
+    out = {}
+    for f in glob.glob(os.path.join("results", "gbcnf_*.jsonl")):
+        for l in open(f, encoding="utf-8"):
+            if l.strip():
+                r = json.loads(l)
+                out[r["name"]] = r
+    return out
+
 def table_e12(rows):
-    """E1 and E2 in one full-width table: sizes, critical schemata, the obstruction bound, the losses of the five
+    """E1 and E2 in one full-width table: sizes, critical schemata, the obstruction bound, the losses of the six
     designs, running times"""
     obstr = load_obstructions()
+    greedy = load_gbcnf()
     out = []
-    out.append(r"\begin{tabular}{lrrrrrrrrrrrr}")
+    out.append(r"\begin{tabular}{lrrrrrrrrrrrrr}")
     out.append(r"\toprule")
-    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF (iConf) & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
+    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF (iConf) & BCNF & greedy & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
     out.append(r"\midrule")
     for r in rows:
         if "error" in r:
@@ -101,16 +112,18 @@ def table_e12(rows):
             path = dict(experiments.SETS).get(r["name"])
             if path and r["error"].startswith("timeout"):
                 n, F, _ = load_any(path)
-                out.append(r"%s & %d & %s & \multicolumn{10}{l}{budget of four hours exceeded}\\" % (
+                out.append(r"%s & %d & %s & \multicolumn{11}{l}{budget of four hours exceeded}\\" % (
                     tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$"))
             else:
-                out.append(r"%s & \multicolumn{12}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
+                out.append(r"%s & \multicolumn{13}{l}{%s}\\" % (tex_name(r["name"]), r["error"][:40].replace("_", r"\_")))
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
         o = obstr.get(r["name"])
-        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
+        g = greedy.get(r["name"])
+        gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
+        out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s & %s\\\\" % (
             tex_name(r["name"]), r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
-            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), bcnf,
+            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), bcnf, gcell,
             repair_cell(r), drop_cell(r), secs(r.get("time_repair")), secs(r.get("time_drop"))))
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")

@@ -9,7 +9,7 @@ cover when the atomic cover is large), and a design catches it if the updated re
 dependencies the design declares (a relation satisfies the enforced FDs iff it satisfies the declared key
 dependencies). The designs are those of E1 (results/e1_<name>.jsonl of experiments.py): the original relation
 with its keys only, iCONF and the classical 3NF synthesis with their keys only (the non-key FDs left to the
-application), classical BCNF, Repair and Drop. The integrity risk of a design is the share of harmful updates it
+application), classical and greedy BCNF (gbcnf.py), Repair and Drop. The integrity risk of a design is the share of harmful updates it
 does not catch. Every seed draws its own updates; the record of a set holds one line per seed.
 
 An update of attribute A of record t to the value v violates X -> B with A = B iff another record agrees with t
@@ -29,7 +29,7 @@ from pgdb import connect, qi
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MAX_ATOMIC = 10000
-MODES = ["keys", "3nf", "3nfc", "bcnf", "repair", "drop"]
+MODES = ["keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop"]
 
 def load_table(name):
     con = connect()
@@ -173,7 +173,7 @@ def run_seed(name, rec, n, F, codes, updates, seed):
         per_fd = V[missed].sum(axis=0) if missed.any() else np.zeros(len(sigma), dtype=int)
         top = sorted(((int(per_fd[j]), "%s -> %d" % (",".join(map(str, sigma[j][0])), sigma[j][1])) for j in range(len(sigma)) if per_fd[j] > 0), reverse=True)[:10]
         loss = {"keys": rec.get("nu"), "3nf": rec.get("3nf_loss"), "3nfc": rec.get("3nfc_loss"), "bcnf": rec.get("bcnf_loss"),
-                "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[mode]
+                "gbcnf": rec.get("gbcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[mode]
         m = {"loss": loss, "schemata": len(d), "key_dependencies": len(kd), "caught": int((harmful & caught).sum()),
              "missed": int(missed.sum()), "risk": (float(missed.sum() / harmful.sum()) if harmful.sum() else 0.0),
              "false_rejections": int((caught & ~harmful).sum()), "violated_unenforced_fds": int((per_fd > 0).sum()), "top": top,

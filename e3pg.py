@@ -15,7 +15,7 @@ non-key FDs of a minimal cover of every schema (the "fds" of the E1 record) by o
      small would otherwise keep scanning the table as it grows.
 
 Modes: orig-x (the original relation, every FD enforced), keys (the original relation with its minimal keys only),
-3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, repair, drop (keys only). The trigger modes orig-t, 3nf-t
+3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, gbcnf (greedy BCNF, gbcnf.py), repair, drop (keys only). The trigger modes orig-t, 3nf-t
 and 3nfc-t are not run by default (--modes selects them).
 A mode whose tables, keys and enforced FDs equal those of an earlier mode is not measured again.
 
@@ -41,8 +41,8 @@ from pgdb import connect, qi
 from e3 import SETS, e1_record, atomic, same_design
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MODES = ["orig-x", "keys", "3nf-x", "3nfc-x", "bcnf", "repair", "drop"]   # the paper enforces non-key FDs by exclusion constraints
-ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "bcnf", "repair", "drop"]   # -t: triggers, on request
+MODES = ["orig-x", "keys", "3nf-x", "3nfc-x", "bcnf", "gbcnf", "repair", "drop"]   # the paper enforces non-key FDs by exclusion constraints
+ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "bcnf", "gbcnf", "repair", "drop"]   # -t: triggers, on request
 BATCH = 1000
 TEMPLATE_SEED = 42
 MAX_KEY_BYTES = 2000      # a UNIQUE B-tree entry must fit into a third of a page; wider keys get an md5 index
@@ -64,7 +64,7 @@ def design_of(rec, mode):
 def loss_of_mode(rec, mode):
     base = mode.partition("-")[0]
     return {"orig": 0, "keys": rec.get("nu"), "3nf": rec.get("3nf_loss"), "3nfc": rec.get("3nfc_loss"),
-            "bcnf": rec.get("bcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[base]
+            "bcnf": rec.get("bcnf_loss"), "gbcnf": rec.get("gbcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[base]
 
 class Harness:
     def __init__(self, name, con, rec, n, Da, sizes, reps, budget=7200, verbose=True):
