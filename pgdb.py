@@ -9,8 +9,8 @@ HOST = os.environ.get("PGHOST", "/data/zzha969/pg-official/run")
 PORT = int(os.environ.get("PGPORT", "55434"))
 DB = os.environ.get("PGDATABASE", "bcnf")
 
-def connect(autocommit=False):
-    con = psycopg2.connect(host=HOST, port=PORT, dbname=DB)
+def connect(autocommit=False, dbname=None):
+    con = psycopg2.connect(host=HOST, port=PORT, dbname=dbname or DB)
     con.autocommit = autocommit
     return con
 

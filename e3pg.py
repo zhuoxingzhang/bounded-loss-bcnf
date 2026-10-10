@@ -23,17 +23,25 @@ Then `size` synthetic records are inserted, projected onto every schema (INSERT 
 batches of 1,000 rows, all batches in one transaction, the commit included in the time). The records depend only
 on the set, the size and the repetition, so every mode inserts the same records. A synthetic record copies a
 random stored record on a closed set U of attributes (the closure of a random subset, U != R) and carries fresh
-values elsewhere, so the enlarged relation satisfies every FD of Sigma and no insertion is rejected. After every
+values elsewhere, so the enlarged relation satisfies every FD of Sigma and no insertion is rejected. Every
 repetition starts from freshly built tables, since deleting the synthetic rows and vacuuming leaves the GiST
-indexes of the exclusion constraints larger and slower than freshly built ones. A
-watchdog cancels the insertion when the budget of the mode is exhausted.
+indexes of the exclusion constraints larger and slower than freshly built ones. The budget of a mode counts its
+insertion time only, and a watchdog cancels the insertion that exhausts it.
 
-usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [set ...]
+With --copy, the tables of a mode are built once in a database e3t_<set>_<mode> (from e3t_<set>_base, which holds
+the extensions and a copy of the source table), and every repetition inserts into a file copy of that database
+(CREATE DATABASE ... TEMPLATE ... STRATEGY FILE_COPY) whose tables and indexes are first loaded into the buffer
+cache (pg_prewarm). The copy holds the same pages as freshly built tables; this serves the sets on which building
+the exclusion constraints takes hours. A template is reused while its design is unchanged (a hash in the comment of
+the database), and --prepare builds the templates without measuring, so that several modes can be built in parallel.
+
+usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [--copy] [--out F] [set ...]
+       python3 e3pg.py --prepare --modes ... [set ...]   build the templates of --copy
        python3 e3pg.py --check [set ...]      verify the FDs and keys of the original relation on the source tables
        python3 e3pg.py --table                summarise results/e3pg_<set>.jsonl
 sets: abalone adult breast bridges echo hepatitis letter ncvoter weather tpch_orders tpch_part
 """
-import sys, os, json, time, random, subprocess, threading, statistics
+import sys, os, io, json, time, random, hashlib, subprocess, threading, statistics
 import psycopg2, psycopg2.extras, psycopg2.errors
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
@@ -67,10 +75,11 @@ def loss_of_mode(rec, mode):
             "bcnf": rec.get("bcnf_loss"), "gbcnf": rec.get("gbcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[base]
 
 class Harness:
-    def __init__(self, name, con, rec, n, Da, sizes, reps, budget=7200, verbose=True):
+    def __init__(self, name, con, rec, n, Da, sizes, reps, budget=7200, verbose=True, copy=False, out=None):
         self.name, self.con, self.rec, self.n, self.Da = name, con, rec, n, Da
-        self.sizes, self.reps, self.budget, self.verbose = sizes, reps, budget, verbose
+        self.sizes, self.reps, self.budget, self.verbose, self.copy = sizes, reps, budget, verbose, copy
         self.cur = con.cursor()
+        self.wcon, self.wcur = con, self.cur      # the connection to the database of the tables (a copy with --copy)
         self.R = (1 << n) - 1
         self.cols = ["c%d" % i for i in range(n)]
         self.src = "src.%s" % qi(name)
@@ -86,7 +95,7 @@ class Harness:
         self.rows = cur.fetchone()[0]
         con.commit()
         self.tables = []
-        self.out = open(os.path.join(HERE, "results", "e3pg_%s.jsonl" % name), "a", encoding="utf-8")
+        self.out = open(out or os.path.join(HERE, "results", "e3pg_%s.jsonl" % name), "a", encoding="utf-8")
 
     def log(self, *a):
         if self.verbose:
@@ -128,7 +137,7 @@ class Harness:
     def build(self, mode, design, how):
         t0 = time.time()
         self.drop_tables()
-        cur = self.cur
+        cur = self.wcur
         info = {"schemata": len(design), "unique": 0, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0}
         for i, sch in enumerate(design):
             table = "%s_%s_%d" % (self.name, mode.replace("-", "_"), i)
@@ -175,27 +184,133 @@ class Harness:
                 cur.execute("CREATE TRIGGER %s BEFORE INSERT ON %s FOR EACH ROW EXECUTE FUNCTION %s()" % (qi("%s_trg" % table), t, fn))
                 info["trigger_fds"] += len(fds)
             cur.execute("ANALYZE %s" % t)
-        self.con.commit()
+        self.wcon.commit()
         info["build_seconds"] = round(time.time() - t0, 3)
         return info
 
     def drop_tables(self):
         for table, _ in self.tables:
-            self.cur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi(table))
-            self.cur.execute("DROP FUNCTION IF EXISTS w.%s()" % qi("%s_fd" % table))
-        self.con.commit()
+            self.wcur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi(table))
+            self.wcur.execute("DROP FUNCTION IF EXISTS w.%s()" % qi("%s_fd" % table))
+        self.wcon.commit()
         self.tables = []
+
+    # ------------------------------------------------------------------ database copies (--copy)
+    def dbname(self, suffix):
+        return "e3t_%s_%s" % (self.name, suffix)
+
+    def admin(self, sql, args=None):
+        """a statement outside a transaction (CREATE and DROP DATABASE) on a connection of its own"""
+        con = connect(autocommit=True)
+        try:
+            con.cursor().execute(sql, args)
+        finally:
+            con.close()
+
+    def attach(self, db):
+        self.wcon = connect(dbname=db)
+        self.wcur = self.wcon.cursor()
+        self.wcur.execute("SET enable_seqscan = off")
+        self.wcur.execute("SET enable_bitmapscan = off")
+        self.wcon.commit()
+
+    def detach(self):
+        if self.wcon is not self.con:
+            self.wcon.close()
+        self.wcon, self.wcur = self.con, self.cur
+
+    def base(self):
+        """the database e3t_<set>_base with the extensions and a copy of the source table, created once (under an
+        advisory lock, since --prepare builds several templates from it in parallel)"""
+        db = self.dbname("base")
+        cur = self.cur
+        cur.execute("SELECT pg_advisory_lock(hashtext(%s))", (db,))
+        try:
+            cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (db,))
+            if cur.fetchone():
+                return db
+            cur.execute("SELECT attname, format_type(atttypid, atttypmod) FROM pg_attribute WHERE attrelid = %s::regclass "
+                        "AND attnum > 0 AND NOT attisdropped ORDER BY attnum", (self.src,))
+            cols = cur.fetchall()
+            buf = io.BytesIO()
+            cur.copy_expert("COPY %s TO STDOUT" % self.src, buf)
+            self.admin("CREATE DATABASE %s" % qi(db))
+            con = connect(dbname=db)
+            c = con.cursor()
+            for sql in ("CREATE EXTENSION btree_gist", "CREATE EXTENSION pg_prewarm", "CREATE SCHEMA src", "CREATE SCHEMA w"):
+                c.execute(sql)
+            c.execute("CREATE TABLE %s (%s)" % (self.src, ", ".join("%s %s" % (qi(a), t) for a, t in cols)))
+            buf.seek(0)
+            c.copy_expert("COPY %s FROM STDIN" % self.src, buf)
+            c.execute("ANALYZE %s" % self.src)
+            con.commit()
+            con.close()
+            self.log("created", db)
+            return db
+        finally:
+            cur.execute("SELECT pg_advisory_unlock(hashtext(%s))", (db,))
+            self.con.commit()
+
+    def template(self, mode, design, how):
+        """(name, build information) of the database e3t_<set>_<mode> that holds the freshly built tables of the mode;
+        built unless a complete template of the same design exists (the comment is written after the build)"""
+        tag = hashlib.md5(json.dumps([design, how], sort_keys=True).encode()).hexdigest()
+        db = self.dbname(mode.replace("-", "_"))
+        self.cur.execute("SELECT shobj_description(oid, 'pg_database') FROM pg_database WHERE datname = %s", (db,))
+        row = self.cur.fetchone()
+        self.con.commit()
+        if row and row[0]:
+            info = json.loads(row[0])
+            if info.pop("tag") == tag:
+                self.tables = [(t, c) for t, c in info.pop("tables")]
+                self.log(mode, "template", db, "reused")
+                return db, info
+        if row:
+            self.admin("DROP DATABASE %s WITH (FORCE)" % qi(db))
+        base = self.base()
+        self.admin("CREATE DATABASE %s TEMPLATE %s STRATEGY FILE_COPY" % (qi(db), qi(base)))
+        self.attach(db)
+        self.tables = []
+        info = self.build(mode, design, how)
+        self.detach()
+        self.admin("COMMENT ON DATABASE %s IS %%s" % qi(db), (json.dumps(dict(info, tag=tag, tables=self.tables)),))
+        self.log(mode, "template", db, "built:", info)
+        return db, info
+
+    def fresh_copy(self, template):
+        """connects to a new file copy of the template with its tables and indexes in the buffer cache; the seconds"""
+        t0 = time.time()
+        run = self.dbname("run")
+        self.admin("DROP DATABASE IF EXISTS %s WITH (FORCE)" % qi(run))
+        self.admin("CREATE DATABASE %s TEMPLATE %s STRATEGY FILE_COPY" % (qi(run), qi(template)))
+        self.attach(run)
+        self.wcur.execute("SELECT count(pg_prewarm(c.oid)) FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace "
+                          "WHERE n.nspname = 'w' AND c.relkind IN ('r', 'i')")
+        self.wcon.commit()
+        return time.time() - t0
+
+    def drop_copy(self):
+        self.detach()
+        self.admin("DROP DATABASE IF EXISTS %s WITH (FORCE)" % qi(self.dbname("run")))
+
+    def release(self):
+        """after a mode: drops the tables, or the copy of the template"""
+        if self.copy:
+            self.drop_copy()
+            self.tables = []
+        else:
+            self.drop_tables()
 
     # ------------------------------------------------------------------ the measurement
     def insert(self, recs, deadline=None):
-        cur = self.cur
+        cur = self.wcur
         stmts = [("INSERT INTO w.%s (%s) VALUES %%s ON CONFLICT DO NOTHING" % (qi(table), ", ".join(cols)),
                   [self.cols.index(c) for c in cols]) for table, cols in self.tables]
         self.partial = 0
         inserted = 0
         killer = None
         if deadline is not None:
-            killer = threading.Timer(max(1.0, deadline - time.time()), self.con.cancel)
+            killer = threading.Timer(max(1.0, deadline - time.time()), self.wcon.cancel)
             killer.daemon = True
             killer.start()
         t0 = time.time()
@@ -206,67 +321,85 @@ class Harness:
                     psycopg2.extras.execute_values(cur, sql, [tuple(r[i] for i in idx) for r in batch], page_size=BATCH)
                     inserted += cur.rowcount
                 self.partial = inserted
-            self.con.commit()
+            self.wcon.commit()
         finally:
             if killer is not None:
                 killer.cancel()
         return time.time() - t0, inserted
 
     def run_mode(self, mode, design, how, loss):
-        t_mode = time.time()
+        spent = 0.0      # the insertion time of the mode, which the budget bounds
+        if self.copy:
+            template, info = self.template(mode, design, how)
         for size in self.sizes:
-            if time.time() - t_mode > self.budget:
+            if spent > self.budget:
                 self.write(dict(set=self.name, mode=mode, truncated="budget of %d s exhausted before size %d" % (self.budget, size)))
                 self.log(mode, "budget exhausted before size", size)
                 break
             for rep in range(self.reps):
-                if rep > 0 and time.time() - t_mode > self.budget:
+                if rep > 0 and spent > self.budget:
                     self.write(dict(set=self.name, mode=mode, size=size, truncated="budget of %d s exhausted after %d repetitions" % (self.budget, rep)))
                     self.log(mode, size, "budget exhausted after", rep, "repetitions")
                     break
                 recs = self.records(size, rep)
-                info = self.build(mode, design, how)
+                extra = {}
+                if self.copy:
+                    extra["copy_seconds"] = round(self.fresh_copy(template), 3)
+                else:
+                    info = self.build(mode, design, how)
                 if size == self.sizes[0] and rep == 0:
-                    self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, **info))
+                    self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, copy=self.copy, **info))
                     self.log(mode, "design:", info)
                 t_rep = time.time()
                 try:
-                    secs, inserted = self.insert(recs, deadline=t_mode + self.budget)
+                    secs, inserted = self.insert(recs, deadline=t_rep + self.budget - spent)
                 except psycopg2.errors.QueryCanceled:
-                    self.con.rollback()
+                    self.wcon.rollback()
                     elapsed = time.time() - t_rep
                     self.write(dict(set=self.name, mode=mode, size=size, rep=rep, timeout_seconds=round(elapsed, 3),
                                     inserted_before_timeout=self.partial, attempted=size * len(design),
-                                    truncated="budget of %d s exhausted during size %d repetition %d" % (self.budget, size, rep)))
+                                    truncated="budget of %d s exhausted during size %d repetition %d" % (self.budget, size, rep), **extra))
                     self.log(mode, size, rep, "TIMEOUT after %.0fs with %d rows of the completed batches" % (elapsed, self.partial))
-                    self.drop_tables()
+                    self.release()
                     return
                 except psycopg2.Error as e:
-                    self.con.rollback()
+                    self.wcon.rollback()
                     self.write(dict(set=self.name, mode=mode, size=size, rep=rep, error=str(e)[:300]))
                     self.log(mode, size, rep, "ERROR", str(e)[:300])
-                    self.drop_tables()
+                    self.release()
                     return
+                spent += secs
                 self.write(dict(set=self.name, mode=mode, size=size, rep=rep, seconds=round(secs, 3), inserted=inserted,
-                                attempted=size * len(design)))
-                self.log(mode, size, rep, "%.2fs" % secs, "%d rows" % inserted)
-        self.drop_tables()
+                                attempted=size * len(design), **extra))
+                self.log(mode, size, rep, "%.2fs" % secs, "%d rows" % inserted, "(copy %.0fs)" % extra["copy_seconds"] if extra else "")
+                if self.copy:
+                    self.drop_copy()
+        self.release()
+
+    def effective(self, mode):
+        """(design with the enforced FDs, enforcement 'x', 't' or None) of a mode, or (None, why it is skipped)"""
+        design, how = design_of(self.rec, mode)
+        if design is None:
+            return None, "no design"
+        if how and any(s.get("fds") is None for s in design):
+            return None, "trigger FDs not computed"
+        enforced = design if how else [dict(s, fds=[]) for s in design]
+        return enforced, (how if how and any(s.get("fds") for s in design) else None)
+
+    def prepare(self, modes):
+        for mode in modes:
+            enforced, how_eff = self.effective(mode)
+            if enforced is not None:
+                self.template(mode, enforced, how_eff)
+        self.out.close()
 
     def run(self, modes):
         done = {}
         for mode in modes:
-            design, how = design_of(self.rec, mode)
-            if design is None:
-                self.write(dict(set=self.name, mode=mode, skipped="no design"))
+            enforced, how_eff = self.effective(mode)
+            if enforced is None:
+                self.write(dict(set=self.name, mode=mode, skipped=how_eff))
                 continue
-            if how and any(s.get("fds") is None for s in design):
-                self.write(dict(set=self.name, mode=mode, skipped="trigger FDs not computed"))
-                continue
-            enforced = design if how else [dict(s, fds=[]) for s in design]
-            if not how or not any(s.get("fds") for s in design):
-                how_eff = None
-            else:
-                how_eff = how
             dup = next((m for m, (d, h) in done.items() if h == how_eff and same_design(d, enforced)), None)
             if dup is not None:
                 self.write(dict(set=self.name, mode=mode, skipped="same design as " + dup, same_as=dup))
@@ -335,11 +468,17 @@ def table():
 
 def main():
     args = sys.argv[1:]
-    sizes, reps, modes, parallel, budget = [10000, 20000, 30000], 5, MODES, 0, 7200
+    sizes, reps, modes, parallel, budget, copy, out = [10000, 20000, 30000], 5, MODES, 0, 7200, False, None
     names, action, i = [], "run", 0
     while i < len(args):
         a = args[i]
-        if a == "--sizes":
+        if a == "--copy":
+            copy = True; i += 1
+        elif a == "--prepare":
+            action, copy = "prepare", True; i += 1
+        elif a == "--out":
+            out = args[i + 1]; i += 2
+        elif a == "--sizes":
             sizes = [int(x) for x in args[i + 1].split(",")]; i += 2
         elif a == "--reps":
             reps = int(args[i + 1]); i += 2
@@ -365,7 +504,7 @@ def main():
             check(name)
         return
     if parallel:
-        opts = ["--sizes", ",".join(map(str, sizes)), "--reps", str(reps), "--modes", ",".join(modes), "--budget", str(budget)]
+        opts = ["--sizes", ",".join(map(str, sizes)), "--reps", str(reps), "--modes", ",".join(modes), "--budget", str(budget)] + (["--copy"] if copy else [])
         running, todo = {}, list(names)
         while todo or running:
             while todo and len(running) < parallel:
@@ -383,9 +522,13 @@ def main():
         rec = e1_record(name)
         n, Da = atomic(name)
         con = connect()
-        h = Harness(name, con, rec, n, Da, sizes, reps, budget=budget)
-        h.log("start: %d rows, %d templates, sizes %s, reps %d, modes %s, budget %d s per mode" % (h.rows, len(h.templates), sizes, reps, modes, budget))
-        h.run(modes)
+        h = Harness(name, con, rec, n, Da, sizes, reps, budget=budget, copy=copy, out=out)
+        if action == "prepare":
+            h.prepare(modes)
+        else:
+            h.log("start: %d rows, %d templates, sizes %s, reps %d, modes %s, budget %d s per mode%s" % (
+                h.rows, len(h.templates), sizes, reps, modes, budget, ", copies of the built tables" if copy else ""))
+            h.run(modes)
         con.close()
 
 if __name__ == "__main__":
