@@ -17,10 +17,13 @@ def num(x):
     return "--" if x is None else ("{:,}".format(x) if isinstance(x, int) else str(x))
 
 def repair_cell(r):
+    """the loss of Repair; an asterisk unless it is proved minimal, by Repair itself or by the certified lower
+    bound of Drop (the exact search of Drop or of the fallback of Repair)"""
     if "repair_loss" not in r or r["repair_loss"] is None:
         return "--"
     s = num(r["repair_loss"])
-    if not r.get("repair_exact"):
+    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), 0) if x is not None)
+    if not r.get("repair_exact") and r["repair_loss"] > lb:
         s += r"$^{*}$"
     return s
 
@@ -72,7 +75,7 @@ def table_e12(rows):
     out = []
     out.append(r"\begin{tabular}{lrrrrrrrrrrrr}")
     out.append(r"\toprule")
-    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
+    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & 3NF (iConf) & BCNF & \repair & \drop & \repair\ (s) & \drop\ (s)\\")
     out.append(r"\midrule")
     for r in rows:
         if "error" in r:
@@ -157,7 +160,7 @@ def table_e3(e3recs, size=10000, budget=7200):
     (over the repetitions) for inserting `size` records into every design; a design equal to an earlier one shares
     its measurement, and a mode whose repetition the budget interrupted shows the budget as a lower bound"""
     out = [r"\begin{tabular}{lrrrrrrrr}", r"\toprule",
-           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF} & keys & BCNF & \repair & \drop\\",
+           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & keys & BCNF & \repair & \drop\\",
            r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
            r" & triggers & s & triggers & s & s & s & s & s\\",
            r"\midrule"]
