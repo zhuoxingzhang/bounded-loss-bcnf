@@ -24,7 +24,8 @@ batches of 1,000 rows, all batches in one transaction, the commit included in th
 on the set, the size and the repetition, so every mode inserts the same records. A synthetic record copies a
 random stored record on a closed set U of attributes (the closure of a random subset, U != R) and carries fresh
 values elsewhere, so the enlarged relation satisfies every FD of Sigma and no insertion is rejected. After every
-repetition the synthetic rows are deleted and the tables vacuumed; the tables are rebuilt for every size. A
+repetition starts from freshly built tables, since deleting the synthetic rows and vacuuming leaves the GiST
+indexes of the exclusion constraints larger and slower than freshly built ones. A
 watchdog cancels the insertion when the budget of the mode is exhausted.
 
 usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [set ...]
@@ -185,16 +186,6 @@ class Harness:
         self.con.commit()
         self.tables = []
 
-    def restore(self):
-        """delete the synthetic rows (every inserted row carries a fresh value) and vacuum the tables"""
-        for table, cols in self.tables:
-            self.cur.execute("DELETE FROM w.%s WHERE %s" % (qi(table), " OR ".join("%s LIKE '~%%'" % c for c in cols)))
-        self.con.commit()
-        self.con.autocommit = True
-        for table, _ in self.tables:
-            self.cur.execute("VACUUM w.%s" % qi(table))
-        self.con.autocommit = False
-
     # ------------------------------------------------------------------ the measurement
     def insert(self, recs, deadline=None):
         cur = self.cur
@@ -228,18 +219,16 @@ class Harness:
                 self.write(dict(set=self.name, mode=mode, truncated="budget of %d s exhausted before size %d" % (self.budget, size)))
                 self.log(mode, "budget exhausted before size", size)
                 break
-            info = self.build(mode, design, how)
-            if size == self.sizes[0]:
-                self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, **info))
-                self.log(mode, "design:", info)
             for rep in range(self.reps):
                 if rep > 0 and time.time() - t_mode > self.budget:
                     self.write(dict(set=self.name, mode=mode, size=size, truncated="budget of %d s exhausted after %d repetitions" % (self.budget, rep)))
                     self.log(mode, size, "budget exhausted after", rep, "repetitions")
                     break
                 recs = self.records(size, rep)
-                if rep > 0:
-                    self.restore()
+                info = self.build(mode, design, how)
+                if size == self.sizes[0] and rep == 0:
+                    self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, **info))
+                    self.log(mode, "design:", info)
                 t_rep = time.time()
                 try:
                     secs, inserted = self.insert(recs, deadline=t_mode + self.budget)
