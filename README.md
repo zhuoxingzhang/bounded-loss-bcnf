@@ -4,7 +4,8 @@ This repository holds the implementation of the algorithms `Drop` and `Repair` o
 "Boyce-Codd Normal Form with Bounded Dependency Loss", the brute-force oracles that back its negative
 results, the validation scripts, the FD sets of the experiments, and the experiment driver.
 
-Everything is plain Python 3 (tested with 3.12) and uses only the standard library.
+Everything is plain Python 3 (tested with 3.13). The algorithms use only the standard library; the scripts of the
+database experiments (`e3pg.py`, `e4.py`, `teaser_pg.py`) use psycopg2 and NumPy.
 
 ## Layout
 
@@ -15,6 +16,7 @@ Everything is plain Python 3 (tested with 3.12) and uses only the standard libra
 | `repair.py` | `Repair(R, Σ, w)` (Algorithm 2): 3NF synthesis that is BCNF whenever possible, key dependencies of the BCNF schemata, local `Drop` on every critical schema, one enforceability test of the assembled set Γ, fallback to the global `Drop` |
 | `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
 | `test_examples.py` | the schemata of the paper with their proved losses |
+| `gbcnf.py` | the greedy BCNF decomposition (`fdlib.greedy_bcnf_decomposition`): every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; results in `results/gbcnf_<set>.jsonl` |
 | `experiments.py` | experiment E1 on the FD sets in `data/fds`; every FD set runs in its own process with a timeout; results in `results/e1.jsonl`, `--table` prints the table |
 | `minloss_bruteforce.py`, `weak_stats.py` | the brute-force layer: closure tables of size 2^n, enumeration of the closed FD sets, exact λ, level-wise exact solver (schemata with at most about seven attributes) |
 | `cand*_stats.py`, `p6*_stats.py`, `wmin_*.py`, `targeted_search*.py`, `gadget_try.py`, `price_stats.py`, `undrop_stats.py`, `mech_inspect.py`, `sample_kc.py`, `search4.py`, `verify_kc_gap*.py`, `kc_inspect.py` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper; their logs are the `*.log` files next to them (the four largest logs are not in the repository) |
