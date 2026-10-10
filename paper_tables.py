@@ -239,20 +239,21 @@ def table_e4(e4recs):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
-TEASER_ORDER = ["D1+triggers", "3NF+trigger", "D1", "D2", "D4"]
-TEASER_LABELS = {"D1+triggers": r"$\dec_1$, FDs by triggers", "3NF+trigger": r"3NF, $Z\rightarrow T$ by trigger",
-                 "D1": r"$\dec_1$ (loss 2)", "D2": r"$\dec_2$ (loss 1)", "D4": r"$\dec_4$ (loss 1)"}
+TEASER_ORDER = ["D1+exclude", "3NF+exclude", "D1", "D2", "D4"]
+TEASER_LABELS = {"D1+exclude": r"$\dec_1$, FDs by exclusion", "3NF+exclude": r"3NF, $Z\rightarrow T$ by exclusion",
+                 "D1": r"$\dec_1$, keys only (loss 2)", "D2": r"$\dec_2$ (loss 1)", "D4": r"$\dec_4$ (loss 1)"}
 
 def fig_teaser(recs):
-    """a pgfplots bar chart of the mean insertion time per design and number of records (results/teaser.jsonl):
-    the layout of figures/fig_teaser.tex, with two legend rows centred over the plot box"""
+    """a pgfplots bar chart of the mean insertion time per design and number of records (results/teaser_pg.jsonl of
+    teaser_pg.py) on a logarithmic axis: the layout of figures/fig_teaser.tex, with two legend rows centred over the
+    plot box"""
     import statistics
     sizes = sorted(set(r["size"] for r in recs))
-    keys = {"D1+triggers": "d1t", "3NF+trigger": "3nf", "D1": "d1", "D2": "d2", "D4": "d4"}
+    keys = {"D1+exclude": "d1x", "3NF+exclude": "3nfx", "D1": "d1", "D2": "d2", "D4": "d4"}
     out = [r"\begin{tikzpicture}",
            r"\begin{axis}[name=teaseraxis, ybar, width=\columnwidth, height=3.8cm, bar width=4.5pt, enlarge x limits=0.25,",
            r"  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={%s}, xtick=data," % ",".join("{" + "{:,}".format(s) + "}" for s in sizes),
-           r"  ymin=0, ymax=5.5, tick pos=left,",
+           r"  ymode=log, log origin y=infty, ymin=0.08, ymax=20, log ticks with fixed point, tick pos=left,",
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},",
            r"  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]"]
     for d in TEASER_ORDER:
@@ -264,7 +265,7 @@ def fig_teaser(recs):
         out.append(r"\addplot coordinates {%s};" % " ".join(pts))
         out.append(r"\label{plot:teaser-%s}" % keys[d])
     out.append(r"\end{axis}")
-    out.append(r"% two legend rows, each centered over the plot box (the y label is not counted): the designs with triggers, then the designs with keys only")
+    out.append(r"% two legend rows, each centered over the plot box (the y label is not counted): the designs with exclusion constraints, then the designs with keys only")
     out.append(r"\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=13pt]teaseraxis.north) {%s};" % r"\qquad".join(
         r"\ref{plot:teaser-%s}\,%s" % (keys[d], TEASER_LABELS[d]) for d in TEASER_ORDER[:2]))
     out.append(r"\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=2pt]teaseraxis.north) {%s};" % r"\qquad".join(
@@ -277,7 +278,7 @@ if __name__ == "__main__":
     os.makedirs("results", exist_ok=True)
     e3recs = load_e3()
     e4recs = load_e4()
-    tf = os.path.join("results", "teaser.jsonl")
+    tf = os.path.join("results", "teaser_pg.jsonl")
     teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
     for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)), ("table_e3.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
