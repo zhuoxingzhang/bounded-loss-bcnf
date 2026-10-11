@@ -100,22 +100,24 @@ def load_gbcnf():
                 out[r["name"]] = r
     return out
 
-def table_e12(rows, compact=True):
+def table_e12(rows, compact=True, records=None):
     """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
     the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times;
     compact leaves out the FD sets without a non-key FD (loss zero for every design) and those that exceeded the
-    budget, which the text states in one sentence each"""
+    budget, which the text states in one sentence each; records maps FD set names to the numbers of records of
+    the data sets loaded for E3 and E4, shown in a column after the name"""
     obstr = load_obstructions()
     greedy = load_gbcnf()
-    cols = 17
+    o = 1 if records is not None else 0
+    cols = 17 + o
     out = []
     out.append(r"\begin{tabular}{l" + "r" * (cols - 1) + "}")
     out.append(r"\toprule")
-    out.append(r" & & & & & \multicolumn{8}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
-    out.append(r"\cmidrule(lr){6-13}\cmidrule(lr){14-15}\cmidrule(lr){16-17}")
-    out.append(r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & &\\")
-    out.append(r"\cmidrule(lr){8-9}\cmidrule(lr){10-11}")
-    out.append(r"Data set & $|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & \repair & \drop"
+    out.append(" & " * o + r" & & & & & \multicolumn{8}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
+    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 13 + o, 14 + o, 15 + o, 16 + o, 17 + o))
+    out.append(" & " * o + r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & &\\")
+    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (8 + o, 9 + o, 10 + o, 11 + o))
+    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & \repair & \drop"
                r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
@@ -128,8 +130,8 @@ def table_e12(rows, compact=True):
             path = dict(experiments.SETS).get(r["name"])
             if path and r["error"].startswith("timeout"):
                 n, F, _ = load_any(path)
-                out.append(r"%s & %d & %s & \multicolumn{%d}{l}{budget of four hours exceeded}\\" % (
-                    tex_name(r["name"]), n, num(len(F.fds)) + "$^{+}$", cols - 3))
+                out.append(r"%s & %s%d & %s & \multicolumn{%d}{l}{budget of four hours exceeded}\\" % (
+                    tex_name(r["name"]), "-- & " if o else "", n, num(len(F.fds)) + "$^{+}$", cols - 3 - o))
             else:
                 out.append(r"%s & \multicolumn{%d}{l}{%s}\\" % (tex_name(r["name"]), cols - 1, r["error"][:40].replace("_", r"\_")))
             continue
@@ -137,8 +139,9 @@ def table_e12(rows, compact=True):
         o = obstr.get(r["name"])
         g = greedy.get(r["name"])
         gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
-        out.append(" & ".join([
-            tex_name(r["name"]), "%d" % r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
+        rec = [] if not o else [num(records[r["name"]]) if records.get(r["name"]) else "--"]
+        out.append(" & ".join([tex_name(r["name"])] + rec + [
+            "%d" % r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
             num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
             bcnf, gcell, repair_cell(r), drop_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
             secs(r.get("time_repair")), secs(r.get("time_drop"))]) + r"\\")
@@ -267,23 +270,32 @@ def e4_harmful(recs):
     import statistics
     return statistics.mean(r["harmful"] for r in recs)
 
-def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
+def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     """one row per data set: the exclusion constraints of the original relation and of the two 3NF syntheses, the
     mean seconds (over the repetitions) for inserting `size` records into every design, where a design equal to an
     earlier one shares its measurement and a design whose insertion the budget cancelled shows the budget as a lower
-    bound, and the records of the data set and the mean number of harmful updates among its random updates (e4.py)"""
-    out = [r"\begin{tabular}{l" + "r" * 15 + "}", r"\toprule",
-           r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & \multicolumn{2}{c}{3NF (classical)} & keys & BCNF & greedy & \repair & \drop & records & harmful\\",
-           r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}",
-           r" & excl. & s & excl. & s & excl. & s & s & s & s & s & s & & updates\\",
-           r"\midrule"]
+    bound, and the records of the data set and the mean number of harmful updates among its random updates (e4.py);
+    the compact variant for a single column leaves out the greedy decomposition, Drop and the records"""
+    modes = [(m, l) for m, l in E3_ORDER if not compact or m not in ("gbcnf", "drop")]
+    if compact:
+        out = [r"\begin{tabular}{l" + "r" * 10 + "}", r"\toprule",
+               r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & \multicolumn{2}{c}{3NF (classical)} & keys & BCNF & \repair & harmful\\",
+               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}",
+               r" & excl. & s & excl. & s & excl. & s & s & s & s & updates\\",
+               r"\midrule"]
+    else:
+        out = [r"\begin{tabular}{l" + "r" * 15 + "}", r"\toprule",
+               r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & \multicolumn{2}{c}{3NF (classical)} & keys & BCNF & greedy & \repair & \drop & records & harmful\\",
+               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}",
+               r" & excl. & s & excl. & s & excl. & s & s & s & s & s & s & & updates\\",
+               r"\midrule"]
 
     def cell(t):
         return "--" if t is None else ("%.2f" % t if t < 10 else ("%.1f" % t if t < 100 else "{:,.0f}".format(t)))
 
     for name, recs in e3recs.items():
         cells = []
-        for mode, _ in E3_ORDER:
+        for mode, _ in modes:
             d = e3_summary(recs, mode)[0]
             mean, sd, n, cut = e3_mean(recs, mode, size)
             c = (r"$>$" + "{:,}".format(budget)) if (mean is None and cut) else cell(mean)
@@ -293,7 +305,10 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
                 cells.append("--" if d is None else num(d["exclusion"]))
             cells.append(c)
         r4 = (e4recs or {}).get(name)
-        cells += ["--", "--"] if not r4 else [num(r4[0]["rows"]), num(round(e4_harmful(r4)))]
+        if compact:
+            cells.append("--" if not r4 else num(round(e4_harmful(r4))))
+        else:
+            cells += ["--", "--"] if not r4 else [num(r4[0]["rows"]), num(round(e4_harmful(r4)))]
         out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
@@ -356,8 +371,11 @@ if __name__ == "__main__":
     e4recs = load_e4()
     tf = os.path.join(ROOT, "results", "teaser_pg.jsonl")
     teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
-    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)),
-                  ("table_e12_full.tex", table_e12(rows, compact=False)), ("table_e3.tex", table_e3(e3recs, e4recs)),
+    import e3
+    records = {e3.SETS[n]: recs[0]["rows"] for n, recs in e4recs.items() if n in e3.SETS}
+    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows, records=records)),
+                  ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
+                  ("table_e3_full.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join(ROOT, "results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
