@@ -57,7 +57,7 @@ ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "
 BATCH = 1000
 TEMPLATE_SEED = 42
 MAX_KEY_BYTES = 2000      # a UNIQUE B-tree entry must fit into a third of a page; wider keys get an md5 index
-RETRIES = 2               # repetitions repeated after the server closed the connection
+RETRIES = 5               # repetitions repeated after the server closed the connection (terminated from outside)
 
 def design_of(rec, mode):
     """(design, enforcement) of a mode: the schemata with keys and trigger FDs, and 'x', 't' or None"""
