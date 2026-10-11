@@ -33,6 +33,7 @@ relative to their own location, so any working directory works.
 | `iconf.py` | the 3NF synthesis iCONF (SIGMOD 2025) ported to Python on top of `fdlib`; `iconf_check.py` compares the port with the Java implementation on every FD set (`iconf/`) |
 | `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary |
 | `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
+| `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
 | `obstruction_stats.py`, `check_upper_bound.py`, `acyclic.py`, `lb_proto.py` | the obstruction bound and the certified lower bound on every FD set (`results/obstructions.jsonl`), a random check of the bound, the acyclicity test of Majster-Cederbaum on the FD sets, and a prototype of stronger lower bounds |
 | `test_examples.py` | the schemata of the paper with their proved losses |
 | `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
@@ -57,6 +58,7 @@ python src/experiments.py              # E1 and E2 on all FD sets, one process p
 python src/experiments.py --table      # the summary of results/e1_*.jsonl
 python src/experiments.py --one abalone
 python src/gbcnf.py                    # the greedy BCNF decomposition on all FD sets
+python src/hybrid.py                   # Opt and Hybrid on all FD sets (the levels need the source tables of pgdb.py)
 python src/obstruction_stats.py        # the bounds of the paper on all FD sets
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py
 python src/e4.py abalone               # E4
@@ -128,6 +130,20 @@ the remainder is enforceable, then `Drop`, and then the ascents from the obstruc
 
 The record `results/e1_<set>.jsonl` of every set holds the losses of all designs, their schemata, the running times
 of every stage, the candidates of `Repair` with their losses, and the certified lower bounds.
+
+**Hybrid.** The Hybrid algorithm of Wei and Link needs cardinality constraints card(X) ≤ ℓ, which bound the number of
+records that agree on X. As in the experiments of the TODS article, `hybrid.py` discovers them from the data: for
+every left-hand side X of Σ_a, ℓ_X is the largest number of records of the source table (the table of E3 and E4 in
+PostgreSQL) that agree on X, and 1 when X is a superkey. Since the FDs hold on the data, this is the smallest level
+that the discovered constraints imply for X. Opt orders the minimal FDs X→A by the largest level of a non-key FD on
+XA, removes an FD that the remaining ones imply and otherwise adds XA as a schema, removes the non-maximal schemata
+and adds a minimal key when no schema is a superkey. Hybrid decomposes every schema XA of Opt along each non-key FD
+Y→B on it with ℓ_Y > ℓ_X, into YB and Y(XA − B), and removes the non-maximal schemata. On the FD sets without a
+source table (TPC-H lineitem, uniprot and the TPC-H sets without data), the levels come from the FDs alone, 1 for a
+superkey and unbounded otherwise, and Hybrid decomposes exactly the critical schemata that a minimal key generates;
+the paper marks these runs. Every schema declares its minimal keys, as for the other designs, and the record also
+counts the minimal FDs that no projection implies, which Hybrid enforces by assertions over joins, and the level of
+the design, the largest level of a non-key FD inside one of its schemata.
 
 ### E3: operational overheads in PostgreSQL
 

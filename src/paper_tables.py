@@ -100,6 +100,23 @@ def load_gbcnf():
                 out[r["name"]] = r
     return out
 
+def load_hybrid():
+    """the Hybrid algorithm of Wei and Link (hybrid.py): name -> record"""
+    out = {}
+    for f in glob.glob(os.path.join(ROOT, "results", "hybrid_*.jsonl")):
+        for l in open(f, encoding="utf-8"):
+            if l.strip():
+                r = json.loads(l)
+                out[r["name"]] = r
+    return out
+
+def hybrid_cell(h):
+    """the loss of Hybrid; a double dagger marks a run without data, whose levels come from the FDs alone"""
+    if h is None:
+        return "--"
+    return num(h["hybrid_loss"]) + ("" if h.get("levels") == "data" else r"$^{\ddagger}$") + \
+        ("" if h.get("hybrid_sound") in (True, None) else r"$^{\dagger}$")
+
 def table_e12(rows, compact=True, records=None):
     """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
     the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times;
@@ -108,16 +125,17 @@ def table_e12(rows, compact=True, records=None):
     the data sets loaded for E3 and E4, shown in a column after the name"""
     obstr = load_obstructions()
     greedy = load_gbcnf()
+    hyb = load_hybrid()
     o = 1 if records is not None else 0
-    cols = 17 + o
+    cols = 18 + o
     out = []
     out.append(r"\begin{tabular}{l" + "r" * (cols - 1) + "}")
     out.append(r"\toprule")
-    out.append(" & " * o + r" & & & & & \multicolumn{8}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
-    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 13 + o, 14 + o, 15 + o, 16 + o, 17 + o))
-    out.append(" & " * o + r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & &\\")
+    out.append(" & " * o + r" & & & & & \multicolumn{9}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
+    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 14 + o, 15 + o, 16 + o, 17 + o, 18 + o))
+    out.append(" & " * o + r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & & &\\")
     out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (8 + o, 9 + o, 10 + o, 11 + o))
-    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & \repair & \drop"
+    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & Hybrid & \repair & \drop"
                r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
@@ -136,14 +154,14 @@ def table_e12(rows, compact=True, records=None):
                 out.append(r"%s & \multicolumn{%d}{l}{%s}\\" % (tex_name(r["name"]), cols - 1, r["error"][:40].replace("_", r"\_")))
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
-        o = obstr.get(r["name"])
+        ob = obstr.get(r["name"])
         g = greedy.get(r["name"])
         gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
         rec = [] if not o else [num(records[r["name"]]) if records.get(r["name"]) else "--"]
         out.append(" & ".join([tex_name(r["name"])] + rec + [
             "%d" % r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
-            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if o is None else num(o), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
-            bcnf, gcell, repair_cell(r), drop_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
+            num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if ob is None else num(ob), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
+            bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
             secs(r.get("time_repair")), secs(r.get("time_drop"))]) + r"\\")
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
