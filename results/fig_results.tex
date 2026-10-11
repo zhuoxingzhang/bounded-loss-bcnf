@@ -1,7 +1,7 @@
 \begin{tikzpicture}
 \begin{groupplot}[group style={group size=1 by 3, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm,
-  /pgf/bar width=2.6pt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize},
-  xticklabel style={font=\scriptsize},
+  /pgf/bar width=2.4pt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize},
+  xticklabel style={font=\scriptsize}, log ticks with fixed point,
   legend style={font=\scriptsize, at={(0.5,1.18)}, anchor=south, legend columns=-1, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},
   legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]
 \nextgroupplot[ylabel={minimal FDs}, title={(a) dependency loss (RQ1)}, title style={font=\scriptsize, yshift=-3pt},
@@ -9,31 +9,53 @@
   ymode=log, log origin=infty]
 \addlegendimage{black, fill=black!25}\addlegendentry{original}
 \addlegendimage{red, fill=red!30}\addlegendentry{3NF (iConf)}
+\addlegendimage{red!50!black, fill=red!10}\addlegendentry{3NF (classical)}
 \addlegendimage{gray, fill=gray!45}\addlegendentry{keys only}
 \addlegendimage{orange!80!black, fill=orange!45}\addlegendentry{BCNF}
+\addlegendimage{brown!80!black, fill=yellow!40}\addlegendentry{BCNF (greedy)}
 \addlegendimage{blue, fill=blue!30}\addlegendentry{\repair}
 \addlegendimage{green!50!black, fill=green!40}\addlegendentry{\drop}
-\addplot[gray, fill=gray!45] coordinates {({abalone},31) ({breast},46) ({bridges},108) ({echo},126) ({ncvoter},403) ({weather},894) ({lineitem},788) ({uniprot},3580) ({hepatitis},7220)};
-\addplot[red, fill=red!30] coordinates {({abalone},31) ({breast},2) ({bridges},26) ({echo},79) ({ncvoter},191) ({weather},149) ({lineitem},788) ({uniprot},405) ({hepatitis},1992)};
-\addplot[orange!80!black, fill=orange!45] coordinates {({abalone},95) ({breast},38) ({bridges},103) ({echo},463) ({ncvoter},704) ({weather},869) ({lineitem},3487) ({uniprot},3552) ({hepatitis},8211)};
-\addplot[blue, fill=blue!30] coordinates {({abalone},8) ({breast},3) ({bridges},11) ({echo},11) ({ncvoter},58) ({weather},114) ({lineitem},79) ({uniprot},194) ({hepatitis},1092)};
-\addplot[green!50!black, fill=green!40] coordinates {({abalone},8) ({breast},3) ({bridges},11) ({echo},12) ({ncvoter},58) ({weather},114)};
+\addplot[gray, fill=gray!45, bar shift=-1.35pt, forget plot] coordinates {({abalone},31) ({breast},46) ({bridges},108) ({echo},126) ({ncvoter},403) ({weather},894) ({lineitem},788) ({uniprot},3580) ({hepatitis},7220)};
+\addplot[red, fill=red!30, bar shift=-6.75pt, forget plot] coordinates {({abalone},11) ({breast},3) ({bridges},19) ({echo},63) ({ncvoter},89) ({weather},147) ({lineitem},516) ({uniprot},810) ({hepatitis},1554)};
+\addplot[red!50!black, fill=red!10, bar shift=-4.05pt, forget plot] coordinates {({abalone},31) ({breast},2) ({bridges},26) ({echo},79) ({ncvoter},191) ({weather},149) ({lineitem},788) ({uniprot},405) ({hepatitis},1992)};
+\addplot[orange!80!black, fill=orange!45, bar shift=1.35pt, forget plot] coordinates {({abalone},95) ({breast},38) ({bridges},103) ({echo},463) ({ncvoter},704) ({weather},869) ({lineitem},3487) ({uniprot},3552) ({hepatitis},8211)};
+\addplot[brown!80!black, fill=yellow!40, bar shift=4.05pt, forget plot] coordinates {({abalone},92) ({breast},37) ({bridges},99) ({echo},392) ({ncvoter},668) ({weather},858) ({lineitem},3375) ({uniprot},3526) ({hepatitis},7995)};
+\addplot[blue, fill=blue!30, bar shift=6.75pt, forget plot] coordinates {({abalone},8) ({breast},3) ({bridges},11) ({echo},12) ({ncvoter},58) ({weather},114) ({lineitem},77) ({uniprot},194) ({hepatitis},1092)};
+\addplot[green!50!black, fill=green!40, bar shift=9.45pt, forget plot] coordinates {({abalone},8) ({breast},3) ({bridges},11) ({echo},12) ({ncvoter},58) ({weather},114)};
+\addplot[only marks, mark=x, mark size=1.2pt, green!50!black, xshift=9.45pt, forget plot] coordinates {({lineitem},1) ({uniprot},1) ({hepatitis},1)};
 \nextgroupplot[ylabel={seconds}, title={(b) time for inserting 10,000 records (RQ3)}, title style={font=\scriptsize, yshift=-3pt},
   symbolic x coords={{abalone},{adult},{breast},{bridges},{echo},{hepatitis},{letter},{ncvoter},{weather},{orders},{part}}, xtick=data, ymin=0.1, ymax=20000,
   ymode=log, log origin=infty]
-\addplot[black, fill=black!25] coordinates {({abalone},85.206) ({adult},379.922) ({breast},75.617) ({bridges},163.584) ({echo},232.050) ({hepatitis},7200.000) ({letter},401.561) ({ncvoter},479.543) ({weather},7200.000) ({orders},20.227) ({part},97.392)};
-\addplot[red, fill=red!30] coordinates {({abalone},85.206) ({adult},7.771) ({breast},6.825) ({bridges},23.151) ({echo},161.196) ({hepatitis},2077.878) ({letter},16.383) ({ncvoter},291.799) ({weather},448.612) ({orders},1.586) ({part},2.291)};
-\addplot[gray, fill=gray!45] coordinates {({abalone},2.275) ({adult},0.413) ({breast},0.296) ({bridges},0.505) ({echo},18.059) ({hepatitis},539.269) ({letter},0.323) ({ncvoter},10.694) ({weather},0.410) ({orders},2.718) ({part},1.346)};
-\addplot[orange!80!black, fill=orange!45] coordinates {({abalone},1.079) ({adult},0.918) ({breast},0.922) ({bridges},0.948) ({echo},1.407) ({hepatitis},2.861) ({letter},0.576) ({ncvoter},1.861) ({weather},1.960) ({orders},1.240) ({part},1.057)};
-\addplot[blue, fill=blue!30] coordinates {({abalone},4.703) ({adult},7.771) ({breast},5.624) ({bridges},9.653) ({echo},11.515) ({hepatitis},336.386) ({letter},16.383) ({ncvoter},26.773) ({weather},102.636) ({orders},1.586) ({part},2.291)};
-\addplot[green!50!black, fill=green!40] coordinates {({abalone},4.703) ({adult},7.771) ({breast},5.979) ({bridges},9.653) ({echo},11.116) ({letter},16.383) ({ncvoter},26.773) ({weather},102.636) ({orders},1.586) ({part},2.291)};
+\addplot[black, fill=black!25, bar shift=-9.45pt, forget plot] coordinates {({abalone},20.831) ({adult},41.871) ({breast},30.034) ({bridges},46.675) ({echo},61.714) ({hepatitis},3085.332) ({letter},73.511) ({ncvoter},183.255) ({orders},3.971) ({part},2.158)};
+\addplot[black, fill=black!25, bar shift=-9.45pt, forget plot, postaction={pattern=dots}] coordinates {({weather},929.201)};
+\addplot[red, fill=red!30, bar shift=-6.75pt, forget plot] coordinates {({abalone},10.835) ({adult},8.093) ({breast},6.301) ({bridges},21.251) ({echo},20.656) ({hepatitis},1230.637) ({letter},16.183) ({ncvoter},55.133) ({orders},1.939) ({part},2.631)};
+\addplot[red, fill=red!30, bar shift=-6.75pt, forget plot, postaction={pattern=dots}] coordinates {({weather},521.700)};
+\addplot[red!50!black, fill=red!10, bar shift=-4.05pt, forget plot] coordinates {({abalone},20.831) ({adult},7.352) ({breast},6.535) ({bridges},23.026) ({echo},57.841) ({hepatitis},1401.703) ({letter},16.183) ({ncvoter},99.920) ({orders},0.962) ({part},2.158)};
+\addplot[red!50!black, fill=red!10, bar shift=-4.05pt, forget plot, postaction={pattern=dots}] coordinates {({weather},527.700)};
+\addplot[gray, fill=gray!45, bar shift=-1.35pt, forget plot] coordinates {({abalone},1.429) ({adult},0.414) ({breast},0.267) ({bridges},0.441) ({echo},3.390) ({hepatitis},18.889) ({letter},0.340) ({ncvoter},3.352) ({weather},0.401) ({orders},0.760) ({part},1.047)};
+\addplot[orange!80!black, fill=orange!45, bar shift=1.35pt, forget plot] coordinates {({abalone},0.835) ({adult},0.852) ({breast},0.820) ({bridges},0.855) ({echo},1.233) ({hepatitis},2.177) ({letter},0.565) ({ncvoter},1.302) ({weather},1.758) ({orders},0.873) ({part},0.927)};
+\addplot[brown!80!black, fill=yellow!40, bar shift=4.05pt, forget plot] coordinates {({abalone},0.947) ({adult},1.022) ({breast},0.997) ({bridges},1.321) ({echo},1.770) ({hepatitis},2.257) ({letter},0.750) ({ncvoter},1.644) ({weather},1.600) ({orders},0.950) ({part},0.975)};
+\addplot[blue, fill=blue!30, bar shift=6.75pt, forget plot] coordinates {({abalone},4.836) ({adult},7.352) ({breast},4.958) ({bridges},9.481) ({echo},9.939) ({letter},16.183) ({ncvoter},22.870) ({orders},0.962) ({part},1.724)};
+\addplot[blue, fill=blue!30, bar shift=6.75pt, forget plot, postaction={pattern=dots}] coordinates {({hepatitis},278.110) ({weather},142.800)};
+\addplot[green!50!black, fill=green!40, bar shift=9.45pt, forget plot] coordinates {({abalone},4.378) ({adult},7.352) ({breast},4.948) ({bridges},9.481) ({echo},8.984) ({letter},16.183) ({ncvoter},22.870) ({orders},0.962) ({part},1.724)};
+\addplot[green!50!black, fill=green!40, bar shift=9.45pt, forget plot, postaction={pattern=dots}] coordinates {({weather},142.800)};
 \nextgroupplot[ylabel={per cent}, title={(c) integrity risk (RQ4)}, title style={font=\scriptsize, yshift=-3pt},
-  symbolic x coords={{abalone},{adult},{breast},{bridges},{echo},{hepatitis},{letter},{ncvoter},{weather},{orders},{part}}, xtick=data, ymin=0, ymax=100,
-  ymode=normal]
-\addplot[gray, fill=gray!45] coordinates {({abalone},67.7) ({adult},100.0) ({breast},98.3) ({bridges},83.7) ({echo},78.3) ({hepatitis},83.8) ({letter},100.0) ({ncvoter},75.8) ({weather},32.1) ({orders},0.0) ({part},58.9)};
-\addplot[red, fill=red!30] coordinates {({abalone},67.7) ({adult},0.0) ({breast},0.1) ({bridges},5.1) ({echo},41.5) ({hepatitis},1.1) ({letter},0.0) ({ncvoter},8.8) ({weather},3.0) ({orders},0.0) ({part},0.0)};
-\addplot[orange!80!black, fill=orange!45] coordinates {({abalone},77.4) ({adult},12.2) ({breast},88.3) ({bridges},68.4) ({echo},70.5) ({hepatitis},82.8) ({letter},68.9) ({ncvoter},66.8) ({weather},22.0) ({orders},0.0) ({part},5.1)};
-\addplot[blue, fill=blue!30] coordinates {({abalone},25.8) ({adult},0.0) ({breast},1.5) ({bridges},5.3) ({echo},14.6) ({hepatitis},0.8) ({letter},0.0) ({ncvoter},2.2) ({weather},2.0) ({orders},0.0) ({part},0.0)};
-\addplot[green!50!black, fill=green!40] coordinates {({abalone},25.8) ({adult},0.0) ({breast},1.1) ({bridges},5.3) ({echo},2.8) ({letter},0.0) ({ncvoter},2.2) ({weather},2.0) ({orders},0.0) ({part},0.0)};
+  symbolic x coords={{abalone},{adult},{breast},{bridges},{echo},{hepatitis},{letter},{ncvoter},{weather},{orders},{part}}, xtick=data, ymin=0.1, ymax=100,
+  ymode=log, log origin=infty]
+\addplot[gray, fill=gray!45, bar shift=-1.35pt, forget plot] coordinates {({abalone},73.91) ({adult},99.96) ({breast},98.37) ({bridges},83.57) ({echo},77.57) ({hepatitis},83.76) ({letter},100.00) ({ncvoter},75.15) ({weather},32.82) ({part},59.16)};
+\addplot[only marks, mark=o, mark size=1.2pt, gray, xshift=-1.35pt, forget plot] coordinates {({orders},0.1)};
+\addplot[red, fill=red!30, bar shift=-6.75pt, forget plot] coordinates {({abalone},20.11) ({breast},0.10) ({bridges},3.34) ({echo},13.94) ({hepatitis},1.05) ({ncvoter},6.13) ({weather},3.38)};
+\addplot[only marks, mark=o, mark size=1.2pt, red, xshift=-6.75pt, forget plot] coordinates {({adult},0.1) ({letter},0.1) ({orders},0.1) ({part},0.1)};
+\addplot[red!50!black, fill=red!10, bar shift=-4.05pt, forget plot] coordinates {({abalone},73.91) ({breast},0.10) ({bridges},5.41) ({echo},40.94) ({hepatitis},1.13) ({ncvoter},8.33) ({weather},3.40) ({part},59.16)};
+\addplot[only marks, mark=o, mark size=1.2pt, red!50!black, xshift=-4.05pt, forget plot] coordinates {({adult},0.1) ({letter},0.1) ({orders},0.1)};
+\addplot[orange!80!black, fill=orange!45, bar shift=1.35pt, forget plot] coordinates {({abalone},85.55) ({adult},11.33) ({breast},88.17) ({bridges},68.51) ({echo},71.51) ({hepatitis},82.96) ({letter},63.32) ({ncvoter},66.77) ({weather},22.16) ({part},4.90)};
+\addplot[only marks, mark=o, mark size=1.2pt, orange!80!black, xshift=1.35pt, forget plot] coordinates {({orders},0.1)};
+\addplot[brown!80!black, fill=yellow!40, bar shift=4.05pt, forget plot] coordinates {({abalone},85.70) ({adult},8.55) ({breast},88.57) ({bridges},53.05) ({echo},87.19) ({hepatitis},94.14) ({letter},63.32) ({ncvoter},61.18) ({weather},21.67) ({part},4.90)};
+\addplot[only marks, mark=o, mark size=1.2pt, brown!80!black, xshift=4.05pt, forget plot] coordinates {({orders},0.1)};
+\addplot[blue, fill=blue!30, bar shift=6.75pt, forget plot] coordinates {({abalone},27.35) ({breast},1.43) ({bridges},5.10) ({echo},15.34) ({hepatitis},0.84) ({ncvoter},2.27) ({weather},2.18)};
+\addplot[only marks, mark=o, mark size=1.2pt, blue, xshift=6.75pt, forget plot] coordinates {({adult},0.1) ({letter},0.1) ({orders},0.1) ({part},0.1)};
+\addplot[green!50!black, fill=green!40, bar shift=9.45pt, forget plot] coordinates {({abalone},27.35) ({breast},1.23) ({bridges},5.10) ({echo},2.79) ({ncvoter},2.27) ({weather},2.18)};
+\addplot[only marks, mark=o, mark size=1.2pt, green!50!black, xshift=9.45pt, forget plot] coordinates {({adult},0.1) ({letter},0.1) ({orders},0.1) ({part},0.1)};
+\addplot[only marks, mark=x, mark size=1.2pt, green!50!black, xshift=9.45pt, forget plot] coordinates {({hepatitis},0.1)};
 \end{groupplot}
 \end{tikzpicture}

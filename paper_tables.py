@@ -175,14 +175,27 @@ def e3_label(name):
     return tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
 
 def load_e3():
-    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py)"""
+    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py). While a mode has no
+    completed measurement, its placeholder records from results/e3pg_estimates.jsonl, if that file exists, are
+    appended (they carry "estimated": true, which the tables and figures mark); a real measurement replaces them."""
     import e3
     out = {}
     for name in e3.SETS:
         f = os.path.join("results", "e3pg_%s.jsonl" % name)
         if os.path.isfile(f):
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
+    f = os.path.join("results", "e3pg_estimates.jsonl")
+    if os.path.isfile(f):
+        for r in (json.loads(l) for l in open(f, encoding="utf-8") if l.strip()):
+            recs = out.get(r["set"])
+            if recs is not None and not any(x.get("mode") == r["mode"] and "seconds" in x for x in recs):
+                recs.append(r)
     return out
+
+def e3_estimated(recs, mode, size):
+    """whether the measurement of a mode at `size` consists of placeholder records"""
+    d, times, cancelled, skipped, m = e3_summary(recs, mode)
+    return d is not None and any(r.get("estimated") for r in recs if r.get("mode") == m and r.get("size") == size and "seconds" in r)
 
 def e3_summary(recs, mode):
     """the measurement of a mode: (design record, {size: [seconds of the completed repetitions]}, {size: elapsed
@@ -264,6 +277,8 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200):
             d = e3_summary(recs, mode)[0]
             mean, sd, n, cut = e3_mean(recs, mode, size)
             c = (r"$>$" + "{:,}".format(budget)) if (mean is None and cut) else cell(mean)
+            if e3_estimated(recs, mode, size):
+                c = r"\est{%s}" % c
             if mode.endswith("-x"):
                 cells.append("--" if d is None else num(d["exclusion"]))
             cells.append(c)
