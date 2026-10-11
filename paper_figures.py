@@ -33,14 +33,15 @@ def shift(key, bar=BAR, gap=GAP):
     i = [k for k, _, _ in STYLES].index(key)
     return (i - (len(STYLES) - 1) / 2.0) * (bar + gap)
 
-def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, dotted=None, bar=BAR, gap=GAP):
+def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, dotted=None, bar=BAR, gap=GAP, extra=""):
     """one ybar axis: names are the x labels, series a list of (design key, {name: value}) with value None for a
     missing value; hatched maps design keys to the names whose bar was cut by the budget, dotted those whose value is
     a placeholder estimate; on a logarithmic axis, floor is the y value at which zeros (circles) and missing values
-    (crosses) are marked; bar and gap are the bar width and the gap between the bars of a group in pt"""
+    (crosses) are marked; bar and gap are the bar width and the gap between the bars of a group in pt; extra holds
+    further axis options"""
     out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-3pt}," % (ylabel, title),
            r"  symbolic x coords={%s}, xtick=data, ymin=%s%s," % (",".join("{%s}" % n for n in names), ymin, "" if ymax is None else ", ymax=%s" % ymax),
-           r"  %s]" % ("ymode=log, log origin=infty" if log else "ymode=normal")]
+           r"  %s%s]" % ("ymode=log, log origin=infty" if log else "ymode=normal", ", " + extra if extra else "")]
     if legend:
         for key, label, style in STYLES:
             out.append(r"\addlegendimage{%s}\addlegendentry{%s}" % (style, label))
@@ -66,10 +67,13 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
     return out
 
 def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, width=r"\textwidth", height=3.6, bar=BAR, gap=GAP,
-                legend_cols=-1, legend_y=1.18):
+                legend_cols=-1, legend_y=1.18, vsep=36, ylabel_at=None, shared_xticklabels=False):
     """the bar panels of the losses (RQ1), the insertion times (RQ3) and the integrity risks (RQ4); with
     loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b); width, height,
-    bar and gap size the panels and the bars, legend_cols and legend_y lay out the legend above the first panel"""
+    bar and gap size the panels and the bars, legend_cols and legend_y lay out the legend above the first panel,
+    vsep is the distance between the panels in pt, and ylabel_at fixes the y labels at that fraction of the panel
+    width left of the axis, so that the labels of panels with tick labels of different widths align; with
+    shared_xticklabels only the bottom panel names the data sets (the panels show the same sets in the same order)"""
     greedy = load_gbcnf()
     # RQ1: the losses of the designs on the FD sets with positive loss
     loss_rows = [r for r in rows if "error" not in r and (r.get("repair_loss") or 0) > 0]
@@ -102,16 +106,20 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
             risk[key][label] = None if m is None else (0 if m == 0 else "%.2f" % m)
     letters = iter("abc")
     out = [r"\begin{tikzpicture}",
-           r"\begin{groupplot}[group style={group size=1 by %d, vertical sep=36pt}, ybar, width=%s, height=%gcm," % (3 if loss_panel else 2, width, height),
-           r"  /pgf/bar width=%.1fpt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize}," % bar,
+           r"\begin{groupplot}[group style={group size=1 by %d, vertical sep=%dpt}, ybar, width=%s, height=%gcm," % (3 if loss_panel else 2, vsep, width, height),
+           r"  /pgf/bar width=%.1fpt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize},%s" % (
+               bar, "" if ylabel_at is None else " ylabel style={at={(axis description cs:%g,0.5)}, anchor=south}," % ylabel_at),
            r"  xticklabel style={font=\scriptsize}, log ticks with fixed point,",
            r"  legend style={font=\scriptsize, at={(0.5,%g)}, anchor=south, legend columns=%d, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}}," % (legend_y, legend_cols),
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]"]
+    # the upper panels drop the names of the sets when the bottom panel names the same sets (groupplots'
+    # `xticklabels at=edge bottom` does not silence symbolic x coordinates)
+    upper = r"xticklabel=\empty" if shared_xticklabels else ""
     if loss_panel:
         out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
-                     [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap)
+                     [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
-                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot, bar=bar, gap=gap)
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
                  [(k, risk[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
@@ -238,12 +246,13 @@ def decade_ticks(lo, hi, max_labels=None, enlarge=0.12):
 def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5,
                  mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30, one_ylabel=True, one_xlabel=False,
                  legend_font=r"\scriptsize", legend_sep=8, label_font=r"\scriptsize", legend_yshift=14, decades=False,
-                 max_xlabels=None, share_rows=False, scale_only_axis=False, ylabel_at=None):
+                 max_xlabels=None, share_rows=False, scale_only_axis=False, ylabel_at=None, xmax=None):
     """small multiples, one per data set with positive loss (or the labels in `sets`, in that order): the time for
     inserting `size` records (logarithmic) against the dependency loss (logarithmic, with loss zero at the floor);
     the design of Drop appears only where it differs from that of Repair, an estimated time is drawn pale, and a
     time the budget cancelled sits at the budget with a > sign; `labels` overrides legend entries by index;
-    one_ylabel puts the y label on the middle row only, one_xlabel the x label under the middle column only"""
+    one_ylabel puts the y label on the middle row only, one_xlabel the x label under the middle column only, and
+    xmax maps set labels to an upper x limit that extends the axis (and its decade ticks) beyond the data"""
     import e3
     byname = {r["name"]: r for r in rows}
     labels = labels or {}
@@ -296,6 +305,9 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         # the label 0 of the floor tick, on every panel or only in the first column when the rows share their y axis
         opts.append("extra y tick labels={%s}" % ("0" if not share_rows or k % cols == 0 else ""))
         xs = [p[1] for p in pts]
+        if xs and (xmax or {}).get(name):
+            opts.append("xmax=%g" % xmax[name])
+            xs.append(xmax[name])
         if xs:
             ticks, labs = decade_ticks(min(xs), max(xs), max_xlabels) if decades else (log_ticks(min(xs), max(xs)), None)
             opts.append("xtick={%s}" % ",".join("%g" % t for t in ticks))
@@ -322,7 +334,8 @@ if __name__ == "__main__":
     rows = paper_rows()
     e3recs, e4recs = load_e3(), load_e4()
     # the single-column variant of the paper: time and risk on the nine E3/E4 sets, legend in two rows
-    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2)
+    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2,
+                    vsep=18, ylabel_at=-0.11, shared_xticklabels=True)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,
@@ -331,7 +344,8 @@ if __name__ == "__main__":
     t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
                      mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
                      label_font=r"\scriptsize", legend_yshift=12, decades=True, max_xlabels=None, share_rows=True, scale_only_axis=True, ylabel_at=-0.35,
-                     labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"})
+                     labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"},
+                     xmax={"bridges": 100, "echo": 100})
     open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
     open(os.path.join("results", "fig_pareto.tex"), "w", encoding="utf-8", newline="\n").write(p + "\n")
