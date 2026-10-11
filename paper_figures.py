@@ -253,11 +253,14 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
            r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=%dpt, vertical sep=%dpt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows_, hsep, vsep),
            r"  width=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000}," % (width, height, floor * 0.6),
            r"  extra y ticks={%g}, extra y tick labels={0}, extra y tick style={grid=none}," % floor,
-           r"  xlabel={seconds for %s records}, ylabel={unenforced minimal FDs}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
+           r"  xlabel={seconds for %s records}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
            r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=%gpt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]" % mark_size]
     for k, name in enumerate(names):
         pts = data[name]
         opts = ["title={%s}" % name]
+        if k == cols * (rows_ // 2):
+            # one y label, on the first panel of the middle row
+            opts.append("ylabel={dependency loss}")
         xs = [p[1] for p in pts]
         if xs:
             opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
