@@ -34,6 +34,7 @@ relative to their own location, so any working directory works.
 | `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary |
 | `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
 | `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
+| `hardness_check.py` | the reduction from Maximum Independent Set to MinLoss with an explicit atomic cover (Theorem "NP-hardness with explicit atomic cover"): builds the schema of a graph, checks that it is its own atomic cover, computes the explicit design for a maximum independent set and confirms the loss `2m + n - alpha` with Drop on small graphs; prints to the console |
 | `obstruction_stats.py`, `check_upper_bound.py`, `acyclic.py`, `lb_proto.py` | the obstruction bound and the certified lower bound on every FD set (`results/obstructions.jsonl`), a random check of the bound, the acyclicity test of Majster-Cederbaum on the FD sets, and a prototype of stronger lower bounds |
 | `test_examples.py` | the schemata of the paper with their proved losses |
 | `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
@@ -59,6 +60,7 @@ python src/experiments.py --table      # the summary of results/e1_*.jsonl
 python src/experiments.py --one abalone
 python src/gbcnf.py                    # the greedy BCNF decomposition on all FD sets
 python src/hybrid.py                   # Opt and Hybrid on all FD sets (the levels need the source tables of pgdb.py)
+python src/hardness_check.py 600 3     # the reduction of the hardness theorem for explicit atomic covers, checked with Drop
 python src/obstruction_stats.py        # the bounds of the paper on all FD sets
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py
 python src/e4.py abalone               # E4
