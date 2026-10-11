@@ -323,7 +323,7 @@ if __name__ == "__main__":
     # (plot boxes of 2.1 by 1.6 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
     t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
                      mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
-                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True, scale_only_axis=True, ylabel_at=-0.42,
+                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True, scale_only_axis=True, ylabel_at=-0.35,
                      labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"})
     open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
