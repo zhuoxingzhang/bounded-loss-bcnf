@@ -1,8 +1,8 @@
 # iCONF
 
-The experiments use the Python port of iCONF in `../iconf.py`. `IConfDriver.java` runs the Java implementation
+The experiments use the Python port of iCONF in `../src/iconf.py`. `IConfDriver.java` runs the Java implementation
 of iCONF (Zhang and Link, SIGMOD 2025) on an atomic cover and writes its schemata, so that `iconf_java` in
-`../iconf.py` and `../iconf_check.py` can compare the two. The iCONF sources are not part of this repository.
+`../src/iconf.py` and `../src/iconf_check.py` can compare the two. The iCONF sources are not part of this repository.
 To build, copy the directories `nf`, `object` and `util` of the iCONF sources to `build/src` and its
 `fastjson-1.2.79.jar` to `build`, then compile for Java 8:
 

@@ -1,0 +1,118 @@
+{"set": "abalone", "mode": "3nf", "design": true, "loss": 11, "rows": null, "copy": true, "schemata": 23, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "23 schemata x (Repair 4.8 s / 17 schemata)"}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 6.543, "inserted": null, "attempted": null, "estimated": true}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 6.543, "inserted": null, "attempted": null, "estimated": true}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 6.543, "inserted": null, "attempted": null, "estimated": true}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 6.543, "inserted": null, "attempted": null, "estimated": true}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 6.543, "inserted": null, "attempted": null, "estimated": true}
+{"set": "abalone", "mode": "3nfc", "skipped": "same design as keys", "same_as": "keys", "estimated": true}
+{"set": "adult", "mode": "3nf", "skipped": "same design as 3nf-x", "same_as": "3nf-x", "estimated": true}
+{"set": "adult", "mode": "3nfc", "skipped": "same design as 3nfc-x", "same_as": "3nfc-x", "estimated": true}
+{"set": "breast", "mode": "3nf", "design": true, "loss": 3, "rows": null, "copy": true, "schemata": 38, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "38 schemata x (Repair 5.0 s / 39 schemata)"}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nfc", "design": true, "loss": 2, "rows": null, "copy": true, "schemata": 38, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "38 schemata x (Repair 5.0 s / 39 schemata)"}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 4.831, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nf", "design": true, "loss": 19, "rows": null, "copy": true, "schemata": 57, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "57 schemata x (Repair 9.5 s / 60 schemata)"}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 9.007, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 9.007, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 9.007, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 9.007, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 9.007, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nfc", "design": true, "loss": 26, "rows": null, "copy": true, "schemata": 47, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "47 schemata x (Repair 9.5 s / 60 schemata)"}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 7.427, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 7.427, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.427, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 7.427, "inserted": null, "attempted": null, "estimated": true}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 7.427, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 63, "rows": null, "copy": true, "schemata": 80, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "80 schemata x (Repair 9.9 s / 61 schemata)"}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 13.034, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 13.034, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 13.034, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 13.034, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 13.034, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nfc", "design": true, "loss": 79, "rows": null, "copy": true, "schemata": 20, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "20 schemata x (Repair 9.9 s / 61 schemata)"}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 3.39, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 3.39, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 3.39, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 3.39, "inserted": null, "attempted": null, "estimated": true}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 3.39, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "repair", "design": true, "loss": 1092, "rows": null, "copy": true, "schemata": 1918, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "1918 schemata x 0.145 s per schema (median rate of the key designs on breast, bridges, echo, ncvoter)"}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 0, "seconds": 278.11, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 1, "seconds": 278.11, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 2, "seconds": 278.11, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 3, "seconds": 278.11, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 4, "seconds": 278.11, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nf", "design": true, "loss": 1554, "rows": null, "copy": true, "schemata": 1677, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "1677 schemata x (Repair 278.1 s / 1918 schemata)"}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 243.165, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 243.165, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 243.165, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 243.165, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 243.165, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nfc", "design": true, "loss": 1992, "rows": null, "copy": true, "schemata": 1498, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "1498 schemata x (Repair 278.1 s / 1918 schemata)"}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 217.21, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 217.21, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 217.21, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 217.21, "inserted": null, "attempted": null, "estimated": true}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 217.21, "inserted": null, "attempted": null, "estimated": true}
+{"set": "letter", "mode": "3nf", "skipped": "same design as 3nf-x", "same_as": "3nf-x", "estimated": true}
+{"set": "letter", "mode": "3nfc", "skipped": "same design as 3nf-x", "same_as": "3nf-x", "estimated": true}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": null, "copy": true, "schemata": 173, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "173 schemata x (Repair 22.9 s / 170 schemata)"}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 23.273, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 23.273, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 23.273, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 23.273, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 23.273, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nfc", "design": true, "loss": 191, "rows": null, "copy": true, "schemata": 105, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "105 schemata x (Repair 22.9 s / 170 schemata)"}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 14.125, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 14.125, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 14.125, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 14.125, "inserted": null, "attempted": null, "estimated": true}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 14.125, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "orig-x", "design": true, "loss": 0, "rows": null, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 516, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "516 exclusion constraints x 1.8 s + keys 0.4 s"}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 929.201, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 929.201, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 929.201, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 929.201, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 929.201, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf-x", "design": true, "loss": 147, "rows": null, "copy": true, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 222, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "222 exclusion constraints x 1.8 s + 407 schemata x 0.30 s"}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 521.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 521.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 521.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 521.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 521.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": null, "copy": true, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "226 exclusion constraints x 1.8 s + 403 schemata x 0.30 s"}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 527.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 527.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 527.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 527.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 527.7, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "repair", "design": true, "loss": 114, "rows": null, "copy": true, "schemata": 476, "unique": 507, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "476 schemata x 0.30 s per schema"}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 142.8, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 142.8, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 2, "seconds": 142.8, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 3, "seconds": 142.8, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 4, "seconds": 142.8, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "drop", "skipped": "same design as repair", "same_as": "repair", "estimated": true}
+{"set": "weather", "mode": "3nf", "design": true, "loss": 147, "rows": null, "copy": true, "schemata": 407, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "407 schemata x (Repair 142.8 s / 476 schemata)"}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 122.1, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 122.1, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 122.1, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 122.1, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 122.1, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc", "design": true, "loss": 149, "rows": null, "copy": true, "schemata": 403, "unique": null, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": null, "estimated": true, "basis": "403 schemata x (Repair 142.8 s / 476 schemata)"}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 120.9, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 120.9, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 120.9, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 120.9, "inserted": null, "attempted": null, "estimated": true}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 120.9, "inserted": null, "attempted": null, "estimated": true}
+{"set": "tpch_orders", "mode": "3nf", "skipped": "same design as 3nf-x", "same_as": "3nf-x", "estimated": true}
+{"set": "tpch_orders", "mode": "3nfc", "skipped": "same design as 3nfc-x", "same_as": "3nfc-x", "estimated": true}
+{"set": "tpch_part", "mode": "3nf", "skipped": "same design as 3nf-x", "same_as": "3nf-x", "estimated": true}
+{"set": "tpch_part", "mode": "3nfc", "skipped": "same design as keys", "same_as": "keys", "estimated": true}

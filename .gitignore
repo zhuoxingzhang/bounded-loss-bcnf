@@ -1,10 +1,10 @@
 __pycache__/
 *.pyc
 # the four largest search logs (2 to 9 MB each)
-weak_n5.log
-weak6_n5.log
-weak_n6.log
-weak6_n6.log
+search/weak_n5.log
+search/weak6_n5.log
+search/weak_n6.log
+search/weak6_n6.log
 
 # compiled iCONF classes (iconf/README.md)
 iconf/build/

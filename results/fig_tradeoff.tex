@@ -3,7 +3,7 @@
   scale only axis, width=2.1cm, height=1.6cm, xmode=log, ymode=log, log ticks with fixed point, ymin=0.3, ytick={1,10,100,1000,10000},
   extra y ticks={0.5}, extra y tick style={grid=none},
   tick label style={font=\tiny}, label style={font=\scriptsize},
-  ylabel={dependency loss}, ylabel style={at={(axis description cs:-0.35,0.5)}, anchor=south}, title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=2.2pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]
+  ylabel={dependency loss}, ylabel style={at={(axis description cs:-0.32,0.5)}, anchor=base}, title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=2.2pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]
 \nextgroupplot[title={abalone}, ymax=1000, extra y tick labels={0}, xtick={1,10}, legend to name=tradeofflegend, legend columns=4, legend cell align=left, legend style={font=\tiny, draw=none, /tikz/every even column/.append style={column sep=3pt}}]
 \addlegendimage{only marks, black, mark=square*}\addlegendentry{original, exclusion}
 \addlegendimage{only marks, red, mark=triangle*}\addlegendentry{3NF, exclusion}
@@ -56,5 +56,5 @@
 \addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(2.177,8211)};
 \addplot[only marks, blue, mark=pentagon*, opacity=0.4, forget plot] coordinates {(278.1,1092)};
 \end{groupplot}
-\node[anchor=south] at ([yshift=12pt]group c2r1.north) {\ref{tradeofflegend}};
+\node[anchor=south] at ([yshift=8pt]group c2r1.north) {\ref{tradeofflegend}};
 \end{tikzpicture}
