@@ -1,0 +1,148 @@
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=4 by 3, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left},
+  width=4.9cm, height=3.6cm, xmode=log, ymin=-6, ymax=106, ytick={0,25,50,75,100}, log ticks with fixed point,
+  xlabel={seconds for 10,000 records}, ylabel={risk (\%)}, tick label style={font=\tiny}, label style={font=\scriptsize},
+  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12]
+\nextgroupplot[title={abalone}, xtick={1,2,5,10,20}, legend to name=paretolegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}]
+\addlegendimage{only marks, black, mark=square*}\addlegendentry{original, FDs by exclusion}
+\addlegendimage{only marks, red, mark=triangle*}\addlegendentry{3NF (iConf), FDs by exclusion}
+\addlegendimage{only marks, red!50!black, mark=triangle*}\addlegendentry{3NF (classical), FDs by exclusion}
+\addlegendimage{only marks, gray, mark=*}\addlegendentry{keys only}
+\addlegendimage{only marks, red, mark=triangle, mark options={fill=white}}\addlegendentry{3NF (iConf), keys only}
+\addlegendimage{only marks, red!50!black, mark=triangle, mark options={fill=white}}\addlegendentry{3NF (classical), keys only}
+\addlegendimage{only marks, orange!80!black, mark=diamond*}\addlegendentry{BCNF}
+\addlegendimage{only marks, brown!80!black, mark=diamond, mark options={fill=white}}\addlegendentry{BCNF (greedy)}
+\addlegendimage{only marks, blue, mark=pentagon*}\addlegendentry{\repair}
+\addlegendimage{only marks, green!50!black, mark=star, mark size=2.4pt}\addlegendentry{\drop}
+\addplot[const plot, gray!70, forget plot] coordinates {(0.835,85.55) (1.429,73.91) (4.378,27.35) (6.543,20.11) (10.83,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(20.83,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(10.83,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(20.83,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(1.429,73.91)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(6.543,20.11)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, forget plot] coordinates {(1.429,73.91)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.835,85.55)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(0.9468,85.7)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(4.836,27.35)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(4.378,27.35)};
+\nextgroupplot[title={adult}, xtick={1,10}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.4142,99.96) (0.8522,11.33) (1.022,8.546) (7.352,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(41.87,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(8.093,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(7.352,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.4142,99.96)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, forget plot] coordinates {(8.093,0)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, forget plot] coordinates {(7.352,0)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.8522,11.33)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(1.022,8.546)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(7.352,0)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(7.352,0)};
+\nextgroupplot[title={breast}, xtick={1,10}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.2666,98.37) (0.82,88.17) (4.831,0.09583) (6.301,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(30.03,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(6.301,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(6.535,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.2666,98.37)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(4.831,0.09583)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(4.831,0.09583)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.82,88.17)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(0.997,88.57)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(4.958,1.425)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(4.948,1.233)};
+\nextgroupplot[title={bridges}, xtick={1,10}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.4414,83.57) (0.8554,68.51) (1.321,53.05) (7.427,5.409) (9.007,3.345) (21.25,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(46.67,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(21.25,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(23.03,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.4414,83.57)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(9.007,3.345)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(7.427,5.409)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.8554,68.51)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(1.321,53.05)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(9.481,5.102)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(9.481,5.102)};
+\nextgroupplot[title={echo}, xtick={1,10}]
+\addplot[const plot, gray!70, forget plot] coordinates {(1.233,71.51) (3.39,40.94) (8.984,2.793) (20.66,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(61.71,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(20.66,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(57.84,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(3.39,77.57)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(13.03,13.94)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(3.39,40.94)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.233,71.51)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(1.77,87.19)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(9.939,15.34)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(8.984,2.793)};
+\nextgroupplot[title={hepatitis}, xtick={10,100,1000}]
+\addplot[const plot, gray!70, forget plot] coordinates {(2.177,82.96) (217.2,1.127) (243.2,1.054) (278.1,0.8379) (1231,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(3085,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(1231,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(1402,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(18.89,83.76)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(243.2,1.054)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(217.2,1.127)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(2.177,82.96)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(2.257,94.14)};
+\addplot[only marks, blue, mark=pentagon*, opacity=0.4, forget plot] coordinates {(278.1,0.8379)};
+\nextgroupplot[title={letter}, xtick={1,10}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.3404,100) (0.5646,63.32) (16.18,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(73.51,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(16.18,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(16.18,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.3404,100)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, forget plot] coordinates {(16.18,0)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, forget plot] coordinates {(16.18,0)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.5646,63.32)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(0.75,63.32)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(16.18,0)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(16.18,0)};
+\nextgroupplot[title={ncvoter}, xtick={10,100}]
+\addplot[const plot, gray!70, forget plot] coordinates {(1.302,66.77) (1.644,61.18) (14.12,8.325) (22.87,2.275) (55.13,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(183.3,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(55.13,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(99.92,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(3.352,75.15)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(23.27,6.126)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(14.12,8.325)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.302,66.77)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(1.644,61.18)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(22.87,2.275)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(22.87,2.275)};
+\nextgroupplot[title={weather}, xtick={1,10,100,1000}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.4012,32.82) (1.6,21.67) (120.9,3.404) (122.1,3.384) (142.8,2.175) (521.7,0)};
+\addplot[only marks, black, mark=square*, opacity=0.4, forget plot] coordinates {(929.2,0)};
+\addplot[only marks, red, mark=triangle*, opacity=0.4, forget plot] coordinates {(521.7,0)};
+\addplot[only marks, red!50!black, mark=triangle*, opacity=0.4, forget plot] coordinates {(527.7,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.4012,32.82)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(122.1,3.384)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(120.9,3.404)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.758,22.16)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(1.6,21.67)};
+\addplot[only marks, blue, mark=pentagon*, opacity=0.4, forget plot] coordinates {(142.8,2.175)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, opacity=0.4, forget plot] coordinates {(142.8,2.175)};
+\nextgroupplot[title={orders}, xtick={1,2,5}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(3.971,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(1.939,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(0.9618,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.7596,0)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, forget plot] coordinates {(1.939,0)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, forget plot] coordinates {(0.9618,0)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.8734,0)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(0.9496,0)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(0.9618,0)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(0.9618,0)};
+\nextgroupplot[title={part}, xtick={1,2}]
+\addplot[const plot, gray!70, forget plot] coordinates {(0.927,4.903) (1.724,0)};
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(2.158,0)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(2.631,0)};
+\addplot[only marks, red!50!black, mark=triangle*, forget plot] coordinates {(2.158,0)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(1.047,59.16)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, forget plot] coordinates {(2.631,0)};
+\addplot[only marks, red!50!black, mark=triangle, mark options={fill=white}, forget plot] coordinates {(1.047,59.16)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.927,4.903)};
+\addplot[only marks, brown!80!black, mark=diamond, mark options={fill=white}, forget plot] coordinates {(0.9746,4.903)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(1.724,0)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(1.724,0)};
+\end{groupplot}
+\node[anchor=south] at ([yshift=14pt]group c2r1.north east) {\ref{paretolegend}};
+\end{tikzpicture}

@@ -94,9 +94,11 @@ def load_gbcnf():
                 out[r["name"]] = r
     return out
 
-def table_e12(rows):
+def table_e12(rows, compact=True):
     """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
-    the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times"""
+    the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times;
+    compact leaves out the FD sets without a non-key FD (loss zero for every design) and those that exceeded the
+    budget, which the text states in one sentence each"""
     obstr = load_obstructions()
     greedy = load_gbcnf()
     cols = 17
@@ -111,6 +113,8 @@ def table_e12(rows):
                r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
+        if compact and ("error" in r or r.get("nu") == 0):
+            continue
         if "error" in r:
             # a set that exceeded its budget: sizes from the FD file, the discovered FDs taken as the atomic cover
             import experiments
@@ -346,7 +350,8 @@ if __name__ == "__main__":
     e4recs = load_e4()
     tf = os.path.join("results", "teaser_pg.jsonl")
     teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
-    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)), ("table_e3.tex", table_e3(e3recs, e4recs)),
+    for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows)),
+                  ("table_e12_full.tex", table_e12(rows, compact=False)), ("table_e3.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join("results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)

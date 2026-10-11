@@ -1,0 +1,67 @@
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=4 by 2, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left},
+  width=4.6cm, height=3.3cm, xmode=log, ymode=log, log ticks with fixed point, ymin=0.3, ytick={1,10,100,1000,10000},
+  extra y ticks={0.5}, extra y tick labels={0}, extra y tick style={grid=none},
+  xlabel={seconds for 10,000 records}, ylabel={unenforced minimal FDs}, tick label style={font=\tiny}, label style={font=\scriptsize},
+  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]
+\nextgroupplot[title={abalone}, xtick={1,2,5,10,20}, legend to name=tradeofflegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}]
+\addlegendimage{only marks, black, mark=square*}\addlegendentry{original, all FDs by exclusion}
+\addlegendimage{only marks, red, mark=triangle*}\addlegendentry{3NF (iConf), FDs by exclusion}
+\addlegendimage{only marks, red, mark=triangle, mark options={fill=white}}\addlegendentry{3NF (iConf), keys only}
+\addlegendimage{only marks, gray, mark=*}\addlegendentry{keys only}
+\addlegendimage{only marks, orange!80!black, mark=diamond*}\addlegendentry{BCNF}
+\addlegendimage{only marks, blue, mark=pentagon*}\addlegendentry{\repair}
+\addlegendimage{only marks, green!50!black, mark=star, mark size=2.4pt}\addlegendentry{\drop, where it differs}
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(20.83,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(10.83,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(6.543,11)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(1.429,31)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.835,95)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(4.836,8)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(4.378,8)};
+\nextgroupplot[title={breast}, xtick={1,10}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(30.03,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(6.301,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(4.831,3)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.2666,46)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.82,38)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(4.958,3)};
+\nextgroupplot[title={bridges}, xtick={1,10}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(46.67,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(21.25,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(9.007,19)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.4414,108)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(0.8554,103)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(9.481,11)};
+\nextgroupplot[title={echo}, xtick={1,10}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(61.71,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(20.66,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(13.03,63)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(3.39,126)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.233,463)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(9.939,12)};
+\addplot[only marks, green!50!black, mark=star, mark size=2.4pt, forget plot] coordinates {(8.984,12)};
+\nextgroupplot[title={hepatitis}, xtick={10,100,1000}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(3085,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(1231,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(243.2,1554)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(18.89,7220)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(2.177,8211)};
+\addplot[only marks, blue, mark=pentagon*, opacity=0.4, forget plot] coordinates {(278.1,1092)};
+\nextgroupplot[title={ncvoter}, xtick={10,100}]
+\addplot[only marks, black, mark=square*, forget plot] coordinates {(183.3,0.5)};
+\addplot[only marks, red, mark=triangle*, forget plot] coordinates {(55.13,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(23.27,89)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(3.352,403)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.302,704)};
+\addplot[only marks, blue, mark=pentagon*, forget plot] coordinates {(22.87,58)};
+\nextgroupplot[title={weather}, xtick={1,10,100,1000}]
+\addplot[only marks, black, mark=square*, opacity=0.4, forget plot] coordinates {(929.2,0.5)};
+\addplot[only marks, red, mark=triangle*, opacity=0.4, forget plot] coordinates {(521.7,0.5)};
+\addplot[only marks, red, mark=triangle, mark options={fill=white}, opacity=0.4, forget plot] coordinates {(122.1,147)};
+\addplot[only marks, gray, mark=*, forget plot] coordinates {(0.4012,894)};
+\addplot[only marks, orange!80!black, mark=diamond*, forget plot] coordinates {(1.758,869)};
+\addplot[only marks, blue, mark=pentagon*, opacity=0.4, forget plot] coordinates {(142.8,114)};
+\end{groupplot}
+\node[anchor=south] at ([yshift=14pt]group c2r1.north east) {\ref{tradeofflegend}};
+\end{tikzpicture}

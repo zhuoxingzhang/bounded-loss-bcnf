@@ -65,7 +65,9 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
                         mark, STYLE[key].split(",")[0], shift(key), pts))
     return out
 
-def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
+def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True):
+    """the bar panels of the losses (RQ1), the insertion times (RQ3) and the integrity risks (RQ4); with
+    loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b)"""
     greedy = load_gbcnf()
     # RQ1: the losses of the designs on the FD sets with positive loss
     loss_rows = [r for r in rows if "error" not in r and (r.get("repair_loss") or 0) > 0]
@@ -96,17 +98,19 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200):
         for key in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop"):
             m, _ = e4_risk(recs, key)
             risk[key][label] = None if m is None else (0 if m == 0 else "%.2f" % m)
+    letters = iter("abc")
     out = [r"\begin{tikzpicture}",
-           r"\begin{groupplot}[group style={group size=1 by 3, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm,",
+           r"\begin{groupplot}[group style={group size=1 by %d, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm," % (3 if loss_panel else 2),
            r"  /pgf/bar width=%.1fpt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize}," % BAR,
            r"  xticklabel style={font=\scriptsize}, log ticks with fixed point,",
            r"  legend style={font=\scriptsize, at={(0.5,1.18)}, anchor=south, legend columns=-1, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},",
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]"]
-    out += panel("(a) dependency loss (RQ1)", "minimal FDs", names1,
-                 [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1)
-    out += panel("(b) time for inserting 10,000 records (RQ3)", "seconds", names3,
-                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, hatched=cut, dotted=dot)
-    out += panel("(c) integrity risk (RQ4)", "per cent", names4,
+    if loss_panel:
+        out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
+                     [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1)
+    out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot)
+    out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
                  [(k, risk[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
     return "\n".join(out)
@@ -162,32 +166,42 @@ def log_ticks(lo, hi):
     ticks = [t for t in ticks if lo / 1.3 <= t <= hi * 1.3]
     return ticks if len(ticks) >= 2 else [10 ** math.floor(math.log10(lo)), 10 ** math.ceil(math.log10(hi))]
 
-def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4):
+def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4, sets=None, designs=None, width=4.9, height=3.6,
+               skyline=True, drop_where_differs=False, labels=None):
     """small multiples, one per data set: insertion time (logarithmic) against integrity risk, with the staircase of
-    the Pareto front; the legend is a named legend that the figure places above the plots"""
+    the skyline (Pareto front); the legend is a named legend that the figure places above the plots. `sets` restricts
+    the data sets (by label) and `designs` the designs (by index into PARETO); with drop_where_differs, the design of
+    Drop is drawn only where it differs from that of Repair; `labels` overrides legend entries by index."""
     data = pareto_points(e3recs, e4recs, size, budget)
-    names = list(data)
+    names = [n for n in data if sets is None or n in sets]
+    keep = list(designs) if designs is not None else list(range(len(PARETO)))
+    labels = labels or {}
     rows = -(-(len(names) + 1) // cols)
     out = [r"\begin{tikzpicture}",
            r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows),
-           r"  width=4.9cm, height=3.6cm, xmode=log, ymin=-6, ymax=106, ytick={0,25,50,75,100}, log ticks with fixed point,",
+           r"  width=%gcm, height=%gcm, xmode=log, ymin=-6, ymax=106, ytick={0,25,50,75,100}, log ticks with fixed point," % (width, height),
            r"  xlabel={seconds for %s records}, ylabel={risk (\%%)}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
            r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12]"]
     for k, name in enumerate(names):
+        pts = [p for p in data[name] if p[0] in keep]
+        if drop_where_differs:
+            rep = [p for p in pts if PARETO[p[0]][0] == "repair"]
+            pts = [p for p in pts if PARETO[p[0]][0] != "drop" or not rep or abs(p[1] - rep[0][1]) > 0.05 * rep[0][1] or abs(p[2] - rep[0][2]) > 0.5]
         opts = ["title={%s}" % name]
-        xs = [p[1] for p in data[name]]
+        xs = [p[1] for p in pts]
         if xs:
             opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
         if k == 0:
-            opts.append(r"legend to name=paretolegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}")
+            opts.append(r"legend to name=paretolegend, legend columns=%d, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}" % min(5, len(keep)))
         out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
         if k == 0:
-            for _, _, label, style in PARETO:
-                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style, label))
-        front = pareto_front(data[name])
-        if len(front) > 1:
+            for i in keep:
+                _, _, label, style = PARETO[i]
+                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style, labels.get(i, label)))
+        front = pareto_front(pts)
+        if skyline and len(front) > 1:
             out.append(r"\addplot[const plot, gray!70, forget plot] coordinates {%s};" % " ".join("(%.4g,%.4g)" % (p[1], p[2]) for p in front))
-        for i, x, y, cut, estimated in data[name]:
+        for i, x, y, cut, estimated in pts:
             style = PARETO[i][3] + (", opacity=0.4" if estimated else "")
             out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
             if cut:
@@ -198,11 +212,76 @@ def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4):
             r"\end{tikzpicture}"]
     return "\n".join(out)
 
+TRADEOFF = [("orig-x", None, "original, all FDs by exclusion", "black, mark=square*"),
+            ("3nf-x", None, "3NF (iConf), FDs by exclusion", "red, mark=triangle*"),
+            ("3nf", "3nf_loss", "3NF (iConf), keys only", "red, mark=triangle, mark options={fill=white}"),
+            ("keys", "nu", "keys only", "gray, mark=*"),
+            ("bcnf", "bcnf_loss", "BCNF", "orange!80!black, mark=diamond*"),
+            ("repair", "repair_loss", r"\repair", "blue, mark=pentagon*"),
+            ("drop", "drop_loss", r"\drop, where it differs", "green!50!black, mark=star, mark size=2.4pt")]
+
+def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5):
+    """small multiples, one per data set with positive loss: the time for inserting `size` records (logarithmic)
+    against the dependency loss (logarithmic, with loss zero at the floor); the design of Drop appears only where it
+    differs from that of Repair, an estimated time is drawn pale, and a time the budget cancelled sits at the budget
+    with a > sign"""
+    import e3
+    byname = {r["name"]: r for r in rows}
+    data = {}
+    for name, recs in e3recs.items():
+        r = byname.get(e3.SETS[name])
+        label = e3_label(name)
+        if r is None or (sets is not None and label not in sets) or (sets is None and not (r.get("repair_loss") or 0) > 0):
+            continue
+        pts = []
+        for i, (mode, field, _, _) in enumerate(TRADEOFF):
+            mean, sd, n, cut = e3_mean(recs, mode, size)
+            if mean is None and not cut:
+                continue
+            loss = 0 if field is None else r.get(field)
+            if loss is None:
+                continue
+            pts.append((i, budget if mean is None else mean, max(loss, floor), mean is None, e3_estimated(recs, mode, size)))
+        rep = [p for p in pts if TRADEOFF[p[0]][0] == "repair"]
+        pts = [p for p in pts if TRADEOFF[p[0]][0] != "drop" or not rep or p[2] != rep[0][2] or abs(p[1] - rep[0][1]) > 0.05 * rep[0][1]]
+        data[label] = pts
+    names = list(data)
+    rows_ = -(-(len(names) + 1) // cols)
+    out = [r"\begin{tikzpicture}",
+           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows_),
+           r"  width=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000}," % (width, height, floor * 0.6),
+           r"  extra y ticks={%g}, extra y tick labels={0}, extra y tick style={grid=none}," % floor,
+           r"  xlabel={seconds for %s records}, ylabel={unenforced minimal FDs}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
+           r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]"]
+    for k, name in enumerate(names):
+        pts = data[name]
+        opts = ["title={%s}" % name]
+        xs = [p[1] for p in pts]
+        if xs:
+            opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
+        if k == 0:
+            opts.append(r"legend to name=tradeofflegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}")
+        out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
+        if k == 0:
+            for _, _, label, style in TRADEOFF:
+                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style, label))
+        for i, x, y, cut, estimated in pts:
+            style = TRADEOFF[i][3] + (", opacity=0.4" if estimated else "")
+            out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
+            if cut:
+                out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))
+    out += [r"\end{groupplot}",
+            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north east) {\ref{tradeofflegend}};" % (cols // 2) if cols % 2 == 0 else
+            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north) {\ref{tradeofflegend}};" % (cols // 2 + 1),
+            r"\end{tikzpicture}"]
+    return "\n".join(out)
+
 if __name__ == "__main__":
     rows = paper_rows()
     e3recs, e4recs = load_e3(), load_e4()
-    t = fig_results(rows, e3recs, e4recs)
+    t = fig_results(rows, e3recs, e4recs, loss_panel=False)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
+    open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(fig_tradeoff(rows, e3recs) + "\n")
     p = fig_pareto(e3recs, e4recs)
     open(os.path.join("results", "fig_pareto.tex"), "w", encoding="utf-8", newline="\n").write(p + "\n")
