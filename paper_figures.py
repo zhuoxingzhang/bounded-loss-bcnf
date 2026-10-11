@@ -233,7 +233,7 @@ def decade_ticks(lo, hi, max_labels=None):
 def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5,
                  mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30, one_ylabel=True, one_xlabel=False,
                  legend_font=r"\scriptsize", legend_sep=8, label_font=r"\scriptsize", legend_yshift=14, decades=False,
-                 max_xlabels=None, share_rows=False):
+                 max_xlabels=None, share_rows=False, scale_only_axis=False):
     """small multiples, one per data set with positive loss (or the labels in `sets`, in that order): the time for
     inserting `size` records (logarithmic) against the dependency loss (logarithmic, with loss zero at the floor);
     the design of Drop appears only where it differs from that of Repair, an estimated time is drawn pale, and a
@@ -269,7 +269,8 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
     out = [r"\begin{tikzpicture}",
            r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=%dpt, vertical sep=%dpt, xlabels at=edge bottom, ylabels at=edge left%s},"
            % (cols, rows_, hsep, vsep, ", yticklabels at=edge left" if share_rows else ""),
-           r"  width=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000}," % (width, height, floor * 0.6),
+           r"  %swidth=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000},"
+           % ("scale only axis, " if scale_only_axis else "", width, height, floor * 0.6),
            r"  extra y ticks={%g}, extra y tick style={grid=none}," % floor,
            r"  %stick label style={font=\tiny}, label style={font=%s}," % ("" if one_xlabel else "xlabel={seconds for %s records}, " % "{:,}".format(size), label_font),
            r"  %stitle style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=%gpt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]"
@@ -317,9 +318,10 @@ if __name__ == "__main__":
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,
     # a compact legend in two rows above, one x label and a y label per row
-    t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.75, height=2.5,
-                     mark_size=2.0, legend_cols=4, hsep=8, vsep=22, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
-                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True,
+    # (plot boxes of 2.1 by 1.6 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
+    t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
+                     mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
+                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True, scale_only_axis=True,
                      labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"})
     open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
