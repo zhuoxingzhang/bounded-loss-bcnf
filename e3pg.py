@@ -27,7 +27,8 @@ random stored record on a closed set U of attributes (the closure of a random su
 values elsewhere, so the enlarged relation satisfies every FD of Sigma and no insertion is rejected. Every
 repetition starts from freshly built tables, since deleting the synthetic rows and vacuuming leaves the GiST
 indexes of the exclusion constraints larger and slower than freshly built ones. The budget of a mode counts its
-insertion time only, and a watchdog cancels the insertion that exhausts it.
+insertion time only, and a watchdog cancels the insertion that exhausts it. A repetition whose connection the server
+closes is repeated from fresh tables on a new connection (at most RETRIES times; its record notes the retries).
 
 With --copy, the tables of a mode are built once in a database e3t_<set>_<mode> (from e3t_<set>_base, which holds
 the extensions and a copy of the source table), and every repetition inserts into a file copy of that database
@@ -55,6 +56,7 @@ ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "
 BATCH = 1000
 TEMPLATE_SEED = 42
 MAX_KEY_BYTES = 2000      # a UNIQUE B-tree entry must fit into a third of a page; wider keys get an md5 index
+RETRIES = 2               # repetitions repeated after the server closed the connection
 
 def design_of(rec, mode):
     """(design, enforcement) of a mode: the schemata with keys and trigger FDs, and 'x', 't' or None"""
@@ -220,6 +222,18 @@ class Harness:
             self.wcon.close()
         self.wcon, self.wcur = self.con, self.cur
 
+    def reconnect(self):
+        """after the server closed a connection: a new connection to bcnf (the copy of --copy is made afresh)"""
+        for con in (self.wcon, self.con):
+            if not con.closed:
+                con.close()
+        self.con = connect()
+        self.cur = self.con.cursor()
+        self.cur.execute("SET enable_seqscan = off")
+        self.cur.execute("SET enable_bitmapscan = off")
+        self.con.commit()
+        self.wcon, self.wcur = self.con, self.cur
+
     def base(self):
         """the database e3t_<set>_base with the extensions and a copy of the source table, created once (under an
         advisory lock, since --prepare builds several templates from it in parallel)"""
@@ -343,36 +357,51 @@ class Harness:
                     self.log(mode, size, "budget exhausted after", rep, "repetitions")
                     break
                 recs = self.records(size, rep)
-                extra = {}
-                if self.copy:
-                    extra["copy_seconds"] = round(self.fresh_copy(template), 3)
-                else:
-                    info = self.build(mode, design, how)
-                if size == self.sizes[0] and rep == 0:
-                    self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, copy=self.copy, **info))
-                    self.log(mode, "design:", info)
-                t_rep = time.time()
-                try:
-                    secs, inserted = self.insert(recs, deadline=t_rep + self.budget - spent)
-                except psycopg2.errors.QueryCanceled:
-                    self.wcon.rollback()
-                    elapsed = time.time() - t_rep
-                    self.write(dict(set=self.name, mode=mode, size=size, rep=rep, timeout_seconds=round(elapsed, 3),
-                                    inserted_before_timeout=self.partial, attempted=size * len(design),
-                                    truncated="budget of %d s exhausted during size %d repetition %d" % (self.budget, size, rep), **extra))
-                    self.log(mode, size, rep, "TIMEOUT after %.0fs with %d rows of the completed batches" % (elapsed, self.partial))
-                    self.release()
-                    return
-                except psycopg2.Error as e:
-                    self.wcon.rollback()
-                    self.write(dict(set=self.name, mode=mode, size=size, rep=rep, error=str(e)[:300]))
-                    self.log(mode, size, rep, "ERROR", str(e)[:300])
-                    self.release()
-                    return
+                for attempt in range(RETRIES + 1):
+                    extra = {"retries": attempt} if attempt else {}
+                    if self.copy:
+                        extra["copy_seconds"] = round(self.fresh_copy(template), 3)
+                    else:
+                        info = self.build(mode, design, how)
+                    if size == self.sizes[0] and rep == 0 and attempt == 0:
+                        self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, copy=self.copy, **info))
+                        self.log(mode, "design:", info)
+                    t_rep = time.time()
+                    try:
+                        secs, inserted = self.insert(recs, deadline=t_rep + self.budget - spent)
+                        break
+                    except psycopg2.errors.QueryCanceled:
+                        self.wcon.rollback()
+                        elapsed = time.time() - t_rep
+                        self.write(dict(set=self.name, mode=mode, size=size, rep=rep, timeout_seconds=round(elapsed, 3),
+                                        inserted_before_timeout=self.partial, attempted=size * len(design),
+                                        truncated="budget of %d s exhausted during size %d repetition %d" % (self.budget, size, rep), **extra))
+                        self.log(mode, size, rep, "TIMEOUT after %.0fs with %d rows of the completed batches" % (elapsed, self.partial))
+                        self.release()
+                        return
+                    except psycopg2.Error as e:
+                        if self.wcon.closed and attempt < RETRIES:
+                            # the server closed the connection (twice on 2026-10-11 the backend of hepatitis was
+                            # terminated by a signal from outside): reconnect and repeat the repetition from fresh tables
+                            self.write(dict(set=self.name, mode=mode, size=size, rep=rep, attempt=attempt, connection_lost=str(e)[:300]))
+                            self.log(mode, size, rep, "connection lost after %.0fs, repeating: %s" % (time.time() - t_rep, str(e).strip()[:120]))
+                            time.sleep(30)
+                            self.reconnect()
+                            continue
+                        if self.wcon.closed:
+                            self.reconnect()
+                        else:
+                            self.wcon.rollback()
+                        self.write(dict(set=self.name, mode=mode, size=size, rep=rep, error=str(e)[:300]))
+                        self.log(mode, size, rep, "ERROR", str(e)[:300])
+                        self.release()
+                        return
                 spent += secs
                 self.write(dict(set=self.name, mode=mode, size=size, rep=rep, seconds=round(secs, 3), inserted=inserted,
                                 attempted=size * len(design), **extra))
-                self.log(mode, size, rep, "%.2fs" % secs, "%d rows" % inserted, "(copy %.0fs)" % extra["copy_seconds"] if extra else "")
+                self.log(mode, size, rep, "%.2fs" % secs, "%d rows" % inserted,
+                         "(copy %.0fs)" % extra["copy_seconds"] if "copy_seconds" in extra else "",
+                         "(attempt %d)" % (attempt + 1) if attempt else "")
                 if self.copy:
                     self.drop_copy()
         self.release()
