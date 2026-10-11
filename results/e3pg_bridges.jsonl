@@ -111,3 +111,15 @@
 {"set": "bridges", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 3.804, "inserted": 254611, "attempted": 270000}
 {"set": "bridges", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 3.982, "inserted": 254425, "attempted": 270000}
 {"set": "bridges", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 4.555, "inserted": 255310, "attempted": 270000}
+{"set": "bridges", "mode": "3nf", "design": true, "loss": 19, "rows": 108, "copy": false, "schemata": 57, "unique": 76, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.122}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 8.089, "inserted": 547243, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 8.993, "inserted": 547692, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 7.909, "inserted": 549269, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 8.09, "inserted": 549503, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 8.056, "inserted": 547975, "attempted": 570000}
+{"set": "bridges", "mode": "3nfc", "design": true, "loss": 26, "rows": 108, "copy": false, "schemata": 47, "unique": 67, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.094}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 7.098, "inserted": 450217, "attempted": 470000}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 7.125, "inserted": 450690, "attempted": 470000}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.055, "inserted": 452057, "attempted": 470000}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 7.061, "inserted": 452276, "attempted": 470000}
+{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 7.12, "inserted": 450940, "attempted": 470000}

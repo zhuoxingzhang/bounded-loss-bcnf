@@ -65,3 +65,30 @@
 {"set": "hepatitis", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 6.548, "inserted": 471802, "attempted": 480000}
 {"set": "hepatitis", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 6.842, "inserted": 472011, "attempted": 480000}
 {"set": "hepatitis", "mode": "repair", "design": true, "loss": 1092, "rows": 155, "copy": false, "schemata": 1918, "unique": 2200, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 4.16}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 0, "seconds": 298.264, "inserted": 17827917, "attempted": 19180000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 1, "seconds": 304.959, "inserted": 17946136, "attempted": 19180000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 2, "seconds": 303.09, "inserted": 17903436, "attempted": 19180000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 3, "seconds": 299.192, "inserted": 17963472, "attempted": 19180000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 4, "seconds": 297.979, "inserted": 17843410, "attempted": 19180000}
+{"set": "hepatitis", "mode": "repair", "size": 20000, "rep": 0, "seconds": 607.471, "inserted": 35883728, "attempted": 38360000}
+{"set": "hepatitis", "mode": "repair", "size": 20000, "rep": 1, "seconds": 606.344, "inserted": 35822219, "attempted": 38360000}
+{"set": "hepatitis", "mode": "repair", "size": 20000, "rep": 2, "seconds": 617.134, "inserted": 35877370, "attempted": 38360000}
+{"set": "hepatitis", "mode": "repair", "size": 20000, "rep": 3, "seconds": 629.132, "inserted": 35834556, "attempted": 38360000}
+{"set": "hepatitis", "mode": "repair", "size": 20000, "rep": 4, "seconds": 606.363, "inserted": 35775522, "attempted": 38360000}
+{"set": "hepatitis", "mode": "repair", "size": 30000, "rep": 0, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
+{"set": "hepatitis", "mode": "repair", "size": 30000, "rep": 0, "seconds": 948.952, "inserted": 53723823, "attempted": 57540000, "retries": 1}
+{"set": "hepatitis", "mode": "repair", "size": 30000, "rep": 1, "seconds": 916.728, "inserted": 53745190, "attempted": 57540000}
+{"set": "hepatitis", "mode": "repair", "size": 30000, "rep": 2, "timeout_seconds": 764.401, "inserted_before_timeout": 44819060, "attempted": 57540000, "truncated": "budget of 7200 s exhausted during size 30000 repetition 2"}
+{"set": "hepatitis", "mode": "drop", "skipped": "no design"}
+{"set": "hepatitis", "mode": "3nf", "design": true, "loss": 1554, "rows": 155, "copy": false, "schemata": 1677, "unique": 2468, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 4.343}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 310.754, "inserted": 15617920, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 321.365, "inserted": 15719780, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 311.223, "inserted": 15682350, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 313.584, "inserted": 15734735, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 305.013, "inserted": 15632350, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nfc", "design": true, "loss": 1992, "rows": 155, "copy": false, "schemata": 1498, "unique": 2330, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 3.725}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 299.245, "inserted": 13938976, "attempted": 14980000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 289.499, "inserted": 14031393, "attempted": 14980000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 284.899, "inserted": 13997323, "attempted": 14980000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 271.914, "inserted": 14044746, "attempted": 14980000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 271.141, "inserted": 13953132, "attempted": 14980000}

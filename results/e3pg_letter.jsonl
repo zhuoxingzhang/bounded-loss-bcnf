@@ -81,3 +81,10 @@
 {"set": "letter", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 2.366, "inserted": 59438, "attempted": 60000}
 {"set": "letter", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 2.386, "inserted": 59394, "attempted": 60000}
 {"set": "letter", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 2.362, "inserted": 59391, "attempted": 60000}
+{"set": "letter", "mode": "3nf", "design": true, "loss": 0, "rows": 18668, "copy": false, "schemata": 62, "unique": 62, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 9.527}
+{"set": "letter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 15.883, "inserted": 606988, "attempted": 620000}
+{"set": "letter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 15.718, "inserted": 607422, "attempted": 620000}
+{"set": "letter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 15.596, "inserted": 606985, "attempted": 620000}
+{"set": "letter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 15.5, "inserted": 607834, "attempted": 620000}
+{"set": "letter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 15.363, "inserted": 607327, "attempted": 620000}
+{"set": "letter", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}

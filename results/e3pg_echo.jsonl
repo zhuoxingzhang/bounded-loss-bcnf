@@ -126,3 +126,15 @@
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 5.272, "inserted": 177684, "attempted": 210000}
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 4.972, "inserted": 177629, "attempted": 210000}
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 4.744, "inserted": 177586, "attempted": 210000}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 80, "unique": 122, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.177}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 10.352, "inserted": 783242, "attempted": 800000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 10.288, "inserted": 783257, "attempted": 800000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 10.004, "inserted": 783289, "attempted": 800000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 9.936, "inserted": 783127, "attempted": 800000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 10.004, "inserted": 783044, "attempted": 800000}
+{"set": "echo", "mode": "3nfc", "design": true, "loss": 79, "rows": 132, "copy": false, "schemata": 20, "unique": 101, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.08}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 5.3, "inserted": 188035, "attempted": 200000}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 5.316, "inserted": 188017, "attempted": 200000}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 5.21, "inserted": 188018, "attempted": 200000}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 5.228, "inserted": 187952, "attempted": 200000}
+{"set": "echo", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 5.367, "inserted": 187974, "attempted": 200000}

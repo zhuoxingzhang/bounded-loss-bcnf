@@ -126,3 +126,15 @@
 {"set": "breast", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 3.161, "inserted": 187821, "attempted": 210000}
 {"set": "breast", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 3.095, "inserted": 187810, "attempted": 210000}
 {"set": "breast", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 3.021, "inserted": 187807, "attempted": 210000}
+{"set": "breast", "mode": "3nf", "design": true, "loss": 3, "rows": 691, "copy": false, "schemata": 38, "unique": 41, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.122}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 5.054, "inserted": 337916, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 4.736, "inserted": 337710, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.807, "inserted": 337160, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.715, "inserted": 337336, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.616, "inserted": 337498, "attempted": 380000}
+{"set": "breast", "mode": "3nfc", "design": true, "loss": 2, "rows": 691, "copy": false, "schemata": 38, "unique": 41, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.115}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 4.64, "inserted": 337916, "attempted": 380000}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 4.597, "inserted": 337710, "attempted": 380000}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 4.857, "inserted": 337160, "attempted": 380000}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 5.215, "inserted": 337336, "attempted": 380000}
+{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 5.819, "inserted": 337498, "attempted": 380000}

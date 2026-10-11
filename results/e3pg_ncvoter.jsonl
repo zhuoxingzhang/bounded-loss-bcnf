@@ -111,3 +111,15 @@
 {"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 70.452, "inserted": 4825977, "attempted": 5100000}
 {"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 71.367, "inserted": 4828242, "attempted": 5100000}
 {"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 173, "unique": 223, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.934}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 22.976, "inserted": 1633858, "attempted": 1730000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 22.237, "inserted": 1633613, "attempted": 1730000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 22.171, "inserted": 1635272, "attempted": 1730000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 21.983, "inserted": 1633699, "attempted": 1730000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 22.239, "inserted": 1634350, "attempted": 1730000}
+{"set": "ncvoter", "mode": "3nfc", "design": true, "loss": 191, "rows": 1000, "copy": false, "schemata": 105, "unique": 184, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.62}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 15.877, "inserted": 988242, "attempted": 1050000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 15.698, "inserted": 988205, "attempted": 1050000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 15.841, "inserted": 989047, "attempted": 1050000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 15.846, "inserted": 988165, "attempted": 1050000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 15.784, "inserted": 988699, "attempted": 1050000}

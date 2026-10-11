@@ -96,3 +96,15 @@
 {"set": "adult", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 2.903, "inserted": 147919, "attempted": 180000}
 {"set": "adult", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 3.565, "inserted": 147603, "attempted": 180000}
 {"set": "adult", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 3.312, "inserted": 147694, "attempted": 180000}
+{"set": "adult", "mode": "3nf", "design": true, "loss": 0, "rows": 32537, "copy": false, "schemata": 46, "unique": 47, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 6.893}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 7.619, "inserted": 409756, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 7.442, "inserted": 408354, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 9.082, "inserted": 410396, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 9.576, "inserted": 410154, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 8.67, "inserted": 410584, "attempted": 460000}
+{"set": "adult", "mode": "3nfc", "design": true, "loss": 0, "rows": 32537, "copy": false, "schemata": 42, "unique": 43, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 6.347}
+{"set": "adult", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 6.77, "inserted": 374982, "attempted": 420000}
+{"set": "adult", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 6.826, "inserted": 373680, "attempted": 420000}
+{"set": "adult", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.456, "inserted": 375511, "attempted": 420000}
+{"set": "adult", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 8.231, "inserted": 375249, "attempted": 420000}
+{"set": "adult", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 7.762, "inserted": 375670, "attempted": 420000}

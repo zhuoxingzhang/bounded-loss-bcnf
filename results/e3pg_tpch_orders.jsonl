@@ -96,3 +96,15 @@
 {"set": "tpch_orders", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 2.3, "inserted": 59519, "attempted": 90000}
 {"set": "tpch_orders", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 2.289, "inserted": 59510, "attempted": 90000}
 {"set": "tpch_orders", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 2.323, "inserted": 59475, "attempted": 90000}
+{"set": "tpch_orders", "mode": "3nf", "design": true, "loss": 0, "rows": 1500000, "copy": false, "schemata": 12, "unique": 20, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 41.921}
+{"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 1.809, "inserted": 109587, "attempted": 120000}
+{"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 1.755, "inserted": 109541, "attempted": 120000}
+{"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 1.749, "inserted": 109568, "attempted": 120000}
+{"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 1.711, "inserted": 109537, "attempted": 120000}
+{"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 1.689, "inserted": 109584, "attempted": 120000}
+{"set": "tpch_orders", "mode": "3nfc", "design": true, "loss": 0, "rows": 1500000, "copy": false, "schemata": 4, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 18.074}
+{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 1.03, "inserted": 29587, "attempted": 40000}
+{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 0.899, "inserted": 29541, "attempted": 40000}
+{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 0.883, "inserted": 29568, "attempted": 40000}
+{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 0.879, "inserted": 29537, "attempted": 40000}
+{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 0.883, "inserted": 29584, "attempted": 40000}

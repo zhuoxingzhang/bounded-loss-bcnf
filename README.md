@@ -45,7 +45,6 @@ relative to their own location, so any working directory works.
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
 | `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
-| `e3_estimates.py` | placeholders for the few E3 measurements that are still running, see [Placeholders](#placeholders) |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
 | `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL, sample the memory of the MySQL server |
 
@@ -203,13 +202,6 @@ of harmful updates that it does not catch, reported as the mean over five seeds.
 one sorted index per FD. The seven key designs enter with the non-key FDs of 3NF synthesis left to the application;
 the original relation with every FD enforced has risk zero by construction. `results/e4_<set>.jsonl` holds the
 counts per seed and design.
-
-### Placeholders
-
-`results/e3pg_estimates.jsonl` (written by `e3_estimates.py`) holds placeholders for the few E3 measurements that
-are still running, each with its basis. `paper_tables.py` uses a placeholder only where `results/e3pg_<set>.jsonl`
-has no completed measurement, and marks it (orange in the tables, dotted bars and pale marks in the figures). The
-file is removed once the measurements are complete.
 
 ## Data
 
