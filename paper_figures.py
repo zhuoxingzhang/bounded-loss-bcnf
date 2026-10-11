@@ -29,15 +29,15 @@ E3_MODE = {"orig": "orig-x", "3nf": "3nf-x", "3nfc": "3nfc-x"}   # design key ->
 BAR = 2.4    # bar width in pt
 GAP = 0.3    # gap between the bars of a group in pt
 
-def shift(key):
+def shift(key, bar=BAR, gap=GAP):
     i = [k for k, _, _ in STYLES].index(key)
-    return (i - (len(STYLES) - 1) / 2.0) * (BAR + GAP)
+    return (i - (len(STYLES) - 1) / 2.0) * (bar + gap)
 
-def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, dotted=None):
+def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, dotted=None, bar=BAR, gap=GAP):
     """one ybar axis: names are the x labels, series a list of (design key, {name: value}) with value None for a
     missing value; hatched maps design keys to the names whose bar was cut by the budget, dotted those whose value is
     a placeholder estimate; on a logarithmic axis, floor is the y value at which zeros (circles) and missing values
-    (crosses) are marked"""
+    (crosses) are marked; bar and gap are the bar width and the gap between the bars of a group in pt"""
     out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-3pt}," % (ylabel, title),
            r"  symbolic x coords={%s}, xtick=data, ymin=%s%s," % (",".join("{%s}" % n for n in names), ymin, "" if ymax is None else ", ymax=%s" % ymax),
            r"  %s]" % ("ymode=log, log origin=infty" if log else "ymode=normal")]
@@ -45,7 +45,7 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
         for key, label, style in STYLES:
             out.append(r"\addlegendimage{%s}\addlegendentry{%s}" % (style, label))
     for key, vals in series:
-        sh = "bar shift=%.2fpt" % shift(key)
+        sh = "bar shift=%.2fpt" % shift(key, bar, gap)
         cut = (hatched or {}).get(key, set())
         dot = (dotted or {}).get(key, set())
         pts = " ".join("({%s},%s)" % (n, vals[n]) for n in names if vals.get(n) not in (None, 0) and n not in cut and n not in dot)
@@ -65,9 +65,11 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
                         mark, STYLE[key].split(",")[0], shift(key), pts))
     return out
 
-def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True):
+def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, width=r"\textwidth", height=3.6, bar=BAR, gap=GAP,
+                legend_cols=-1, legend_y=1.18):
     """the bar panels of the losses (RQ1), the insertion times (RQ3) and the integrity risks (RQ4); with
-    loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b)"""
+    loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b); width, height,
+    bar and gap size the panels and the bars, legend_cols and legend_y lay out the legend above the first panel"""
     greedy = load_gbcnf()
     # RQ1: the losses of the designs on the FD sets with positive loss
     loss_rows = [r for r in rows if "error" not in r and (r.get("repair_loss") or 0) > 0]
@@ -100,18 +102,18 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True):
             risk[key][label] = None if m is None else (0 if m == 0 else "%.2f" % m)
     letters = iter("abc")
     out = [r"\begin{tikzpicture}",
-           r"\begin{groupplot}[group style={group size=1 by %d, vertical sep=36pt}, ybar, width=\textwidth, height=3.6cm," % (3 if loss_panel else 2),
-           r"  /pgf/bar width=%.1fpt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize}," % BAR,
+           r"\begin{groupplot}[group style={group size=1 by %d, vertical sep=36pt}, ybar, width=%s, height=%gcm," % (3 if loss_panel else 2, width, height),
+           r"  /pgf/bar width=%.1fpt, enlarge x limits=0.06, ymajorgrids, tick pos=left, tick label style={font=\scriptsize}, label style={font=\scriptsize}," % bar,
            r"  xticklabel style={font=\scriptsize}, log ticks with fixed point,",
-           r"  legend style={font=\scriptsize, at={(0.5,1.18)}, anchor=south, legend columns=-1, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}},",
+           r"  legend style={font=\scriptsize, at={(0.5,%g)}, anchor=south, legend columns=%d, draw=none, fill=none, /tikz/every even column/.append style={column sep=6pt}}," % (legend_y, legend_cols),
            r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]"]
     if loss_panel:
         out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
-                     [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1)
+                     [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap)
     out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
-                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot)
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot, bar=bar, gap=gap)
     out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
-                 [(k, risk[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1)
+                 [(k, risk[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
     return "\n".join(out)
 
@@ -284,7 +286,8 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
 if __name__ == "__main__":
     rows = paper_rows()
     e3recs, e4recs = load_e3(), load_e4()
-    t = fig_results(rows, e3recs, e4recs, loss_panel=False)
+    # the single-column variant of the paper: time and risk on the nine E3/E4 sets, legend in two rows
+    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in a 2 by 3 grid
