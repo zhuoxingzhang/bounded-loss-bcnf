@@ -222,13 +222,18 @@ TRADEOFF = [("orig-x", None, "original, all FDs by exclusion", "black, mark=squa
             ("repair", "repair_loss", r"\repair", "blue, mark=pentagon*"),
             ("drop", "drop_loss", r"\drop, where it differs", "green!50!black, mark=star, mark size=2.4pt")]
 
-def decade_ticks(lo, hi, max_labels=None):
-    """the powers of ten inside [lo, hi], for small panels; with max_labels, every other one when there are more"""
+def decade_ticks(lo, hi, max_labels=None, enlarge=0.12):
+    """(ticks, labels): the powers of ten inside the axis range, which pgfplots enlarges by `enlarge` of the
+    logarithmic span of [lo, hi] on each side; every decade keeps its tick mark, and with max_labels only every
+    other one keeps its label when there are more (labels None: all labelled)"""
     import math
-    ticks = [10 ** e for e in range(math.ceil(math.log10(lo)), math.floor(math.log10(hi)) + 1)]
+    a, b = math.log10(lo), math.log10(hi)
+    pad = enlarge * max(b - a, 1e-9)
+    ticks = [10 ** e for e in range(math.ceil(a - pad), math.floor(b + pad) + 1)] or [10 ** math.floor(a)]
+    labels = None
     if max_labels and len(ticks) > max_labels:
-        ticks = ticks[::2]
-    return ticks or [10 ** math.floor(math.log10(lo))]
+        labels = ["{:,}".format(t) if i % 2 == 0 else "" for i, t in enumerate(ticks)]
+    return ticks, labels
 
 def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5,
                  mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30, one_ylabel=True, one_xlabel=False,
@@ -292,8 +297,10 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         opts.append("extra y tick labels={%s}" % ("0" if not share_rows or k % cols == 0 else ""))
         xs = [p[1] for p in pts]
         if xs:
-            ticks = decade_ticks(min(xs), max(xs), max_xlabels) if decades else log_ticks(min(xs), max(xs))
+            ticks, labs = decade_ticks(min(xs), max(xs), max_xlabels) if decades else (log_ticks(min(xs), max(xs)), None)
             opts.append("xtick={%s}" % ",".join("%g" % t for t in ticks))
+            if labs:
+                opts.append("xticklabels={%s}" % ",".join("{%s}" % l for l in labs))
         if k == 0:
             opts.append(r"legend to name=tradeofflegend, legend columns=%d, legend cell align=left, legend style={font=%s, draw=none, /tikz/every even column/.append style={column sep=%dpt}}" % (legend_cols, legend_font, legend_sep))
         out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
@@ -323,7 +330,7 @@ if __name__ == "__main__":
     # (plot boxes of 2.1 by 1.6 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
     t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
                      mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
-                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True, scale_only_axis=True, ylabel_at=-0.35,
+                     label_font=r"\scriptsize", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True, scale_only_axis=True, ylabel_at=-0.35,
                      labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"})
     open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
