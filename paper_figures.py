@@ -220,13 +220,15 @@ TRADEOFF = [("orig-x", None, "original, all FDs by exclusion", "black, mark=squa
             ("repair", "repair_loss", r"\repair", "blue, mark=pentagon*"),
             ("drop", "drop_loss", r"\drop, where it differs", "green!50!black, mark=star, mark size=2.4pt")]
 
-def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5):
-    """small multiples, one per data set with positive loss: the time for inserting `size` records (logarithmic)
-    against the dependency loss (logarithmic, with loss zero at the floor); the design of Drop appears only where it
-    differs from that of Repair, an estimated time is drawn pale, and a time the budget cancelled sits at the budget
-    with a > sign"""
+def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5,
+                 mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30):
+    """small multiples, one per data set with positive loss (or the labels in `sets`, in that order): the time for
+    inserting `size` records (logarithmic) against the dependency loss (logarithmic, with loss zero at the floor);
+    the design of Drop appears only where it differs from that of Repair, an estimated time is drawn pale, and a
+    time the budget cancelled sits at the budget with a > sign; `labels` overrides legend entries by index"""
     import e3
     byname = {r["name"]: r for r in rows}
+    labels = labels or {}
     data = {}
     for name, recs in e3recs.items():
         r = byname.get(e3.SETS[name])
@@ -245,14 +247,14 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         rep = [p for p in pts if TRADEOFF[p[0]][0] == "repair"]
         pts = [p for p in pts if TRADEOFF[p[0]][0] != "drop" or not rep or p[2] != rep[0][2] or abs(p[1] - rep[0][1]) > 0.05 * rep[0][1]]
         data[label] = pts
-    names = list(data)
-    rows_ = -(-(len(names) + 1) // cols)
+    names = [s for s in sets if s in data] if sets else list(data)
+    rows_ = -(-(len(names) + 1) // cols) if len(names) % cols else len(names) // cols
     out = [r"\begin{tikzpicture}",
-           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=26pt, vertical sep=30pt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows_),
+           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=%dpt, vertical sep=%dpt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows_, hsep, vsep),
            r"  width=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000}," % (width, height, floor * 0.6),
            r"  extra y ticks={%g}, extra y tick labels={0}, extra y tick style={grid=none}," % floor,
            r"  xlabel={seconds for %s records}, ylabel={unenforced minimal FDs}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
-           r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=1.8pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]"]
+           r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=%gpt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]" % mark_size]
     for k, name in enumerate(names):
         pts = data[name]
         opts = ["title={%s}" % name]
@@ -260,13 +262,13 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         if xs:
             opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
         if k == 0:
-            opts.append(r"legend to name=tradeofflegend, legend columns=5, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}")
+            opts.append(r"legend to name=tradeofflegend, legend columns=%d, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}" % legend_cols)
         out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
         if k == 0:
-            for _, _, label, style in TRADEOFF:
-                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style, label))
+            for i, (_, _, label, style) in enumerate(TRADEOFF):
+                out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style.replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3)), labels.get(i, label)))
         for i, x, y, cut, estimated in pts:
-            style = TRADEOFF[i][3] + (", opacity=0.4" if estimated else "")
+            style = TRADEOFF[i][3].replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3)) + (", opacity=0.4" if estimated else "")
             out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
             if cut:
                 out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))
@@ -282,6 +284,10 @@ if __name__ == "__main__":
     t = fig_results(rows, e3recs, e4recs, loss_panel=False)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
-    open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(fig_tradeoff(rows, e3recs) + "\n")
+    # the single-column variant of the paper: the six largest sets with positive loss in a 2 by 3 grid
+    t = fig_tradeoff(rows, e3recs, cols=2, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=4.35, height=2.9,
+                     mark_size=2.4, legend_cols=2, hsep=16, vsep=20,
+                     labels={0: "original, FDs by exclusion", 1: "3NF (iConf), FDs by exclusion", 2: "3NF (iConf), keys only"})
+    open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
     open(os.path.join("results", "fig_pareto.tex"), "w", encoding="utf-8", newline="\n").write(p + "\n")
