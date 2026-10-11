@@ -222,12 +222,23 @@ TRADEOFF = [("orig-x", None, "original, all FDs by exclusion", "black, mark=squa
             ("repair", "repair_loss", r"\repair", "blue, mark=pentagon*"),
             ("drop", "drop_loss", r"\drop, where it differs", "green!50!black, mark=star, mark size=2.4pt")]
 
+def decade_ticks(lo, hi, max_labels=None):
+    """the powers of ten inside [lo, hi], for small panels; with max_labels, every other one when there are more"""
+    import math
+    ticks = [10 ** e for e in range(math.ceil(math.log10(lo)), math.floor(math.log10(hi)) + 1)]
+    if max_labels and len(ticks) > max_labels:
+        ticks = ticks[::2]
+    return ticks or [10 ** math.floor(math.log10(lo))]
+
 def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width=4.6, height=3.3, floor=0.5,
-                 mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30):
+                 mark_size=1.8, legend_cols=5, labels=None, hsep=26, vsep=30, one_ylabel=True, one_xlabel=False,
+                 legend_font=r"\scriptsize", legend_sep=8, label_font=r"\scriptsize", legend_yshift=14, decades=False,
+                 max_xlabels=None, share_rows=False):
     """small multiples, one per data set with positive loss (or the labels in `sets`, in that order): the time for
     inserting `size` records (logarithmic) against the dependency loss (logarithmic, with loss zero at the floor);
     the design of Drop appears only where it differs from that of Repair, an estimated time is drawn pale, and a
-    time the budget cancelled sits at the budget with a > sign; `labels` overrides legend entries by index"""
+    time the budget cancelled sits at the budget with a > sign; `labels` overrides legend entries by index;
+    one_ylabel puts the y label on the middle row only, one_xlabel the x label under the middle column only"""
     import e3
     byname = {r["name"]: r for r in rows}
     labels = labels or {}
@@ -251,23 +262,37 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         data[label] = pts
     names = [s for s in sets if s in data] if sets else list(data)
     rows_ = -(-(len(names) + 1) // cols) if len(names) % cols else len(names) // cols
+    # with share_rows, the panels of a row share the y range (the decade above the largest loss of the row) and only
+    # the first column carries y tick labels
+    import math
+    rowmax = [10 ** math.ceil(math.log10(max(p[2] for n in names[r * cols:(r + 1) * cols] for p in data[n]))) for r in range(rows_)] if share_rows else []
     out = [r"\begin{tikzpicture}",
-           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=%dpt, vertical sep=%dpt, xlabels at=edge bottom, ylabels at=edge left}," % (cols, rows_, hsep, vsep),
+           r"\begin{groupplot}[group style={group size=%d by %d, horizontal sep=%dpt, vertical sep=%dpt, xlabels at=edge bottom, ylabels at=edge left%s},"
+           % (cols, rows_, hsep, vsep, ", yticklabels at=edge left" if share_rows else ""),
            r"  width=%gcm, height=%gcm, xmode=log, ymode=log, log ticks with fixed point, ymin=%g, ytick={1,10,100,1000,10000}," % (width, height, floor * 0.6),
-           r"  extra y ticks={%g}, extra y tick labels={0}, extra y tick style={grid=none}," % floor,
-           r"  xlabel={seconds for %s records}, tick label style={font=\tiny}, label style={font=\scriptsize}," % "{:,}".format(size),
-           r"  title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=%gpt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]" % mark_size]
+           r"  extra y ticks={%g}, extra y tick style={grid=none}," % floor,
+           r"  %stick label style={font=\tiny}, label style={font=%s}," % ("" if one_xlabel else "xlabel={seconds for %s records}, " % "{:,}".format(size), label_font),
+           r"  %stitle style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=%gpt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]"
+           % ("" if one_ylabel else "ylabel={dependency loss}, ", mark_size)]
     for k, name in enumerate(names):
         pts = data[name]
         opts = ["title={%s}" % name]
-        if k == cols * (rows_ // 2):
+        if one_ylabel and k == cols * (rows_ // 2):
             # one y label, on the first panel of the middle row
             opts.append("ylabel={dependency loss}")
+        if one_xlabel and k == cols * (rows_ - 1) + cols // 2:
+            # one x label, under the middle panel of the bottom row
+            opts.append("xlabel={seconds for %s records}" % "{:,}".format(size))
+        if share_rows:
+            opts.append("ymax=%g" % rowmax[k // cols])
+        # the label 0 of the floor tick, on every panel or only in the first column when the rows share their y axis
+        opts.append("extra y tick labels={%s}" % ("0" if not share_rows or k % cols == 0 else ""))
         xs = [p[1] for p in pts]
         if xs:
-            opts.append("xtick={%s}" % ",".join("%g" % t for t in log_ticks(min(xs), max(xs))))
+            ticks = decade_ticks(min(xs), max(xs), max_xlabels) if decades else log_ticks(min(xs), max(xs))
+            opts.append("xtick={%s}" % ",".join("%g" % t for t in ticks))
         if k == 0:
-            opts.append(r"legend to name=tradeofflegend, legend columns=%d, legend cell align=left, legend style={font=\scriptsize, draw=none, /tikz/every even column/.append style={column sep=8pt}}" % legend_cols)
+            opts.append(r"legend to name=tradeofflegend, legend columns=%d, legend cell align=left, legend style={font=%s, draw=none, /tikz/every even column/.append style={column sep=%dpt}}" % (legend_cols, legend_font, legend_sep))
         out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
         if k == 0:
             for i, (_, _, label, style) in enumerate(TRADEOFF):
@@ -278,8 +303,8 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
             if cut:
                 out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))
     out += [r"\end{groupplot}",
-            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north east) {\ref{tradeofflegend}};" % (cols // 2) if cols % 2 == 0 else
-            r"\node[anchor=south] at ([yshift=14pt]group c%dr1.north) {\ref{tradeofflegend}};" % (cols // 2 + 1),
+            r"\node[anchor=south] at ([yshift=%dpt]group c%dr1.north east) {\ref{tradeofflegend}};" % (legend_yshift, cols // 2) if cols % 2 == 0 else
+            r"\node[anchor=south] at ([yshift=%dpt]group c%dr1.north) {\ref{tradeofflegend}};" % (legend_yshift, cols // 2 + 1),
             r"\end{tikzpicture}"]
     return "\n".join(out)
 
@@ -290,10 +315,12 @@ if __name__ == "__main__":
     t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2)
     open(os.path.join("results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
-    # the single-column variant of the paper: the six largest sets with positive loss in a 2 by 3 grid
-    t = fig_tradeoff(rows, e3recs, cols=2, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=4.35, height=2.9,
-                     mark_size=2.4, legend_cols=2, hsep=16, vsep=20,
-                     labels={0: "original, FDs by exclusion", 1: "3NF (iConf), FDs by exclusion", 2: "3NF (iConf), keys only"})
+    # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,
+    # a compact legend in two rows above, one x label and a y label per row
+    t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.75, height=2.5,
+                     mark_size=2.0, legend_cols=4, hsep=8, vsep=22, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
+                     label_font=r"\tiny", legend_yshift=12, decades=True, max_xlabels=2, share_rows=True,
+                     labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"})
     open(os.path.join("results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)
     open(os.path.join("results", "fig_pareto.tex"), "w", encoding="utf-8", newline="\n").write(p + "\n")
