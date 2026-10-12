@@ -1,4 +1,4 @@
-"""e3_refresh.py: drop the records of given modes from results/e3_<set>.jsonl before a mode is re-run.
+"""e3_refresh.py: drop the records of given modes from results/mysql/e3_<set>.jsonl before a mode is re-run.
 
 usage: python3 e3_refresh.py <set> <mode>[,<mode>...]
 The file is backed up to results/e3_<set>.<timestamp>.jsonl first. e3.py appends records, so a mode whose design
@@ -10,11 +10,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
 
 def refresh(name, modes):
-    f = os.path.join(ROOT, "results", "e3_%s.jsonl" % name)
+    f = os.path.join(ROOT, "results", "mysql", "e3_%s.jsonl" % name)
     if not os.path.isfile(f):
         print("no records for", name)
         return
-    bak = os.path.join(ROOT, "results", "e3_%s.%s.jsonl" % (name, time.strftime("%Y%m%d-%H%M%S")))
+    bak = os.path.join(ROOT, "results", "mysql", "e3_%s.%s.jsonl" % (name, time.strftime("%Y%m%d-%H%M%S")))
     shutil.copy(f, bak)
     kept, dropped = [], 0
     for line in open(f, encoding="utf-8"):

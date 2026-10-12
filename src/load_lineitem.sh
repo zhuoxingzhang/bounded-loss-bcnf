@@ -2,9 +2,10 @@
 # Load the HPI lineitem dump (INSERT statements with columns `0`..`15` and values wrapped in \" quotes) into
 # bl.lineitem with typed columns c0..c15 in the order of the FD file (TPC-H lineitem column order).
 set -e
-M=/data/zzha969/mysql/server/bin/mysql
-C=/data/zzha969/mysql/my.cnf
-D=/data/zzha969/data/dumps
+# MYSQL_BIN: the mysql client, MYSQL_CNF: its option file, DUMP_DIR: the directory that holds lineitem.sql
+M=${MYSQL_BIN:-mysql}
+C=${MYSQL_CNF:-$HOME/.my.cnf}
+D=${DUMP_DIR:-data/dumps}
 $M --defaults-file=$C --database=bl <<'SQL'
 DROP TABLE IF EXISTS lineitem;
 CREATE TABLE lineitem (

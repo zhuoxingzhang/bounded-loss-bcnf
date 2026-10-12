@@ -23,9 +23,11 @@
 \addplot[brown!80!black, fill=yellow!40, bar shift=3.38pt, forget plot] coordinates {({abalone},0.947) ({adult},1.022) ({breast},0.997) ({bridges},1.321) ({echo},1.770) ({hepatitis},2.257) ({letter},0.750) ({ncvoter},1.644) ({weather},1.600)};
 \addplot[blue, fill=blue!30, bar shift=5.62pt, forget plot] coordinates {({abalone},4.836) ({adult},7.352) ({breast},4.958) ({bridges},9.481) ({echo},9.939) ({hepatitis},300.697) ({letter},16.183) ({ncvoter},22.870) ({weather},129.171)};
 \addplot[green!50!black, fill=green!40, bar shift=7.88pt, forget plot] coordinates {({abalone},4.378) ({adult},7.352) ({breast},4.948) ({bridges},9.481) ({echo},8.984) ({letter},16.183) ({ncvoter},22.870) ({weather},129.171)};
+\addplot[only marks, mark=x, mark size=1.2pt, green!50!black, xshift=9.45pt, forget plot] coordinates {({hepatitis},0.1)};
 \nextgroupplot[ylabel={per cent}, title={(b) integrity risk (RQ4)}, title style={font=\scriptsize, yshift=-3pt},
   symbolic x coords={{abalone},{adult},{breast},{bridges},{echo},{hepatitis},{letter},{ncvoter},{weather}}, xtick=data, ymin=0.1, ymax=100,
   ymode=log, log origin=infty]
+\addplot[only marks, mark=o, mark size=1.2pt, black, xshift=-9.45pt, forget plot] coordinates {({abalone},0.1) ({adult},0.1) ({breast},0.1) ({bridges},0.1) ({echo},0.1) ({hepatitis},0.1) ({letter},0.1) ({ncvoter},0.1) ({weather},0.1)};
 \addplot[gray, fill=gray!45, bar shift=-1.12pt, forget plot] coordinates {({abalone},73.91) ({adult},99.96) ({breast},98.37) ({bridges},83.57) ({echo},77.57) ({hepatitis},83.76) ({letter},100.00) ({ncvoter},75.15) ({weather},32.82)};
 \addplot[red, fill=red!30, bar shift=-5.62pt, forget plot] coordinates {({abalone},20.11) ({breast},0.10) ({bridges},3.34) ({echo},13.94) ({hepatitis},1.05) ({ncvoter},6.13) ({weather},3.38)};
 \addplot[only marks, mark=o, mark size=1.2pt, red, xshift=-6.75pt, forget plot] coordinates {({adult},0.1) ({letter},0.1)};

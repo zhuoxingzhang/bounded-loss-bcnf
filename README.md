@@ -16,7 +16,8 @@ database experiments use psycopg2 and NumPy (PostgreSQL) and pymysql (the MySQL 
 | `search/` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper, with their logs next to them (`*_n5.log`: five attributes, `*_n6.log`: six, `*_n7.log`: seven; the four largest logs, `weak*_n*.log`, are not in the repository) |
 | `logs/` | the logs of the validation runs (`validate_*.log`) and of the E1 runs |
 | `data/fds/` | the FD sets of the experiments (see [Data](#data)) |
-| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
+| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
+| `results/mysql/` | the records of the earlier MySQL variants of E3 and of the teaser (`e3_<set>.jsonl`, `teaser.jsonl`), which the paper does not report |
 | `iconf/` | the Java driver that runs the original iCONF implementation for cross-checks (`iconf/README.md`) |
 
 All scripts are run from the repository root (`python src/experiments.py`); they locate `data/` and `results/`
@@ -40,13 +41,13 @@ relative to their own location, so any working directory works.
 | `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
 | `minloss_bruteforce.py`, `weak_stats.py` | the brute-force layer: closure tables of size 2^n, enumeration of the closed FD sets, exact λ, level-wise exact solver (schemata with at most about seven attributes); the searches in `search/` build on it |
 | `diag_timeout.py`, `diag_fallback.py`, `design_diff.py`, `embedded_loss.py` | which stage of E1 exceeds the budget on the largest FD sets; where the fallback of `Repair` spends its time; whether the designs of a new E1 run differ from the previous one (so that E3 and E4 are re-run only where they do); how many unenforced FDs of `Repair` and `Drop` lie inside one schema and how many span several (`results/table_embedded.tex`) |
-| `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments |
+| `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
 | `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs; `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
 | `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
-| `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL, sample the memory of the MySQL server |
+| `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL (`MYSQL_BIN`, `MYSQL_CNF`, `DUMP_DIR`), sample the memory of the MySQL server |
 
 ## Reproducing
 
@@ -61,7 +62,7 @@ python src/gbcnf.py                    # the greedy BCNF decomposition on all FD
 python src/hybrid.py                   # Opt and Hybrid on all FD sets (the levels need the source tables of pgdb.py)
 python src/hardness_check.py 600 3     # the reduction of the hardness theorem for explicit atomic covers, checked with Drop
 python src/obstruction_stats.py        # the bounds of the paper on all FD sets
-python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py
+python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py (3nf, 3nfc: the 3NF syntheses with keys only, for the trade-off figure)
 python src/e4.py abalone               # E4
 python src/paper_tables.py             # results/table_*.tex
 python src/paper_figures.py            # results/fig_*.tex
@@ -82,7 +83,8 @@ The paper states the set up of every experiment in brief; this section holds the
 Every run was single-threaded on a server with two AMD EPYC 7742 processors and 1 TB of main memory under Red Hat
 Enterprise Linux 8.10. The algorithms use the standard library of Python 3.13 only. The database experiments run on
 an unmodified PostgreSQL 18.4 with the extensions `btree_gist` (for the exclusion constraints) and `pg_prewarm`,
-accessed through psycopg2; `e4.py` uses NumPy. The source tables were loaded into a user-space MySQL 8.0 first
+accessed through psycopg2 (the environment variables `PGHOST`, `PGPORT` and `PGDATABASE` of `pgdb.py` select the
+server); `e4.py` uses NumPy. The source tables were loaded into a user-space MySQL 8.0 first
 (`e3load.py`) and copied from there into PostgreSQL (`pgload.py`), so that both systems hold the same data.
 
 ### Data sets
@@ -211,6 +213,6 @@ indices), on complete data (abalone, adult, fd-red, letter, lineitem) and on inc
 equality interpretation (breast, bridges, china_weather, diabetic, echo, hepatitis, ncvoter, pdbx, uniprot).
 `data/fds/tpch` holds the FDs of the eight TPC-H tables in the Metanome text format. The discovery output for
 orders omits the FD with empty left-hand side of the constant column o_shippriority, which we added as the last
-line `->5` of `orders-fds.txt`. The discovered sets are complete sets of minimal FDs: on every set with at most
-758 FDs the computed atomic cover equals the input, and above 2,000 input FDs `experiments.py` takes the input as
-Σ_a after checking that every left-hand side is minimal (marked `+` in the table of the paper).
+line `->5` of `orders-fds.txt`. The discovered sets are complete sets of minimal FDs and hence their own atomic
+covers: on every set with at most 918 FDs the computed atomic cover equals the input, and above 2,000 input FDs
+`experiments.py` takes the input as Σ_a after checking that every left-hand side is minimal.

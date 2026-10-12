@@ -1,12 +1,13 @@
-r"""pgdb.py: the connection to the official PostgreSQL build of the experiments (on the server: binaries in
-/data/zzha969/pg-official/pg18, socket directory /data/zzha969/pg-official/run, port 55434, database bcnf with
-the extension btree_gist and the schemas src and w). PGHOST, PGPORT and PGDATABASE override the defaults.
+r"""pgdb.py: the connection to the PostgreSQL build of the experiments (an unmodified PostgreSQL 18.4 with the
+extension btree_gist; the database holds the source tables in the schema src and the designs in the schema w).
+The environment variables PGHOST (a host name or the directory of the Unix socket), PGPORT and PGDATABASE select
+the server and the database; the defaults are localhost, 5432 and bcnf.
 """
 import os
 import psycopg2
 
-HOST = os.environ.get("PGHOST", "/data/zzha969/pg-official/run")
-PORT = int(os.environ.get("PGPORT", "55434"))
+HOST = os.environ.get("PGHOST", "localhost")
+PORT = int(os.environ.get("PGPORT", "5432"))
 DB = os.environ.get("PGDATABASE", "bcnf")
 
 def connect(autocommit=False, dbname=None):

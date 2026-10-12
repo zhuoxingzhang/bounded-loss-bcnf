@@ -47,7 +47,7 @@ LOCAL_TIME = 300          # seconds per critical schema in Repair
 DROP_TIME = 3600          # seconds for the global Drop / fallback
 ASCEND_TIME = 1800        # seconds for the ascents (Algorithm "Ascend") in Repair and in the heuristic of Drop
 MAX_W = 4                 # weakened FDs per candidate
-DATASET_TIMEOUT = 43200   # seconds per FD set (each runs in its own process)
+DATASET_TIMEOUT = 14400   # seconds per FD set (each runs in its own process): the budget of four hours
 
 def max_extra_for(n):
     return None if n <= 12 else 3

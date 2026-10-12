@@ -3,8 +3,9 @@ r"""paper_figures.py: pgfplots bar charts for Section 6 from the records of expe
 
 Every design keeps its bar position in every panel (explicit bar shifts), so that a design that a panel does not show
 leaves a gap rather than moving the others. An insertion that the budget cancelled is drawn at the budget with a
-hatched bar, a value of zero on a logarithmic axis by a circle at the bottom, and a missing value by a cross there.
-The figure needs \usetikzlibrary{patterns}.
+hatched bar, a value of zero on a logarithmic axis by a circle at the bottom (the original relation, which enforces
+every FD, has risk zero), and a design that was not computed by a cross there. The figure needs
+\usetikzlibrary{patterns}.
 
 The Pareto figure plots, per data set, the time for inserting 10,000 records (e3pg.py) against the integrity risk
 (e4.py) of the same designs, including the two 3NF syntheses both with their non-key FDs enforced by exclusion
@@ -13,7 +14,7 @@ constraints (risk zero) and with keys only (e3pg.py modes 3nf and 3nfc), with th
 usage: python paper_figures.py            writes results/fig_results.tex (printed) and results/fig_pareto.tex
 """
 import os
-from paper_tables import paper_rows, load_e3, e3_mean, e3_estimated, load_e4, e4_risk, load_gbcnf, tex_name, e3_label
+from paper_tables import paper_rows, load_e3, e3_mean, load_e4, e4_risk, load_gbcnf, tex_name, e3_label
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/ and results/
 
 # the designs in the order of the legend and of the bars, with their colours (the same in every panel)
@@ -34,12 +35,11 @@ def shift(key, bar=BAR, gap=GAP):
     i = [k for k, _, _ in STYLES].index(key)
     return (i - (len(STYLES) - 1) / 2.0) * (bar + gap)
 
-def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, dotted=None, bar=BAR, gap=GAP, extra=""):
+def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, bar=BAR, gap=GAP, extra=""):
     """one ybar axis: names are the x labels, series a list of (design key, {name: value}) with value None for a
-    missing value; hatched maps design keys to the names whose bar was cut by the budget, dotted those whose value is
-    a placeholder estimate; on a logarithmic axis, floor is the y value at which zeros (circles) and missing values
-    (crosses) are marked; bar and gap are the bar width and the gap between the bars of a group in pt; extra holds
-    further axis options"""
+    missing value; hatched maps design keys to the names whose bar was cut by the budget; on a logarithmic axis,
+    floor is the y value at which zeros (circles) and missing values (crosses) are marked; bar and gap are the bar
+    width and the gap between the bars of a group in pt; extra holds further axis options"""
     out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-3pt}," % (ylabel, title),
            r"  symbolic x coords={%s}, xtick=data, ymin=%s%s," % (",".join("{%s}" % n for n in names), ymin, "" if ymax is None else ", ymax=%s" % ymax),
            r"  %s%s]" % ("ymode=log, log origin=infty" if log else "ymode=normal", ", " + extra if extra else "")]
@@ -49,16 +49,12 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
     for key, vals in series:
         sh = "bar shift=%.2fpt" % shift(key, bar, gap)
         cut = (hatched or {}).get(key, set())
-        dot = (dotted or {}).get(key, set())
-        pts = " ".join("({%s},%s)" % (n, vals[n]) for n in names if vals.get(n) not in (None, 0) and n not in cut and n not in dot)
+        pts = " ".join("({%s},%s)" % (n, vals[n]) for n in names if vals.get(n) not in (None, 0) and n not in cut)
         if pts:
             out.append(r"\addplot[%s, %s, forget plot] coordinates {%s};" % (STYLE[key], sh, pts))
         pts = " ".join("({%s},%s)" % (n, vals[n]) for n in names if n in cut and vals.get(n) is not None)
         if pts:
             out.append(r"\addplot[%s, %s, forget plot, postaction={pattern=north east lines}] coordinates {%s};" % (STYLE[key], sh, pts))
-        pts = " ".join("({%s},%s)" % (n, vals[n]) for n in names if n in dot and n not in cut and vals.get(n) is not None)
-        if pts:
-            out.append(r"\addplot[%s, %s, forget plot, postaction={pattern=dots}] coordinates {%s};" % (STYLE[key], sh, pts))
         if floor is not None:
             for mark, pick in (("o", lambda n: vals.get(n) == 0), ("x", lambda n: n in vals and vals[n] is None)):
                 pts = " ".join("({%s},%s)" % (n, floor) for n in names if pick(n))
@@ -83,8 +79,9 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
     for key, field in (("keys", "nu"), ("3nf", "3nf_loss"), ("3nfc", "3nfc_loss"), ("bcnf", "bcnf_loss"), ("repair", "repair_loss"), ("drop", "drop_loss")):
         loss[key] = {tex_name(r["name"]): r.get(field) for r in loss_rows}
     loss["gbcnf"] = {tex_name(r["name"]): (greedy[r["name"]]["gbcnf_loss"] if r["name"] in greedy else None) for r in loss_rows}
-    # RQ3: the mean time for inserting `size` records; cancelled insertions at the budget, hatched
-    names3, time, cut, dot = [], {k: {} for k, _, _ in STYLES}, {k: set() for k, _, _ in STYLES}, {k: set() for k, _, _ in STYLES}
+    # RQ3: the mean time for inserting `size` records; cancelled insertions at the budget, hatched; a design that was
+    # not computed (Drop on hepatitis) is marked by a cross
+    names3, time, cut = [], {k: {} for k, _, _ in STYLES}, {k: set() for k, _, _ in STYLES}
     for name, recs in e3recs.items():
         label = e3_label(name)
         names3.append(label)
@@ -92,16 +89,18 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
             mean, sd, n, c = e3_mean(recs, E3_MODE.get(key, key), size)
             if mean is not None:
                 time[key][label] = "%.3f" % mean
-                if e3_estimated(recs, E3_MODE.get(key, key), size):
-                    dot[key].add(label)
             elif c:
                 time[key][label] = budget
                 cut[key].add(label)
-    # RQ4: the mean integrity risk in per cent over the seeds
+            else:
+                time[key][label] = None
+    # RQ4: the mean integrity risk in per cent over the seeds; the original relation enforces every FD and has risk
+    # zero by construction (a circle)
     names4, risk = [], {k: {} for k, _, _ in STYLES}
     for name, recs in e4recs.items():
         label = e3_label(name)
         names4.append(label)
+        risk["orig"][label] = 0
         for key in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop"):
             m, _ = e4_risk(recs, key)
             risk[key][label] = None if m is None else (0 if m == 0 else "%.2f" % m)
@@ -120,9 +119,9 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
         out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
                      [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
-                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, dotted=dot, bar=bar, gap=gap, extra=upper)
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, floor=0.1, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
-                 [(k, risk[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
+                 [(k, risk[k]) for k in ("orig", "keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
     return "\n".join(out)
 
@@ -141,9 +140,8 @@ PARETO = [("orig-x", None, "original, FDs by exclusion", "black, mark=square*"),
           ("drop", "drop", r"\drop", "green!50!black, mark=star, mark size=2.4pt")]
 
 def pareto_points(e3recs, e4recs, size=10000, budget=7200):
-    """{set label: [(design index, seconds, risk in per cent, cut by the budget, estimated)]}: the mean time for
-    inserting `size` records against the mean integrity risk; a design whose insertion the budget cancelled sits at
-    the budget, and a placeholder estimate is flagged"""
+    """{set label: [(design index, seconds, risk in per cent, cut by the budget)]}: the mean time for inserting
+    `size` records against the mean integrity risk; a design whose insertion the budget cancelled sits at the budget"""
     out = {}
     for name, recs in e3recs.items():
         r4 = e4recs.get(name)
@@ -157,7 +155,7 @@ def pareto_points(e3recs, e4recs, size=10000, budget=7200):
             risk = 0.0 if m4 is None else e4_risk(r4, m4)[0]
             if risk is None:
                 continue
-            pts.append((i, budget if mean is None else mean, risk, mean is None, e3_estimated(recs, m3, size)))
+            pts.append((i, budget if mean is None else mean, risk, mean is None))
         out[e3_label(name)] = pts
     return out
 
@@ -212,9 +210,8 @@ def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4, sets=None, desig
         front = pareto_front(pts)
         if skyline and len(front) > 1:
             out.append(r"\addplot[const plot, gray!70, forget plot] coordinates {%s};" % " ".join("(%.4g,%.4g)" % (p[1], p[2]) for p in front))
-        for i, x, y, cut, estimated in pts:
-            style = PARETO[i][3] + (", opacity=0.4" if estimated else "")
-            out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
+        for i, x, y, cut in pts:
+            out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (PARETO[i][3], x, y))
             if cut:
                 out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))
     out += [r"\end{groupplot}",
@@ -250,8 +247,8 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
                  max_xlabels=None, share_rows=False, scale_only_axis=False, ylabel_at=None, xmax=None):
     """small multiples, one per data set with positive loss (or the labels in `sets`, in that order): the time for
     inserting `size` records (logarithmic) against the dependency loss (logarithmic, with loss zero at the floor);
-    the design of Drop appears only where it differs from that of Repair, an estimated time is drawn pale, and a
-    time the budget cancelled sits at the budget with a > sign; `labels` overrides legend entries by index;
+    the design of Drop appears only where it differs from that of Repair, and a time the budget cancelled sits at
+    the budget with a > sign; `labels` overrides legend entries by index;
     one_ylabel puts the y label on the middle row only, one_xlabel the x label under the middle column only, and
     xmax maps set labels to an upper x limit that extends the axis (and its decade ticks) beyond the data"""
     import e3
@@ -271,7 +268,7 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
             loss = 0 if field is None else r.get(field)
             if loss is None:
                 continue
-            pts.append((i, budget if mean is None else mean, max(loss, floor), mean is None, e3_estimated(recs, mode, size)))
+            pts.append((i, budget if mean is None else mean, max(loss, floor), mean is None))
         rep = [p for p in pts if TRADEOFF[p[0]][0] == "repair"]
         pts = [p for p in pts if TRADEOFF[p[0]][0] != "drop" or not rep or p[2] != rep[0][2] or abs(p[1] - rep[0][1]) > 0.05 * rep[0][1]]
         data[label] = pts
@@ -320,8 +317,8 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
         if k == 0:
             for i, (_, _, label, style) in enumerate(TRADEOFF):
                 out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style.replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3)), labels.get(i, label)))
-        for i, x, y, cut, estimated in pts:
-            style = TRADEOFF[i][3].replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3)) + (", opacity=0.4" if estimated else "")
+        for i, x, y, cut in pts:
+            style = TRADEOFF[i][3].replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3))
             out.append(r"\addplot[only marks, %s, forget plot] coordinates {(%.4g,%.4g)};" % (style, x, y))
             if cut:
                 out.append(r"\node[font=\tiny, anchor=south] at (axis cs:%.4g,%.4g) {$>$};" % (x, y))

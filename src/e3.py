@@ -30,7 +30,7 @@ import experiments
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
-SOCK = "/data/zzha969/mysql/mysql.sock"
+SOCK = os.environ.get("MYSQL_SOCKET", "/tmp/mysql.sock")   # the Unix socket of the MySQL server that holds the source tables
 SETS = {  # E3 set: E1 name
     "abalone": "abalone", "adult": "adult", "breast": "breast(null)", "bridges": "bridges(null)",
     "echo": "echo(null)", "fdred": "fd-red", "hepatitis": "hepatitis(null)", "letter": "letter(non-dup)",
@@ -93,7 +93,7 @@ class Harness:
         self.rows = self.cur.fetchone()[0]
         self.fresh = 0
         self.tables = []
-        self.out = open(os.path.join(ROOT, "results", "e3_%s.jsonl" % name), "a", encoding="utf-8")
+        self.out = open(os.path.join(ROOT, "results", "mysql", "e3_%s.jsonl" % name), "a", encoding="utf-8")
 
     def log(self, *a):
         if self.verbose:
@@ -295,7 +295,7 @@ def check(name):
 def table():
     import statistics
     for name in SETS:
-        f = os.path.join(ROOT, "results", "e3_%s.jsonl" % name)
+        f = os.path.join(ROOT, "results", "mysql", "e3_%s.jsonl" % name)
         if not os.path.isfile(f):
             continue
         recs = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
@@ -358,7 +358,7 @@ def main():
         while todo or running:
             while todo and len(running) < parallel:
                 name = todo.pop(0)
-                log = open(os.path.join(ROOT, "results", "e3_%s.log" % name), "a")
+                log = open(os.path.join(ROOT, "results", "mysql", "e3_%s.log" % name), "a")
                 running[name] = subprocess.Popen([sys.executable, os.path.abspath(__file__)] + opts + [name], stdout=log, stderr=subprocess.STDOUT)
                 print(time.strftime("%H:%M:%S"), "started", name, flush=True)
             time.sleep(5)

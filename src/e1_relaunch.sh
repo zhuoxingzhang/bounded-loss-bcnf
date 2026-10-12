@@ -2,7 +2,7 @@
 # e1_relaunch.sh: stop the running E1 processes and re-run FD sets, one process each.
 # usage: bash src/e1_relaunch.sh <tag> [set ...]   (from the repository root)   (default: the ten sets with positive loss;
 #        logs go to results/e1_rerun<tag>_<safe name>.log)
-cd /data/zzha969/bounded-loss-bcnf || exit 1
+cd "$(dirname "$0")/.." || exit 1
 tag="$1"; shift
 if [ $# -eq 0 ]; then
     set -- "abalone" "breast(null)" "bridges(null)" "echo(null)" "ncvoter(null)" "china_weather(null)" "tpch-lineitem" "lineitem" "uniprot(null)" "hepatitis(null)"

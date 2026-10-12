@@ -4,8 +4,9 @@ Every data set becomes a table e3.<set> with VARCHAR columns c0, ..., c(n-1) in 
 file, values as in the CSV (the missing-value marker '?' stays the string '?', so that equality of the strings
 is the null equality interpretation under which the FDs were discovered), duplicate rows removed, and column
 lengths fitted to the data (at least 12 characters, room for the synthetic values of E3). weather comes from the
-iConf table freeman.`china_weather(nulleq)`, tpch_orders and tpch_part from the TPC-H tables (scale factor 1)
-by casting every column to a string.
+table `china_weather(nulleq)` of the iConf project (SIGMOD 2025) in the database ICONF_DB, tpch_orders and
+tpch_part from the TPC-H tables (scale factor 1) by casting every column to a string. MYSQL_SOCKET names the
+socket of the MySQL server and HPI_CSV_DIR the directory of the CSV files (default: data/csv in the repository).
 
 usage: python3 e3load.py [set ...]        (default: all sets)
 """
@@ -14,9 +15,10 @@ import pymysql
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import load_metanome_txt
 
-SOCK = "/data/zzha969/mysql/mysql.sock"
-CSVDIR = "/data/zzha969/data/hpi"
-FDDIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "fds")   # the repository root holds data/
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/
+SOCK = os.environ.get("MYSQL_SOCKET", "/tmp/mysql.sock")              # the Unix socket of the MySQL server
+CSVDIR = os.environ.get("HPI_CSV_DIR", os.path.join(ROOT, "data", "csv"))   # the CSV files of the HPI repeatability page
+FDDIR = os.path.join(ROOT, "data", "fds")
 MINLEN = 12
 
 CSV = {
@@ -31,7 +33,7 @@ CSV = {
     "ncvoter": ("ncvoter_1001r_19c.csv", ",", True),
     "fdred": ("fd-reduced-30.csv", ",", True),
 }
-ICONF = {"weather": ("freeman", "china_weather(nulleq)", 18)}
+ICONF = {"weather": (os.environ.get("ICONF_DB", "iconf"), "china_weather(nulleq)", 18)}   # the database of the iConf project
 TPCH = {"tpch_orders": ("orders", "orders-fds.txt"), "tpch_part": ("part", "part-fds.txt")}
 
 def connect():

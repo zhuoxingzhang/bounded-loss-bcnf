@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
 from triggers import *
 
-SOCK = "/data/zzha969/mysql/mysql.sock"
+SOCK = os.environ.get("MYSQL_SOCKET", "/tmp/mysql.sock")   # the Unix socket of the MySQL server that holds the source tables
 
 def connect():
     return pymysql.connect(unix_socket=SOCK, user="root", database="e3w", autocommit=False, charset="utf8mb4")

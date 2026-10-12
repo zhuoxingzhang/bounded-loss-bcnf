@@ -15,7 +15,7 @@ one transaction), reps times per size:
 Half of the new customers move to an existing address (the lookups of the triggers hit), the other half to a new
 street of an existing town with a new zip code, so that every FD remains satisfied.
 
-usage: python3 teaser.py [--base 100000] [--sizes 10000,20000,30000] [--reps 5]       results/teaser.jsonl
+usage: python3 teaser.py [--base 100000] [--sizes 10000,20000,30000] [--reps 5]       results/mysql/teaser.jsonl
 """
 import sys, os, json, time, random
 import pymysql
@@ -24,7 +24,7 @@ from triggers import enforcement_statements, q
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
-SOCK = "/data/zzha969/mysql/mysql.sock"
+SOCK = os.environ.get("MYSQL_SOCKET", "/tmp/mysql.sock")   # the Unix socket of the MySQL server that holds the source tables
 COLS = ["C", "S", "T", "Z"]
 TYPES = {c: "varchar(24)" for c in COLS}
 DESIGNS = {
@@ -102,7 +102,7 @@ def main():
             i += 1
     con = pymysql.connect(unix_socket=SOCK, user="root", database="e3w", autocommit=False, charset="utf8mb4")
     cur = con.cursor()
-    out = open(os.path.join(ROOT, "results", "teaser.jsonl"), "a", encoding="utf-8")
+    out = open(os.path.join(ROOT, "results", "mysql", "teaser.jsonl"), "a", encoding="utf-8")
     for name, tables in DESIGNS.items():
         for size in sizes:
             for rep in range(reps):

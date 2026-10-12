@@ -48,17 +48,16 @@ def repair_cell(r):
     return s
 
 def drop_cell(r):
+    """the loss of Drop, with an asterisk unless it is proved minimal; a dash where Drop did not run"""
     if r.get("drop_loss") is None:
-        lb = r.get("drop_lb")
-        if lb is None and r.get("repair_fallback_lb") is not None:
-            lb = r["repair_fallback_lb"]
-        if lb is None:
-            lb = whole_schema_lb(r)
-        return "--" if not lb else r"$\geq$" + num(lb)
-    s = num(r["drop_loss"])
-    if not r.get("drop_exact"):
-        s += r"$^{*}$ ($\geq$%s)" % num(r.get("drop_lb"))
-    return s
+        return "--"
+    return num(r["drop_loss"]) + ("" if r.get("drop_exact") else r"$^{*}$")
+
+def bound_cell(r):
+    """the certified lower bound on the loss: of the exact search of Drop, of the fallback of Repair, or of the
+    local search of Repair when 3NF synthesis returns R itself (a loss is proved minimal iff it equals the bound)"""
+    lbs = [x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r)) if x is not None]
+    return num(max(lbs)) if lbs else "--"
 
 def table_e1(rows):
     out = []
@@ -72,7 +71,7 @@ def table_e1(rows):
             continue
         bcnf = num(r["bcnf_loss"]) + ("" if r.get("bcnf_sound") in (True, None) else r"$^{\dagger}$")
         out.append("%s & %d & %s & %s & %s & %s & %s & %s & %s\\\\" % (
-            tex_name(r["name"]), r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]), num(r["nu"]),
+            tex_name(r["name"]), r["n"], num(r["minimal_fds"]), num(r["keys"]), num(r["nu"]),
             num(r["3nf_loss"]), bcnf, repair_cell(r), drop_cell(r)))
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
@@ -119,7 +118,8 @@ def hybrid_cell(h):
 
 def table_e12(rows, compact=True, records=None):
     """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
-    the obstruction design and the seven key designs, the numbers of schemata of iCONF and Repair, running times;
+    the obstruction design and the seven key designs with the certified lower bound, the numbers of schemata of iCONF
+    and Repair, running times;
     compact leaves out the FD sets without a non-key FD (loss zero for every design) and those that exceeded the
     budget, which the text states in one sentence each; records maps FD set names to the numbers of records of
     the data sets loaded for E3 and E4, shown in a column after the name"""
@@ -127,15 +127,17 @@ def table_e12(rows, compact=True, records=None):
     greedy = load_gbcnf()
     hyb = load_hybrid()
     o = 1 if records is not None else 0
-    cols = 18 + o
+    cols = 19 + o
     out = []
     out.append(r"\begin{tabular}{l" + "r" * (cols - 1) + "}")
     out.append(r"\toprule")
-    out.append(" & " * o + r" & & & & & \multicolumn{9}{c}{dependency loss} & \multicolumn{2}{c}{schemata} & \multicolumn{2}{c}{time (s)}\\")
-    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 14 + o, 15 + o, 16 + o, 17 + o, 18 + o))
-    out.append(" & " * o + r" & & & & & & & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} & & & & & & &\\")
+    # the leading columns: data set, records (if any), |R|, |Sigma_a|, keys, crit.; then ten loss columns, two for the
+    # schemata and two for the times
+    out.append(" & ".join([""] * (5 + o) + [r"\multicolumn{10}{c}{dependency loss}", r"\multicolumn{2}{c}{schemata}", r"\multicolumn{2}{c}{time (s)}"]) + r"\\")
+    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 15 + o, 16 + o, 17 + o, 18 + o, 19 + o))
+    out.append(" & ".join([""] * (7 + o) + [r"\multicolumn{2}{c}{3NF}", r"\multicolumn{2}{c}{BCNF}"] + [""] * 8) + r"\\")
     out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (8 + o, 9 + o, 10 + o, 11 + o))
-    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & Hybrid & \repair & \drop"
+    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & Hybrid & \repair & \drop & bound"
                r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
@@ -149,7 +151,7 @@ def table_e12(rows, compact=True, records=None):
             if path and r["error"].startswith("timeout"):
                 n, F, _ = load_any(path)
                 out.append(r"%s & %s%d & %s & \multicolumn{%d}{l}{budget of four hours exceeded}\\" % (
-                    tex_name(r["name"]), "-- & " if o else "", n, num(len(F.fds)) + "$^{+}$", cols - 3 - o))
+                    tex_name(r["name"]), "-- & " if o else "", n, num(len(F.fds)), cols - 3 - o))
             else:
                 out.append(r"%s & \multicolumn{%d}{l}{%s}\\" % (tex_name(r["name"]), cols - 1, r["error"][:40].replace("_", r"\_")))
             continue
@@ -159,9 +161,9 @@ def table_e12(rows, compact=True, records=None):
         gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
         rec = [] if not o else [num(records[r["name"]]) if records.get(r["name"]) else "--"]
         out.append(" & ".join([tex_name(r["name"])] + rec + [
-            "%d" % r["n"], num(r["minimal_fds"]) + ("$^{+}$" if r.get("atomic_assumed") else ""), num(r["keys"]),
+            "%d" % r["n"], num(r["minimal_fds"]), num(r["keys"]),
             num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if ob is None else num(ob), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
-            bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
+            bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), bound_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
             secs(r.get("time_repair")), secs(r.get("time_drop"))]) + r"\\")
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
@@ -206,27 +208,14 @@ def e3_label(name):
     return tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
 
 def load_e3():
-    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py). While a mode has no
-    completed measurement, its placeholder records from results/e3pg_estimates.jsonl, if that file exists, are
-    appended (they carry "estimated": true, which the tables and figures mark); a real measurement replaces them."""
+    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py)"""
     import e3
     out = {}
     for name in e3.SETS:
         f = os.path.join(ROOT, "results", "e3pg_%s.jsonl" % name)
         if os.path.isfile(f) and name not in E3_EXCLUDE:
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
-    f = os.path.join(ROOT, "results", "e3pg_estimates.jsonl")
-    if os.path.isfile(f):
-        for r in (json.loads(l) for l in open(f, encoding="utf-8") if l.strip()):
-            recs = out.get(r["set"])
-            if recs is not None and not any(x.get("mode") == r["mode"] and "seconds" in x for x in recs):
-                recs.append(r)
     return out
-
-def e3_estimated(recs, mode, size):
-    """whether the measurement of a mode at `size` consists of placeholder records"""
-    d, times, cancelled, skipped, m = e3_summary(recs, mode)
-    return d is not None and any(r.get("estimated") for r in recs if r.get("mode") == m and r.get("size") == size and "seconds" in r)
 
 def e3_summary(recs, mode):
     """the measurement of a mode: (design record, {size: [seconds of the completed repetitions]}, {size: elapsed
@@ -293,7 +282,8 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     mean seconds (over the repetitions) for inserting `size` records into every design, where a design equal to an
     earlier one shares its measurement and a design whose insertion the budget cancelled shows the budget as a lower
     bound, and the records of the data set and the mean number of harmful updates among its random updates (e4.py);
-    the compact variant for a single column leaves out the greedy decomposition, Drop and the records"""
+    a cell with fewer than five completed repetitions carries their number as a superscript; the compact variant
+    for a single column leaves out the greedy decomposition, Drop and the records"""
     modes = [(m, l) for m, l in E3_ORDER if not compact or m not in ("gbcnf", "drop")]
     if compact:
         out = [r"\begin{tabular}{l" + "r" * 10 + "}", r"\toprule",
@@ -317,8 +307,8 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
             d = e3_summary(recs, mode)[0]
             mean, sd, n, cut = e3_mean(recs, mode, size)
             c = (r"$>$" + "{:,}".format(budget)) if (mean is None and cut) else cell(mean)
-            if e3_estimated(recs, mode, size):
-                c = r"\est{%s}" % c
+            if mean is not None and 0 < n < 5:
+                c += r"$^{%d}$" % n
             if mode.endswith("-x"):
                 cells.append("--" if d is None else num(d["exclusion"]))
             cells.append(c)
