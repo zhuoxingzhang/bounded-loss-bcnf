@@ -1,0 +1,6 @@
+exclude  READ COMMITTED   A committed  B failed: ERROR:  conflicting key value violates exclusion constraint "zoo_cage_animal_excl" B waited 2.0s, animals in cage 1: 1
+exclude  REPEATABLE READ  A committed  B failed: ERROR:  conflicting key value violates exclusion constraint "zoo_cage_animal_excl" B waited 2.0s, animals in cage 1: 1
+exclude  SERIALIZABLE     A committed  B failed: ERROR:  conflicting key value violates exclusion constraint "zoo_cage_animal_excl" B waited 2.0s, animals in cage 1: 1
+trigger  READ COMMITTED   A committed  B committed                                                    B waited 0.0s, animals in cage 1: 2
+trigger  REPEATABLE READ  A committed  B committed                                                    B waited 0.0s, animals in cage 1: 2
+trigger  SERIALIZABLE     A failed: ERROR:  could not serialize access due to read/write dependencies among transactions B committed                                                    B waited 0.0s, animals in cage 1: 1

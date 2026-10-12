@@ -36,8 +36,8 @@ def load_table(name):
     con = connect()
     cur = con.cursor()
     cur.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema='src' AND table_name=%s", (name,))
-    n = cur.fetchone()[0]
-    cols = ["c%d" % i for i in range(n)]
+    cols = ["c%d" % j for j in experiments.source_columns(SETS[name], cur.fetchone()[0])]   # the columns of the attributes
+    n = len(cols)
     cur.execute("SELECT %s FROM src.%s" % (", ".join(cols), qi(name)))
     rows = cur.fetchall()
     con.close()

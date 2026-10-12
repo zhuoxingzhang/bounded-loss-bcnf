@@ -49,6 +49,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
 from pgdb import connect, qi
 from e3 import SETS, e1_record, atomic, same_design
+import experiments
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
@@ -85,9 +86,11 @@ class Harness:
         self.cur = con.cursor()
         self.wcon, self.wcur = con, self.cur      # the connection to the database of the tables (a copy with --copy)
         self.R = (1 << n) - 1
-        self.cols = ["c%d" % i for i in range(n)]
         self.src = "src.%s" % qi(name)
         cur = self.cur
+        cur.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema='src' AND table_name=%s", (name,))
+        self.cols = ["c%d" % j for j in experiments.source_columns(SETS[name], cur.fetchone()[0])][:n]   # the columns of the attributes
+        assert len(self.cols) == n, (name, n, self.cols)
         cur.execute("SET enable_seqscan = off")
         cur.execute("SET enable_bitmapscan = off")
         cur.execute("SELECT %s FROM %s" % (", ".join("max(octet_length(%s))" % c for c in self.cols), self.src))
@@ -448,15 +451,17 @@ def check(name):
     cur = con.cursor()
     bad = 0
     orig = rec["designs"]["orig"][0]
+    cur.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema='src' AND table_name=%s", (name,))
+    col = ["c%d" % j for j in experiments.source_columns(SETS[name], cur.fetchone()[0])]   # attribute -> column
     for X, A in orig["fds"] or []:
-        cols = ["c%d" % a for a in X]
+        cols = [col[a] for a in X]
         group = ("GROUP BY " + ", ".join(cols)) if cols else ""
-        cur.execute("SELECT 1 FROM src.%s %s HAVING count(DISTINCT c%d) > 1 LIMIT 1" % (qi(name), group, A))
+        cur.execute("SELECT 1 FROM src.%s %s HAVING count(DISTINCT %s) > 1 LIMIT 1" % (qi(name), group, col[A]))
         if cur.fetchone():
             bad += 1
-            print("  violated: %s -> c%d" % (",".join(cols), A))
+            print("  violated: %s -> %s" % (",".join(cols), col[A]))
     for K in orig["keys"]:
-        cols = ["c%d" % a for a in K]
+        cols = [col[a] for a in K]
         if not cols:
             continue
         cur.execute("SELECT 1 FROM src.%s GROUP BY %s HAVING count(*) > 1 LIMIT 1" % (qi(name), ", ".join(cols)))

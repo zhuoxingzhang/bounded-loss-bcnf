@@ -40,7 +40,8 @@ relative to their own location, so any working directory works.
 | `test_examples.py` | the schemata of the paper with their proved losses |
 | `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
 | `minloss_bruteforce.py`, `weak_stats.py` | the brute-force layer: closure tables of size 2^n, enumeration of the closed FD sets, exact λ, level-wise exact solver (schemata with at most about seven attributes); the searches in `search/` build on it |
-| `diag_timeout.py`, `diag_fallback.py`, `design_diff.py`, `embedded_loss.py` | which stage of E1 exceeds the budget on the largest FD sets; where the fallback of `Repair` spends its time; whether the designs of a new E1 run differ from the previous one (so that E3 and E4 are re-run only where they do); how many unenforced FDs of `Repair` and `Drop` lie inside one schema and how many span several (`results/table_embedded.tex`) |
+| `diag_timeout.py`, `diag_fallback.py`, `design_diff.py` | which stage of E1 exceeds the budget on the largest FD sets; where the fallback of `Repair` spends its time; whether the designs of a new E1 run differ from the previous one (so that E3 and E4 are re-run only where they do) |
+| `embedded_loss.py`, `ablation.py`, `fd_names.py` | how many unenforced FDs of each of the eight key designs lie inside one schema and how many span several schemata (`results/table_embedded.tex`, the appendix table); the losses of every design that `Repair` examines before it returns the lightest, from the E1 records (`results/table_ablation.tex`, the appendix table of the branches of `Repair`); the minimal FDs of a data set written with the names of its columns, to tell the FDs that express a rule of the domain from accidents of the sample (`results/table_embedded.tex`) |
 | `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
 | `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs; `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
@@ -87,15 +88,41 @@ accessed through psycopg2 (the environment variables `PGHOST`, `PGPORT` and `PGD
 server); `e4.py` uses NumPy. The source tables were loaded into a user-space MySQL 8.0 first
 (`e3load.py`) and copied from there into PostgreSQL (`pgload.py`), so that both systems hold the same data.
 
+The PostgreSQL instance was built from source and initialised with `initdb -E UTF8 --locale=C`. Its
+`postgresql.conf` differs from the defaults in `shared_buffers = 32GB`, `work_mem = 64MB`,
+`maintenance_work_mem = 2GB`, `max_locks_per_transaction = 4096`, `max_wal_size = 64GB`,
+`checkpoint_timeout = 30min`, `autovacuum = off`, `jit = off`, `max_connections = 50` and
+`logging_collector = on`; everything else, in particular the planner settings, is the default. Every measurement
+session of `e3pg.py` sets `enable_seqscan = off` and `enable_bitmapscan = off`, since the cached plans of the
+constraint checks otherwise kept sequential scans on the small tables, which would make the cost of a
+constraint depend on the order of the measurements.
+
 ### Data sets
 
-The FD sets are the complete sets of minimal FDs of the data sets of the FD discovery benchmark (HPI repeatability
-page) under the null equality interpretation and of the lineitem table of TPC-H at scale factor 0.1, mined with
-HyFD; see [Data](#data). The paper reports ten benchmark sets and TPC-H lineitem. It leaves out four benchmark
-sets: lineitem, whose FD set gives the same picture as the lineitem table of TPC-H; pdbx, on which 3NF synthesis
-is in BCNF already; and diabetic and fd-red, with 40,195 and 89,571 minimal FDs, on which 3NF synthesis exceeds
-the budget of four hours (`results/diag_timeout_*.log`). The other seven TPC-H tables have at most three non-key
-FDs and loss zero for 3NF synthesis. `results/table_e12_full.tex` lists all 21 FD sets.
+The FD sets are the complete sets of minimal FDs of the data sets of the FD discovery benchmark (the
+repeatability page of the HPI information systems group, https://hpi.de/naumann/projects/repeatability/data-profiling/fds.html)
+under the null equality interpretation and of the lineitem table of TPC-H at scale factor 0.1, mined with HyFD;
+see [Data](#data). The benchmark files of abalone, adult, breast-cancer-wisconsin, bridges, echocardiogram,
+hepatitis and letter are the UCI data sets of these names (the files carry no header; `src/fd_names.py` maps the
+column indices to the attribute names of the UCI documentation); ncvoter is the 1,000-row, 19-column sample and
+uniprot the 1,000-row, 223-column sample of the page, with the attribute names in the header. weather is the
+table `china_weather` of the iConf experiments (262,920 rows, 18 columns), loaded from the database of the iConf
+project (`e3load.py`, `ICONF_DB`), whose attribute names are not part of the benchmark.
+
+Selection: the paper reports ten benchmark sets and TPC-H lineitem. It leaves out four benchmark sets whose FD
+sets we computed: lineitem, whose FD set gives the same picture as the lineitem table of TPC-H; pdbx, on which 3NF
+synthesis is in BCNF already; and diabetic and fd-red, with 40,195 and 89,571 minimal FDs, on which 3NF synthesis
+exceeds the budget of four hours (`results/diag_timeout_*.log`). We did not attempt the three sets of the
+benchmark whose FD sets are larger than that of fd-red, according to the counts on the benchmark page (horse
+128,726, plista 178,152 and flight 982,631 minimal FDs), nor the four sets with at most four FDs (iris,
+balance-scale, chess, nursery), nor the two large files without published FD sets (ncvoter statewide, flight with
+500,000 rows). The other seven TPC-H tables have at most three non-key FDs and loss zero for 3NF synthesis.
+`results/table_e12_full.tex` lists all 21 FD sets.
+
+Records: the source tables hold the distinct rows of the files (`e3load.py` loads a set of rows), so the column
+"records" of the main table counts distinct records: adult 32,537 of the 32,561 rows of the benchmark file,
+breast 691 of 699 and letter 18,668 of 20,000; the other files have no duplicate rows. The FDs hold on the
+distinct rows iff they hold on the file.
 
 ### E1 and E2: budgets, caps and fallbacks
 

@@ -1,6 +1,8 @@
-"""embedded_loss.py: how many of the minimal FDs that a Repair or Drop design leaves unenforced are embedded in one
-of its schemata, so that a row-level trigger on that table could enforce them, and how many span several schemata,
-so that a trigger would have to join tables.
+"""embedded_loss.py: how many of the minimal FDs that a design leaves unenforced are embedded in one of its schemata,
+so that an exclusion constraint or a row-level trigger on that table could enforce them, and how many span several
+schemata, so that a trigger would have to join tables. All eight key designs of the paper are analysed: the key-only
+design (orig), the two 3NF syntheses (3nf by iConf, 3nfc classical), the classical and the greedy BCNF
+decomposition (bcnf, gbcnf), Hybrid, Repair and Drop, from the records of experiments.py, gbcnf.py and hybrid.py.
 
     python embedded_loss.py [--tex] [set ...]     # E1 names; default: the data sets of e3.py with positive loss
                                                  # --tex also writes results/table_embedded.tex
@@ -11,6 +13,9 @@ import experiments
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/ and results/
 
 DEFAULT = ["abalone", "breast(null)", "bridges(null)", "echo(null)", "ncvoter(null)", "china_weather(null)", "hepatitis(null)"]
+MODES = [("orig", "key-only"), ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("3nf", "iConf"), ("3nfc", "classical"),
+         ("hybrid", "Hybrid"), ("repair", r"\repair"), ("drop", r"\drop")]
+MODES, LABELS = [m for m, _ in MODES], dict(MODES)
 
 def design_masks(d):
     return [(mask(s["attrs"]), [mask(k) for k in s["keys"]]) for s in d]
@@ -24,9 +29,14 @@ def analyse(names):
         r = json.loads(open(f, encoding="utf-8").read().splitlines()[-1])
         n, F, _ = load_any(paths[name])
         Da = F if r.get("atomic_assumed") else atomic_cover(F)
+        designs = dict(r.get("designs") or {})
+        for fn, key, mode in (("gbcnf_%s.jsonl", "design", "gbcnf"), ("hybrid_%s.jsonl", "hybrid_design", "hybrid")):
+            g = os.path.join(ROOT, "results", fn % experiments.safe(name))
+            if os.path.exists(g):
+                designs[mode] = json.loads(open(g, encoding="utf-8").read().splitlines()[-1]).get(key)
         row = {}
-        for mode in ("repair", "drop"):
-            d = (r.get("designs") or {}).get(mode)
+        for mode in MODES:
+            d = designs.get(mode)
             if not d:
                 continue
             design = design_masks(d)
@@ -37,16 +47,13 @@ def analyse(names):
     return out
 
 def table(rows):
+    """one column per design with the number of unenforced minimal FDs that span several schemata; the loss of
+    every design is in the main table, and the difference lies inside one schema"""
     from paper_tables import tex_name, num
-    out = [r"\begin{tabular}{lrrrrrr}", r"\toprule",
-           r"Data set & \multicolumn{3}{c}{\repair} & \multicolumn{3}{c}{\drop}\\",
-           r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
-           r" & loss & inside & across & loss & inside & across\\", r"\midrule"]
+    out = [r"\begin{tabular}{l" + "r" * len(MODES) + "}", r"\toprule",
+           r"Data set & " + " & ".join(LABELS[m] for m in MODES) + r"\\", r"\midrule"]
     for name, row in rows:
-        cells = []
-        for mode in ("repair", "drop"):
-            t = row.get(mode)
-            cells += ["--", "--", "--"] if t is None else [num(x) for x in t]
+        cells = ["--" if row.get(m) is None else num(row[m][2]) for m in MODES]
         out.append("%s & %s\\\\" % (tex_name(name), " & ".join(cells)))
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
@@ -56,8 +63,10 @@ def main(argv):
     names = [a for a in argv if a != "--tex"] or DEFAULT
     rows = analyse(names)
     for name, row in rows:
-        for mode, (loss, emb, across) in row.items():
-            print("%-20s %-6s loss %5d  inside a schema %5d  across schemata %5d" % (name, mode, loss, emb, across))
+        for mode in MODES:
+            if mode in row:
+                loss, emb, across = row[mode]
+                print("%-20s %-7s loss %5d  inside a schema %5d  across schemata %5d" % (name, mode, loss, emb, across))
     if tex:
         t = table(rows)
         open(os.path.join(ROOT, "results", "table_embedded.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")

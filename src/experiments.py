@@ -39,6 +39,16 @@ ORDER = ["tpch-region", "tpch-nation", "tpch-partsupp", "tpch-supplier", "tpch-c
          "diabetic(null)", "fd-red"]
 SETS.sort(key=lambda t: ORDER.index(t[0]) if t[0] in ORDER else 99)
 
+# the constant attributes (FD {} -> A in the discovered set) that drop_constants.py removed from the FD files, by
+# the column index of the data set; the data files keep these columns, so the attributes of the FD set map to the
+# columns of the source table by source_columns()
+DROPPED_COLUMNS = {"echo(null)": [10], "ncvoter(null)": [13], "uniprot(null)": [4], "tpch-orders": [4]}
+
+def source_columns(name, n_source):
+    """the column indices of the source table (n_source columns) of the attributes 0..n-1 of the FD set `name`"""
+    dropped = set(DROPPED_COLUMNS.get(name, []))
+    return [j for j in range(n_source) if j not in dropped]
+
 MAX_MINIMAL = 300000      # cap on |Sigma_a|
 ASSUME_ATOMIC_ABOVE = 2000  # above this many input FDs the discovered set is taken as Sigma_a (after checking that
                             # every left-hand side is minimal); on every smaller set the computed Sigma_a equals the input
@@ -86,6 +96,7 @@ def run(name, path):
         return rec
     rec["time_cover"] = time.time() - t0
     rec["minimal_fds"] = len(Da)
+    rec["dropped_columns"] = DROPPED_COLUMNS.get(name, [])   # the constant attributes removed by drop_constants.py
     R = (1 << n) - 1
     keys_R = minimal_keys(Da, R)
     rec["keys"] = len(keys_R)
