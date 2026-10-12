@@ -45,6 +45,10 @@ def uniprot_names():
 
 def names_of(name, n):
     nm = NAMES.get(name) or (uniprot_names() if name.startswith("uniprot") else None)
+    # the constant columns that drop_constants.py removed from the FD file are no attributes of the FD set
+    dropped = set(experiments.DROPPED_COLUMNS.get(name, []))
+    if nm is not None and dropped and len(nm) - len(dropped) == n:
+        nm = [x for i, x in enumerate(nm) if i not in dropped]
     if nm is None or len(nm) != n:
         return ["c%d" % i for i in range(n)]
     return nm

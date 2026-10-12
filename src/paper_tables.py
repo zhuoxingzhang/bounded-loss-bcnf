@@ -338,6 +338,35 @@ def table_e4(e4recs):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
+def load_weighted():
+    """the records of weighted.py per set: {set: record} (results/weighted_<set>.jsonl)"""
+    import e3
+    out = {}
+    for name in e3.SETS:
+        f = os.path.join(ROOT, "results", "weighted_%s.jsonl" % name)
+        if os.path.isfile(f) and name not in E3_EXCLUDE:
+            out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()][-1]
+    return out
+
+def table_weighted(wrecs):
+    """per data set: the unenforced minimal FDs and the mean integrity risk (per cent) of Repair and Drop under unit
+    weights (the designs of E1) and under the weights of weighted.py, on the same evaluation updates"""
+    out = [r"\begin{tabular}{l" + "r" * 8 + "}", r"\toprule",
+           r"Data set & \multicolumn{4}{c}{\repair} & \multicolumn{4}{c}{\drop}\\",
+           r"\cmidrule(lr){2-5}\cmidrule(lr){6-9}",
+           r" & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)} & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}\\",
+           r" & unit & $w$ & unit & $w$ & unit & $w$ & unit & $w$\\",
+           r"\midrule"]
+    for name, r in wrecs.items():
+        cells = []
+        for alg in ("repair", "drop"):
+            ms = [r["modes"].get(alg), r["modes"].get(alg + "_w")]
+            cells += ["--" if m is None else num(m["loss"]) for m in ms]
+            cells += ["--" if m is None else "%.1f" % (100.0 * m["risk"]) for m in ms]
+        out.append("%s & %s" % (e3_label(name), " & ".join(cells)) + "\\\\")
+    out += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(out)
+
 TEASER_ORDER = ["D1+exclude", "3NF+exclude", "D1", "D2", "D4"]
 TEASER_LABELS = {"D1+exclude": r"$\dec_1$, FDs by exclusion", "3NF+exclude": r"3NF, $Z\rightarrow T$ by exclusion",
                  "D1": r"$\dec_1$, keys only (loss 2)", "D2": r"$\dec_2$ (loss 1)", "D4": r"$\dec_4$ (loss 1)"}
@@ -384,7 +413,8 @@ if __name__ == "__main__":
     for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows, records=records)),
                   ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
-                  ("table_e4.tex", table_e4(e4recs)), ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
+                  ("table_e4.tex", table_e4(e4recs)), ("table_weighted.tex", table_weighted(load_weighted())),
+                  ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join(ROOT, "results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
         print(t)
