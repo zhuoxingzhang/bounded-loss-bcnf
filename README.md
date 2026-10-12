@@ -16,7 +16,7 @@ database experiments use psycopg2 and NumPy (PostgreSQL) and pymysql (the MySQL 
 | `search/` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper, with their logs next to them (`*_n5.log`: five attributes, `*_n6.log`: six, `*_n7.log`: seven; the four largest logs, `weak*_n*.log`, are not in the repository) |
 | `logs/` | the logs of the validation runs (`validate_*.log`) and of the E1 runs |
 | `data/fds/` | the FD sets of the experiments (see [Data](#data)) |
-| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`, `fk_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
+| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `weighted_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`, `fk_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
 | `results/mysql/` | the records of the earlier MySQL variants of E3 and of the teaser (`e3_<set>.jsonl`, `teaser.jsonl`), which the paper does not report |
 | `iconf/` | the Java driver that runs the original iCONF implementation for cross-checks (`iconf/README.md`) |
 
@@ -45,8 +45,9 @@ relative to their own location, so any working directory works.
 | `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
 | `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs and the enforcement of the non-key FDs (`-x`: exclusion constraints, `-f`: lookup tables with foreign keys, `-t`: triggers); `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
+| `weighted.py` | `Repair` and `Drop` under weights from random updates: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
 | `concurrency_check.py`, `fk_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`); the check that a lookup table with a foreign key rejects a record that violates the FD, alone and under a concurrent transaction (`results/fk_check.log`) |
-| `run_fk.sh`, `rerun_constants.sh` | server drivers: the lookup-table modes of E3 on every data set, after the re-run of the sets whose constant attribute `drop_constants.py` removed |
+| `run_fk.sh`, `rerun_constants.sh`, `run_weighted.sh` | server drivers: the lookup-table modes of E3 on every data set, after the re-run of the sets whose constant attribute `drop_constants.py` removed; the weighted runs of `weighted.py` on the sets with data and positive loss, before the lookup-table modes |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
 | `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL (`MYSQL_BIN`, `MYSQL_CNF`, `DUMP_DIR`), sample the memory of the MySQL server |
@@ -66,6 +67,7 @@ python src/hardness_check.py 600 3     # the reduction of the hardness theorem f
 python src/obstruction_stats.py        # the bounds of the paper on all FD sets
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py (3nf, 3nfc: the 3NF syntheses with keys only, for the trade-off figure)
 python src/e4.py abalone               # E4
+python src/weighted.py --budgets 1000000 abalone   # Repair and Drop under weights from random updates, evaluated as in E4
 python src/paper_tables.py             # results/table_*.tex
 python src/paper_figures.py            # results/fig_*.tex
 ```
@@ -240,6 +242,16 @@ of harmful updates that it does not catch, reported as the mean over five seeds.
 one sorted index per FD. The seven key designs enter with the non-key FDs of 3NF synthesis left to the application;
 the original relation with every FD enforced has risk zero by construction. `results/e4_<set>.jsonl` holds the
 counts per seed and design.
+
+### Weights from random updates
+
+`weighted.py` gives every minimal FD of Σ_a the weight one plus the number of updates that violate it among the
+50,000 random updates of the weighting seeds 6 to 10, drawn as in E4. `Repair` and `Drop` then run with these
+weights and the budgets of E1, with every subset sum of the weights as a bound of the iterative deepening of `Drop`
+(`--budgets 1000000`; the default of 60 bounds stops the exact search early under non-unit weights and reports it as
+unproved). The weighted designs and the unit-weight designs of E1 are evaluated on the updates of the evaluation
+seeds 1 to 5 of E4, so every design meets the same updates. `results/weighted_<set>.jsonl` holds the weights, the
+unit and weighted loss of every design and the counts per evaluation seed.
 
 ## Data
 

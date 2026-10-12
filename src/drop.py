@@ -422,13 +422,15 @@ def drop_plain(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, 
 # ---------------------------------------------------------------------------------------------------------------
 
 STRICT_COVER = True
+BUDGET_LIMIT = 60   # the number of weight bounds of the iterative deepening under non-unit weights
 
-def _subset_sums(weights, cap, limit=60, max_sums=100000):
+def _subset_sums(weights, cap, limit=None, max_sums=100000):
     """(budgets, rest): the distinct subset sums of the weights up to `cap` in increasing order (unit weights:
     0..m), at most `limit` of them unless the weights are unit, and rest = None if the budgets contain every subset
     sum, else a lower bound on the smallest subset sum above the last budget. Above max_sums sums, only the
     smallest are kept; the list stays complete up to its largest element, since every subset whose sum does not
     exceed it has all its partial sums below it."""
+    limit = BUDGET_LIMIT if limit is None else limit
     if all(x == 1 for x in weights):
         m = len(weights)
         top = m if cap is None else max(-1, min(m, int(cap)))

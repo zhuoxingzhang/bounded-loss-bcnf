@@ -126,6 +126,23 @@ def run(name, updates, seeds):
             f.write(json.dumps(run_seed(name, rec, n, F, codes, updates, seed)) + "\n")
             f.flush()
 
+def draw_updates(codes, n, updates, seed):
+    """the random updates of a seed (row, attribute, new value code) and the hash multipliers of the FD indexes"""
+    rows = codes.shape[0]
+    rng = np.random.default_rng(seed)
+    nonconst = [a for a in range(n) if codes[:, a].max() > 0]
+    upd_row = rng.integers(0, rows, size=updates)
+    upd_attr = rng.choice(nonconst, size=updates)
+    upd_val = np.empty(updates, dtype=np.int64)
+    for i in range(updates):
+        a = upd_attr[i]
+        v = codes[rng.integers(0, rows), a]
+        while v == codes[upd_row[i], a]:
+            v = codes[rng.integers(0, rows), a]
+        upd_val[i] = v
+    mult = (rng.integers(1, 2**63 - 1, size=n, dtype=np.int64).astype(np.uint64) * np.uint64(2) + np.uint64(1))
+    return upd_row, upd_attr, upd_val, mult
+
 def run_seed(name, rec, n, F, codes, updates, seed):
     rows = codes.shape[0]
     # the FDs of Sigma to test: the atomic cover when it is small, else the discovered cover
@@ -139,18 +156,7 @@ def run_seed(name, rec, n, F, codes, updates, seed):
     else:
         sigma = sorted(set((tuple(bits(X)), A) for (X, A) in F.fds))
         cover = "discovered"
-    rng = np.random.default_rng(seed)
-    nonconst = [a for a in range(n) if codes[:, a].max() > 0]
-    upd_row = rng.integers(0, rows, size=updates)
-    upd_attr = rng.choice(nonconst, size=updates)
-    upd_val = np.empty(updates, dtype=np.int64)
-    for i in range(updates):
-        a = upd_attr[i]
-        v = codes[rng.integers(0, rows), a]
-        while v == codes[upd_row[i], a]:
-            v = codes[rng.integers(0, rows), a]
-        upd_val[i] = v
-    mult = (rng.integers(1, 2**63 - 1, size=n, dtype=np.int64).astype(np.uint64) * np.uint64(2) + np.uint64(1))
+    upd_row, upd_attr, upd_val, mult = draw_updates(codes, n, updates, seed)
     t1 = time.time()
     V = violations(codes, mult, sigma, upd_row, upd_attr, upd_val, verbose_label=name + " Sigma")
     harmful = V.any(axis=1)
