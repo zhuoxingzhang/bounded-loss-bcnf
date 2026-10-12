@@ -1,0 +1,9 @@
+PostgreSQL 18.4 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.2.1 20220127 (Red Hat 11.2.1-9), 64-bit
+-- sequential
+(1, zebra, Ann): inserted
+(1, lion, Bob): rejected: insert or update on table "fk_check_s" violates foreign key constraint "fk_check_s_cage_animal_fkey"
+animals in cage 1: 1
+-- concurrent, READ COMMITTED
+A (2, zebra, Ann): committed after 2.0 s
+B (2, lion, Bob): failed after 1.5 s: insert or update on table "fk_check_s" violates foreign key constraint "fk_check_s_cage_animal_fkey"
+animals in cage 2: 1

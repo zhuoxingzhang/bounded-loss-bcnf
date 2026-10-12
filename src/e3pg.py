@@ -12,11 +12,18 @@ non-key FDs of a minimal cover of every schema (the "fds" of the E1 record) by o
      column set of a key gets a B-tree index) and raises an exception if it differs on A. One tuple suffices,
      since the stored relation satisfies the FD. The measurement session disables sequential and bitmap scans,
      so that the lookups use the index: PL/pgSQL caches a generic plan, and the plan chosen while a table is
-     small would otherwise keep scanning the table as it grows.
+     small would otherwise keep scanning the table as it grows;
+  f  (lookup tables with foreign keys) one table over XA with UNIQUE (X) and UNIQUE (X, A) per FD X -> A, and a
+     FOREIGN KEY (X, A) on the schema's table that references it: the key X of the lookup table admits one value of
+     A per value of X, and the foreign key keeps the copies of A in the schema's table equal to it, both validated
+     by index probes. A record is inserted into the lookup tables first (ON CONFLICT DO NOTHING), then into the
+     schema's table, so that a record that violates the FD is rejected by the foreign key. The design is a key
+     design of loss 0 whose lookup tables duplicate the projections XA (the "foreign keys" of the paper's Section 2).
 
 Modes: orig-x (the original relation, every FD enforced), keys (the original relation with its minimal keys only),
 3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, gbcnf (greedy BCNF, gbcnf.py), repair, drop (keys only). The trigger modes orig-t, 3nf-t
-and 3nfc-t are not run by default (--modes selects them), and neither are 3nf and 3nfc, the two 3NF syntheses with
+and 3nfc-t and the lookup-table modes orig-f, 3nf-f and 3nfc-f, which enforce the same FDs as the -x modes, are not
+run by default (--modes selects them), and neither are 3nf and 3nfc, the two 3NF syntheses with
 keys only, whose times the trade-off figure of paper_figures.py needs (--modes 3nf,3nfc).
 A mode whose tables, keys and enforced FDs equal those of an earlier mode is not measured again.
 
@@ -54,14 +61,14 @@ import experiments
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
 MODES = ["orig-x", "keys", "3nf-x", "3nfc-x", "bcnf", "gbcnf", "repair", "drop"]   # the paper enforces non-key FDs by exclusion constraints
-ALL_MODES = ["orig-x", "orig-t", "keys", "3nf-x", "3nf-t", "3nfc-x", "3nfc-t", "bcnf", "gbcnf", "repair", "drop"]   # -t: triggers, on request
+ALL_MODES = ["orig-x", "orig-t", "orig-f", "keys", "3nf-x", "3nf-t", "3nf-f", "3nfc-x", "3nfc-t", "3nfc-f", "bcnf", "gbcnf", "repair", "drop"]   # -t: triggers, -f: lookup tables with foreign keys, on request
 BATCH = 1000
 TEMPLATE_SEED = 42
 MAX_KEY_BYTES = 2000      # a UNIQUE B-tree entry must fit into a third of a page; wider keys get an md5 index
 RETRIES = 5               # repetitions repeated after the server closed the connection (terminated from outside)
 
 def design_of(rec, mode):
-    """(design, enforcement) of a mode: the schemata with keys and trigger FDs, and 'x', 't' or None"""
+    """(design, enforcement) of a mode: the schemata with keys and non-key FDs, and 'x', 't', 'f' or None"""
     designs = rec["designs"]
     base, _, how = mode.partition("-")
     if base == "keys":
@@ -145,14 +152,13 @@ class Harness:
         t0 = time.time()
         self.drop_tables()
         cur = self.wcur
-        info = {"schemata": len(design), "unique": 0, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0}
+        info = {"schemata": len(design), "unique": 0, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0}
         for i, sch in enumerate(design):
             table = "%s_%s_%d" % (self.name, mode.replace("-", "_"), i)
             t = "w.%s" % qi(table)
             cols = [self.cols[a] for a in sch["attrs"]]
             cur.execute("DROP TABLE IF EXISTS %s CASCADE" % t)
             cur.execute("CREATE TABLE %s AS SELECT DISTINCT %s FROM %s" % (t, ", ".join(cols), self.src))
-            self.tables.append((table, cols))
             keysets = []
             for j, K in enumerate(sch["keys"]):
                 kc = [self.cols[a] for a in K]
@@ -190,6 +196,28 @@ class Harness:
                 cur.execute("CREATE OR REPLACE FUNCTION %s() RETURNS trigger LANGUAGE plpgsql AS $f$\nDECLARE v text;\nBEGIN\n%s\n  RETURN NEW;\nEND\n$f$" % (fn, "\n".join(body)))
                 cur.execute("CREATE TRIGGER %s BEFORE INSERT ON %s FOR EACH ROW EXECUTE FUNCTION %s()" % (qi("%s_trg" % table), t, fn))
                 info["trigger_fds"] += len(fds)
+            elif how == "f":
+                # a lookup table over XA with key X per FD X -> A and a foreign key from the schema's table on XA to
+                # it; the lookup tables precede the schema's table in self.tables, since the records enter them first
+                for j, (X, A) in enumerate(fds):
+                    ltable = "%s_l%d" % (table, j)
+                    lt = "w.%s" % qi(ltable)
+                    lcols = X + [A]
+                    if sum(self.width[c] for c in lcols) > MAX_KEY_BYTES:
+                        raise RuntimeError("the lookup table of %s -> %s on %s needs a key wider than %d bytes" % (",".join(X), A, table, MAX_KEY_BYTES))
+                    cur.execute("DROP TABLE IF EXISTS %s CASCADE" % lt)
+                    cur.execute("CREATE TABLE %s AS SELECT DISTINCT %s FROM %s" % (lt, ", ".join(lcols), t))
+                    if X:
+                        cur.execute("ALTER TABLE %s ADD CONSTRAINT %s UNIQUE (%s)" % (lt, qi("%s_k" % ltable), ", ".join(X)))
+                    else:       # the empty left-hand side: at most one tuple
+                        cur.execute("CREATE UNIQUE INDEX %s ON %s ((true))" % (qi("%s_k" % ltable), lt))
+                    cur.execute("ALTER TABLE %s ADD CONSTRAINT %s UNIQUE (%s)" % (lt, qi("%s_u" % ltable), ", ".join(lcols)))
+                    cur.execute("ANALYZE %s" % lt)
+                    cur.execute("ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)" % (
+                        t, qi("%s_f%d" % (table, j)), ", ".join(lcols), lt, ", ".join(lcols)))
+                    self.tables.append((ltable, lcols))
+                    info["lookup_tables"] += 1
+            self.tables.append((table, cols))
             cur.execute("ANALYZE %s" % t)
         self.wcon.commit()
         info["build_seconds"] = round(time.time() - t0, 3)
@@ -499,8 +527,8 @@ def table():
             to = [r for r in recs if r.get("mode") == mode and "timeout_seconds" in r]
             if to:
                 cells.append("TIMEOUT at size %d" % to[-1]["size"])
-            print("  %-7s loss %5s | %4d schemata, %4d UNIQUE (+%d md5), %4d EXCLUDE, %4d trigger FDs, %4d indexes | %s" % (
-                mode, d.get("loss"), d["schemata"], d["unique"], d["unique_md5"], d["exclusion"], d["trigger_fds"], d["indexes"], "  ".join(cells)))
+            print("  %-7s loss %5s | %4d schemata, %4d UNIQUE (+%d md5), %4d EXCLUDE, %4d trigger FDs, %4d indexes, %4d lookup tables | %s" % (
+                mode, d.get("loss"), d["schemata"], d["unique"], d["unique_md5"], d["exclusion"], d["trigger_fds"], d["indexes"], d.get("lookup_tables", 0), "  ".join(cells)))
 
 def main():
     args = sys.argv[1:]

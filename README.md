@@ -16,7 +16,7 @@ database experiments use psycopg2 and NumPy (PostgreSQL) and pymysql (the MySQL 
 | `search/` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper, with their logs next to them (`*_n5.log`: five attributes, `*_n6.log`: six, `*_n7.log`: seven; the four largest logs, `weak*_n*.log`, are not in the repository) |
 | `logs/` | the logs of the validation runs (`validate_*.log`) and of the E1 runs |
 | `data/fds/` | the FD sets of the experiments (see [Data](#data)) |
-| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
+| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`, `fk_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
 | `results/mysql/` | the records of the earlier MySQL variants of E3 and of the teaser (`e3_<set>.jsonl`, `teaser.jsonl`), which the paper does not report |
 | `iconf/` | the Java driver that runs the original iCONF implementation for cross-checks (`iconf/README.md`) |
 
@@ -43,9 +43,10 @@ relative to their own location, so any working directory works.
 | `diag_timeout.py`, `diag_fallback.py`, `design_diff.py` | which stage of E1 exceeds the budget on the largest FD sets; where the fallback of `Repair` spends its time; whether the designs of a new E1 run differ from the previous one (so that E3 and E4 are re-run only where they do) |
 | `embedded_loss.py`, `ablation.py`, `fd_names.py` | how many unenforced FDs of each of the eight key designs lie inside one schema and how many span several schemata (`results/table_embedded.tex`, the appendix table); the losses of every design that `Repair` examines before it returns the lightest, from the E1 records (`results/table_ablation.tex`, the appendix table of the branches of `Repair`); the minimal FDs of a data set written with the names of its columns, to tell the FDs that express a rule of the domain from accidents of the sample (`results/table_embedded.tex`) |
 | `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
-| `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs; `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
+| `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs and the enforcement of the non-key FDs (`-x`: exclusion constraints, `-f`: lookup tables with foreign keys, `-t`: triggers); `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
-| `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
+| `concurrency_check.py`, `fk_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`); the check that a lookup table with a foreign key rejects a record that violates the FD, alone and under a concurrent transaction (`results/fk_check.log`) |
+| `run_fk.sh`, `rerun_constants.sh` | server drivers: the lookup-table modes of E3 on every data set, after the re-run of the sets whose constant attribute `drop_constants.py` removed |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
 | `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL (`MYSQL_BIN`, `MYSQL_CNF`, `DUMP_DIR`), sample the memory of the MySQL server |
@@ -181,7 +182,13 @@ Every design was materialized in PostgreSQL 18.4 with a table per schema that ho
 data set, a `UNIQUE` constraint per declared key, and, on the original relation and on the critical schemata of
 3NF synthesis, an exclusion constraint `EXCLUDE USING gist (X WITH =, A WITH <>)` per non-key FD X→A of a minimal
 cover. The exclusion constraint states the FD exactly, and the database system validates it like a key while it
-maintains the index of the constraint.
+maintains the index of the constraint. The lookup-table modes (`e3pg.py --modes orig-f,3nf-f,3nfc-f`) enforce the
+same FDs as standard SQL does: a table over XA with `UNIQUE (X)` and `UNIQUE (X, A)` per FD X→A and a
+`FOREIGN KEY (X, A)` from the table that holds the FD to it, so that the key of the lookup table admits one value of
+A per value of X and the foreign key keeps the copies of A equal to it. A record enters the lookup tables first
+(`ON CONFLICT DO NOTHING`) and then the table, and a record that violates the FD is rejected by the foreign key
+(`fk_check.py`). The result is the design with lookup tables of Section 2 of the paper: a key design of loss 0
+whose lookup tables duplicate the projections XA.
 
 Every value was stored as text, so that the marker of a missing value is a value of its own, as under the null
 equality interpretation of the FD sets. Under the SQL semantics of nulls, a `UNIQUE` constraint does not enforce
@@ -212,7 +219,9 @@ transaction and fails under `READ COMMITTED`, `REPEATABLE READ` and `SERIALIZABL
 that looks up a stored tuple of the same cage instead, both transactions commit under `READ COMMITTED` and
 `REPEATABLE READ` (two animals in cage 1), as the analyses of snapshot isolation predict, and `SERIALIZABLE` aborts
 the first transaction. Hence, E3 compares guarantees of the same kind: FDs that the database system enforces, by
-keys in the BCNF designs and by exclusion constraints elsewhere.
+keys in the BCNF designs and by exclusion constraints elsewhere. `fk_check.py` (`results/fk_check.log`) repeats the
+check for the lookup-table modes: the insertion of (1, lion) is skipped by the key of the lookup table and rejected by
+the foreign key, alone and when it runs concurrently with the insertion of (1, zebra) under `READ COMMITTED`.
 
 ### The running example (the figure in the introduction)
 
