@@ -182,8 +182,8 @@ Every design was materialized in PostgreSQL 18.4 with a table per schema that ho
 data set, a `UNIQUE` constraint per declared key, and, on the original relation and on the critical schemata of
 3NF synthesis, an exclusion constraint `EXCLUDE USING gist (X WITH =, A WITH <>)` per non-key FD X→A of a minimal
 cover. The exclusion constraint states the FD exactly, and the database system validates it like a key while it
-maintains the index of the constraint. The lookup-table modes (`e3pg.py --modes orig-f,3nf-f,3nfc-f`) enforce the
-same FDs as standard SQL does: a table over XA with `UNIQUE (X)` and `UNIQUE (X, A)` per FD X→A and a
+maintains the index of the constraint. The lookup-table modes (`e3pg.py --modes orig-f,3nf-f,3nfc-f`, a supplementary
+measurement that the paper does not report; `results/e3pg_fk_<set>.jsonl`) enforce the same FDs as standard SQL does: a table over XA with `UNIQUE (X)` and `UNIQUE (X, A)` per FD X→A and a
 `FOREIGN KEY (X, A)` from the table that holds the FD to it, so that the key of the lookup table admits one value of
 A per value of X and the foreign key keeps the copies of A equal to it. A record enters the lookup tables first
 (`ON CONFLICT DO NOTHING`) and then the table, and a record that violates the FD is rejected by the foreign key
