@@ -348,18 +348,26 @@ def load_weighted():
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()][-1]
     return out
 
-def table_weighted(wrecs):
-    """per data set: the unenforced minimal FDs and the mean integrity risk (per cent) of Repair and Drop under unit
-    weights (the designs of E1) and under the weights of weighted.py, on the same evaluation updates"""
-    out = [r"\begin{tabular}{l" + "r" * 8 + "}", r"\toprule",
-           r"Data set & \multicolumn{4}{c}{\repair} & \multicolumn{4}{c}{\drop}\\",
-           r"\cmidrule(lr){2-5}\cmidrule(lr){6-9}",
-           r" & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)} & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}\\",
-           r" & unit & $w$ & unit & $w$ & unit & $w$ & unit & $w$\\",
-           r"\midrule"]
+def table_weighted(wrecs, algs=("repair",)):
+    """per data set: the unenforced minimal FDs and the mean integrity risk (per cent) of the algorithms under unit
+    weights (the designs of E1) and under the weights of weighted.py, on the same evaluation updates; the paper
+    shows Repair only, since Drop returns the same designs as Repair under these weights"""
+    if len(algs) == 1:
+        out = [r"\begin{tabular}{lrrrr}", r"\toprule",
+               r"Data set & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}\\",
+               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
+               r" & unit & $w$ & unit & $w$\\",
+               r"\midrule"]
+    else:
+        out = [r"\begin{tabular}{l" + "r" * (4 * len(algs)) + "}", r"\toprule",
+               r"Data set & " + " & ".join(r"\multicolumn{4}{c}{\%s}" % a for a in algs) + r"\\",
+               "".join(r"\cmidrule(lr){%d-%d}" % (2 + 4 * k, 5 + 4 * k) for k in range(len(algs))),
+               " & " + " & ".join([r"\multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}"] * len(algs)) + r"\\",
+               " & " + " & ".join([r"unit & $w$ & unit & $w$"] * len(algs)) + r"\\",
+               r"\midrule"]
     for name, r in wrecs.items():
         cells = []
-        for alg in ("repair", "drop"):
+        for alg in algs:
             ms = [r["modes"].get(alg), r["modes"].get(alg + "_w")]
             cells += ["--" if m is None else num(m["loss"]) for m in ms]
             cells += ["--" if m is None else "%.1f" % (100.0 * m["risk"]) for m in ms]
@@ -414,6 +422,7 @@ if __name__ == "__main__":
                   ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("table_weighted.tex", table_weighted(load_weighted())),
+                  ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"))),
                   ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join(ROOT, "results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
