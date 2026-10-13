@@ -281,6 +281,15 @@ keys in the BCNF designs and by exclusion constraints elsewhere. `fk_check.py` (
 check for the lookup-table modes: the insertion of (1, lion) is skipped by the key of the lookup table and rejected by
 the foreign key, alone and when it runs concurrently with the insertion of (1, zebra) under `READ COMMITTED`.
 
+**Throughput under concurrency** (supplementary). `conc.py` lets C ∈ {1, 4, 16, 32} clients insert the 40,000
+synthetic records of E3 concurrently in transactions of ten records, under a uniform and a skewed (Zipf 1.0) choice of
+the copied stored records, three repetitions each from file copies of a prewarmed template (`run_conc.sh`;
+`results/conc_<set>.jsonl`, `results/conc.log`, `conc.py --table`). The PostgreSQL build allows 50 connections, so a
+first run with 64 clients was refused (`results/conc_run1/`). Throughput grows with the clients in every mode, and the
+key designs of `Repair` keep the lead over the iCONF design with exclusion constraints: 1.2 to 2.3 times its
+throughput with one client and 1.1 to 1.6 times with 32 clients. The exclusion constraints and the keys create no
+MultiXacts; only the foreign keys of the lookup-table modes do, and more under the skewed choice.
+
 ### The running example (the figure in the introduction)
 
 `teaser_pg.py` builds an address book of 100,000 customers on the streets of 200 towns with ten zip codes each,
