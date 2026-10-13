@@ -224,8 +224,8 @@ from the most frequent one for their left-hand side value (FD by FD in the order
 changes). It keeps 276,716 records of food (87.3%; DBAName → Zip removes 36,131, since chains have many zip codes),
 926,485 of price paid (99.5%) and all records of hospital (`results/documented_<set>.json`). `--load` puts the records
 into `src.<set>`, `--designs` writes the designs of the table of documented FDs to `results/e1_doc-<set>.jsonl` in the
-format of `experiments.py`, and `e3pg.py`, `e4.py` and `weighted.py` then run on the sets `food`, `pricepaid` and
-`hospital` as on the others. TPC-DS has no data here: its generator is not run.
+format of `experiments.py`, and `e3pg.py`, `e4.py`, `weighted.py` and `drift.py` then run on the sets `food`, `pricepaid`
+and `hospital` as on the others. TPC-DS has no data here: its generator is not run.
 
 ### E3: operational overheads in PostgreSQL
 
@@ -327,6 +327,8 @@ holds one record per update set with the harmful updates and the missed ones per
 At the strongest drift, the weighted designs of `Repair` miss fewer harmful updates than the unit-weight ones on the
 six sets where they do so without drift (abalone 27.2 → 15.1 %, breast 0.77 → 0.16 %, echo 10.1 → 3.0 %, hepatitis
 0.71 → 0.70 %, ncvoter 2.6 → 1.7 %, weather 2.3 → 1.2 %), and slightly more on bridges (4.30 → 4.34 %).
+On the documented sets the weights leave the designs unchanged, and both miss 16.0 % on food, 0.2 % on price paid and
+none on hospital (`drift.py food pricepaid hospital`, one process per set).
 
 ## Data
 

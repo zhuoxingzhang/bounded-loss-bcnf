@@ -1,0 +1,30 @@
+{
+ "set": "hospital",
+ "fd_set": "hospital",
+ "records": 1000,
+ "duplicates": 0,
+ "kept": 1000,
+ "removed_per_fd": {},
+ "distinct": {
+  "ProviderNumber": 45,
+  "HospitalName": 45,
+  "Address1": 45,
+  "Address2": 1,
+  "Address3": 1,
+  "City": 39,
+  "State": 2,
+  "ZipCode": 44,
+  "CountyName": 33,
+  "PhoneNumber": 45,
+  "HospitalType": 1,
+  "HospitalOwner": 8,
+  "EmergencyService": 2,
+  "Condition": 5,
+  "MeasureCode": 28,
+  "MeasureName": 28,
+  "Score": 57,
+  "Sample": 309,
+  "Stateavg": 48
+ },
+ "time": 0.0
+}

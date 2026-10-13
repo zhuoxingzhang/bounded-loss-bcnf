@@ -1,0 +1,32 @@
+{
+ "set": "pricepaid",
+ "fd_set": "uk",
+ "records": 931453,
+ "duplicates": 0,
+ "kept": 926485,
+ "removed_per_fd": {
+  "Postcode->Street": 3755,
+  "Postcode->Locality": 1012,
+  "PAON,SAON,Street,Locality,Town->Postcode": 112,
+  "Postcode->Town": 89
+ },
+ "distinct": {
+  "TransactionID": 926485,
+  "Price": 34558,
+  "Date": 366,
+  "Postcode": 526244,
+  "PropertyType": 5,
+  "OldNew": 2,
+  "Duration": 2,
+  "PAON": 76318,
+  "SAON": 8028,
+  "Street": 179695,
+  "Locality": 16272,
+  "Town": 1144,
+  "District": 318,
+  "County": 113,
+  "PPDCategory": 2,
+  "RecordStatus": 1
+ },
+ "time": 93.2
+}

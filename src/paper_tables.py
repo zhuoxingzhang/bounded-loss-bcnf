@@ -8,14 +8,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repos
 
 NAMES = {"letter(non-dup)": "letter", "tpch-region": "region", "tpch-nation": "nation", "tpch-partsupp": "partsupp",
          "tpch-supplier": "supplier", "tpch-customer": "customer", "tpch-orders": "orders", "tpch-part": "part",
-         "tpch-lineitem": "lineitem", "china_weather(null)": "weather"}
+         "tpch-lineitem": "lineitem", "china_weather(null)": "weather",
+         "doc-food+c1": "food", "doc-uk": "price paid", "doc-hospital": "hospital"}   # the documented sets
 # FD sets that the paper leaves out: the lineitem table of the HPI benchmark duplicates the TPC-H table lineitem; pdbx and
 # the TPC-H tables other than lineitem have loss zero for 3NF synthesis and say nothing; diabetic and fd-red exceed the
 # budget in 3NF synthesis already (2026-10-11, to save space)
 EXCLUDE = {"lineitem", "pdbx(null)", "diabetic(null)", "fd-red", "tpch-region", "tpch-nation", "tpch-partsupp", "tpch-supplier",
            "tpch-customer", "tpch-orders", "tpch-part"}
 # E3 and E4 sets that the paper leaves out (the runs exist): the TPC-H tables orders and part
-E3_EXCLUDE = {"tpch_orders", "tpch_part", "food", "pricepaid", "hospital"}   # the documented sets: a table of their own
+E3_EXCLUDE = {"tpch_orders", "tpch_part"}
 
 def paper_rows():
     """the E1 records of the FD sets that the paper reports, in the order of experiments.SETS"""
@@ -200,7 +201,15 @@ def table_e2(rows):
 # the designs of E3 (e3pg.py modes) and E4 (e4.py modes), in the column order of the tables and figures
 E3_ORDER = [("orig-x", "original"), ("3nf-x", "3NF (iConf)"), ("3nfc-x", "3NF (classical)"), ("keys", "keys"),
             ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("repair", r"\repair"), ("drop", r"\drop")]
-E3_NAMES = {"fdred": "fd-red"}
+E3_NAMES = {"fdred": "fd-red", "pricepaid": "price paid"}
+
+def documented_rule(name, done):
+    """a rule before the first documented set (e3.DOCUMENTED) of a table, which follow the discovered ones"""
+    import e3
+    if name in e3.DOCUMENTED and not done:
+        return [r"\midrule"], True
+    return [], done
+
 E4_MODES = [("keys", "keys only"), ("3nf", "3NF (iConf)"), ("3nfc", "3NF (classical)"), ("bcnf", "BCNF"), ("gbcnf", "greedy"),
             ("repair", r"\repair"), ("drop", r"\drop")]
 
@@ -308,7 +317,10 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     def cell(t):
         return "--" if t is None else ("%.2f" % t if t < 10 else ("%.1f" % t if t < 100 else "{:,.0f}".format(t)))
 
+    ruled = False
     for name, recs in e3recs.items():
+        rule, ruled = documented_rule(name, ruled)
+        out += rule
         cells = []
         for mode, _ in modes:
             d = e3_summary(recs, mode)[0]
@@ -386,7 +398,10 @@ def table_weighted(wrecs, algs=("repair",), drift=None):
                " & " + " & ".join([r"\multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}" + (r" & \multicolumn{2}{c}{drift (\%)}" if drift else "")] * len(algs)) + r"\\",
                " & " + " & ".join([" & ".join([r"unit & $w$"] * (k // 2))] * len(algs)) + r"\\",
                r"\midrule"]
+    ruled = False
     for name, r in wrecs.items():
+        rule, ruled = documented_rule(name, ruled)
+        out += rule
         cells = []
         for alg in algs:
             ms = [r["modes"].get(alg), r["modes"].get(alg + "_w")]

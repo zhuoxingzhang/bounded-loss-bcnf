@@ -1,0 +1,36 @@
+{
+ "set": "food",
+ "fd_set": "food+c1",
+ "records": 316963,
+ "duplicates": 0,
+ "kept": 276716,
+ "removed_per_fd": {
+  "DBAName->Zip": 36131,
+  "License,InspectionDate->Results": 1511,
+  "License->Zip": 1278,
+  "License->FacilityType": 830,
+  "Zip->City": 288,
+  "City,State,Address->Zip": 159,
+  "Zip->State": 50
+ },
+ "distinct": {
+  "InspectionID": 276716,
+  "DBAName": 34167,
+  "AKAName": 32021,
+  "License": 43536,
+  "FacilityType": 404,
+  "Risk": 5,
+  "Address": 18693,
+  "City": 65,
+  "State": 6,
+  "Zip": 132,
+  "InspectionDate": 4210,
+  "InspectionType": 93,
+  "Results": 7,
+  "Violations": 195372,
+  "Latitude": 17550,
+  "Longitude": 17550,
+  "Location": 17550
+ },
+ "time": 43.4
+}

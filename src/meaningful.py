@@ -263,15 +263,20 @@ def tex_rows():
                           str(D["drop"]["lower_bound"]), str(D["iconf"]["schemata"]), str(D["repair"]["schemata"]),
                           secs(D["repair"]["time"]), secs(D["drop"]["time"])]) + r"\\")
 
+DATA = {"food+c1": "food", "uk": "pricepaid", "hospital": "hospital"}   # the sets with data (documented.py)
+
 def tex_documented():
-    """rows of the paper's table of documented FDs (|R|, |Sigma_a|, nu, losses of iCONF, classical 3NF synthesis,
-    classical and greedy BCNF decomposition, Repair and Drop); dagger: unsound"""
+    """rows of the paper's table of documented FDs (the records kept by documented.py, |R|, |Sigma_a|, nu, losses of
+    iCONF, classical 3NF synthesis, classical and greedy BCNF decomposition, Repair and Drop); dagger: unsound"""
     def cell(d):
         return "{:,}".format(d["loss"]) + ("" if d["sound"] is not False else r"$^{\dagger}$")
+    def records(name):
+        f = os.path.join(ROOT, "results", "documented_%s.json" % DATA.get(name, ""))
+        return "{:,}".format(json.load(open(f, encoding="utf-8"))["kept"]) if os.path.isfile(f) else "--"
     for name, label in PAPER:
         r = json.loads(open(os.path.join(ROOT, "results", "meaningful_%s.jsonl" % name), encoding="utf-8").readline())
         D = r["designs"]
-        print(" & ".join([label, str(r["n"]), "{:,}".format(r["minimal_fds"]), "{:,}".format(r["nu"])]
+        print(" & ".join([label, records(name), str(r["n"]), "{:,}".format(r["minimal_fds"]), "{:,}".format(r["nu"])]
                          + [cell(D[a]) for a in ("iconf", "3nf-classical", "bcnf-classical", "bcnf-greedy", "repair", "drop")])
               + r"\\")
 

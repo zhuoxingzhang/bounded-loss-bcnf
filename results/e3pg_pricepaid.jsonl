@@ -1,0 +1,38 @@
+{"set": "pricepaid", "mode": "orig-x", "design": true, "loss": 0, "rows": 926485, "copy": false, "schemata": 1, "unique": 1, "unique_md5": 0, "exclusion": 4, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 197.767}
+{"set": "pricepaid", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 5.491, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 5.443, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 5.729, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 5.504, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 5.654, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "keys", "design": true, "loss": 4, "rows": 926485, "copy": false, "schemata": 1, "unique": 1, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 2.345}
+{"set": "pricepaid", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.271, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.258, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.259, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.264, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.283, "inserted": 10000, "attempted": 10000}
+{"set": "pricepaid", "mode": "3nf-x", "design": true, "loss": 3, "rows": 926485, "copy": false, "schemata": 15, "unique": 16, "unique_md5": 0, "exclusion": 3, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 127.491}
+{"set": "pricepaid", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 4.821, "inserted": 148909, "attempted": 150000}
+{"set": "pricepaid", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 4.981, "inserted": 148873, "attempted": 150000}
+{"set": "pricepaid", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 5.068, "inserted": 148909, "attempted": 150000}
+{"set": "pricepaid", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 4.794, "inserted": 148901, "attempted": 150000}
+{"set": "pricepaid", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 5.204, "inserted": 148897, "attempted": 150000}
+{"set": "pricepaid", "mode": "3nfc-x", "design": true, "loss": 3, "rows": 926485, "copy": false, "schemata": 2, "unique": 3, "unique_md5": 0, "exclusion": 3, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 103.843}
+{"set": "pricepaid", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 4.049, "inserted": 18909, "attempted": 20000}
+{"set": "pricepaid", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 4.18, "inserted": 18873, "attempted": 20000}
+{"set": "pricepaid", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 4.118, "inserted": 18909, "attempted": 20000}
+{"set": "pricepaid", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 4.11, "inserted": 18901, "attempted": 20000}
+{"set": "pricepaid", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 4.323, "inserted": 18897, "attempted": 20000}
+{"set": "pricepaid", "mode": "bcnf", "design": true, "loss": 2, "rows": 926485, "copy": false, "schemata": 3, "unique": 3, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 4.689}
+{"set": "pricepaid", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.48, "inserted": 25504, "attempted": 30000}
+{"set": "pricepaid", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.501, "inserted": 25421, "attempted": 30000}
+{"set": "pricepaid", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.493, "inserted": 25516, "attempted": 30000}
+{"set": "pricepaid", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.501, "inserted": 25472, "attempted": 30000}
+{"set": "pricepaid", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.506, "inserted": 25472, "attempted": 30000}
+{"set": "pricepaid", "mode": "gbcnf", "design": true, "loss": 1, "rows": 926485, "copy": false, "schemata": 2, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 4.023}
+{"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.341, "inserted": 16595, "attempted": 20000}
+{"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.336, "inserted": 16548, "attempted": 20000}
+{"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.348, "inserted": 16607, "attempted": 20000}
+{"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.349, "inserted": 16571, "attempted": 20000}
+{"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.347, "inserted": 16575, "attempted": 20000}
+{"set": "pricepaid", "mode": "repair", "skipped": "same design as gbcnf", "same_as": "gbcnf"}
+{"set": "pricepaid", "mode": "drop", "skipped": "same design as gbcnf", "same_as": "gbcnf"}

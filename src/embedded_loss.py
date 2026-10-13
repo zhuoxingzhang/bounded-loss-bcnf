@@ -12,7 +12,8 @@ from fdlib import FDSet, atomic_cover, key_dependencies, unenforced, mask, load_
 import experiments
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/ and results/
 
-DEFAULT = ["abalone", "breast(null)", "bridges(null)", "echo(null)", "ncvoter(null)", "china_weather(null)", "hepatitis(null)"]
+DEFAULT = ["abalone", "breast(null)", "bridges(null)", "echo(null)", "ncvoter(null)", "china_weather(null)", "hepatitis(null)",
+           "doc-food+c1", "doc-uk", "doc-hospital"]   # then the documented sets with data (documented.py)
 MODES = [("orig", "key-only"), ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("3nf", "iConf"), ("3nfc", "classical"),
          ("hybrid", "Hybrid"), ("repair", r"\repair"), ("drop", r"\drop")]
 MODES, LABELS = [m for m, _ in MODES], dict(MODES)
@@ -22,12 +23,11 @@ def design_masks(d):
 
 def analyse(names):
     """[(name, {mode: (loss, embedded, across)})]"""
-    paths = dict(experiments.SETS)
     out = []
     for name in names:
         f = os.path.join(ROOT, "results", "e1_%s.jsonl" % experiments.safe(name))
         r = json.loads(open(f, encoding="utf-8").read().splitlines()[-1])
-        n, F, _ = load_any(paths[name])
+        n, F, _ = load_any(experiments.fd_path(name))
         Da = F if r.get("atomic_assumed") else atomic_cover(F)
         designs = dict(r.get("designs") or {})
         for fn, key, mode in (("gbcnf_%s.jsonl", "design", "gbcnf"), ("hybrid_%s.jsonl", "hybrid_design", "hybrid")):
@@ -53,6 +53,8 @@ def table(rows):
     out = [r"\begin{tabular}{l" + "r" * len(MODES) + "}", r"\toprule",
            r"Data set & " + " & ".join(LABELS[m] for m in MODES) + r"\\", r"\midrule"]
     for name, row in rows:
+        if name in experiments.DOCUMENTED and name == next(n for n, _ in rows if n in experiments.DOCUMENTED):
+            out.append(r"\midrule")   # the documented sets follow the discovered ones
         cells = ["--" if row.get(m) is None else num(row[m][2]) for m in MODES]
         out.append("%s & %s\\\\" % (tex_name(name), " & ".join(cells)))
     out += [r"\bottomrule", r"\end{tabular}"]
