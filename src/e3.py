@@ -35,7 +35,9 @@ SETS = {  # E3 set: E1 name
     "abalone": "abalone", "adult": "adult", "breast": "breast(null)", "bridges": "bridges(null)",
     "echo": "echo(null)", "fdred": "fd-red", "hepatitis": "hepatitis(null)", "letter": "letter(non-dup)",
     "ncvoter": "ncvoter(null)", "weather": "china_weather(null)", "tpch_orders": "tpch-orders", "tpch_part": "tpch-part",
+    "food": "doc-food+c1", "pricepaid": "doc-uk", "hospital": "doc-hospital",
 }
+DOCUMENTED = {"food", "pricepaid", "hospital"}   # the documented FD sets of meaningful.py with data (documented.py)
 MODES = ["orig", "3nf", "bcnf", "repair", "drop", "keys"]   # keys: the original relation with its keys only
 BATCH = 1000
 TEMPLATE_SEED = 42
@@ -64,7 +66,7 @@ def e1_record(name):
 
 def atomic(name):
     """Sigma_a of the data set as E1 computes it"""
-    path = dict(experiments.SETS)[SETS[name]]
+    path = experiments.fd_path(SETS[name])
     n, F, _ = load_any(path)
     if len(F) > experiments.ASSUME_ATOMIC_ABOVE:
         return n, FDSet(n, sorted(set(F.fds)))

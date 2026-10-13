@@ -59,7 +59,7 @@ def risk_of(codes, n, sigma, design, updates, seeds, cache):
 
 def run(name, updates, wseeds, seeds):
     rec0 = e1_record(name)
-    path = dict(experiments.SETS)[SETS[name]]
+    path = experiments.fd_path(SETS[name])
     n, F, _ = load_any(path)
     Da = atomic_cover_of(F, n)
     assert len(Da) == rec0["minimal_fds"], (len(Da), rec0["minimal_fds"])

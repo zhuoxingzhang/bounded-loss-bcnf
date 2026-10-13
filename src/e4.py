@@ -115,7 +115,7 @@ def key_dependencies_of(design):
 
 def run(name, updates, seeds):
     rec = e1_record(name)
-    path = dict(experiments.SETS)[SETS[name]]
+    path = experiments.fd_path(SETS[name])
     n, F, _ = load_any(path)
     t0 = time.time()
     codes = load_table(name)

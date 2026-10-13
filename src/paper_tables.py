@@ -15,7 +15,7 @@ NAMES = {"letter(non-dup)": "letter", "tpch-region": "region", "tpch-nation": "n
 EXCLUDE = {"lineitem", "pdbx(null)", "diabetic(null)", "fd-red", "tpch-region", "tpch-nation", "tpch-partsupp", "tpch-supplier",
            "tpch-customer", "tpch-orders", "tpch-part"}
 # E3 and E4 sets that the paper leaves out (the runs exist): the TPC-H tables orders and part
-E3_EXCLUDE = {"tpch_orders", "tpch_part"}
+E3_EXCLUDE = {"tpch_orders", "tpch_part", "food", "pricepaid", "hospital"}   # the documented sets: a table of their own
 
 def paper_rows():
     """the E1 records of the FD sets that the paper reports, in the order of experiments.SETS"""

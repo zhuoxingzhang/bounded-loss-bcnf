@@ -44,6 +44,13 @@ SETS.sort(key=lambda t: ORDER.index(t[0]) if t[0] in ORDER else 99)
 # columns of the source table by source_columns()
 DROPPED_COLUMNS = {"echo(null)": [10], "ncvoter(null)": [13], "uniprot(null)": [4], "tpch-orders": [4]}
 
+# the documented FD sets with data (meaningful.py --write, documented.py), which E3 and E4 run on; not part of E1
+DOCUMENTED = {"doc-" + s: os.path.join(DATA, "meaningful", s + ".json") for s in ("food+c1", "uk", "hospital")}
+
+def fd_path(name):
+    """the FD file of an FD set of E1 or of a documented set"""
+    return DOCUMENTED.get(name) or dict(SETS)[name]
+
 def source_columns(name, n_source):
     """the column indices of the source table (n_source columns) of the attributes 0..n-1 of the FD set `name`"""
     dropped = set(DROPPED_COLUMNS.get(name, []))

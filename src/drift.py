@@ -70,7 +70,7 @@ def draw_updates(codes, nonconst, p, updates, seed):
 def run(name, perms, updates, exponents, alphas):
     t0 = time.time()
     rec = [json.loads(l) for l in open(os.path.join(ROOT, "results", "weighted_%s.jsonl" % name), encoding="utf-8") if l.strip()][-1]
-    path = dict(experiments.SETS)[SETS[name]]
+    path = experiments.fd_path(SETS[name])
     n, F, _ = load_any(path)
     Da = atomic_cover_of(F, n)
     assert len(Da) == rec["minimal_fds"], (len(Da), rec["minimal_fds"])

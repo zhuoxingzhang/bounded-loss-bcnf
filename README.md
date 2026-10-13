@@ -34,6 +34,7 @@ relative to their own location, so any working directory works.
 | `iconf.py` | the 3NF synthesis iCONF (SIGMOD 2025) ported to Python on top of `fdlib`; `iconf_check.py` compares the port with the Java implementation on every FD set (`iconf/`) |
 | `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary |
 | `meaningful.py` | the designs of E1 on four FD sets of documented rules (food inspections and hospitals of HoloClean, the address rules of Royal Mail on the UK Price Paid Data, the historical dimensions of TPC-DS) and their variants, with the lost FDs by name; see [Documented FD sets](#documented-fd-sets); `results/meaningful_<set>.jsonl` |
+| `documented.py` | the data of three documented FD sets (food, price paid, hospital) for E3 and E4: normalised, cleaned until the FDs hold, loaded into PostgreSQL, with the designs of `meaningful.py` as E1 records; see [Documented FD sets](#documented-fd-sets) |
 | `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
 | `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
 | `hardness_check.py` | the reduction from Maximum Independent Set to MinLoss with an explicit atomic cover (Theorem "NP-hardness with explicit atomic cover"): builds the schema of a graph, checks that it is its own atomic cover, computes the explicit design for a maximum independent set and confirms the loss `2m + n - alpha` with Drop on small graphs; prints to the console |
@@ -210,6 +211,21 @@ fails for chains; `uk+admin` adds Postcode → District and District → County,
 clean version; `tpcds-core` keeps 12 of the 95 attributes. Every variant has λ = 1 (2 on TPC-DS), attained by
 `Repair` and `Drop`. On `uk+admin`, `tpcds-core` and `tpcds`, the keys of the classical synthesis leave no minimal FD
 unenforced, but their designs are not locally enforced: a schema holds a non-key FD whose key lies in another schema.
+
+**Data for E3 and E4.** Three of the sets have public data, which `src/documented.py` prepares on the server from
+downloads in `data/documented/<set>/` (not part of the repository; downloaded on 14 October 2026): food from the Food
+Inspections of the City of Chicago (data.cityofchicago.org, data set 4ijn-s7e5, `rows.csv`, 316,963 records), price
+paid from the Price Paid Data of HM Land Registry for 2024 (`pp-2024.csv`, 931,453 records; contains HM Land Registry
+data © Crown copyright and database right 2024, licensed under the Open Government Licence v3.0), and hospital from
+the clean hospital data of Raha (github.com/BigDaMa/raha, `datasets/hospital/clean.csv`, 1,000 records). The script
+trims every value, collapses runs of white space, writes letters in upper case and the empty value as `?`, removes
+duplicate records, and then removes, until every FD of the set holds, the records whose right-hand side value differs
+from the most frequent one for their left-hand side value (FD by FD in the order of the set, repeated until nothing
+changes). It keeps 276,716 records of food (87.3%; DBAName → Zip removes 36,131, since chains have many zip codes),
+926,485 of price paid (99.5%) and all records of hospital (`results/documented_<set>.json`). `--load` puts the records
+into `src.<set>`, `--designs` writes the designs of the table of documented FDs to `results/e1_doc-<set>.jsonl` in the
+format of `experiments.py`, and `e3pg.py`, `e4.py` and `weighted.py` then run on the sets `food`, `pricepaid` and
+`hospital` as on the others. TPC-DS has no data here: its generator is not run.
 
 ### E3: operational overheads in PostgreSQL
 
