@@ -208,28 +208,13 @@ def e3_label(name):
     return tex_name(E3_NAMES.get(name, name.replace("tpch_", "tpch-")))
 
 def load_e3():
-    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py), followed by those of
-    the lookup-table modes (results/e3pg_fk_<set>.jsonl of run_fk.sh and run_fk_weather.sh), whose mode names differ"""
+    """the PostgreSQL E3 records per set: {set: [records]} (results/e3pg_<set>.jsonl of e3pg.py)"""
     import e3
     out = {}
     for name in e3.SETS:
         f = os.path.join(ROOT, "results", "e3pg_%s.jsonl" % name)
         if os.path.isfile(f) and name not in E3_EXCLUDE:
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
-            fk = os.path.join(ROOT, "results", "e3pg_fk_%s.jsonl" % name)
-            if os.path.isfile(fk):
-                out[name] += [json.loads(l) for l in open(fk, encoding="utf-8") if l.strip()]
-    return out
-
-def load_redundancy():
-    """the redundant values and the storage of the designs per set: {set: record} (results/redundancy_<set>.jsonl
-    of redundancy.py)"""
-    import e3
-    out = {}
-    for name in e3.SETS:
-        f = os.path.join(ROOT, "results", "redundancy_%s.jsonl" % name)
-        if os.path.isfile(f) and name not in E3_EXCLUDE:
-            out[name] = json.loads(open(f, encoding="utf-8").readline())
     return out
 
 def e3_summary(recs, mode):
@@ -238,13 +223,7 @@ def e3_summary(recs, mode):
     design repeats an earlier one shares that measurement; only the records after the last design record of the
     mode count, so that a rerun replaces an earlier run, unless the earlier run built the same design under the same
     protocol (a run resumed after the server closed the connection, weather 3nfc-x): then the repetitions of both
-    runs are pooled. A lookup-table mode without lookup tables (iCONF on adult and letter) is the design of its
-    exclusion mode without exclusion constraints, and shares that measurement."""
-    if mode.endswith("-f"):
-        d = [r for r in recs if r.get("mode") == mode and r.get("design")]
-        x = e3_summary(recs, mode[:-2] + "-x")
-        if d and x[0] and d[-1].get("lookup_tables") == 0 and x[0].get("exclusion") == 0 and d[-1].get("schemata") == x[0].get("schemata"):
-            return x
+    runs are pooled."""
     seen = set()
     while True:
         seen.add(mode)
@@ -311,16 +290,13 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     earlier one shares its measurement and a design whose insertion the budget cancelled shows the budget as a lower
     bound, and the records of the data set and the mean number of harmful updates among its random updates (e4.py);
     a cell with fewer than five completed repetitions carries their number as a superscript; the compact variant
-    for a single column shows, for the original relation and iCONF, the non-key FDs and the times with these FDs
-    enforced by exclusion constraints and by lookup tables (modes -x and -f), and leaves out the classical 3NF
-    synthesis, the greedy decomposition, Drop and the records"""
-    modes = [(m, l) for m, l in E3_ORDER if not compact or m not in ("3nfc-x", "gbcnf", "drop")]
+    for a single column leaves out the greedy decomposition, Drop and the records"""
+    modes = [(m, l) for m, l in E3_ORDER if not compact or m not in ("gbcnf", "drop")]
     if compact:
-        modes = [("orig-x", ""), ("orig-f", ""), ("3nf-x", ""), ("3nf-f", ""), ("keys", ""), ("bcnf", ""), ("repair", "")]
         out = [r"\begin{tabular}{l" + "r" * 10 + "}", r"\toprule",
-               r"Data set & \multicolumn{3}{c}{original} & \multicolumn{3}{c}{3NF (iConf)} & keys & BCNF & \repair & harmful\\",
-               r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}",
-               r" & FDs & excl. & lookup & FDs & excl. & lookup & s & s & s & updates\\",
+               r"Data set & \multicolumn{2}{c}{original} & \multicolumn{2}{c}{3NF (iConf)} & \multicolumn{2}{c}{3NF (classical)} & keys & BCNF & \repair & harmful\\",
+               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}",
+               r" & excl. & s & excl. & s & excl. & s & s & s & s & updates\\",
                r"\midrule"]
     else:
         out = [r"\begin{tabular}{l" + "r" * 15 + "}", r"\toprule",
@@ -341,7 +317,6 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
             if mean is not None and 0 < n < 5:
                 c += r"$^{%d}$" % n
             if mode.endswith("-x"):
-                # the non-key FDs, one exclusion constraint (or lookup table) each
                 cells.append("--" if d is None else num(d["exclusion"]))
             cells.append(c)
         r4 = (e4recs or {}).get(name)

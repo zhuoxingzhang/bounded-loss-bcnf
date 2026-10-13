@@ -14,7 +14,7 @@ constraints (risk zero) and with keys only (e3pg.py modes 3nf and 3nfc), with th
 usage: python paper_figures.py            writes results/fig_results.tex (printed) and results/fig_pareto.tex
 """
 import os
-from paper_tables import paper_rows, load_e3, e3_mean, load_e4, e4_risk, load_gbcnf, load_redundancy, tex_name, e3_label
+from paper_tables import paper_rows, load_e3, e3_mean, load_e4, e4_risk, load_gbcnf, tex_name, e3_label
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/ and results/
 
 # the designs in the order of the legend and of the bars, with their colours (the same in every panel)
@@ -60,14 +60,12 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
                 pts = " ".join("({%s},%s)" % (n, floor) for n in names if pick(n))
                 if pts:
                     out.append(r"\addplot[only marks, mark=%s, mark size=1.2pt, %s, xshift=%.2fpt, forget plot] coordinates {%s};" % (
-                        mark, STYLE[key].split(",")[0], shift(key, bar, gap), pts))
+                        mark, STYLE[key].split(",")[0], shift(key), pts))
     return out
 
 def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, width=r"\textwidth", height=3.6, bar=BAR, gap=GAP,
-                legend_cols=-1, legend_y=1.18, vsep=36, ylabel_at=None, shared_xticklabels=False, redundancy=None):
+                legend_cols=-1, legend_y=1.18, vsep=36, ylabel_at=None, shared_xticklabels=False):
     """the bar panels of the losses (RQ1), the insertion times (RQ3) and the integrity risks (RQ4); with
-    redundancy (the records of redundancy.py per set) the panel of the times shows the redundant values of the
-    designs instead, where the key-only design stores the original relation; with
     loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b); width, height,
     bar and gap size the panels and the bars, legend_cols and legend_y lay out the legend above the first panel,
     vsep is the distance between the panels in pt, and ylabel_at fixes the y labels at that fraction of the panel
@@ -120,21 +118,8 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
     if loss_panel:
         out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
                      [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap, extra=upper)
-    if redundancy is None:
-        out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
-                     [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, floor=0.1, bar=bar, gap=gap, extra=upper)
-    else:
-        # RQ3: the redundant values of the stored data; zeros are circles, a design that was not computed a cross
-        red = {k: {} for k, _, _ in STYLES}
-        for name in e3recs:
-            r = redundancy.get(name)
-            for key, _, _ in STYLES:
-                d = None if r is None else r["designs"].get("orig" if key == "keys" else key)
-                red[key][e3_label(name)] = None if d is None else d["redundant"]
-        ticks = r"ytick={1,100,10000,1000000}, yticklabels={1,$10^2$,$10^4$,$10^6$}"
-        out += panel("(%s) redundant values (RQ3)" % next(letters), "values", names3,
-                     [(k, red[k]) for k, _, _ in STYLES], True, 1, 10 ** 7, legend=not loss_panel, floor=1, bar=bar, gap=gap,
-                     extra=", ".join(x for x in (upper, ticks) if x))
+    out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, floor=0.1, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
                  [(k, risk[k]) for k in ("orig", "keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
@@ -235,15 +220,10 @@ def fig_pareto(e3recs, e4recs, size=10000, budget=7200, cols=4, sets=None, desig
             r"\end{tikzpicture}"]
     return "\n".join(out)
 
-# in the order of a legend in three columns: the original relation, 3NF synthesis, the BCNF designs; the non-key FDs
-# of the first two are enforced by exclusion constraints (filled marks) or by lookup tables (light marks), or left
-# to the application (keys only)
 TRADEOFF = [("orig-x", None, "original, all FDs by exclusion", "black, mark=square*"),
-            ("orig-f", None, "original, all FDs by lookup tables", "black, mark=square*, mark options={fill=black!20}"),
-            ("keys", "nu", "keys only", "gray, mark=*"),
             ("3nf-x", None, "3NF (iConf), FDs by exclusion", "red, mark=triangle*"),
-            ("3nf-f", None, "3NF (iConf), FDs by lookup tables", "red, mark=triangle*, mark options={fill=red!25}"),
             ("3nf", "3nf_loss", "3NF (iConf), keys only", "red, mark=triangle, mark options={fill=white}"),
+            ("keys", "nu", "keys only", "gray, mark=*"),
             ("bcnf", "bcnf_loss", "BCNF", "orange!80!black, mark=diamond*"),
             ("repair", "repair_loss", r"\repair", "blue, mark=pentagon*"),
             ("drop", "drop_loss", r"\drop, where it differs", "green!50!black, mark=star, mark size=2.4pt")]
@@ -351,19 +331,18 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
 if __name__ == "__main__":
     rows = paper_rows()
     e3recs, e4recs = load_e3(), load_e4()
-    # the single-column variant of the paper: redundant values and risk on the nine E3/E4 sets, legend in two rows
-    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.0, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2,
-                    vsep=18, ylabel_at=-0.1, shared_xticklabels=True, redundancy=load_redundancy())
+    # the single-column variant of the paper: time and risk on the nine E3/E4 sets, legend in two rows
+    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2,
+                    vsep=18, ylabel_at=-0.1, shared_xticklabels=True)
     open(os.path.join(ROOT, "results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,
-    # a compact legend in three rows above, one x label and a y label per row
-    # (plot boxes of 2.1 by 1.5 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
-    t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.5,
-                     mark_size=2.2, legend_cols=3, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
+    # a compact legend in two rows above, one x label and a y label per row
+    # (plot boxes of 2.1 by 1.6 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
+    t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
+                     mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
                      label_font=r"\scriptsize", legend_yshift=8, decades=True, max_xlabels=None, share_rows=True, scale_only_axis=True, ylabel_at=-0.34,
-                     labels={0: "original, exclusion", 1: "original, lookup", 3: "3NF, exclusion", 4: "3NF, lookup", 5: "3NF, keys only",
-                             8: r"\drop, where it differs"},
+                     labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"},
                      xmax={"bridges": 100, "echo": 100})
     open(os.path.join(ROOT, "results", "fig_tradeoff.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     p = fig_pareto(e3recs, e4recs)

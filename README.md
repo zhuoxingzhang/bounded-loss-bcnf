@@ -48,7 +48,6 @@ relative to their own location, so any working directory works.
 | `weighted.py` | `Repair` and `Drop` under weights from random updates: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
 | `concurrency_check.py`, `fk_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`); the check that a lookup table with a foreign key rejects a record that violates the FD, alone and under a concurrent transaction (`results/fk_check.log`) |
 | `run_fk.sh`, `run_fk_rest.sh`, `run_fk_weather.sh`, `rerun_constants.sh`, `run_weighted.sh` | server drivers: the lookup-table modes of E3 on every data set, after the re-run of the sets whose constant attribute `drop_constants.py` removed (`run_fk_rest.sh` adds the mode 3nfc-f of hepatitis at 10,000 records, which `run_fk.sh` did not reach after the server closed the connection of a rebuild; `run_fk_weather.sh` measures orig-f and 3nf-f of weather at 10,000 records from file copies of prewarmed templates); the weighted runs of `weighted.py` on the sets with data and positive loss, before the lookup-table modes |
-| `redundancy.py` | the redundant values and the storage of every design of E3, including the lookup-table designs, over the full data sets (`results/redundancy_<set>.jsonl`, `--table` prints them); the panel of redundant values in the figure of RQ3 and RQ4 |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
 | `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL (`MYSQL_BIN`, `MYSQL_CNF`, `DUMP_DIR`), sample the memory of the MySQL server |
@@ -185,28 +184,17 @@ Every design was materialized in PostgreSQL 18.4 with a table per schema that ho
 data set, a `UNIQUE` constraint per declared key, and, on the original relation and on the critical schemata of
 3NF synthesis, an exclusion constraint `EXCLUDE USING gist (X WITH =, A WITH <>)` per non-key FD X→A of a minimal
 cover. The exclusion constraint states the FD exactly, and the database system validates it like a key while it
-maintains the index of the constraint. The lookup-table modes (`e3pg.py --modes orig-f,3nf-f,3nfc-f`, `results/e3pg_fk_<set>.jsonl`; the paper reports
-orig-f and 3nf-f in the table of E3 and in the trade-off figure) enforce the same FDs as standard SQL does: a table over XA with `UNIQUE (X)` and `UNIQUE (X, A)` per FD X→A and a
+maintains the index of the constraint. The lookup-table modes (`e3pg.py --modes orig-f,3nf-f,3nfc-f`, a supplementary
+measurement that the paper does not report; `results/e3pg_fk_<set>.jsonl`) enforce the same FDs as standard SQL does: a table over XA with `UNIQUE (X)` and `UNIQUE (X, A)` per FD X→A and a
 `FOREIGN KEY (X, A)` from the table that holds the FD to it, so that the key of the lookup table admits one value of
 A per value of X and the foreign key keeps the copies of A equal to it. A record enters the lookup tables first
 (`ON CONFLICT DO NOTHING`) and then the table, and a record that violates the FD is rejected by the foreign key
 (`fk_check.py`). Every FD of the mode is then enforced, while the lookup tables duplicate the projections XA.
 The records cover 10,000, 20,000 and 30,000 records with five repetitions on abalone, adult, breast, bridges, echo,
 letter, ncvoter and the TPC-H tables orders and part, and 10,000 records with five repetitions on hepatitis; at
-20,000 records the server terminated the backends of hepatitis (two repetitions of `3nf-f`). On weather, the server
-terminated the rebuilds of `run_fk.sh` after one repetition of `orig-f`, so `run_fk_weather.sh` builds a template
-per mode first (`--prepare`) and measures five repetitions at 10,000 records from file copies of it (`--copy`);
-`paper_tables.py` uses the last run of a design. On abalone, letter and part, the design of `3nfc-f` equals that of
-`orig-f` or `3nf-f` and is not measured again, and where iConf has no critical schema (adult, letter), `3nf-f` has no
-lookup table and the paper shows the measurement of `3nf-x`, the same design.
-
-The redundancy of the designs (`redundancy.py`) is counted in main memory over the full data sets, on the distinct
-projection r[S] of every schema S as in E3: a value t[A] is redundant iff another tuple of r[S] agrees with t on Y
-for some minimal FD Y→A with YA ⊆ S (Vincent). A schema in BCNF holds no redundant value, so a BCNF design holds only
-those of the minimal FDs it leaves unenforced inside a schema. The lookup-table designs keep the redundant values of
-the design they extend and add the rows of their lookup tables, whose redundant values are counted in the same way;
-they store more values than the designs of `Repair` on every set (equal on letter). Every decomposition stores many
-more values than the original relation, since it stores a projection per schema.
+20,000 records the server terminated the backends of hepatitis (two repetitions of `3nf-f`), and weather has one
+repetition of `orig-f` at 10,000 records. On abalone, letter and part, the design of `3nfc-f` equals that of
+`orig-f` or `3nf-f` and is not measured again.
 
 Every value was stored as text, so that the marker of a missing value is a value of its own, as under the null
 equality interpretation of the FD sets. Under the SQL semantics of nulls, a `UNIQUE` constraint does not enforce
