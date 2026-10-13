@@ -263,6 +263,18 @@ def tex_rows():
                           str(D["drop"]["lower_bound"]), str(D["iconf"]["schemata"]), str(D["repair"]["schemata"]),
                           secs(D["repair"]["time"]), secs(D["drop"]["time"])]) + r"\\")
 
+def tex_documented():
+    """rows of the paper's table of documented FDs (|R|, |Sigma_a|, nu, losses of iCONF, classical 3NF synthesis,
+    classical and greedy BCNF decomposition, Repair and Drop); dagger: unsound"""
+    def cell(d):
+        return "{:,}".format(d["loss"]) + ("" if d["sound"] is not False else r"$^{\dagger}$")
+    for name, label in PAPER:
+        r = json.loads(open(os.path.join(ROOT, "results", "meaningful_%s.jsonl" % name), encoding="utf-8").readline())
+        D = r["designs"]
+        print(" & ".join([label, str(r["n"]), "{:,}".format(r["minimal_fds"]), "{:,}".format(r["nu"])]
+                         + [cell(D[a]) for a in ("iconf", "3nf-classical", "bcnf-classical", "bcnf-greedy", "repair", "drop")])
+              + r"\\")
+
 def main():
     import subprocess
     args = sys.argv[1:]
@@ -271,6 +283,9 @@ def main():
         write()
         return
     if args[:1] == ["--tex"]:
+        tex_documented()
+        return
+    if args[:1] == ["--tex-e12"]:
         tex_rows()
         return
     if args[:1] == ["--one"]:

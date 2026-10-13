@@ -184,8 +184,9 @@ the design, the largest level of a non-key FD inside one of its schemata.
 
 `src/meaningful.py` lists four FD sets whose FDs are documented rules rather than discovered from data, by
 attribute name with their sources, writes them to `data/fds/meaningful/<set>.json` (`--write`) and runs the designs of
-E1 on them with the budgets above (`results/meaningful_<set>.jsonl`, `--table`, and `--tex` for the rows of the
-appendix table). No data is loaded; the levels of Hybrid come from the FDs alone.
+E1 on them with the budgets above (`results/meaningful_<set>.jsonl`, `--table`, `--tex` for the rows of the table of
+documented FDs in RQ1 and `--tex-e12` for rows in the columns of the E1 table). No data is loaded; the levels of
+Hybrid come from the FDs alone.
 
 - **food** (17 attributes): the FDs of the Chicago food inspections in HoloClean (Rekatsinas et al., PVLDB 10(11),
   2017, Fig. 1): DBAName → Zip, Zip → City, State and City, State, Address → Zip; the conflicts of Sec. 6.1 of that
