@@ -355,22 +355,36 @@ def load_weighted():
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()][-1]
     return out
 
-def table_weighted(wrecs, algs=("repair",)):
+def load_drift(s=2.0, alpha=1.0):
+    """the pooled integrity risk (per cent) of every design of drift.py over its permutations at the drifted workload
+    (Zipf exponent s, mixture weight alpha; the defaults are the strongest drift, total variation 0.59 to 0.70 from
+    the uniform choice): {set: {mode: risk}} from results/drift_<set>.jsonl"""
+    out = {}
+    for f in glob.glob(os.path.join(ROOT, "results", "drift_*.jsonl")):
+        rs = [r for r in (json.loads(l) for l in open(f, encoding="utf-8") if l.strip()) if r["s"] == s and r["alpha"] == alpha]
+        if rs:
+            harm = sum(r["harmful"] for r in rs)
+            out[rs[0]["set"]] = {m: 100.0 * sum(r["missed"][m] for r in rs) / max(harm, 1) for m in rs[0]["missed"]}
+    return out
+
+def table_weighted(wrecs, algs=("repair",), drift=None):
     """per data set: the unenforced minimal FDs and the mean integrity risk (per cent) of the algorithms under unit
-    weights (the designs of E1) and under the weights of weighted.py, on the same evaluation updates; the paper
-    shows Repair only, since Drop returns the same designs as Repair under these weights"""
+    weights (the designs of E1) and under the weights of weighted.py, on the same evaluation updates, and, with drift
+    (load_drift), the risk of the same designs under the drifted workload of drift.py; the paper shows Repair only,
+    since Drop returns the same designs as Repair under these weights"""
+    k = 6 if drift else 4
     if len(algs) == 1:
-        out = [r"\begin{tabular}{lrrrr}", r"\toprule",
-               r"Data set & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}\\",
-               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-               r" & unit & $w$ & unit & $w$\\",
+        out = [r"\begin{tabular}{l" + "r" * k + "}", r"\toprule",
+               r"Data set & \multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}" + (r" & \multicolumn{2}{c}{drift (\%)}" if drift else "") + r"\\",
+               r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}" + (r"\cmidrule(lr){6-7}" if drift else ""),
+               " & " + " & ".join([r"unit & $w$"] * (k // 2)) + r"\\",
                r"\midrule"]
     else:
-        out = [r"\begin{tabular}{l" + "r" * (4 * len(algs)) + "}", r"\toprule",
-               r"Data set & " + " & ".join(r"\multicolumn{4}{c}{\%s}" % a for a in algs) + r"\\",
-               "".join(r"\cmidrule(lr){%d-%d}" % (2 + 4 * k, 5 + 4 * k) for k in range(len(algs))),
-               " & " + " & ".join([r"\multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}"] * len(algs)) + r"\\",
-               " & " + " & ".join([r"unit & $w$ & unit & $w$"] * len(algs)) + r"\\",
+        out = [r"\begin{tabular}{l" + "r" * (k * len(algs)) + "}", r"\toprule",
+               r"Data set & " + " & ".join(r"\multicolumn{%d}{c}{\%s}" % (k, a) for a in algs) + r"\\",
+               "".join(r"\cmidrule(lr){%d-%d}" % (2 + k * i, 1 + k * (i + 1)) for i in range(len(algs))),
+               " & " + " & ".join([r"\multicolumn{2}{c}{$\loss$} & \multicolumn{2}{c}{risk (\%)}" + (r" & \multicolumn{2}{c}{drift (\%)}" if drift else "")] * len(algs)) + r"\\",
+               " & " + " & ".join([" & ".join([r"unit & $w$"] * (k // 2))] * len(algs)) + r"\\",
                r"\midrule"]
     for name, r in wrecs.items():
         cells = []
@@ -378,6 +392,9 @@ def table_weighted(wrecs, algs=("repair",)):
             ms = [r["modes"].get(alg), r["modes"].get(alg + "_w")]
             cells += ["--" if m is None else num(m["loss"]) for m in ms]
             cells += ["--" if m is None else "%.1f" % (100.0 * m["risk"]) for m in ms]
+            if drift:
+                d = drift.get(name, {})
+                cells += ["--" if d.get(m) is None else "%.1f" % d[m] for m in (alg, alg + "_w")]
         out.append("%s & %s" % (e3_label(name), " & ".join(cells)) + "\\\\")
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
@@ -428,8 +445,8 @@ if __name__ == "__main__":
     for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows, records=records)),
                   ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
-                  ("table_e4.tex", table_e4(e4recs)), ("table_weighted.tex", table_weighted(load_weighted())),
-                  ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"))),
+                  ("table_e4.tex", table_e4(e4recs)), ("table_weighted.tex", table_weighted(load_weighted(), drift=load_drift())),
+                  ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"), drift=load_drift())),
                   ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
         open(os.path.join(ROOT, "results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
