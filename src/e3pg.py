@@ -394,7 +394,18 @@ class Harness:
                     if self.copy:
                         extra["copy_seconds"] = round(self.fresh_copy(template), 3)
                     else:
-                        info = self.build(mode, design, how)
+                        try:
+                            info = self.build(mode, design, how)
+                        except psycopg2.Error as e:
+                            if not self.wcon.closed or attempt == RETRIES:
+                                raise
+                            # the server closed the connection while the tables were rebuilt (2026-10-13, hepatitis
+                            # 3nf-f of the lookup-table baseline): reconnect and rebuild
+                            self.write(dict(set=self.name, mode=mode, size=size, rep=rep, attempt=attempt, phase="build", connection_lost=str(e)[:300]))
+                            self.log(mode, size, rep, "connection lost while building, repeating: %s" % str(e).strip()[:120])
+                            time.sleep(30)
+                            self.reconnect()
+                            continue
                     if size == self.sizes[0] and rep == 0 and attempt == 0:
                         self.write(dict(set=self.name, mode=mode, design=True, loss=loss, rows=self.rows, copy=self.copy, **info))
                         self.log(mode, "design:", info)
