@@ -33,6 +33,7 @@ relative to their own location, so any working directory works.
 | `repair.py` | `Repair(R, Σ, w)`: 3NF synthesis that is BCNF whenever possible, key dependencies of the BCNF schemata, local `Drop` on every critical schema, one enforceability test of the assembled set Γ, ascents, and the fallback described below |
 | `iconf.py` | the 3NF synthesis iCONF (SIGMOD 2025) ported to Python on top of `fdlib`; `iconf_check.py` compares the port with the Java implementation on every FD set (`iconf/`) |
 | `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary |
+| `meaningful.py` | the designs of E1 on four FD sets of documented rules (food inspections and hospitals of HoloClean, the address rules of Royal Mail on the UK Price Paid Data, the historical dimensions of TPC-DS) and their variants, with the lost FDs by name; see [Documented FD sets](#documented-fd-sets); `results/meaningful_<set>.jsonl` |
 | `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
 | `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
 | `hardness_check.py` | the reduction from Maximum Independent Set to MinLoss with an explicit atomic cover (Theorem "NP-hardness with explicit atomic cover"): builds the schema of a graph, checks that it is its own atomic cover, computes the explicit design for a maximum independent set and confirms the loss `2m + n - alpha` with Drop on small graphs; prints to the console |
@@ -45,6 +46,7 @@ relative to their own location, so any working directory works.
 | `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
 | `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs and the enforcement of the non-key FDs (`-x`: exclusion constraints, `-f`: lookup tables with foreign keys, `-t`: triggers); `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
+| `drift.py` | the designs of `weighted.py` under update workloads that drift away from the one their weights came from (Zipf mixtures over the attributes); `results/drift_<set>.jsonl` |
 | `weighted.py` | `Repair` and `Drop` under weights from random updates: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
 | `concurrency_check.py`, `fk_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`); the check that a lookup table with a foreign key rejects a record that violates the FD, alone and under a concurrent transaction (`results/fk_check.log`) |
 | `run_fk.sh`, `run_fk_rest.sh`, `run_fk_weather.sh`, `rerun_constants.sh`, `run_weighted.sh` | server drivers: the lookup-table modes of E3 on every data set, after the re-run of the sets whose constant attribute `drop_constants.py` removed (`run_fk_rest.sh` adds the mode 3nfc-f of hepatitis at 10,000 records, which `run_fk.sh` did not reach after the server closed the connection of a rebuild; `run_fk_weather.sh` measures orig-f and 3nf-f of weather at 10,000 records from file copies of prewarmed templates); the weighted runs of `weighted.py` on the sets with data and positive loss, before the lookup-table modes |
@@ -178,6 +180,36 @@ the paper marks these runs. Every schema declares its minimal keys, as for the o
 counts the minimal FDs that no projection implies, which Hybrid enforces by assertions over joins, and the level of
 the design, the largest level of a non-key FD inside one of its schemata.
 
+### Documented FD sets
+
+`src/meaningful.py` lists four FD sets whose FDs are documented rules rather than discovered from data, by
+attribute name with their sources, writes them to `data/fds/meaningful/<set>.json` (`--write`) and runs the designs of
+E1 on them with the budgets above (`results/meaningful_<set>.jsonl`, `--table`, and `--tex` for the rows of the
+appendix table). No data is loaded; the levels of Hybrid come from the FDs alone.
+
+- **food** (17 attributes): the FDs of the Chicago food inspections in HoloClean (Rekatsinas et al., PVLDB 10(11),
+  2017, Fig. 1): DBAName → Zip, Zip → City, State and City, State, Address → Zip; the conflicts of Sec. 6.1 of that
+  paper as License → Zip, FacilityType and License, InspectionDate → Results; and the key InspectionID.
+- **price paid** (`uk`, 16 attributes): the columns of the UK Price Paid Data of HM Land Registry with the rules of the
+  Royal Mail PAF Programmers' Guide (Edition 7, Version 6, pp. 14 and 17): Postcode → Street, Locality, Town and
+  PAON, SAON, Street, Locality, Town → Postcode, and the key TransactionID.
+- **hospital** (19 attributes): the nine denial constraints of HoloClean on its hospital data set (as FDs: ZipCode →
+  City, State; PhoneNumber → ZipCode, City, State; ProviderNumber, MeasureCode → Stateavg; MeasureCode →
+  MeasureName, Condition; State, MeasureCode → Stateavg), ProviderNumber → the twelve hospital attributes,
+  ProviderNumber, MeasureCode → Score, Sample, and the address rule of food, Address1, City, State → ZipCode.
+- **TPC-DS** (`tpcds`, 95 attributes): store_sales joined with item, store and date_dim on their surrogate keys,
+  without the validity columns `*_rec_start_date` and `*_rec_end_date`. The keys of the four tables, d_date and
+  d_date_id → d_date_sk, the rule of historical dimensions (TPC-DS v4.0.0, Clause 1.3.3) as i_item_id, d_date →
+  i_item_sk and s_store_id, d_date → s_store_sk, and ss_ticket_number → d_date_sk, s_store_sk, since the generator
+  draws the date and the store once per ticket.
+
+Variants in the same records: `food+c1` is food as listed (the paper's food); `food` leaves out DBAName → Zip, which
+fails for chains; `uk+admin` adds Postcode → District and District → County, which hold only approximately;
+`hospital-all` adds the FDs of the other published constraint lists of the hospital data set that hold on its
+clean version; `tpcds-core` keeps 12 of the 95 attributes. Every variant has λ = 1 (2 on TPC-DS), attained by
+`Repair` and `Drop`. On `uk+admin`, `tpcds-core` and `tpcds`, the keys of the classical synthesis leave no minimal FD
+unenforced, but their designs are not locally enforced: a schema holds a non-key FD whose key lies in another schema.
+
 ### E3: operational overheads in PostgreSQL
 
 Every design was materialized in PostgreSQL 18.4 with a table per schema that holds the distinct projection of the
@@ -259,6 +291,16 @@ weights and the budgets of E1, with every subset sum of the weights as a bound o
 unproved). The weighted designs and the unit-weight designs of E1 are evaluated on the updates of the evaluation
 seeds 1 to 5 of E4, so every design meets the same updates. `results/weighted_<set>.jsonl` holds the weights, the
 unit and weighted loss of every design and the counts per evaluation seed.
+
+**Drift.** `drift.py` evaluates the same stored designs (`Repair` and `Drop`, unit and weighted) on updates whose
+attribute follows the mixture (1 − α)·uniform + α·Zipf(s) over a random permutation of the non-constant attributes,
+for s ∈ {1, 2} and α ∈ {0.25, 0.5, 0.75, 1}, with ten permutations of 10,000 updates each (seed 1000 + k for
+permutation k, shared by all α and s). The total variation distance of the mixture from the uniform choice measures
+the drift; it reaches 0.59 to 0.70 at s = 2, α = 1. Updates are drawn and judged as in E4. `results/drift_<set>.jsonl`
+holds one record per update set with the harmful updates and the missed ones per design; `--table` summarizes them.
+At the strongest drift, the weighted designs of `Repair` miss fewer harmful updates than the unit-weight ones on the
+six sets where they do so without drift (abalone 27.2 → 15.1 %, breast 0.77 → 0.16 %, echo 10.1 → 3.0 %, hepatitis
+0.71 → 0.70 %, ncvoter 2.6 → 1.7 %, weather 2.3 → 1.2 %), and slightly more on bridges (4.30 → 4.34 %).
 
 ## Data
 

@@ -1,0 +1,201 @@
+{
+ "R": 19,
+ "names": [
+  "ProviderNumber",
+  "HospitalName",
+  "Address1",
+  "Address2",
+  "Address3",
+  "City",
+  "State",
+  "ZipCode",
+  "CountyName",
+  "PhoneNumber",
+  "HospitalType",
+  "HospitalOwner",
+  "EmergencyService",
+  "Condition",
+  "MeasureCode",
+  "MeasureName",
+  "Score",
+  "Sample",
+  "Stateavg"
+ ],
+ "fds": [
+  {
+   "lhs": [
+    7
+   ],
+   "rhs": [
+    5,
+    6
+   ]
+  },
+  {
+   "lhs": [
+    9
+   ],
+   "rhs": [
+    7,
+    5,
+    6
+   ]
+  },
+  {
+   "lhs": [
+    0,
+    14
+   ],
+   "rhs": [
+    18
+   ]
+  },
+  {
+   "lhs": [
+    14
+   ],
+   "rhs": [
+    15,
+    13
+   ]
+  },
+  {
+   "lhs": [
+    6,
+    14
+   ],
+   "rhs": [
+    18
+   ]
+  },
+  {
+   "lhs": [
+    0
+   ],
+   "rhs": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  {
+   "lhs": [
+    0,
+    14
+   ],
+   "rhs": [
+    16,
+    17
+   ]
+  },
+  {
+   "lhs": [
+    2,
+    5,
+    6
+   ],
+   "rhs": [
+    7
+   ]
+  },
+  {
+   "lhs": [
+    1
+   ],
+   "rhs": [
+    7,
+    9,
+    2,
+    11,
+    0,
+    5,
+    10
+   ]
+  },
+  {
+   "lhs": [
+    15
+   ],
+   "rhs": [
+    14,
+    13
+   ]
+  },
+  {
+   "lhs": [
+    5
+   ],
+   "rhs": [
+    8
+   ]
+  },
+  {
+   "lhs": [
+    7
+   ],
+   "rhs": [
+    8
+   ]
+  },
+  {
+   "lhs": [
+    8
+   ],
+   "rhs": [
+    6
+   ]
+  },
+  {
+   "lhs": [
+    9
+   ],
+   "rhs": [
+    10,
+    8
+   ]
+  },
+  {
+   "lhs": [
+    9,
+    11
+   ],
+   "rhs": [
+    1,
+    0
+   ]
+  },
+  {
+   "lhs": [
+    1,
+    8
+   ],
+   "rhs": [
+    11,
+    5,
+    7,
+    0,
+    9
+   ]
+  },
+  {
+   "lhs": [
+    1,
+    5
+   ],
+   "rhs": [
+    7,
+    0,
+    9
+   ]
+  }
+ ]
+}

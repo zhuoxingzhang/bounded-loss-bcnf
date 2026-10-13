@@ -1,0 +1,83 @@
+{
+ "R": 16,
+ "names": [
+  "TransactionID",
+  "Price",
+  "Date",
+  "Postcode",
+  "PropertyType",
+  "OldNew",
+  "Duration",
+  "PAON",
+  "SAON",
+  "Street",
+  "Locality",
+  "Town",
+  "District",
+  "County",
+  "PPDCategory",
+  "RecordStatus"
+ ],
+ "fds": [
+  {
+   "lhs": [
+    0
+   ],
+   "rhs": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ]
+  },
+  {
+   "lhs": [
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "rhs": [
+    3
+   ]
+  },
+  {
+   "lhs": [
+    3
+   ],
+   "rhs": [
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "lhs": [
+    3
+   ],
+   "rhs": [
+    12
+   ]
+  },
+  {
+   "lhs": [
+    12
+   ],
+   "rhs": [
+    13
+   ]
+  }
+ ]
+}

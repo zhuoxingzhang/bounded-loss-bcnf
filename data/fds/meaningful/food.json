@@ -1,0 +1,84 @@
+{
+ "R": 17,
+ "names": [
+  "InspectionID",
+  "DBAName",
+  "AKAName",
+  "License",
+  "FacilityType",
+  "Risk",
+  "Address",
+  "City",
+  "State",
+  "Zip",
+  "InspectionDate",
+  "InspectionType",
+  "Results",
+  "Violations",
+  "Latitude",
+  "Longitude",
+  "Location"
+ ],
+ "fds": [
+  {
+   "lhs": [
+    0
+   ],
+   "rhs": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+   ]
+  },
+  {
+   "lhs": [
+    9
+   ],
+   "rhs": [
+    7,
+    8
+   ]
+  },
+  {
+   "lhs": [
+    7,
+    8,
+    6
+   ],
+   "rhs": [
+    9
+   ]
+  },
+  {
+   "lhs": [
+    3
+   ],
+   "rhs": [
+    9,
+    4
+   ]
+  },
+  {
+   "lhs": [
+    3,
+    10
+   ],
+   "rhs": [
+    12
+   ]
+  }
+ ]
+}

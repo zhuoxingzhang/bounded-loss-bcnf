@@ -1,0 +1,91 @@
+{
+ "R": 12,
+ "names": [
+  "ss_ticket_number",
+  "ss_quantity",
+  "ss_sales_price",
+  "i_item_sk",
+  "i_item_id",
+  "i_item_desc",
+  "i_current_price",
+  "s_store_sk",
+  "s_store_id",
+  "s_store_name",
+  "d_date_sk",
+  "d_date"
+ ],
+ "fds": [
+  {
+   "lhs": [
+    3
+   ],
+   "rhs": [
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "lhs": [
+    7
+   ],
+   "rhs": [
+    8,
+    9
+   ]
+  },
+  {
+   "lhs": [
+    10
+   ],
+   "rhs": [
+    11
+   ]
+  },
+  {
+   "lhs": [
+    11
+   ],
+   "rhs": [
+    10
+   ]
+  },
+  {
+   "lhs": [
+    3,
+    0
+   ],
+   "rhs": [
+    1,
+    2
+   ]
+  },
+  {
+   "lhs": [
+    0
+   ],
+   "rhs": [
+    10,
+    7
+   ]
+  },
+  {
+   "lhs": [
+    4,
+    11
+   ],
+   "rhs": [
+    3
+   ]
+  },
+  {
+   "lhs": [
+    8,
+    11
+   ],
+   "rhs": [
+    7
+   ]
+  }
+ ]
+}
