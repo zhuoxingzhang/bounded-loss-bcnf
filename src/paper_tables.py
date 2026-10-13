@@ -221,7 +221,9 @@ def e3_summary(recs, mode):
     """the measurement of a mode: (design record, {size: [seconds of the completed repetitions]}, {size: elapsed
     seconds of a repetition that the budget cancelled}, sizes the budget skipped, the mode measured). A mode whose
     design repeats an earlier one shares that measurement; only the records after the last design record of the
-    mode count, so that a rerun replaces an earlier run."""
+    mode count, so that a rerun replaces an earlier run, unless the earlier run built the same design under the same
+    protocol (a run resumed after the server closed the connection, weather 3nfc-x): then the repetitions of both
+    runs are pooled."""
     seen = set()
     while True:
         seen.add(mode)
@@ -233,9 +235,14 @@ def e3_summary(recs, mode):
             return None, {}, {}, set(), None
         mode = same[-1]
     start = idx[-1]
+    sig = lambda r: tuple(r.get(k) for k in ("loss", "rows", "copy", "schemata", "unique", "unique_md5", "exclusion",
+                                             "trigger_fds", "indexes", "lookup_tables"))
+    first = len(idx) - 1
+    while first > 0 and sig(recs[idx[first - 1]]) == sig(recs[start]):
+        first -= 1
     times, cancelled, skipped = {}, {}, set()
-    for r in recs[start + 1:]:
-        if r.get("mode") != mode:
+    for r in recs[idx[first] + 1:]:
+        if r.get("mode") != mode or r.get("design"):
             continue
         if "seconds" in r:
             times.setdefault(r["size"], []).append(r["seconds"])
