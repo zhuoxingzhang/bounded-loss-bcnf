@@ -20,15 +20,15 @@ uniprot(null)          |Da|=  3703  same=True  |D| py=1676 java=1676  loss py=81
 hepatitis(null)        |Da|=  8250  same=True  |D| py=1677 java=1677  loss py=1554 java=1554  time py=31.2s java=53.0s
 diabetic(null)         |Da|= 40195  same=True  |D| py=26961 java=26961  loss py=7644 java=7644  time py=1330.8s java=4489.0s
 Traceback (most recent call last):
-  File "/data/zzha969/bounded-loss-bcnf/iconf_check.py", line 24, in <module>
+  File "/data/user/bounded-loss-bcnf/iconf_check.py", line 24, in <module>
     dj, tj = iconf_java(n, Da)
              ~~~~~~~~~~^^^^^^^
-  File "/data/zzha969/bounded-loss-bcnf/iconf.py", line 176, in iconf_java
+  File "/data/user/bounded-loss-bcnf/iconf.py", line 176, in iconf_java
     subprocess.run([java, "-cp", classpath(), "IConfDriver", fin, str(n), fout], check=True, timeout=timeout,
     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                    stdout=subprocess.DEVNULL)
                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/zzha969/miniconda3/lib/python3.13/subprocess.py", line 577, in run
+  File "/data/user/miniconda3/lib/python3.13/subprocess.py", line 577, in run
     raise CalledProcessError(retcode, process.args,
                              output=stdout, stderr=stderr)
-subprocess.CalledProcessError: Command '['java', '-cp', '/data/zzha969/bounded-loss-bcnf/iconf/build/classes:/data/zzha969/bounded-loss-bcnf/iconf/build/fastjson-1.2.79.jar', 'IConfDriver', '/data/zzha969/tmp/tmpf3c9hifl/fds.txt', '30', '/data/zzha969/tmp/tmpf3c9hifl/out.txt']' returned non-zero exit status 143.
+subprocess.CalledProcessError: Command '['java', '-cp', '/data/user/bounded-loss-bcnf/iconf/build/classes:/data/user/bounded-loss-bcnf/iconf/build/fastjson-1.2.79.jar', 'IConfDriver', '/data/user/tmp/tmpf3c9hifl/fds.txt', '30', '/data/user/tmp/tmpf3c9hifl/out.txt']' returned non-zero exit status 143.

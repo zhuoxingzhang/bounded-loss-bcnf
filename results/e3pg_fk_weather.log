@@ -2,19 +2,19 @@
 18:22:46 weather orig-f design: {'schemata': 1, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 516, 'build_seconds': 4322.355}
 18:26:45 weather orig-f 10000 0 238.91s 4784996 rows  
 Traceback (most recent call last):
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 599, in <module>
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 599, in <module>
     con = connect()
     ^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 595, in main
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 595, in main
     return
         ^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 471, in run
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 471, in run
     for mode in modes:
         ^^^^^^^^^^^^^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 397, in run_mode
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 397, in run_mode
     try:
     
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 216, in build
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 216, in build
     cur.execute("ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)" % (
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         t, qi("%s_f%d" % (table, j)), ", ".join(lcols), lt, ", ".join(lcols)))

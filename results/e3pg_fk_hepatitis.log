@@ -39,21 +39,21 @@
 	before or while process
 17:10:05 hepatitis 3nf-f 20000 1 1172.33s 51514632 rows  (attempt 2)
 Traceback (most recent call last):
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 599, in <module>
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 599, in <module>
     main()
     ~~~~^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 595, in main
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 595, in main
     h.run(modes)
     ~~~~~^^^^^^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 471, in run
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 471, in run
     self.run_mode(mode, enforced, how_eff, loss_of_mode(self.rec, mode))
     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 397, in run_mode
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 397, in run_mode
     info = self.build(mode, design, how)
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 153, in build
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 153, in build
     self.drop_tables()
     ~~~~~~~~~~~~~~~~^^
-  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 228, in drop_tables
+  File "/data/user/bounded-loss-bcnf/src/e3pg.py", line 228, in drop_tables
     self.wcur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi(table))
     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 psycopg2.OperationalError: server closed the connection unexpectedly
