@@ -40,7 +40,7 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
     missing value; hatched maps design keys to the names whose bar was cut by the budget; on a logarithmic axis,
     floor is the y value at which zeros (circles) and missing values (crosses) are marked; bar and gap are the bar
     width and the gap between the bars of a group in pt; extra holds further axis options"""
-    out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-3pt}," % (ylabel, title),
+    out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-6pt}," % (ylabel, title),
            r"  symbolic x coords={%s}, xtick=data, ymin=%s%s," % (",".join("{%s}" % n for n in names), ymin, "" if ymax is None else ", ymax=%s" % ymax),
            r"  %s%s]" % ("ymode=log, log origin=infty" if log else "ymode=normal", ", " + extra if extra else "")]
     if legend:
@@ -332,8 +332,8 @@ if __name__ == "__main__":
     rows = paper_rows()
     e3recs, e4recs = load_e3(), load_e4()
     # the single-column variant of the paper: time and risk on the nine E3/E4 sets, legend in two rows
-    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.3, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.2,
-                    vsep=18, ylabel_at=-0.1, shared_xticklabels=True)
+    t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.1, bar=2.0, gap=0.25, legend_cols=4, legend_y=1.16,
+                    vsep=15, ylabel_at=-0.1, shared_xticklabels=True)
     open(os.path.join(ROOT, "results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,
