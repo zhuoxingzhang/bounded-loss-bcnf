@@ -17,8 +17,8 @@ non-key FDs of a minimal cover of every schema (the "fds" of the E1 record) by o
      FOREIGN KEY (X, A) on the schema's table that references it: the key X of the lookup table admits one value of
      A per value of X, and the foreign key keeps the copies of A in the schema's table equal to it, both validated
      by index probes. A record is inserted into the lookup tables first (ON CONFLICT DO NOTHING), then into the
-     schema's table, so that a record that violates the FD is rejected by the foreign key. The design is a key
-     design of loss 0 whose lookup tables duplicate the projections XA (the "foreign keys" of the paper's Section 2).
+     schema's table, so that a record that violates the FD is rejected by the foreign key. The design enforces
+     every FD of the mode's design, while its lookup tables duplicate the projections XA.
 
 Modes: orig-x (the original relation, every FD enforced), keys (the original relation with its minimal keys only),
 3nf-x (iCONF), 3nfc-x (classical 3NF synthesis), bcnf, gbcnf (greedy BCNF, gbcnf.py), repair, drop (keys only). The trigger modes orig-t, 3nf-t

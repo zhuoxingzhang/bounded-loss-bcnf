@@ -1,0 +1,25 @@
+17:10:41 weather start: 262920 rows, 30000 templates, sizes [10000, 20000, 30000], reps 5, modes ['orig-f', '3nf-f', '3nfc-f'], budget 7200 s per mode
+18:22:46 weather orig-f design: {'schemata': 1, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 516, 'build_seconds': 4322.355}
+18:26:45 weather orig-f 10000 0 238.91s 4784996 rows  
+Traceback (most recent call last):
+  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 599, in <module>
+    con = connect()
+    ^^
+  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 595, in main
+    return
+        ^^
+  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 471, in run
+    for mode in modes:
+        ^^^^^^^^^^^^^^
+  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 397, in run_mode
+    try:
+    
+  File "/data/zzha969/bounded-loss-bcnf/src/e3pg.py", line 216, in build
+    cur.execute("ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)" % (
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        t, qi("%s_f%d" % (table, j)), ", ".join(lcols), lt, ", ".join(lcols)))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+

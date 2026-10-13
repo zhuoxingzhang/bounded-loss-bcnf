@@ -1,0 +1,49 @@
+07:18:16 bridges start: 108 rows, 108 templates, sizes [10000, 20000, 30000], reps 5, modes ['orig-f', '3nf-f', '3nfc-f'], budget 7200 s per mode
+07:18:17 bridges orig-f design: {'schemata': 1, 'unique': 5, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 65, 'build_seconds': 0.219}
+07:18:33 bridges orig-f 10000 0 16.69s 630938 rows  
+07:18:50 bridges orig-f 10000 1 16.14s 631447 rows  
+07:19:07 bridges orig-f 10000 2 16.36s 633549 rows  
+07:19:24 bridges orig-f 10000 3 16.20s 633786 rows  
+07:19:40 bridges orig-f 10000 4 16.21s 631835 rows  
+07:20:14 bridges orig-f 20000 0 33.31s 1262871 rows  
+07:20:48 bridges orig-f 20000 1 32.93s 1266147 rows  
+07:21:22 bridges orig-f 20000 2 33.02s 1263965 rows  
+07:21:56 bridges orig-f 20000 3 33.15s 1264128 rows  
+07:22:30 bridges orig-f 20000 4 33.16s 1264978 rows  
+07:23:21 bridges orig-f 30000 0 50.55s 1895135 rows  
+07:24:13 bridges orig-f 30000 1 50.63s 1895582 rows  
+07:25:04 bridges orig-f 30000 2 50.58s 1896206 rows  
+07:25:55 bridges orig-f 30000 3 50.18s 1894476 rows  
+07:26:47 bridges orig-f 30000 4 50.69s 1900429 rows  
+07:26:47 bridges 3nf-f design: {'schemata': 57, 'unique': 76, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 19, 'build_seconds': 0.184}
+07:26:59 bridges 3nf-f 10000 0 11.49s 727039 rows  
+07:27:11 bridges 3nf-f 10000 1 11.60s 727544 rows  
+07:27:23 bridges 3nf-f 10000 2 11.58s 730027 rows  
+07:27:35 bridges 3nf-f 10000 3 11.71s 730245 rows  
+07:27:48 bridges 3nf-f 10000 4 11.74s 728084 rows  
+07:28:12 bridges 3nf-f 20000 0 23.39s 1455228 rows  
+07:28:36 bridges 3nf-f 20000 1 23.36s 1458915 rows  
+07:29:00 bridges 3nf-f 20000 2 23.71s 1456560 rows  
+07:29:25 bridges 3nf-f 20000 3 23.88s 1456570 rows  
+07:29:49 bridges 3nf-f 20000 4 23.51s 1457549 rows  
+07:30:26 bridges 3nf-f 30000 0 36.35s 2183786 rows  
+07:31:03 bridges 3nf-f 30000 1 35.83s 2184317 rows  
+07:31:40 bridges 3nf-f 30000 2 36.14s 2185067 rows  
+07:32:17 bridges 3nf-f 30000 3 36.17s 2183033 rows  
+07:32:53 bridges 3nf-f 30000 4 35.99s 2189885 rows  
+07:32:54 bridges 3nfc-f design: {'schemata': 47, 'unique': 67, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 21, 'build_seconds': 0.168}
+07:33:05 bridges 3nfc-f 10000 0 11.09s 648493 rows  
+07:33:17 bridges 3nfc-f 10000 1 11.17s 649005 rows  
+07:33:28 bridges 3nfc-f 10000 2 11.26s 651384 rows  
+07:33:40 bridges 3nfc-f 10000 3 11.17s 651630 rows  
+07:33:52 bridges 3nfc-f 10000 4 11.30s 649549 rows  
+07:34:15 bridges 3nfc-f 20000 0 22.89s 1298156 rows  
+07:34:39 bridges 3nfc-f 20000 1 22.78s 1301745 rows  
+07:35:03 bridges 3nfc-f 20000 2 23.22s 1299362 rows  
+07:35:26 bridges 3nfc-f 20000 3 22.65s 1299399 rows  
+07:35:50 bridges 3nfc-f 20000 4 23.11s 1300388 rows  
+07:36:25 bridges 3nfc-f 30000 0 34.82s 1948110 rows  
+07:37:01 bridges 3nfc-f 30000 1 34.71s 1948660 rows  
+07:37:37 bridges 3nfc-f 30000 2 34.91s 1949238 rows  
+07:38:12 bridges 3nfc-f 30000 3 34.81s 1947496 rows  
+07:38:48 bridges 3nfc-f 30000 4 35.12s 1954053 rows  

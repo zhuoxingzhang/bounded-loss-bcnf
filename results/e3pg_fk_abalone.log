@@ -1,0 +1,34 @@
+08:07:26 abalone start: 4177 rows, 4177 templates, sizes [10000, 20000, 30000], reps 5, modes ['orig-f', '3nf-f', '3nfc-f'], budget 7200 s per mode
+08:07:27 abalone orig-f design: {'schemata': 1, 'unique': 29, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 25, 'build_seconds': 1.01}
+08:07:35 abalone orig-f 10000 0 7.82s 257964 rows  
+08:07:44 abalone orig-f 10000 1 7.70s 257955 rows  
+08:07:53 abalone orig-f 10000 2 7.53s 257938 rows  
+08:08:01 abalone orig-f 10000 3 7.52s 257966 rows  
+08:08:10 abalone orig-f 10000 4 7.78s 258034 rows  
+08:08:27 abalone orig-f 20000 0 15.77s 515787 rows  
+08:08:45 abalone orig-f 20000 1 15.93s 515845 rows  
+08:09:02 abalone orig-f 20000 2 15.75s 515827 rows  
+08:09:19 abalone orig-f 20000 3 16.07s 515971 rows  
+08:09:36 abalone orig-f 20000 4 15.76s 515926 rows  
+08:10:02 abalone orig-f 30000 0 24.59s 773957 rows  
+08:10:28 abalone orig-f 30000 1 24.47s 774078 rows  
+08:10:54 abalone orig-f 30000 2 24.76s 773797 rows  
+08:11:20 abalone orig-f 30000 3 24.49s 774045 rows  
+08:11:46 abalone orig-f 30000 4 24.54s 773905 rows  
+08:11:47 abalone 3nf-f design: {'schemata': 23, 'unique': 49, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 9, 'build_seconds': 0.82}
+08:11:54 abalone 3nf-f 10000 0 6.29s 318442 rows  
+08:12:01 abalone 3nf-f 10000 1 6.25s 318430 rows  
+08:12:08 abalone 3nf-f 10000 2 6.28s 318435 rows  
+08:12:16 abalone 3nf-f 10000 3 6.20s 318409 rows  
+08:12:23 abalone 3nf-f 10000 4 6.20s 318501 rows  
+08:12:37 abalone 3nf-f 20000 0 12.67s 636776 rows  
+08:12:50 abalone 3nf-f 20000 1 12.62s 636854 rows  
+08:13:04 abalone 3nf-f 20000 2 12.64s 636871 rows  
+08:13:18 abalone 3nf-f 20000 3 12.80s 636938 rows  
+08:13:32 abalone 3nf-f 20000 4 12.64s 636875 rows  
+08:13:53 abalone 3nf-f 30000 0 19.72s 955409 rows  
+08:14:15 abalone 3nf-f 30000 1 20.33s 955500 rows  
+08:14:36 abalone 3nf-f 30000 2 19.96s 955319 rows  
+08:14:57 abalone 3nf-f 30000 3 20.20s 955493 rows  
+08:15:19 abalone 3nf-f 30000 4 19.99s 955349 rows  
+08:15:19 abalone 3nfc-f same design as orig-f

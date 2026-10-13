@@ -1,0 +1,49 @@
+08:15:19 adult start: 32537 rows, 30000 templates, sizes [10000, 20000, 30000], reps 5, modes ['orig-f', '3nf-f', '3nfc-f'], budget 7200 s per mode
+08:15:31 adult orig-f design: {'schemata': 1, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 46, 'build_seconds': 11.681}
+08:15:46 adult orig-f 10000 0 14.94s 414133 rows  
+08:16:13 adult orig-f 10000 1 14.93s 413174 rows  
+08:16:40 adult orig-f 10000 2 14.90s 413177 rows  
+08:17:07 adult orig-f 10000 3 14.72s 414335 rows  
+08:17:33 adult orig-f 10000 4 14.79s 414056 rows  
+08:18:15 adult orig-f 20000 0 30.00s 828010 rows  
+08:18:57 adult orig-f 20000 1 29.59s 826922 rows  
+08:19:38 adult orig-f 20000 2 29.55s 827670 rows  
+08:20:20 adult orig-f 20000 3 29.60s 827753 rows  
+08:21:01 adult orig-f 20000 4 29.53s 828311 rows  
+08:21:58 adult orig-f 30000 0 44.67s 1238538 rows  
+08:22:55 adult orig-f 30000 1 44.45s 1239275 rows  
+08:23:51 adult orig-f 30000 2 44.29s 1242252 rows  
+08:24:48 adult orig-f 30000 3 44.54s 1243050 rows  
+08:25:44 adult orig-f 30000 4 44.09s 1241560 rows  
+08:25:51 adult 3nf-f design: {'schemata': 46, 'unique': 47, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 6.554}
+08:25:58 adult 3nf-f 10000 0 7.11s 410483 rows  
+08:26:12 adult 3nf-f 10000 1 7.12s 409465 rows  
+08:26:26 adult 3nf-f 10000 2 7.40s 409560 rows  
+08:26:40 adult 3nf-f 10000 3 7.13s 410695 rows  
+08:26:54 adult 3nf-f 10000 4 7.05s 410292 rows  
+08:27:16 adult 3nf-f 20000 0 14.58s 820632 rows  
+08:27:37 adult 3nf-f 20000 1 14.47s 819498 rows  
+08:27:58 adult 3nf-f 20000 2 14.24s 820253 rows  
+08:28:20 adult 3nf-f 20000 3 14.30s 820442 rows  
+08:28:41 adult 3nf-f 20000 4 14.17s 820841 rows  
+08:29:10 adult 3nf-f 30000 0 21.69s 1227408 rows  
+08:29:38 adult 3nf-f 30000 1 21.33s 1228158 rows  
+08:30:07 adult 3nf-f 30000 2 21.62s 1231065 rows  
+08:30:36 adult 3nf-f 30000 3 21.93s 1231938 rows  
+08:31:04 adult 3nf-f 30000 4 21.59s 1230359 rows  
+08:31:11 adult 3nfc-f design: {'schemata': 42, 'unique': 43, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 6.064}
+08:31:17 adult 3nfc-f 10000 0 6.56s 375638 rows  
+08:31:30 adult 3nfc-f 10000 1 6.52s 374721 rows  
+08:31:43 adult 3nfc-f 10000 2 6.66s 374799 rows  
+08:31:56 adult 3nfc-f 10000 3 6.60s 375772 rows  
+08:32:09 adult 3nfc-f 10000 4 6.56s 375465 rows  
+08:32:29 adult 3nfc-f 20000 0 13.21s 750778 rows  
+08:32:49 adult 3nfc-f 20000 1 13.16s 749880 rows  
+08:33:08 adult 3nfc-f 20000 2 13.23s 750631 rows  
+08:33:28 adult 3nfc-f 20000 3 13.38s 750704 rows  
+08:33:48 adult 3nfc-f 20000 4 13.54s 751096 rows  
+08:34:16 adult 3nfc-f 30000 0 20.55s 1123301 rows  
+08:34:42 adult 3nfc-f 30000 1 20.02s 1123834 rows  
+08:35:09 adult 3nfc-f 30000 2 20.05s 1126393 rows  
+08:35:35 adult 3nfc-f 30000 3 20.11s 1127236 rows  
+08:36:02 adult 3nfc-f 30000 4 20.23s 1125838 rows  

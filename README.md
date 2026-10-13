@@ -189,8 +189,12 @@ measurement that the paper does not report; `results/e3pg_fk_<set>.jsonl`) enfor
 `FOREIGN KEY (X, A)` from the table that holds the FD to it, so that the key of the lookup table admits one value of
 A per value of X and the foreign key keeps the copies of A equal to it. A record enters the lookup tables first
 (`ON CONFLICT DO NOTHING`) and then the table, and a record that violates the FD is rejected by the foreign key
-(`fk_check.py`). The result is the design with lookup tables of Section 2 of the paper: a key design of loss 0
-whose lookup tables duplicate the projections XA.
+(`fk_check.py`). Every FD of the mode is then enforced, while the lookup tables duplicate the projections XA.
+The records cover 10,000, 20,000 and 30,000 records with five repetitions on abalone, adult, breast, bridges, echo,
+letter, ncvoter and the TPC-H tables orders and part, and 10,000 records with five repetitions on hepatitis; at
+20,000 records the server terminated the backends of hepatitis (two repetitions of `3nf-f`), and weather has one
+repetition of `orig-f` at 10,000 records. On abalone, letter and part, the design of `3nfc-f` equals that of
+`orig-f` or `3nf-f` and is not measured again.
 
 Every value was stored as text, so that the marker of a missing value is a value of its own, as under the null
 equality interpretation of the FD sets. Under the SQL semantics of nulls, a `UNIQUE` constraint does not enforce

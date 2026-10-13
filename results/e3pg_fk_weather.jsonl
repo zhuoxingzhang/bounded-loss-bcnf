@@ -1,0 +1,2 @@
+{"set": "weather", "mode": "orig-f", "design": true, "loss": 0, "rows": 262920, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 516, "build_seconds": 4322.355}
+{"set": "weather", "mode": "orig-f", "size": 10000, "rep": 0, "seconds": 238.914, "inserted": 4784996, "attempted": 10000}

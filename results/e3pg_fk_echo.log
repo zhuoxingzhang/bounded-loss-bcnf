@@ -1,0 +1,49 @@
+07:38:49 echo start: 132 rows, 132 templates, sizes [10000, 20000, 30000], reps 5, modes ['orig-f', '3nf-f', '3nfc-f'], budget 7200 s per mode
+07:38:50 echo orig-f design: {'schemata': 1, 'unique': 72, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 80, 'build_seconds': 0.316}
+07:39:11 echo orig-f 10000 0 21.54s 797822 rows  
+07:39:33 echo orig-f 10000 1 21.41s 797933 rows  
+07:39:55 echo orig-f 10000 2 21.16s 797961 rows  
+07:40:17 echo orig-f 10000 3 21.05s 798277 rows  
+07:40:39 echo orig-f 10000 4 21.24s 797876 rows  
+07:41:23 echo orig-f 20000 0 43.23s 1596200 rows  
+07:42:07 echo orig-f 20000 1 42.88s 1596555 rows  
+07:42:51 echo orig-f 20000 2 42.99s 1595879 rows  
+07:43:35 echo orig-f 20000 3 42.92s 1596084 rows  
+07:44:18 echo orig-f 20000 4 41.86s 1595829 rows  
+07:45:25 echo orig-f 30000 0 66.40s 2393941 rows  
+07:46:32 echo orig-f 30000 1 65.74s 2394543 rows  
+07:47:39 echo orig-f 30000 2 66.10s 2394573 rows  
+07:48:46 echo orig-f 30000 3 66.01s 2395013 rows  
+07:49:54 echo orig-f 30000 4 66.34s 2393922 rows  
+07:49:54 echo 3nf-f design: {'schemata': 79, 'unique': 121, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 13, 'build_seconds': 0.215}
+07:50:07 echo 3nf-f 10000 0 12.73s 908502 rows  
+07:50:20 echo 3nf-f 10000 1 12.67s 908563 rows  
+07:50:34 echo 3nf-f 10000 2 12.70s 908568 rows  
+07:50:47 echo 3nf-f 10000 3 12.75s 908827 rows  
+07:51:00 echo 3nf-f 10000 4 12.58s 908545 rows  
+07:51:27 echo 3nf-f 20000 0 25.59s 1817325 rows  
+07:51:53 echo 3nf-f 20000 1 25.65s 1817625 rows  
+07:52:20 echo 3nf-f 20000 2 25.63s 1817009 rows  
+07:52:46 echo 3nf-f 20000 3 25.65s 1817283 rows  
+07:53:12 echo 3nf-f 20000 4 25.22s 1817111 rows  
+07:53:53 echo 3nf-f 30000 0 39.76s 2725835 rows  
+07:54:33 echo 3nf-f 30000 1 39.64s 2726263 rows  
+07:55:14 echo 3nf-f 30000 2 39.26s 2726185 rows  
+07:55:53 echo 3nf-f 30000 3 38.92s 2726694 rows  
+07:56:34 echo 3nf-f 30000 4 39.56s 2725639 rows  
+07:56:35 echo 3nfc-f design: {'schemata': 19, 'unique': 100, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 69, 'build_seconds': 0.351}
+07:56:55 echo 3nfc-f 10000 0 20.72s 865870 rows  
+07:57:17 echo 3nfc-f 10000 1 20.70s 866028 rows  
+07:57:39 echo 3nfc-f 10000 2 20.84s 866042 rows  
+07:58:00 echo 3nfc-f 10000 3 20.65s 866309 rows  
+07:58:22 echo 3nfc-f 10000 4 20.76s 865988 rows  
+07:59:05 echo 3nfc-f 20000 0 42.07s 1732417 rows  
+07:59:48 echo 3nfc-f 20000 1 41.98s 1732779 rows  
+08:00:31 echo 3nfc-f 20000 2 42.13s 1732073 rows  
+08:01:14 echo 3nfc-f 20000 3 42.22s 1732299 rows  
+08:01:57 echo 3nfc-f 20000 4 41.83s 1731955 rows  
+08:03:02 echo 3nfc-f 30000 0 63.97s 2598275 rows  
+08:04:08 echo 3nfc-f 30000 1 64.29s 2598781 rows  
+08:05:13 echo 3nfc-f 30000 2 64.41s 2598974 rows  
+08:06:19 echo 3nfc-f 30000 3 64.70s 2599414 rows  
+08:07:25 echo 3nfc-f 30000 4 64.83s 2598197 rows  
