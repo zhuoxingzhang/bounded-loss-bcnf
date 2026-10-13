@@ -23,3 +23,65 @@ psycopg2.OperationalError: server closed the connection unexpectedly
 	This probably means the server terminated abnormally
 	before or while processing the request.
 
+21:07:57 weather created e3t_weather_base
+21:54:40 restarted run_fk_weather.sh after an accidental stop
+23:08:33 weather orig-f template e3t_weather_orig_f built: {'schemata': 1, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 516, 'build_seconds': 4427.474}
+23:28:16 weather 3nf-f template e3t_weather_3nf_f built: {'schemata': 407, 'unique': 557, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 222, 'build_seconds': 1170.761}
+23:28:18 weather start: 262920 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-f'], budget 7200 s per mode, copies of the built tables
+23:28:18 weather orig-f template e3t_weather_orig_f reused
+23:28:58 weather orig-f design: {'schemata': 1, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 516, 'build_seconds': 4427.474}
+23:33:07 weather orig-f 10000 0 249.19s 4790576 rows (copy 38s) 
+23:37:43 weather orig-f 10000 1 connection lost after 242s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+23:40:57 weather orig-f 10000 1 connection lost after 133s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+23:44:10 weather orig-f 10000 1 connection lost after 131s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+23:49:17 weather orig-f 10000 1 247.32s 4782828 rows (copy 30s) (attempt 4)
+23:54:06 weather orig-f 10000 2 257.26s 4776142 rows (copy 24s) 
+23:57:04 weather orig-f 10000 3 connection lost after 147s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:00:15 weather orig-f 10000 3 connection lost after 132s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:05:02 weather orig-f 10000 3 connection lost after 228s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:08:16 weather orig-f 10000 3 connection lost after 134s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:13:19 weather orig-f 10000 3 243.58s 4767935 rows (copy 29s) (attempt 5)
+00:17:50 weather orig-f 10000 4 connection lost after 241s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:22:54 weather orig-f 10000 4 244.14s 4775114 rows (copy 30s) (attempt 2)
+00:23:01 weather start: 262920 rows, 10000 templates, sizes [10000], reps 5, modes ['3nf-f'], budget 7200 s per mode, copies of the built tables
+00:23:01 weather 3nf-f template e3t_weather_3nf_f reused
+00:23:31 weather 3nf-f design: {'schemata': 407, 'unique': 557, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 222, 'build_seconds': 1170.761}
+00:25:45 weather 3nf-f 10000 0 connection lost after 134s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:28:57 weather 3nf-f 10000 0 connection lost after 129s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:32:09 weather 3nf-f 10000 0 connection lost after 132s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:36:10 weather 3nf-f 10000 0 180.04s 5821292 rows (copy 30s) (attempt 4)
+00:38:32 weather 3nf-f 10000 1 connection lost after 108s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:41:44 weather 3nf-f 10000 1 connection lost after 131s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+00:45:46 weather 3nf-f 10000 1 181.63s 5811542 rows (copy 30s) (attempt 3)
+00:49:27 weather 3nf-f 10000 2 188.01s 5803038 rows (copy 26s) 
+00:53:09 weather 3nf-f 10000 3 189.39s 5791521 rows (copy 26s) 
+00:56:02 weather 3nf-f 10000 4 connection lost after 140s, repeating: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while process
+01:00:12 weather 3nf-f 10000 4 188.44s 5802720 rows (copy 31s) (attempt 2)
