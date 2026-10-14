@@ -138,7 +138,7 @@
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 5.21, "inserted": 188018, "attempted": 200000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 5.228, "inserted": 187952, "attempted": 200000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 5.367, "inserted": 187974, "attempted": 200000}
-{"set": "echo", "mode": "orig-x", "design": true, "loss": 0, "rows": 132, "copy": false, "schemata": 1, "unique": 72, "unique_md5": 0, "exclusion": 80, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.273}
+{"set": "echo", "mode": "orig-x", "design": true, "loss": 0, "rows": 132, "copy": false, "schemata": 1, "unique": 72, "unique_md5": 0, "exclusion": 80, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.273}
 {"set": "echo", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 59.083, "inserted": 10000, "attempted": 10000}
 {"set": "echo", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 57.302, "inserted": 10000, "attempted": 10000}
 {"set": "echo", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 57.366, "inserted": 10000, "attempted": 10000}
@@ -154,7 +154,7 @@
 {"set": "echo", "mode": "orig-x", "size": 30000, "rep": 2, "seconds": 218.604, "inserted": 30000, "attempted": 30000}
 {"set": "echo", "mode": "orig-x", "size": 30000, "rep": 3, "seconds": 218.559, "inserted": 30000, "attempted": 30000}
 {"set": "echo", "mode": "orig-x", "size": 30000, "rep": 4, "seconds": 221.181, "inserted": 30000, "attempted": 30000}
-{"set": "echo", "mode": "3nf-x", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 79, "unique": 121, "unique_md5": 0, "exclusion": 13, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.195}
+{"set": "echo", "mode": "3nf-x", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 79, "unique": 121, "unique_md5": 0, "exclusion": 13, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.195}
 {"set": "echo", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 19.096, "inserted": 782993, "attempted": 790000}
 {"set": "echo", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 19.03, "inserted": 782974, "attempted": 790000}
 {"set": "echo", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 19.08, "inserted": 782998, "attempted": 790000}
@@ -170,7 +170,7 @@
 {"set": "echo", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 64.467, "inserted": 2349404, "attempted": 2370000}
 {"set": "echo", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 66.853, "inserted": 2349840, "attempted": 2370000}
 {"set": "echo", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 65.452, "inserted": 2349195, "attempted": 2370000}
-{"set": "echo", "mode": "3nfc-x", "design": true, "loss": 79, "rows": 132, "copy": false, "schemata": 19, "unique": 100, "unique_md5": 0, "exclusion": 69, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.779}
+{"set": "echo", "mode": "3nfc-x", "design": true, "loss": 79, "rows": 132, "copy": false, "schemata": 19, "unique": 100, "unique_md5": 0, "exclusion": 69, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.779}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 52.888, "inserted": 187944, "attempted": 190000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 52.957, "inserted": 187883, "attempted": 190000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 53.053, "inserted": 187856, "attempted": 190000}
@@ -186,7 +186,7 @@
 {"set": "echo", "mode": "3nfc-x", "size": 30000, "rep": 2, "seconds": 200.748, "inserted": 563907, "attempted": 570000}
 {"set": "echo", "mode": "3nfc-x", "size": 30000, "rep": 3, "seconds": 197.075, "inserted": 564081, "attempted": 570000}
 {"set": "echo", "mode": "3nfc-x", "size": 30000, "rep": 4, "seconds": 197.824, "inserted": 563846, "attempted": 570000}
-{"set": "echo", "mode": "3nf", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 79, "unique": 121, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.165}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 79, "unique": 121, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.165}
 {"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 10.023, "inserted": 782993, "attempted": 790000}
 {"set": "echo", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 10.376, "inserted": 782974, "attempted": 790000}
 {"set": "echo", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 10.183, "inserted": 782998, "attempted": 790000}
@@ -202,7 +202,7 @@
 {"set": "echo", "mode": "3nf", "size": 30000, "rep": 2, "seconds": 31.276, "inserted": 2349404, "attempted": 2370000}
 {"set": "echo", "mode": "3nf", "size": 30000, "rep": 3, "seconds": 31.798, "inserted": 2349840, "attempted": 2370000}
 {"set": "echo", "mode": "3nf", "size": 30000, "rep": 4, "seconds": 31.527, "inserted": 2349195, "attempted": 2370000}
-{"set": "echo", "mode": "3nfc", "design": true, "loss": 79, "rows": 132, "copy": false, "schemata": 19, "unique": 100, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.075}
+{"set": "echo", "mode": "3nfc", "design": true, "loss": 79, "rows": 132, "copy": false, "schemata": 19, "unique": 100, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.075}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 5.179, "inserted": 187944, "attempted": 190000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 5.239, "inserted": 187883, "attempted": 190000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 5.052, "inserted": 187856, "attempted": 190000}
@@ -218,7 +218,7 @@
 {"set": "echo", "mode": "3nfc", "size": 30000, "rep": 2, "seconds": 16.86, "inserted": 563907, "attempted": 570000}
 {"set": "echo", "mode": "3nfc", "size": 30000, "rep": 3, "seconds": 16.702, "inserted": 564081, "attempted": 570000}
 {"set": "echo", "mode": "3nfc", "size": 30000, "rep": 4, "seconds": 16.666, "inserted": 563846, "attempted": 570000}
-{"set": "echo", "mode": "keys", "design": true, "loss": 125, "rows": 132, "copy": false, "schemata": 1, "unique": 72, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.039}
+{"set": "echo", "mode": "keys", "design": true, "loss": 125, "rows": 132, "copy": false, "schemata": 1, "unique": 72, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.039}
 {"set": "echo", "mode": "keys", "size": 10000, "rep": 0, "seconds": 2.814, "inserted": 10000, "attempted": 10000}
 {"set": "echo", "mode": "keys", "size": 10000, "rep": 1, "seconds": 2.806, "inserted": 10000, "attempted": 10000}
 {"set": "echo", "mode": "keys", "size": 10000, "rep": 2, "seconds": 2.886, "inserted": 10000, "attempted": 10000}
@@ -234,7 +234,7 @@
 {"set": "echo", "mode": "keys", "size": 30000, "rep": 2, "seconds": 9.183, "inserted": 30000, "attempted": 30000}
 {"set": "echo", "mode": "keys", "size": 30000, "rep": 3, "seconds": 9.249, "inserted": 30000, "attempted": 30000}
 {"set": "echo", "mode": "keys", "size": 30000, "rep": 4, "seconds": 9.507, "inserted": 30000, "attempted": 30000}
-{"set": "echo", "mode": "bcnf", "design": true, "loss": 463, "rows": 132, "copy": false, "schemata": 7, "unique": 15, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.018}
+{"set": "echo", "mode": "bcnf", "design": true, "loss": 463, "rows": 132, "copy": false, "schemata": 7, "unique": 15, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.018}
 {"set": "echo", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.048, "inserted": 68194, "attempted": 70000}
 {"set": "echo", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.056, "inserted": 68172, "attempted": 70000}
 {"set": "echo", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.045, "inserted": 68171, "attempted": 70000}
@@ -250,7 +250,7 @@
 {"set": "echo", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 3.064, "inserted": 204486, "attempted": 210000}
 {"set": "echo", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 3.111, "inserted": 204612, "attempted": 210000}
 {"set": "echo", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 3.118, "inserted": 204405, "attempted": 210000}
-{"set": "echo", "mode": "gbcnf", "design": true, "loss": 392, "rows": 132, "copy": false, "schemata": 6, "unique": 22, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.02}
+{"set": "echo", "mode": "gbcnf", "design": true, "loss": 392, "rows": 132, "copy": false, "schemata": 6, "unique": 22, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.02}
 {"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 1.16, "inserted": 59157, "attempted": 60000}
 {"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 1.172, "inserted": 59182, "attempted": 60000}
 {"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.157, "inserted": 59195, "attempted": 60000}
@@ -266,7 +266,7 @@
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 3.639, "inserted": 177556, "attempted": 180000}
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 3.613, "inserted": 177631, "attempted": 180000}
 {"set": "echo", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 3.685, "inserted": 177626, "attempted": 180000}
-{"set": "echo", "mode": "repair", "design": true, "loss": 12, "rows": 132, "copy": false, "schemata": 60, "unique": 134, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.15}
+{"set": "echo", "mode": "repair", "design": true, "loss": 12, "rows": 132, "copy": false, "schemata": 60, "unique": 134, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.15}
 {"set": "echo", "mode": "repair", "size": 10000, "rep": 0, "seconds": 9.186, "inserted": 592468, "attempted": 600000}
 {"set": "echo", "mode": "repair", "size": 10000, "rep": 1, "seconds": 9.186, "inserted": 592413, "attempted": 600000}
 {"set": "echo", "mode": "repair", "size": 10000, "rep": 2, "seconds": 9.253, "inserted": 592403, "attempted": 600000}
@@ -282,7 +282,7 @@
 {"set": "echo", "mode": "repair", "size": 30000, "rep": 2, "seconds": 29.026, "inserted": 1777754, "attempted": 1800000}
 {"set": "echo", "mode": "repair", "size": 30000, "rep": 3, "seconds": 28.616, "inserted": 1778152, "attempted": 1800000}
 {"set": "echo", "mode": "repair", "size": 30000, "rep": 4, "seconds": 28.548, "inserted": 1777423, "attempted": 1800000}
-{"set": "echo", "mode": "drop", "design": true, "loss": 12, "rows": 132, "copy": false, "schemata": 56, "unique": 122, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.166}
+{"set": "echo", "mode": "drop", "design": true, "loss": 12, "rows": 132, "copy": false, "schemata": 56, "unique": 122, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.166}
 {"set": "echo", "mode": "drop", "size": 10000, "rep": 0, "seconds": 8.661, "inserted": 552510, "attempted": 560000}
 {"set": "echo", "mode": "drop", "size": 10000, "rep": 1, "seconds": 8.579, "inserted": 552504, "attempted": 560000}
 {"set": "echo", "mode": "drop", "size": 10000, "rep": 2, "seconds": 8.557, "inserted": 552478, "attempted": 560000}
@@ -298,13 +298,13 @@
 {"set": "echo", "mode": "drop", "size": 30000, "rep": 2, "seconds": 26.707, "inserted": 1657866, "attempted": 1680000}
 {"set": "echo", "mode": "drop", "size": 30000, "rep": 3, "seconds": 26.352, "inserted": 1658233, "attempted": 1680000}
 {"set": "echo", "mode": "drop", "size": 30000, "rep": 4, "seconds": 26.574, "inserted": 1657555, "attempted": 1680000}
-{"set": "echo", "mode": "3nfc-x", "design": true, "loss": 52, "rows": 132, "copy": false, "schemata": 76, "unique": 123, "unique_md5": 0, "exclusion": 20, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.219}
+{"set": "echo", "mode": "3nfc-x", "design": true, "loss": 52, "rows": 132, "copy": false, "schemata": 76, "unique": 123, "unique_md5": 0, "exclusion": 20, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.219}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 23.331, "inserted": 753332, "attempted": 760000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 22.88, "inserted": 753368, "attempted": 760000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 22.544, "inserted": 753347, "attempted": 760000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 23.19, "inserted": 753564, "attempted": 760000}
 {"set": "echo", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 22.915, "inserted": 753261, "attempted": 760000}
-{"set": "echo", "mode": "3nfc", "design": true, "loss": 52, "rows": 132, "copy": false, "schemata": 76, "unique": 123, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.154}
+{"set": "echo", "mode": "3nfc", "design": true, "loss": 52, "rows": 132, "copy": false, "schemata": 76, "unique": 123, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.154}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 9.752, "inserted": 753332, "attempted": 760000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 9.945, "inserted": 753368, "attempted": 760000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 9.712, "inserted": 753347, "attempted": 760000}

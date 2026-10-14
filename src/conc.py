@@ -2,13 +2,11 @@ r"""conc.py: the designs of E3 under concurrent insertions (runs on the server; 
 
 e3pg.py inserts the synthetic records of a data set in one transaction from one client. Here C clients insert the
 same records concurrently, in transactions of T records each (every transaction projects its records onto every
-table of the design with INSERT ... ON CONFLICT DO NOTHING, lookup tables first, as in e3pg.py). The records are
+table of the design with INSERT ... ON CONFLICT DO NOTHING, as in e3pg.py). The records are
 those of e3pg.py (Harness.records), split round-robin over the clients, so every design and every C inserts the
 same records. A synthetic record copies a stored record on a closed set U of attributes and carries fresh values
 elsewhere, so no insertion conflicts with another one: a projection inside U already exists and is skipped without a
-lock, and a projection with a fresh value is new. The only shared rows the clients touch are therefore the stored
-rows of the lookup tables that the foreign keys of the -f modes reference: a foreign-key check locks the referenced
-row (FOR KEY SHARE in PostgreSQL), and concurrent lockers of one row share a MultiXact.
+lock, and a projection with a fresh value is new, so the clients lock no shared row.
 
 Every run starts from a file copy of a prewarmed template of the design (the --copy machinery of e3pg.py, in
 databases conc_<set>_<mode>). It reports the wall time from the start signal until the last client has committed,
@@ -31,7 +29,7 @@ import e3pg
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-MODES = ["keys", "3nf", "repair", "drop", "3nf-x", "3nf-f", "orig-f"]
+MODES = ["keys", "3nf", "repair", "drop", "3nf-x"]
 SAMPLE = 0.05
 
 
@@ -165,7 +163,7 @@ def run(name, clients_list, txn, nrec, reps, modes, zipf, out_path):
         recs = h.records(nrec, rep)
         if zipf > 0:
             # the stored record of every synthetic record drawn again from a Zipf distribution over the templates,
-            # so that a few stored records (and the lookup rows they reference) are copied by many synthetic
+            # so that a few stored records are copied by many synthetic
             # records; the copied set U and the fresh values stay those of e3pg.py
             rng = random.Random(7 + rep)
             w = [1.0 / (i + 1) ** zipf for i in range(len(h.templates))]
@@ -206,8 +204,7 @@ def table(names):
             continue
         recs = [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
         runs = [r for r in recs if "throughput" in r]
-        designs = {r["mode"]: r for r in recs if r.get("design")}
-        print("==", name, "| lookup tables:", {m: d.get("lookup_tables", 0) for m, d in designs.items() if d.get("lookup_tables")})
+        print("==", name)
         for key in sorted({(r["txn"], r.get("zipf", 0)) for r in runs}):
             txn, z = key
             print("  transactions of %d records, zipf %g" % (txn, z))

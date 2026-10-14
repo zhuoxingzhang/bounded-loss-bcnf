@@ -13,7 +13,6 @@ as in e3pg.py (the session disables sequential and bitmap scans, so that the cac
   D1+exclude   CSTZ with key C, ST -> Z and Z -> T by exclusion constraints
   3NF+trigger  {STZ (keys ST, SZ), CST (key C)} with Z -> T by a trigger
   3NF+exclude  {STZ (keys ST, SZ), CST (key C)} with Z -> T by an exclusion constraint
-  D4+FK        {ZT (key Z, UNIQUE ZT), STZ (keys ST, SZ, FOREIGN KEY ZT), CST (key C)}: Z -> T through a lookup table
   D1           CSTZ with key C only (vendor guidance, loss 2)
   D2           ZT (Z), CSZ (C): classical BCNF decomposition (loss 1)
   D4           STZ (ST, SZ), CST (C): the BCNF design with loss 1
@@ -30,28 +29,23 @@ from teaser import World
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
 COLS = ["C", "S", "T", "Z"]
-# name: list of (table, attrs, keys, FDs, enforcement of the FDs, foreign keys (attrs, table))
+# name: list of (table, attrs, keys, FDs, enforcement of the FDs)
 DESIGNS = {
-    "D1+triggers": [("t_cstz", "CSTZ", ["C"], [("ST", "Z"), ("Z", "T")], "t", [])],
-    "D1+exclude": [("t_cstz", "CSTZ", ["C"], [("ST", "Z"), ("Z", "T")], "x", [])],
-    "3NF+trigger": [("t_stz", "STZ", ["ST", "SZ"], [("Z", "T")], "t", []), ("t_cst", "CST", ["C"], [], None, [])],
-    "3NF+exclude": [("t_stz", "STZ", ["ST", "SZ"], [("Z", "T")], "x", []), ("t_cst", "CST", ["C"], [], None, [])],
-    "D4+FK": [("t_zt", "ZT", ["Z", "ZT"], [], None, []), ("t_stz", "STZ", ["ST", "SZ"], [], None, [("ZT", "t_zt")]),
-              ("t_cst", "CST", ["C"], [], None, [])],
-    "D1": [("t_cstz", "CSTZ", ["C"], [], None, [])],
-    "D2": [("t_zt", "ZT", ["Z"], [], None, []), ("t_csz", "CSZ", ["C"], [], None, [])],
-    "D4": [("t_stz", "STZ", ["ST", "SZ"], [], None, []), ("t_cst", "CST", ["C"], [], None, [])],
+    "D1+triggers": [("t_cstz", "CSTZ", ["C"], [("ST", "Z"), ("Z", "T")], "t")],
+    "D1+exclude": [("t_cstz", "CSTZ", ["C"], [("ST", "Z"), ("Z", "T")], "x")],
+    "3NF+trigger": [("t_stz", "STZ", ["ST", "SZ"], [("Z", "T")], "t"), ("t_cst", "CST", ["C"], [], None)],
+    "3NF+exclude": [("t_stz", "STZ", ["ST", "SZ"], [("Z", "T")], "x"), ("t_cst", "CST", ["C"], [], None)],
+    "D1": [("t_cstz", "CSTZ", ["C"], [], None)],
+    "D2": [("t_zt", "ZT", ["Z"], [], None), ("t_csz", "CSZ", ["C"], [], None)],
+    "D4": [("t_stz", "STZ", ["ST", "SZ"], [], None), ("t_cst", "CST", ["C"], [], None)],
 }
 
-def build(cur, table, attrs, keys, fds, how, fks):
+def build(cur, table, attrs, keys, fds, how):
     t = "w.%s" % qi("teaser_" + table)
     cur.execute("DROP TABLE IF EXISTS %s CASCADE" % t)
     cur.execute("CREATE TABLE %s (%s)" % (t, ", ".join("%s text NOT NULL" % a for a in attrs)))
     for j, K in enumerate(keys):
         cur.execute("ALTER TABLE %s ADD CONSTRAINT %s UNIQUE (%s)" % (t, qi("teaser_%s_k%d" % (table, j)), ", ".join(K)))
-    for j, (X, A) in enumerate(fks):
-        cur.execute("ALTER TABLE %s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES w.%s (%s)" % (
-            t, qi("teaser_%s_f%d" % (table, j)), ", ".join(X), qi("teaser_" + A), ", ".join(X)))
     if how == "x":
         for j, (X, A) in enumerate(fds):
             cur.execute("ALTER TABLE %s ADD CONSTRAINT %s EXCLUDE USING gist (%s)" % (
@@ -95,12 +89,11 @@ def main():
                 rng = random.Random(1000 * size + rep)
                 world = World(rng)
                 basedata = world.customers(base, 0)
-                for table, attrs, keys, fds, how, fks in reversed(tables):
+                for table, attrs, keys, fds, how in reversed(tables):
                     cur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi("teaser_" + table))
                 built = []
-                for table, attrs, keys, fds, how, fks in tables:
-                    t = build(cur, table, attrs, [list(K) for K in keys], [(list(X), A) for X, A in fds], how,
-                              [(list(X), A) for X, A in fks])
+                for table, attrs, keys, fds, how in tables:
+                    t = build(cur, table, attrs, [list(K) for K in keys], [(list(X), A) for X, A in fds], how)
                     idx = [COLS.index(a) for a in attrs]
                     rows = sorted(set(tuple(r[j] for j in idx) for r in basedata))
                     psycopg2.extras.execute_values(cur, "INSERT INTO %s (%s) VALUES %%s" % (t, ", ".join(attrs)), rows, page_size=10000)
@@ -122,7 +115,7 @@ def main():
                 out.write(json.dumps(rec) + "\n")
                 out.flush()
                 print(time.strftime("%H:%M:%S"), name, size, rep, "%.2fs" % secs, inserted, "rows", flush=True)
-        for table, attrs, keys, fds, how, fks in reversed(tables):
+        for table, attrs, keys, fds, how in reversed(tables):
             cur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi("teaser_" + table))
             cur.execute("DROP FUNCTION IF EXISTS w.%s()" % qi("teaser_%s_fd" % table))
         con.commit()

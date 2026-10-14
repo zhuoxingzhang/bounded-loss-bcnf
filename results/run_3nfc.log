@@ -131,13 +131,13 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 17:35:38 start
 17:35:38 waiting for the E3 measurements of TPC-DS
 17:37:38 abalone start: 4177 rows, 4177 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
-17:37:41 abalone 3nfc-x design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 2.864}
+17:37:41 abalone 3nfc-x design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 2.864}
 17:37:56 abalone 3nfc-x 10000 0 14.92s 209451 rows  
 17:38:14 abalone 3nfc-x 10000 1 14.96s 209459 rows  
 17:38:32 abalone 3nfc-x 10000 2 15.29s 209460 rows  
 17:38:51 abalone 3nfc-x 10000 3 15.39s 209482 rows  
 17:39:09 abalone 3nfc-x 10000 4 15.58s 209487 rows  
-17:39:10 abalone 3nfc design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.508}
+17:39:10 abalone 3nfc design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.508}
 17:39:14 abalone 3nfc 10000 0 3.82s 209451 rows  
 17:39:18 abalone 3nfc 10000 1 3.82s 209459 rows  
 17:39:23 abalone 3nfc 10000 2 3.86s 209460 rows  
@@ -145,13 +145,13 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 17:39:32 abalone 3nfc 10000 4 3.81s 209487 rows  
 17:39:32 e3 abalone exit 0
 17:39:32 bridges start: 108 rows, 108 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
-17:39:33 bridges 3nfc-x design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.185}
+17:39:33 bridges 3nfc-x design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.185}
 17:39:53 bridges 3nfc-x 10000 0 20.12s 538028 rows  
 17:40:13 bridges 3nfc-x 10000 1 20.03s 538453 rows  
 17:40:34 bridges 3nfc-x 10000 2 20.34s 539989 rows  
 17:40:54 bridges 3nfc-x 10000 3 19.90s 540172 rows  
 17:41:14 bridges 3nfc-x 10000 4 19.50s 538723 rows  
-17:41:15 bridges 3nfc design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.108}
+17:41:15 bridges 3nfc design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.108}
 17:41:22 bridges 3nfc 10000 0 7.40s 538028 rows  
 17:41:30 bridges 3nfc 10000 1 7.44s 538453 rows  
 17:41:38 bridges 3nfc 10000 2 7.39s 539989 rows  
@@ -159,13 +159,13 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 17:41:53 bridges 3nfc 10000 4 7.39s 538723 rows  
 17:41:54 e3 bridges exit 0
 17:41:54 echo start: 132 rows, 132 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
-17:41:55 echo 3nfc-x design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.219}
+17:41:55 echo 3nfc-x design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.219}
 17:42:18 echo 3nfc-x 10000 0 23.33s 753332 rows  
 17:42:41 echo 3nfc-x 10000 1 22.88s 753368 rows  
 17:43:05 echo 3nfc-x 10000 2 22.54s 753347 rows  
 17:43:28 echo 3nfc-x 10000 3 23.19s 753564 rows  
 17:43:52 echo 3nfc-x 10000 4 22.91s 753261 rows  
-17:43:52 echo 3nfc design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.154}
+17:43:52 echo 3nfc design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.154}
 17:44:02 echo 3nfc 10000 0 9.75s 753332 rows  
 17:44:12 echo 3nfc 10000 1 9.95s 753368 rows  
 17:44:23 echo 3nfc 10000 2 9.71s 753347 rows  
@@ -173,13 +173,13 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 17:44:43 echo 3nfc 10000 4 9.77s 753261 rows  
 17:44:43 e3 echo exit 0
 17:44:44 ncvoter start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
-17:44:49 ncvoter 3nfc-x design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 50, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 1.868}
+17:44:49 ncvoter 3nfc-x design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 50, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 1.868}
 17:45:40 ncvoter 3nfc-x 10000 0 51.74s 1564448 rows  
 17:46:37 ncvoter 3nfc-x 10000 1 51.76s 1564214 rows  
 17:47:33 ncvoter 3nfc-x 10000 2 51.59s 1565964 rows  
 17:48:30 ncvoter 3nfc-x 10000 3 53.24s 1566245 rows  
 17:49:26 ncvoter 3nfc-x 10000 4 51.95s 1563015 rows  
-17:49:28 ncvoter 3nfc design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.853}
+17:49:28 ncvoter 3nfc design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.853}
 17:49:48 ncvoter 3nfc 10000 0 20.86s 1564448 rows  
 17:50:11 ncvoter 3nfc 10000 1 21.34s 1564214 rows  
 17:50:34 ncvoter 3nfc 10000 2 21.15s 1565964 rows  
@@ -187,14 +187,14 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 17:51:19 ncvoter 3nfc 10000 4 21.18s 1563015 rows  
 17:51:19 e3 ncvoter exit 0
 17:51:20 hepatitis start: 155 rows, 155 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
-17:51:53 hepatitis 3nfc-x design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 1242, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 9.692}
+17:51:53 hepatitis 3nfc-x design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 1242, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 9.692}
 17:53:32 e4 tpcds exit 0
 18:13:54 hepatitis 3nfc-x 10000 0 1320.58s 15213383 rows  
 18:37:43 hepatitis 3nfc-x 10000 1 1393.34s 15313252 rows  
 19:00:33 hepatitis 3nfc-x 10000 2 1336.13s 15276554 rows  
 19:22:45 hepatitis 3nfc-x 10000 3 1300.01s 15327878 rows  
 19:45:15 hepatitis 3nfc-x 10000 4 1317.33s 15227677 rows  
-19:45:23 hepatitis 3nfc design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 3.913}
+19:45:23 hepatitis 3nfc design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 3.913}
 19:50:09 hepatitis 3nfc 10000 0 286.54s 15213383 rows  
 19:54:59 hepatitis 3nfc 10000 1 283.25s 15313252 rows  
 19:59:51 hepatitis 3nfc 10000 2 285.81s 15276554 rows  
@@ -202,15 +202,15 @@ TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
 20:09:36 hepatitis 3nfc 10000 4 284.70s 15227677 rows  
 20:09:39 e3 hepatitis exit 0
 20:09:41 weather start: 262920 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode, copies of the built tables
-22:17:03 weather 3nfc-x template e3t_weather_3nfc_x built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 7639.453}
-22:17:31 weather 3nfc-x design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 7639.453}
+22:17:03 weather 3nfc-x template e3t_weather_3nfc_x built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 7639.453}
+22:17:31 weather 3nfc-x design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 7639.453}
 22:23:34 weather 3nfc-x 10000 0 363.45s 3771192 rows (copy 26s) 
 22:30:16 weather 3nfc-x 10000 1 368.69s 3764892 rows (copy 24s) 
 22:36:59 weather 3nfc-x 10000 2 371.96s 3759348 rows (copy 23s) 
 22:43:44 weather 3nfc-x 10000 3 374.12s 3753894 rows (copy 24s) 
 22:50:19 weather 3nfc-x 10000 4 365.24s 3759342 rows (copy 23s) 
-22:56:52 weather 3nfc template e3t_weather_3nfc built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 387.486}
-22:57:15 weather 3nfc design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 387.486}
+22:56:52 weather 3nfc template e3t_weather_3nfc built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 387.486}
+22:57:15 weather 3nfc design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 387.486}
 22:58:53 weather 3nfc 10000 0 97.53s 3771192 rows (copy 23s) 
 23:00:51 weather 3nfc 10000 1 98.08s 3764892 rows (copy 17s) 
 23:02:52 weather 3nfc 10000 2 101.26s 3759348 rows (copy 16s) 

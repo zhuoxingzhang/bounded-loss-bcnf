@@ -123,13 +123,13 @@
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.055, "inserted": 452057, "attempted": 470000}
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 7.061, "inserted": 452276, "attempted": 470000}
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 7.12, "inserted": 450940, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "design": true, "loss": 22, "rows": 108, "copy": false, "schemata": 56, "unique": 76, "unique_md5": 0, "exclusion": 20, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.185}
+{"set": "bridges", "mode": "3nfc-x", "design": true, "loss": 22, "rows": 108, "copy": false, "schemata": 56, "unique": 76, "unique_md5": 0, "exclusion": 20, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.185}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 20.116, "inserted": 538028, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 20.033, "inserted": 538453, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 20.343, "inserted": 539989, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 19.896, "inserted": 540172, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 19.5, "inserted": 538723, "attempted": 560000}
-{"set": "bridges", "mode": "3nfc", "design": true, "loss": 22, "rows": 108, "copy": false, "schemata": 56, "unique": 76, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.108}
+{"set": "bridges", "mode": "3nfc", "design": true, "loss": 22, "rows": 108, "copy": false, "schemata": 56, "unique": 76, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.108}
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 7.399, "inserted": 538028, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 7.44, "inserted": 538453, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.388, "inserted": 539989, "attempted": 560000}

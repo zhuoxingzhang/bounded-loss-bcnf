@@ -156,43 +156,43 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
    repair_w loss     1, weighted loss    3132,    7 schemata, risk 0.000
    drop_w   loss     1, weighted loss    3132,    7 schemata, risk 0.000
 10:25:13 hospital start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
-10:25:13 hospital orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.341}
+10:25:13 hospital orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.341}
 10:25:26 hospital orig-x 10000 0 12.47s 10000 rows  
 10:25:39 hospital orig-x 10000 1 12.46s 10000 rows  
 10:25:52 hospital orig-x 10000 2 12.25s 10000 rows  
 10:26:04 hospital orig-x 10000 3 11.41s 10000 rows  
 10:26:16 hospital orig-x 10000 4 11.90s 10000 rows  
-10:26:16 hospital keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.013}
+10:26:16 hospital keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.013}
 10:26:17 hospital keys 10000 0 0.31s 10000 rows  
 10:26:17 hospital keys 10000 1 0.35s 10000 rows  
 10:26:18 hospital keys 10000 2 0.31s 10000 rows  
 10:26:18 hospital keys 10000 3 0.33s 10000 rows  
 10:26:19 hospital keys 10000 4 0.33s 10000 rows  
-10:26:19 hospital 3nf-x design: {'schemata': 16, 'unique': 17, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.038}
+10:26:19 hospital 3nf-x design: {'schemata': 16, 'unique': 17, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.038}
 10:26:21 hospital 3nf-x 10000 0 1.88s 121184 rows  
 10:26:23 hospital 3nf-x 10000 1 1.91s 121366 rows  
 10:26:25 hospital 3nf-x 10000 2 1.90s 120945 rows  
 10:26:27 hospital 3nf-x 10000 3 1.86s 121610 rows  
 10:26:29 hospital 3nf-x 10000 4 1.88s 120279 rows  
-10:26:29 hospital 3nfc-x design: {'schemata': 6, 'unique': 7, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.018}
+10:26:29 hospital 3nfc-x design: {'schemata': 6, 'unique': 7, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.018}
 10:26:31 hospital 3nfc-x 10000 0 1.33s 43753 rows  
 10:26:32 hospital 3nfc-x 10000 1 1.28s 43695 rows  
 10:26:34 hospital 3nfc-x 10000 2 1.25s 43647 rows  
 10:26:35 hospital 3nfc-x 10000 3 1.24s 43721 rows  
 10:26:37 hospital 3nfc-x 10000 4 1.27s 43411 rows  
-10:26:37 hospital bcnf design: {'schemata': 5, 'unique': 5, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.016}
+10:26:37 hospital bcnf design: {'schemata': 5, 'unique': 5, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.016}
 10:26:37 hospital bcnf 10000 0 0.53s 33724 rows  
 10:26:38 hospital bcnf 10000 1 0.53s 33664 rows  
 10:26:39 hospital bcnf 10000 2 0.53s 33640 rows  
 10:26:40 hospital bcnf 10000 3 0.52s 33690 rows  
 10:26:40 hospital bcnf 10000 4 0.53s 33493 rows  
-10:26:41 hospital gbcnf design: {'schemata': 6, 'unique': 6, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.016}
+10:26:41 hospital gbcnf design: {'schemata': 6, 'unique': 6, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.016}
 10:26:41 hospital gbcnf 10000 0 0.60s 41788 rows  
 10:26:42 hospital gbcnf 10000 1 0.60s 41677 rows  
 10:26:43 hospital gbcnf 10000 2 0.61s 41683 rows  
 10:26:44 hospital gbcnf 10000 3 0.60s 41704 rows  
 10:26:44 hospital gbcnf 10000 4 0.61s 41480 rows  
-10:26:45 hospital repair design: {'schemata': 7, 'unique': 7, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.018}
+10:26:45 hospital repair design: {'schemata': 7, 'unique': 7, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.018}
 10:26:45 hospital repair 10000 0 0.72s 49270 rows  
 10:26:46 hospital repair 10000 1 0.70s 49193 rows  
 10:26:47 hospital repair 10000 2 0.73s 49153 rows  
@@ -200,38 +200,38 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:26:49 hospital repair 10000 4 0.72s 48901 rows  
 10:26:49 hospital drop same design as repair
 10:26:50 food start: 276716 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
-10:27:50 food orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 7, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 60.089}
+10:27:50 food orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 7, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 60.089}
 10:27:57 food orig-x 10000 0 7.23s 10000 rows  
 10:29:05 food orig-x 10000 1 7.08s 10000 rows  
 10:30:12 food orig-x 10000 2 7.13s 10000 rows  
 10:31:19 food orig-x 10000 3 7.24s 10000 rows  
 10:32:27 food orig-x 10000 4 7.15s 10000 rows  
-10:32:29 food keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 1.766}
+10:32:29 food keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 1.766}
 10:32:29 food keys 10000 0 0.33s 10000 rows  
 10:32:32 food keys 10000 1 0.33s 10000 rows  
 10:32:34 food keys 10000 2 0.33s 10000 rows  
 10:32:37 food keys 10000 3 0.35s 10000 rows  
 10:32:39 food keys 10000 4 0.33s 10000 rows  
-10:32:47 food 3nf-x design: {'schemata': 16, 'unique': 17, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 7.638}
+10:32:47 food 3nf-x design: {'schemata': 16, 'unique': 17, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 7.638}
 10:32:49 food 3nf-x 10000 0 2.52s 145558 rows  
 10:33:00 food 3nf-x 10000 1 2.54s 145429 rows  
 10:33:11 food 3nf-x 10000 2 2.61s 145628 rows  
 10:33:22 food 3nf-x 10000 3 2.53s 145583 rows  
 10:33:33 food 3nf-x 10000 4 2.58s 145816 rows  
-10:33:37 food 3nfc-x design: {'schemata': 5, 'unique': 6, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 3.779}
+10:33:37 food 3nfc-x design: {'schemata': 5, 'unique': 6, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 3.779}
 10:33:39 food 3nfc-x 10000 0 1.72s 38901 rows  
 10:33:45 food 3nfc-x 10000 1 1.70s 38802 rows  
 10:33:51 food 3nfc-x 10000 2 1.79s 38972 rows  
 10:33:56 food 3nfc-x 10000 3 1.81s 38916 rows  
 10:34:02 food 3nfc-x 10000 4 1.79s 39087 rows  
-10:34:05 food bcnf design: {'schemata': 4, 'unique': 4, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 2.896}
+10:34:05 food bcnf design: {'schemata': 4, 'unique': 4, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 2.896}
 10:34:06 food bcnf 10000 0 0.54s 28928 rows  
 10:34:10 food bcnf 10000 1 0.56s 28786 rows  
 10:34:13 food bcnf 10000 2 0.56s 28905 rows  
 10:34:17 food bcnf 10000 3 0.53s 28935 rows  
 10:34:20 food bcnf 10000 4 0.53s 29071 rows  
 10:34:21 food gbcnf same design as bcnf
-10:34:24 food repair design: {'schemata': 6, 'unique': 6, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 3.225}
+10:34:24 food repair design: {'schemata': 6, 'unique': 6, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 3.225}
 10:34:25 food repair 10000 0 0.71s 42260 rows  
 10:34:29 food repair 10000 1 0.69s 42100 rows  
 10:34:33 food repair 10000 2 0.71s 42277 rows  
@@ -239,37 +239,37 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:34:41 food repair 10000 4 0.71s 42487 rows  
 10:34:41 food drop same design as repair
 10:34:43 pricepaid start: 926485 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
-10:38:00 pricepaid orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 4, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 197.767}
+10:38:00 pricepaid orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 4, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 197.767}
 10:38:06 pricepaid orig-x 10000 0 5.49s 10000 rows  
 10:41:30 pricepaid orig-x 10000 1 5.44s 10000 rows  
 10:44:54 pricepaid orig-x 10000 2 5.73s 10000 rows  
 10:48:19 pricepaid orig-x 10000 3 5.50s 10000 rows  
 10:51:44 pricepaid orig-x 10000 4 5.65s 10000 rows  
-10:51:47 pricepaid keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 2.345}
+10:51:47 pricepaid keys design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 2.345}
 10:51:47 pricepaid keys 10000 0 0.27s 10000 rows  
 10:51:50 pricepaid keys 10000 1 0.26s 10000 rows  
 10:51:53 pricepaid keys 10000 2 0.26s 10000 rows  
 10:51:55 pricepaid keys 10000 3 0.26s 10000 rows  
 10:51:58 pricepaid keys 10000 4 0.28s 10000 rows  
-10:54:06 pricepaid 3nf-x design: {'schemata': 15, 'unique': 16, 'unique_md5': 0, 'exclusion': 3, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 127.491}
+10:54:06 pricepaid 3nf-x design: {'schemata': 15, 'unique': 16, 'unique_md5': 0, 'exclusion': 3, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 127.491}
 10:54:11 pricepaid 3nf-x 10000 0 4.82s 148909 rows  
 10:56:24 pricepaid 3nf-x 10000 1 4.98s 148873 rows  
 10:58:38 pricepaid 3nf-x 10000 2 5.07s 148909 rows  
 11:00:51 pricepaid 3nf-x 10000 3 4.79s 148901 rows  
 11:03:04 pricepaid 3nf-x 10000 4 5.20s 148897 rows  
-11:04:49 pricepaid 3nfc-x design: {'schemata': 2, 'unique': 3, 'unique_md5': 0, 'exclusion': 3, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 103.843}
+11:04:49 pricepaid 3nfc-x design: {'schemata': 2, 'unique': 3, 'unique_md5': 0, 'exclusion': 3, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 103.843}
 11:04:53 pricepaid 3nfc-x 10000 0 4.05s 18909 rows  
 11:06:42 pricepaid 3nfc-x 10000 1 4.18s 18873 rows  
 11:08:31 pricepaid 3nfc-x 10000 2 4.12s 18909 rows  
 11:10:20 pricepaid 3nfc-x 10000 3 4.11s 18901 rows  
 11:12:08 pricepaid 3nfc-x 10000 4 4.32s 18897 rows  
-11:12:13 pricepaid bcnf design: {'schemata': 3, 'unique': 3, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 4.689}
+11:12:13 pricepaid bcnf design: {'schemata': 3, 'unique': 3, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 4.689}
 11:12:14 pricepaid bcnf 10000 0 0.48s 25504 rows  
 11:12:19 pricepaid bcnf 10000 1 0.50s 25421 rows  
 11:12:25 pricepaid bcnf 10000 2 0.49s 25516 rows  
 11:12:30 pricepaid bcnf 10000 3 0.50s 25472 rows  
 11:12:36 pricepaid bcnf 10000 4 0.51s 25472 rows  
-11:12:40 pricepaid gbcnf design: {'schemata': 2, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 4.023}
+11:12:40 pricepaid gbcnf design: {'schemata': 2, 'unique': 2, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 4.023}
 11:12:41 pricepaid gbcnf 10000 0 0.34s 16595 rows  
 11:12:45 pricepaid gbcnf 10000 1 0.34s 16548 rows  
 11:12:50 pricepaid gbcnf 10000 2 0.35s 16607 rows  

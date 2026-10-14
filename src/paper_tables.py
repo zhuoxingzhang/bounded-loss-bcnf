@@ -282,7 +282,7 @@ def e3_summary(recs, mode):
         return None, {}, {}, set(), None
     start = idx[-1]
     sig = lambda r: tuple(r.get(k) for k in ("loss", "rows", "copy", "schemata", "unique", "unique_md5", "exclusion",
-                                             "trigger_fds", "indexes", "lookup_tables"))
+                                             "trigger_fds", "indexes"))
     first = len(idx) - 1
     while first > 0 and sig(recs[idx[first - 1]]) == sig(recs[start]):
         first -= 1
