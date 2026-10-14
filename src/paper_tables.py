@@ -263,16 +263,19 @@ def e3_summary(recs, mode):
     --known); only the records after the last design record of the
     mode count, so that a rerun replaces an earlier run, unless the earlier run built the same design under the same
     protocol (a run resumed after the server closed the connection): then the repetitions of both
-    runs are pooled."""
+    runs are pooled. A reference to another mode means that mode as it was when the reference was written: a later
+    run of the referred mode with another design (adult: Repair equals the Bernstein design of 3nfc-x, whose mode now
+    refers to 3nf-x) does not change the measurement of the referring mode."""
     seen = set()
+    lim = len(recs)
     while True:
         seen.add(mode)
-        idx = [i for i, r in enumerate(recs) if r.get("mode") == mode and r.get("design")]
-        same = [(i, r["same_as"]) for i, r in enumerate(recs) if r.get("mode") == mode and r.get("same_as")]
+        idx = [i for i, r in enumerate(recs[:lim]) if r.get("mode") == mode and r.get("design")]
+        same = [(i, r["same_as"]) for i, r in enumerate(recs[:lim]) if r.get("mode") == mode and r.get("same_as")]
         if same and (not idx or same[-1][0] > idx[-1]):   # the latest run of the mode referred to another mode
             if same[-1][1] in seen:
                 return None, {}, {}, set(), None
-            mode = same[-1][1]
+            lim, mode = same[-1]
             continue
         if idx:
             break
@@ -284,7 +287,7 @@ def e3_summary(recs, mode):
     while first > 0 and sig(recs[idx[first - 1]]) == sig(recs[start]):
         first -= 1
     times, cancelled, skipped = {}, {}, set()
-    for r in recs[idx[first] + 1:]:
+    for r in recs[idx[first] + 1:lim]:
         if r.get("mode") != mode or r.get("design"):
             continue
         if "seconds" in r:
