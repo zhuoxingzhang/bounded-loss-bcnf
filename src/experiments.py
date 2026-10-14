@@ -3,20 +3,22 @@ on complete and incomplete data, TPC-H): the prototype of experiment E1.
 
 For every FD set: n, |Sigma| (atomic input FDs), |Sigma_a| (minimal FDs), the minimal keys, nu (non-key minimal
 FDs = loss of the key-only design), whether Sigma^+ is enforceable (lambda = 0), the loss of the 3NF synthesis
-iCONF (BCNF whenever possible, ported to Python in iconf.py) and of the classical 3NF synthesis (Bernstein), each with all minimal
+iCONF (BCNF whenever possible, ported to Python in iconf.py) and of the classical 3NF synthesis that the experiments of
+the iCONF paper compare it with (DecompAlg4, iconf.decomp4), each with all minimal
 keys declared, the loss and soundness of the classical BCNF decomposition, the critical schemata of the iCONF
 decomposition, Repair on top of iCONF (mode, loss, certified lower bound of the local searches, time) and, when
 the schema is small enough, Drop on the whole schema.
 
 usage: python experiments.py [--parallel K] [name-filter]   every FD set in its own process (K at a time,
        DATASET_TIMEOUT each; records in results/e1_<name>.jsonl), python experiments.py --one <name> for one set,
-       python experiments.py --table for the table of the records.
+       python experiments.py --table for the table of the records, python experiments.py --patch-3nfc [name ...]
+       to recompute only the fields of the classical 3NF synthesis in the records.
 """
 import sys, os, json, time, glob, traceback
 from fdlib import *
 from drop import drop
 from repair import repair
-from iconf import iconf_decomposition
+from iconf import iconf_decomposition, decomp4
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results/ and iconf/
@@ -45,7 +47,7 @@ SETS.sort(key=lambda t: ORDER.index(t[0]) if t[0] in ORDER else 99)
 DROPPED_COLUMNS = {"echo(null)": [10], "ncvoter(null)": [13], "uniprot(null)": [4], "tpch-orders": [4]}
 
 # the documented FD sets with data (meaningful.py --write, documented.py), which E3 and E4 run on; not part of E1
-DOCUMENTED = {"doc-" + s: os.path.join(DATA, "meaningful", s + ".json") for s in ("food+c1", "uk", "hospital")}
+DOCUMENTED = {"doc-" + s: os.path.join(DATA, "meaningful", s + ".json") for s in ("food+c1", "uk", "hospital", "tpcds")}
 
 def fd_path(name):
     """the FD file of an FD set of E1 or of a documented set"""
@@ -85,6 +87,40 @@ def design_json(n, Da, design, triggers=False, max_cover=10000):
         out.append(d)
     return out
 
+def sigma_a(n, F):
+    """the atomic cover Sigma_a of F, and whether F was taken as Sigma_a (a large set whose left-hand sides are
+    minimal)"""
+    if len(F) > ASSUME_ATOMIC_ABOVE and all(not any(F.implies(X & ~(1 << a), A) for a in bits(X)) for (X, A) in F.fds):
+        return FDSet(n, sorted(set(F.fds))), True
+    return atomic_cover(F, cap=MAX_MINIMAL), False
+
+def classical_3nf(n, Da, rec):
+    """the fields of the classical 3NF synthesis (DecompAlg4 with all minimal keys declared) in an E1 record"""
+    t1 = time.time()
+    cdec = decomp4(n, Da)
+    cdes = keyed(Da, cdec)
+    rec["3nfc_schemata"] = len(cdec)
+    rec["3nfc_loss"] = loss_of(Da, key_dependencies(n, cdes))
+    rec["3nfc_critical"] = sum(1 for S in cdec if not is_bcnf(Da, S))
+    rec["time_3nfc"] = time.time() - t1
+    rec["designs"]["3nfc"] = design_json(n, Da, cdes, triggers=True)
+
+def patch_3nfc(name):
+    """recompute the classical 3NF synthesis in the E1 record of a set (results/e1_<name>.jsonl), keeping the rest"""
+    f = os.path.join(ROOT, "results", "e1_%s.jsonl" % safe(name))
+    rec = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()][-1]
+    if "designs" not in rec:
+        print("   %s: no designs" % name, flush=True)
+        return
+    n, F, _ = load_any(fd_path(name))
+    Da, _ = sigma_a(n, F)
+    assert len(Da) == rec["minimal_fds"], name
+    old = rec.get("3nfc_loss")
+    classical_3nf(n, Da, rec)
+    with open(f, "w", encoding="utf-8") as out:
+        out.write(json.dumps(rec) + "\n")
+    print("   %s: classical 3NF loss %s -> %s, %d schemata" % (name, old, rec["3nfc_loss"], rec["3nfc_schemata"]), flush=True)
+
 def run(name, path):
     rec = {"name": name}
     t0 = time.time()
@@ -92,11 +128,9 @@ def run(name, path):
     rec["n"] = n
     rec["fds"] = len(F)
     try:
-        if len(F) > ASSUME_ATOMIC_ABOVE and all(not any(F.implies(X & ~(1 << a), A) for a in bits(X)) for (X, A) in F.fds):
-            Da = FDSet(n, sorted(set(F.fds)))
+        Da, assumed = sigma_a(n, F)
+        if assumed:
             rec["atomic_assumed"] = True
-        else:
-            Da = atomic_cover(F, cap=MAX_MINIMAL)
     except CapExceeded as e:
         rec["error"] = "atomic cover: " + str(e)
         rec["time_cover"] = time.time() - t0
@@ -125,15 +159,8 @@ def run(name, path):
     rec["time_3nf"] = time.time() - t1
     rec["designs"] = {"3nf": design_json(n, Da, des, triggers=True),
                       "orig": design_json(n, Da, [(R, keys_R)], triggers=True)}
-    # the classical 3NF synthesis (Bernstein) with all minimal keys declared
-    t1 = time.time()
-    cdec = synthesize_3nf(F, Da)
-    cdes = keyed(Da, cdec)
-    rec["3nfc_schemata"] = len(cdec)
-    rec["3nfc_loss"] = loss_of(Da, key_dependencies(n, cdes))
-    rec["3nfc_critical"] = sum(1 for S in cdec if not is_bcnf(Da, S))
-    rec["time_3nfc"] = time.time() - t1
-    rec["designs"]["3nfc"] = design_json(n, Da, cdes, triggers=True)
+    # the classical 3NF synthesis with all minimal keys declared
+    classical_3nf(n, Da, rec)
     # classical BCNF decomposition
     t1 = time.time()
     bdec = bcnf_decomposition(Da)
@@ -241,6 +268,10 @@ def main():
         return
     if args[:1] == ["--table"]:
         table(load_rows())
+        return
+    if args[:1] == ["--patch-3nfc"]:
+        for name in args[1:] or [name for name, _ in SETS]:
+            patch_3nfc(name)
         return
     parallel = 1
     if args[:1] == ["--parallel"]:

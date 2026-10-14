@@ -138,3 +138,5 @@
 {"set": "breast", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 4.857, "inserted": 337160, "attempted": 380000}
 {"set": "breast", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 5.215, "inserted": 337336, "attempted": 380000}
 {"set": "breast", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 5.819, "inserted": 337498, "attempted": 380000}
+{"set": "breast", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
+{"set": "breast", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}

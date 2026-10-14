@@ -13,7 +13,7 @@ import experiments
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repository root, which holds data/ and results/
 
 DEFAULT = ["abalone", "breast(null)", "bridges(null)", "echo(null)", "ncvoter(null)", "china_weather(null)", "hepatitis(null)",
-           "doc-food+c1", "doc-uk", "doc-hospital"]   # then the documented sets with data (documented.py)
+           "doc-food+c1", "doc-uk", "doc-hospital", "doc-tpcds"]   # then the documented sets with data (documented.py)
 MODES = [("orig", "key-only"), ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("3nf", "iConf"), ("3nfc", "classical"),
          ("hybrid", "Hybrid"), ("repair", r"\repair"), ("drop", r"\drop")]
 MODES, LABELS = [m for m, _ in MODES], dict(MODES)

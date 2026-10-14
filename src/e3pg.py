@@ -45,6 +45,8 @@ the exclusion constraints takes hours. A template is reused while its design is 
 the database), and --prepare builds the templates without measuring, so that several modes can be built in parallel.
 
 usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [--copy] [--out F] [set ...]
+       python3 e3pg.py --modes 3nfc-x,3nfc --known orig-x,keys,3nf-x,3nf [set ...]   remeasure modes whose design changed;
+                                              a design equal to that of a known mode refers to its earlier measurement
        python3 e3pg.py --prepare --modes ... [set ...]   build the templates of --copy
        python3 e3pg.py --check [set ...]      verify the FDs and keys of the original relation on the source tables
        python3 e3pg.py --table                summarise results/e3pg_<set>.jsonl
@@ -466,8 +468,14 @@ class Harness:
                 self.template(mode, enforced, how_eff)
         self.out.close()
 
-    def run(self, modes):
+    def run(self, modes, known=()):
+        """measure the modes; a mode whose design equals that of an earlier mode, or of a known mode (measured by an
+        earlier run into the same results file), refers to that mode instead"""
         done = {}
+        for mode in known:
+            enforced, how_eff = self.effective(mode)
+            if enforced is not None:
+                done[mode] = (enforced, how_eff)
         for mode in modes:
             enforced, how_eff = self.effective(mode)
             if enforced is None:
@@ -543,12 +551,14 @@ def table():
 
 def main():
     args = sys.argv[1:]
-    sizes, reps, modes, parallel, budget, copy, out = [10000, 20000, 30000], 5, MODES, 0, 7200, False, None
+    sizes, reps, modes, parallel, budget, copy, out, known = [10000, 20000, 30000], 5, MODES, 0, 7200, False, None, []
     names, action, i = [], "run", 0
     while i < len(args):
         a = args[i]
         if a == "--copy":
             copy = True; i += 1
+        elif a == "--known":
+            known = args[i + 1].split(","); i += 2
         elif a == "--prepare":
             action, copy = "prepare", True; i += 1
         elif a == "--out":
@@ -603,7 +613,7 @@ def main():
         else:
             h.log("start: %d rows, %d templates, sizes %s, reps %d, modes %s, budget %d s per mode%s" % (
                 h.rows, len(h.templates), sizes, reps, modes, budget, ", copies of the built tables" if copy else ""))
-            h.run(modes)
+            h.run(modes, known)
         con.close()
 
 if __name__ == "__main__":

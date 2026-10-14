@@ -1,0 +1,12 @@
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+ &  &  &  &  & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} &  & \\
+\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Data set & records & $|R|$ & $|\Da|$ & $\nu$ & iConf & classical & classical & greedy & \repair & \drop\\
+\midrule
+food & 276,716 & 17 & 27 & 11 & 6 & 6 & 4 & 4 & \best{1} & \best{1}\\
+price paid & 926,485 & 16 & 19 & 4 & 3 & 3 & 2$^{\dagger}$ & 1 & \best{1} & \best{1}\\
+hospital & 1,000 & 19 & 26 & 23 & 6 & 6 & 4 & 1 & \best{1} & \best{1}\\
+TPC-DS & 2,685,687 & 95 & 373 & 316 & 2 & 2 & 180$^{\dagger}$ & 51$^{\dagger}$ & \best{2} & \best{2}\\
+\bottomrule
+\end{tabular}

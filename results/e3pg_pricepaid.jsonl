@@ -36,3 +36,4 @@
 {"set": "pricepaid", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.347, "inserted": 16575, "attempted": 20000}
 {"set": "pricepaid", "mode": "repair", "skipped": "same design as gbcnf", "same_as": "gbcnf"}
 {"set": "pricepaid", "mode": "drop", "skipped": "same design as gbcnf", "same_as": "gbcnf"}
+{"set": "pricepaid", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}

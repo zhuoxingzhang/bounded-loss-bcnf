@@ -19,7 +19,7 @@ agrees with the updated t on X and differs on B. Both tests use a sorted hash of
 usage: python3 e4.py [--updates 10000] [--seeds 1,2,3,4,5] [set ...]      results/e4_<set>.jsonl
        python3 e4.py --table
 """
-import sys, os, json, time, random
+import sys, os, json, time, random, copy
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
@@ -32,19 +32,40 @@ ROOT = os.path.dirname(HERE)   # the repository root, which holds data/, results
 MAX_ATOMIC = 10000
 MODES = ["keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop"]
 
-def load_table(name):
+def load_table(name, chunk=50000):
+    """the rows of src.<name> as value codes per attribute, in the sorted order of the values (as np.unique numbers
+    them); the rows are streamed through a server-side cursor and coded chunk by chunk, so that memory holds only the
+    distinct values (the experiment server terminates processes beyond about 20 GB, which the 2.7 million rows of
+    TPC-DS exceed as Python strings)"""
     con = connect()
     cur = con.cursor()
     cur.execute("SELECT count(*) FROM information_schema.columns WHERE table_schema='src' AND table_name=%s", (name,))
     cols = ["c%d" % j for j in experiments.source_columns(SETS[name], cur.fetchone()[0])]   # the columns of the attributes
     n = len(cols)
-    cur.execute("SELECT %s FROM src.%s" % (", ".join(cols), qi(name)))
-    rows = cur.fetchall()
+    cur.execute("SELECT count(*) FROM src.%s" % qi(name))
+    total = cur.fetchone()[0]
+    codes = np.empty((total, n), dtype=np.int64)
+    seen = [dict() for _ in range(n)]   # value -> code in the order of first occurrence
+    stream = con.cursor(name="e4_load")
+    stream.itersize = chunk
+    stream.execute("SELECT %s FROM src.%s" % (", ".join(cols), qi(name)))
+    i = 0
+    while True:
+        rows = stream.fetchmany(chunk)
+        if not rows:
+            break
+        for a, column in enumerate(zip(*rows)):
+            d = seen[a]
+            codes[i:i + len(rows), a] = np.fromiter((d.setdefault(v, len(d)) for v in column), dtype=np.int64, count=len(rows))
+        i += len(rows)
+    stream.close()
     con.close()
-    codes = np.empty((len(rows), n), dtype=np.int64)
+    assert i == total, "src.%s changed while it was read" % name
     for a in range(n):
-        _, inv = np.unique(np.array([r[a] for r in rows], dtype=object), return_inverse=True)
-        codes[:, a] = inv
+        values = list(seen[a])
+        rank = np.empty(len(values), dtype=np.int64)
+        rank[sorted(range(len(values)), key=values.__getitem__)] = np.arange(len(values))
+        codes[:, a] = rank[codes[:, a]]
     return codes
 
 class FDIndex:
@@ -60,6 +81,12 @@ class FDIndex:
         self.bvals = codes[self.order, B]
         self.left = np.searchsorted(self.sorted, h, side="left")
         self.right = np.searchsorted(self.sorted, h, side="right")
+
+    def for_rhs(self, codes, B):
+        """the index of X -> B for another B, sharing the sorted hash of X"""
+        other = copy.copy(self)
+        other.B, other.bvals = B, codes[self.order, B]
+        return other
 
     def group_size(self, rows):
         return self.right[rows] - self.left[rows]
@@ -79,12 +106,18 @@ class FDIndex:
         return exists, self.bvals[idx]
 
 def violations(codes, mult, fds, upd_row, upd_attr, upd_val, verbose_label=None):
-    """for a list of FDs (X, B) with attribute indices: a boolean matrix (updates x fds) of violations"""
+    """for a list of FDs (X, B) with attribute indices: a boolean matrix (updates x fds) of violations; the FDs are
+    visited by left-hand side, so that FDs with equal left-hand sides share one sorted hash"""
     N = len(upd_row)
     out = np.zeros((N, len(fds)), dtype=bool)
     t0 = time.time()
-    for j, (X, B) in enumerate(fds):
-        idx = FDIndex(codes, mult, X, B)
+    base = None
+    for done, j in enumerate(sorted(range(len(fds)), key=lambda j: fds[j][0])):
+        X, B = fds[j]
+        if base is None or base.X != X:
+            base = idx = FDIndex(codes, mult, X, B)
+        else:
+            idx = base.for_rhs(codes, B)
         # A = B: the old X-group of the row has at least one other member
         sel = np.nonzero(upd_attr == B)[0]
         if len(sel):
@@ -100,8 +133,8 @@ def violations(codes, mult, fds, upd_row, upd_attr, upd_val, verbose_label=None)
                 return upd_val[sel] if x == a else codes[rows, x]
             exists, b = idx.lookup(h, codes, newcodes)
             out[sel, j] = exists & (b != codes[rows, B])
-        if verbose_label and (j + 1) % 500 == 0:
-            print("   %s: %d/%d FDs (%.0fs)" % (verbose_label, j + 1, len(fds), time.time() - t0), flush=True)
+        if verbose_label and (done + 1) % 500 == 0:
+            print("   %s: %d/%d FDs (%.0fs)" % (verbose_label, done + 1, len(fds), time.time() - t0), flush=True)
     return out
 
 def key_dependencies_of(design):
@@ -143,19 +176,20 @@ def draw_updates(codes, n, updates, seed):
     mult = (rng.integers(1, 2**63 - 1, size=n, dtype=np.int64).astype(np.uint64) * np.uint64(2) + np.uint64(1))
     return upd_row, upd_attr, upd_val, mult
 
-def run_seed(name, rec, n, F, codes, updates, seed):
-    rows = codes.shape[0]
-    # the FDs of Sigma to test: the atomic cover when it is small, else the discovered cover
+def tested_fds(n, F):
+    """the FDs of Sigma to test, (X as a tuple of attributes, A), and the name of their cover: the atomic cover when
+    it is small, else the discovered cover"""
     if len(F) <= experiments.ASSUME_ATOMIC_ABOVE:
         Da = atomic_cover(F, cap=experiments.MAX_MINIMAL)
     else:
         Da = FDSet(n, sorted(set(F.fds)))
     if len(Da) <= MAX_ATOMIC:
-        sigma = [(tuple(bits(X)), A) for (X, A) in Da.fds]
-        cover = "atomic"
-    else:
-        sigma = sorted(set((tuple(bits(X)), A) for (X, A) in F.fds))
-        cover = "discovered"
+        return [(tuple(bits(X)), A) for (X, A) in Da.fds], "atomic"
+    return sorted(set((tuple(bits(X)), A) for (X, A) in F.fds)), "discovered"
+
+def run_seed(name, rec, n, F, codes, updates, seed):
+    rows = codes.shape[0]
+    sigma, cover = tested_fds(n, F)
     upd_row, upd_attr, upd_val, mult = draw_updates(codes, n, updates, seed)
     t1 = time.time()
     V = violations(codes, mult, sigma, upd_row, upd_attr, upd_val, verbose_label=name + " Sigma")

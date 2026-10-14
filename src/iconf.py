@@ -14,6 +14,9 @@ Both sorts are stable, so ties keep the order of Da. The Java implementation mer
 order when it computes the covers that rank the critical FDs, so on ties of that rank the two may treat
 critical FDs in a different order; iconf_java(n, Da) runs the Java implementation through iconf/IConfDriver.java
 for comparison (iconf/README.md says how to build it).
+
+decomp4(n, Da) ports nf/DecompAlg4.java, the 3NF synthesis that the experiments of the iCONF paper compare iCONF
+with, and decomp4_java(n, Da) runs it through iconf/Decomp4Driver.java.
 """
 import os, subprocess, tempfile
 from fdlib import FDSet, bits, minimal_keys, is_bcnf
@@ -116,7 +119,6 @@ def fdn_target(Da, S):
 
 def iconf_decomposition(n, Da):
     """the schemata (bitmasks) that iCONF returns on the atomic cover Da over n attributes"""
-    R = (1 << n) - 1
     fds = Da.fds
     bcnf, target, nkeys = {}, {}, {}
     crit, noncrit = [], []
@@ -136,8 +138,22 @@ def iconf_decomposition(n, Da):
             nkeys[S] = len(minimal_keys(Da.restrict(S), S))
     crit.sort(key=lambda i: -target[fds[i][0] | (1 << fds[i][1])])
     noncrit.sort(key=lambda i: -nkeys[fds[i][0] | (1 << fds[i][1])])
+    return _synthesis(n, Da, crit + noncrit)
+
+def decomp4(n, Da):
+    """the schemata (bitmasks) of the 3NF synthesis that the experiments of the iCONF paper compare iCONF with
+    (nf/DecompAlg4.java of the iCONF sources, run there on the atomic cover): the steps of iCONF with the minimal
+    FDs in the order of Da"""
+    return _synthesis(n, Da, range(len(Da.fds)))
+
+def _synthesis(n, Da, order):
+    """the steps shared by iCONF and DecompAlg4: every minimal FD X -> A in the given order is removed from the
+    current cover if the rest implies it, else XA becomes a schema; schemata contained in another are removed, and
+    a minimal key of R (attributes dropped in index order) is added unless some schema is a superkey"""
+    R = (1 << n) - 1
+    fds = Da.fds
     removed, D = set(), []
-    for i in crit + noncrit:
+    for i in order:
         X, A = fds[i]
         removed.add(i)
         if (Da.closure_without(X, removed) >> A) & 1:
@@ -169,12 +185,19 @@ def classpath():
 
 def iconf_java(n, Da, timeout=None, java="java"):
     """the schemata of the Java implementation of iCONF on Da, and its running time in seconds"""
+    return run_driver("IConfDriver", n, Da, timeout, java)
+
+def decomp4_java(n, Da, timeout=None, java="java"):
+    """the schemata of the Java implementation of DecompAlg4 on Da, and its running time in seconds"""
+    return run_driver("Decomp4Driver", n, Da, timeout, java)
+
+def run_driver(main, n, Da, timeout=None, java="java"):
     with tempfile.TemporaryDirectory() as d:
         fin, fout = os.path.join(d, "fds.txt"), os.path.join(d, "out.txt")
         with open(fin, "w") as f:
             for X, A in Da.fds:
                 f.write("%s -> %d\n" % (" ".join(str(a) for a in bits(X)), A))
-        subprocess.run([java, "-cp", classpath(), "IConfDriver", fin, str(n), fout], check=True, timeout=timeout,
+        subprocess.run([java, "-cp", classpath(), main, fin, str(n), fout], check=True, timeout=timeout,
                        stdout=subprocess.DEVNULL)
         dec, t = [], None
         for line in open(fout):

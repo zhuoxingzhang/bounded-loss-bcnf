@@ -1,0 +1,220 @@
+16:06:31 start
+16:06:35 e4 abalone exit 0
+16:06:48 e4 adult exit 0
+16:06:49 e4 breast exit 0
+16:06:51 e4 bridges exit 0
+16:06:57 e4 echo exit 0
+16:08:12 e4 hepatitis exit 0
+16:08:24 e4 letter exit 0
+16:08:35 e4 ncvoter exit 0
+16:42:19 e4 weather exit 0
+16:44:40 e4 food exit 0
+16:45:39 e4 pricepaid exit 0
+16:45:40 e4 hospital exit 0
+abalone              orig    loss    31  inside a schema    31  across schemata     0
+abalone              bcnf    loss    95  inside a schema     0  across schemata    95
+abalone              gbcnf   loss    92  inside a schema     0  across schemata    92
+abalone              3nf     loss    11  inside a schema     9  across schemata     2
+abalone              3nfc    loss    26  inside a schema    13  across schemata    13
+abalone              hybrid  loss    24  inside a schema     7  across schemata    17
+abalone              repair  loss     8  inside a schema     8  across schemata     0
+abalone              drop    loss     8  inside a schema     8  across schemata     0
+breast(null)         orig    loss    46  inside a schema    46  across schemata     0
+breast(null)         bcnf    loss    38  inside a schema     0  across schemata    38
+breast(null)         gbcnf   loss    37  inside a schema     0  across schemata    37
+breast(null)         3nf     loss     3  inside a schema     2  across schemata     1
+breast(null)         3nfc    loss     3  inside a schema     2  across schemata     1
+breast(null)         hybrid  loss     3  inside a schema     2  across schemata     1
+breast(null)         repair  loss     3  inside a schema     0  across schemata     3
+breast(null)         drop    loss     3  inside a schema     1  across schemata     2
+bridges(null)        orig    loss   108  inside a schema   108  across schemata     0
+bridges(null)        bcnf    loss   103  inside a schema     0  across schemata   103
+bridges(null)        gbcnf   loss    99  inside a schema     0  across schemata    99
+bridges(null)        3nf     loss    19  inside a schema    12  across schemata     7
+bridges(null)        3nfc    loss    22  inside a schema    13  across schemata     9
+bridges(null)        hybrid  loss    20  inside a schema     7  across schemata    13
+bridges(null)        repair  loss    11  inside a schema     8  across schemata     3
+bridges(null)        drop    loss    11  inside a schema     8  across schemata     3
+echo(null)           orig    loss   125  inside a schema   125  across schemata     0
+echo(null)           bcnf    loss   463  inside a schema     0  across schemata   463
+echo(null)           gbcnf   loss   392  inside a schema     0  across schemata   392
+echo(null)           3nf     loss    63  inside a schema    11  across schemata    52
+echo(null)           3nfc    loss    52  inside a schema    13  across schemata    39
+echo(null)           hybrid  loss    84  inside a schema     3  across schemata    81
+echo(null)           repair  loss    12  inside a schema     8  across schemata     4
+echo(null)           drop    loss    12  inside a schema     4  across schemata     8
+ncvoter(null)        orig    loss   402  inside a schema   402  across schemata     0
+ncvoter(null)        bcnf    loss   704  inside a schema     0  across schemata   704
+ncvoter(null)        gbcnf   loss   668  inside a schema     0  across schemata   668
+ncvoter(null)        3nf     loss    89  inside a schema    30  across schemata    59
+ncvoter(null)        3nfc    loss    88  inside a schema    37  across schemata    51
+ncvoter(null)        hybrid  loss   266  inside a schema    18  across schemata   248
+ncvoter(null)        repair  loss    58  inside a schema     7  across schemata    51
+ncvoter(null)        drop    loss    58  inside a schema     7  across schemata    51
+china_weather(null)  orig    loss   894  inside a schema   894  across schemata     0
+china_weather(null)  bcnf    loss   869  inside a schema     0  across schemata   869
+china_weather(null)  gbcnf   loss   858  inside a schema     0  across schemata   858
+china_weather(null)  3nf     loss   147  inside a schema    93  across schemata    54
+china_weather(null)  3nfc    loss   149  inside a schema    94  across schemata    55
+china_weather(null)  hybrid  loss   234  inside a schema    25  across schemata   209
+china_weather(null)  repair  loss   114  inside a schema    53  across schemata    61
+china_weather(null)  drop    loss   114  inside a schema    53  across schemata    61
+hepatitis(null)      orig    loss  7220  inside a schema  7220  across schemata     0
+hepatitis(null)      bcnf    loss  8211  inside a schema     0  across schemata  8211
+hepatitis(null)      gbcnf   loss  7995  inside a schema     0  across schemata  7995
+hepatitis(null)      3nf     loss  1554  inside a schema   593  across schemata   961
+hepatitis(null)      3nfc    loss  1841  inside a schema   654  across schemata  1187
+hepatitis(null)      hybrid  loss  2578  inside a schema   348  across schemata  2230
+hepatitis(null)      repair  loss  1092  inside a schema   200  across schemata   892
+doc-food+c1          orig    loss    11  inside a schema    11  across schemata     0
+doc-food+c1          bcnf    loss     4  inside a schema     0  across schemata     4
+doc-food+c1          gbcnf   loss     4  inside a schema     0  across schemata     4
+doc-food+c1          3nf     loss     6  inside a schema     2  across schemata     4
+doc-food+c1          3nfc    loss     6  inside a schema     2  across schemata     4
+doc-food+c1          repair  loss     1  inside a schema     0  across schemata     1
+doc-food+c1          drop    loss     1  inside a schema     0  across schemata     1
+doc-uk               orig    loss     4  inside a schema     4  across schemata     0
+doc-uk               bcnf    loss     2  inside a schema     0  across schemata     2
+doc-uk               gbcnf   loss     1  inside a schema     0  across schemata     1
+doc-uk               3nf     loss     3  inside a schema     3  across schemata     0
+doc-uk               3nfc    loss     3  inside a schema     3  across schemata     0
+doc-uk               repair  loss     1  inside a schema     0  across schemata     1
+doc-uk               drop    loss     1  inside a schema     0  across schemata     1
+doc-hospital         orig    loss    23  inside a schema    23  across schemata     0
+doc-hospital         bcnf    loss     4  inside a schema     0  across schemata     4
+doc-hospital         gbcnf   loss     1  inside a schema     0  across schemata     1
+doc-hospital         3nf     loss     6  inside a schema     2  across schemata     4
+doc-hospital         3nfc    loss     6  inside a schema     2  across schemata     4
+doc-hospital         repair  loss     1  inside a schema     0  across schemata     1
+doc-hospital         drop    loss     1  inside a schema     0  across schemata     1
+doc-tpcds            orig    loss   316  inside a schema   316  across schemata     0
+doc-tpcds            bcnf    loss   180  inside a schema     0  across schemata   180
+doc-tpcds            gbcnf   loss    51  inside a schema     0  across schemata    51
+doc-tpcds            3nf     loss     2  inside a schema     2  across schemata     0
+doc-tpcds            3nfc    loss     2  inside a schema     2  across schemata     0
+doc-tpcds            repair  loss     2  inside a schema     2  across schemata     0
+doc-tpcds            drop    loss     2  inside a schema     2  across schemata     0
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Data set & key-only & BCNF & greedy & iConf & classical & Hybrid & \repair & \drop\\
+\midrule
+abalone & 0 & 95 & 92 & 2 & 13 & 17 & 0 & 0\\
+breast & 0 & 38 & 37 & 1 & 1 & 1 & 3 & 2\\
+bridges & 0 & 103 & 99 & 7 & 9 & 13 & 3 & 3\\
+echo & 0 & 463 & 392 & 52 & 39 & 81 & 4 & 8\\
+ncvoter & 0 & 704 & 668 & 59 & 51 & 248 & 51 & 51\\
+weather & 0 & 869 & 858 & 54 & 55 & 209 & 61 & 61\\
+hepatitis & 0 & 8,211 & 7,995 & 961 & 1,187 & 2,230 & 892 & --\\
+\midrule
+food & 0 & 4 & 4 & 4 & 4 & -- & 1 & 1\\
+price paid & 0 & 2 & 1 & 0 & 0 & -- & 1 & 1\\
+hospital & 0 & 4 & 1 & 4 & 4 & -- & 1 & 1\\
+TPC-DS & 0 & 180 & 51 & 0 & 0 & -- & 0 & 0\\
+\bottomrule
+\end{tabular}
+16:45:54 adult start: 32537 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+16:45:54 adult 3nfc-x same design as 3nf-x
+16:45:54 adult 3nfc same design as 3nf-x
+16:45:54 breast start: 691 rows, 691 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+16:45:54 breast 3nfc-x same design as 3nf-x
+16:45:54 breast 3nfc same design as 3nf
+16:45:54 letter start: 18668 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+16:45:54 letter 3nfc-x same design as 3nf-x
+16:45:54 letter 3nfc same design as 3nf-x
+16:45:55 food start: 276716 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x'], budget 7200 s per mode
+16:45:55 food 3nfc-x same design as 3nf-x
+16:45:56 pricepaid start: 926485 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x'], budget 7200 s per mode
+16:45:56 pricepaid 3nfc-x same design as 3nf-x
+16:45:56 hospital start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['3nfc-x'], budget 7200 s per mode
+16:45:56 hospital 3nfc-x same design as 3nf-x
+16:45:56 waiting for the TPC-DS run
+17:35:38 start
+17:35:38 waiting for the E3 measurements of TPC-DS
+17:37:38 abalone start: 4177 rows, 4177 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+17:37:41 abalone 3nfc-x design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 2.864}
+17:37:56 abalone 3nfc-x 10000 0 14.92s 209451 rows  
+17:38:14 abalone 3nfc-x 10000 1 14.96s 209459 rows  
+17:38:32 abalone 3nfc-x 10000 2 15.29s 209460 rows  
+17:38:51 abalone 3nfc-x 10000 3 15.39s 209482 rows  
+17:39:09 abalone 3nfc-x 10000 4 15.58s 209487 rows  
+17:39:10 abalone 3nfc design: {'schemata': 21, 'unique': 51, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.508}
+17:39:14 abalone 3nfc 10000 0 3.82s 209451 rows  
+17:39:18 abalone 3nfc 10000 1 3.82s 209459 rows  
+17:39:23 abalone 3nfc 10000 2 3.86s 209460 rows  
+17:39:27 abalone 3nfc 10000 3 3.88s 209482 rows  
+17:39:32 abalone 3nfc 10000 4 3.81s 209487 rows  
+17:39:32 e3 abalone exit 0
+17:39:32 bridges start: 108 rows, 108 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+17:39:33 bridges 3nfc-x design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.185}
+17:39:53 bridges 3nfc-x 10000 0 20.12s 538028 rows  
+17:40:13 bridges 3nfc-x 10000 1 20.03s 538453 rows  
+17:40:34 bridges 3nfc-x 10000 2 20.34s 539989 rows  
+17:40:54 bridges 3nfc-x 10000 3 19.90s 540172 rows  
+17:41:14 bridges 3nfc-x 10000 4 19.50s 538723 rows  
+17:41:15 bridges 3nfc design: {'schemata': 56, 'unique': 76, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.108}
+17:41:22 bridges 3nfc 10000 0 7.40s 538028 rows  
+17:41:30 bridges 3nfc 10000 1 7.44s 538453 rows  
+17:41:38 bridges 3nfc 10000 2 7.39s 539989 rows  
+17:41:46 bridges 3nfc 10000 3 7.47s 540172 rows  
+17:41:53 bridges 3nfc 10000 4 7.39s 538723 rows  
+17:41:54 e3 bridges exit 0
+17:41:54 echo start: 132 rows, 132 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+17:41:55 echo 3nfc-x design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 20, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.219}
+17:42:18 echo 3nfc-x 10000 0 23.33s 753332 rows  
+17:42:41 echo 3nfc-x 10000 1 22.88s 753368 rows  
+17:43:05 echo 3nfc-x 10000 2 22.54s 753347 rows  
+17:43:28 echo 3nfc-x 10000 3 23.19s 753564 rows  
+17:43:52 echo 3nfc-x 10000 4 22.91s 753261 rows  
+17:43:52 echo 3nfc design: {'schemata': 76, 'unique': 123, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.154}
+17:44:02 echo 3nfc 10000 0 9.75s 753332 rows  
+17:44:12 echo 3nfc 10000 1 9.95s 753368 rows  
+17:44:23 echo 3nfc 10000 2 9.71s 753347 rows  
+17:44:33 echo 3nfc 10000 3 9.66s 753564 rows  
+17:44:43 echo 3nfc 10000 4 9.77s 753261 rows  
+17:44:43 e3 echo exit 0
+17:44:44 ncvoter start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+17:44:49 ncvoter 3nfc-x design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 50, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 1.868}
+17:45:40 ncvoter 3nfc-x 10000 0 51.74s 1564448 rows  
+17:46:37 ncvoter 3nfc-x 10000 1 51.76s 1564214 rows  
+17:47:33 ncvoter 3nfc-x 10000 2 51.59s 1565964 rows  
+17:48:30 ncvoter 3nfc-x 10000 3 53.24s 1566245 rows  
+17:49:26 ncvoter 3nfc-x 10000 4 51.95s 1563015 rows  
+17:49:28 ncvoter 3nfc design: {'schemata': 165, 'unique': 218, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 0.853}
+17:49:48 ncvoter 3nfc 10000 0 20.86s 1564448 rows  
+17:50:11 ncvoter 3nfc 10000 1 21.34s 1564214 rows  
+17:50:34 ncvoter 3nfc 10000 2 21.15s 1565964 rows  
+17:50:56 ncvoter 3nfc 10000 3 21.19s 1566245 rows  
+17:51:19 ncvoter 3nfc 10000 4 21.18s 1563015 rows  
+17:51:19 e3 ncvoter exit 0
+17:51:20 hepatitis start: 155 rows, 155 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode
+17:51:53 hepatitis 3nfc-x design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 1242, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 9.692}
+17:53:32 e4 tpcds exit 0
+18:13:54 hepatitis 3nfc-x 10000 0 1320.58s 15213383 rows  
+18:37:43 hepatitis 3nfc-x 10000 1 1393.34s 15313252 rows  
+19:00:33 hepatitis 3nfc-x 10000 2 1336.13s 15276554 rows  
+19:22:45 hepatitis 3nfc-x 10000 3 1300.01s 15327878 rows  
+19:45:15 hepatitis 3nfc-x 10000 4 1317.33s 15227677 rows  
+19:45:23 hepatitis 3nfc design: {'schemata': 1634, 'unique': 2444, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 3.913}
+19:50:09 hepatitis 3nfc 10000 0 286.54s 15213383 rows  
+19:54:59 hepatitis 3nfc 10000 1 283.25s 15313252 rows  
+19:59:51 hepatitis 3nfc 10000 2 285.81s 15276554 rows  
+20:04:45 hepatitis 3nfc 10000 3 286.35s 15327878 rows  
+20:09:36 hepatitis 3nfc 10000 4 284.70s 15227677 rows  
+20:09:39 e3 hepatitis exit 0
+20:09:41 weather start: 262920 rows, 10000 templates, sizes [10000], reps 5, modes ['3nfc-x', '3nfc'], budget 7200 s per mode, copies of the built tables
+22:17:03 weather 3nfc-x template e3t_weather_3nfc_x built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 7639.453}
+22:17:31 weather 3nfc-x design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 226, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 7639.453}
+22:23:34 weather 3nfc-x 10000 0 363.45s 3771192 rows (copy 26s) 
+22:30:16 weather 3nfc-x 10000 1 368.69s 3764892 rows (copy 24s) 
+22:36:59 weather 3nfc-x 10000 2 371.96s 3759348 rows (copy 23s) 
+22:43:44 weather 3nfc-x 10000 3 374.12s 3753894 rows (copy 24s) 
+22:50:19 weather 3nfc-x 10000 4 365.24s 3759342 rows (copy 23s) 
+22:56:52 weather 3nfc template e3t_weather_3nfc built: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 387.486}
+22:57:15 weather 3nfc design: {'schemata': 406, 'unique': 556, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'lookup_tables': 0, 'build_seconds': 387.486}
+22:58:53 weather 3nfc 10000 0 97.53s 3771192 rows (copy 23s) 
+23:00:51 weather 3nfc 10000 1 98.08s 3764892 rows (copy 17s) 
+23:02:52 weather 3nfc 10000 2 101.26s 3759348 rows (copy 16s) 
+23:04:50 weather 3nfc 10000 3 98.80s 3753894 rows (copy 16s) 
+23:06:49 weather 3nfc 10000 4 99.92s 3759342 rows (copy 15s) 
+23:06:52 e3 weather exit 0
+23:06:52 done

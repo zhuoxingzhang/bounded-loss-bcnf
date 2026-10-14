@@ -268,3 +268,15 @@
 {"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 64.907, "inserted": 4825425, "attempted": 5070000}
 {"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 65.057, "inserted": 4824319, "attempted": 5070000}
 {"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "ncvoter", "mode": "3nfc-x", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 50, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 1.868}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 51.742, "inserted": 1564448, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 51.761, "inserted": 1564214, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 51.591, "inserted": 1565964, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 53.242, "inserted": 1566245, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 51.952, "inserted": 1563015, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.853}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 20.859, "inserted": 1564448, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 21.338, "inserted": 1564214, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 21.149, "inserted": 1565964, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 21.19, "inserted": 1566245, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 21.175, "inserted": 1563015, "attempted": 1650000}

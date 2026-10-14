@@ -115,3 +115,15 @@
 {"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7681.2}
 {"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 361.092, "inserted": 3741192, "attempted": 4030000, "copy_seconds": 23.03}
 {"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 359.317, "inserted": 3734892, "attempted": 4030000, "copy_seconds": 23.283}
+{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 7639.453}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 363.451, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 25.648}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 368.686, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 24.287}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 371.959, "inserted": 3759348, "attempted": 4060000, "copy_seconds": 23.33}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 374.122, "inserted": 3753894, "attempted": 4060000, "copy_seconds": 23.519}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 365.236, "inserted": 3759342, "attempted": 4060000, "copy_seconds": 23.028}
+{"set": "weather", "mode": "3nfc", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 387.486}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 97.532, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 22.998}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 98.083, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 16.806}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 101.265, "inserted": 3759348, "attempted": 4060000, "copy_seconds": 15.967}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 98.796, "inserted": 3753894, "attempted": 4060000, "copy_seconds": 15.54}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 99.916, "inserted": 3759342, "attempted": 4060000, "copy_seconds": 15.363}

@@ -36,3 +36,4 @@
 {"set": "food", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.697, "inserted": 42261, "attempted": 60000}
 {"set": "food", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.705, "inserted": 42487, "attempted": 60000}
 {"set": "food", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "food", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}

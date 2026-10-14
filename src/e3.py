@@ -35,9 +35,9 @@ SETS = {  # E3 set: E1 name
     "abalone": "abalone", "adult": "adult", "breast": "breast(null)", "bridges": "bridges(null)",
     "echo": "echo(null)", "fdred": "fd-red", "hepatitis": "hepatitis(null)", "letter": "letter(non-dup)",
     "ncvoter": "ncvoter(null)", "weather": "china_weather(null)", "tpch_orders": "tpch-orders", "tpch_part": "tpch-part",
-    "food": "doc-food+c1", "pricepaid": "doc-uk", "hospital": "doc-hospital",
+    "food": "doc-food+c1", "pricepaid": "doc-uk", "hospital": "doc-hospital", "tpcds": "doc-tpcds",
 }
-DOCUMENTED = {"food", "pricepaid", "hospital"}   # the documented FD sets of meaningful.py with data (documented.py)
+DOCUMENTED = {"food", "pricepaid", "hospital", "tpcds"}   # the documented FD sets of meaningful.py with data (documented.py)
 MODES = ["orig", "3nf", "bcnf", "repair", "drop", "keys"]   # keys: the original relation with its keys only
 BATCH = 1000
 TEMPLATE_SEED = 42

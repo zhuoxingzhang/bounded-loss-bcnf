@@ -123,3 +123,15 @@
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 1.341, "inserted": 10000, "attempted": 10000}
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 1.315, "inserted": 10000, "attempted": 10000}
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 1.296, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "3nfc-x", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 16, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 2.864}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 14.924, "inserted": 209451, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 14.955, "inserted": 209459, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 15.292, "inserted": 209460, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 15.389, "inserted": 209482, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 15.577, "inserted": 209487, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 0.508}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 3.824, "inserted": 209451, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 3.815, "inserted": 209459, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 3.863, "inserted": 209460, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 3.875, "inserted": 209482, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 3.812, "inserted": 209487, "attempted": 210000}

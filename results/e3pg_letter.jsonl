@@ -88,3 +88,5 @@
 {"set": "letter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 15.5, "inserted": 607834, "attempted": 620000}
 {"set": "letter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 15.363, "inserted": 607327, "attempted": 620000}
 {"set": "letter", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}
+{"set": "letter", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
+{"set": "letter", "mode": "3nfc", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}

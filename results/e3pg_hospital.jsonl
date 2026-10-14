@@ -41,3 +41,4 @@
 {"set": "hospital", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.719, "inserted": 49251, "attempted": 70000}
 {"set": "hospital", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.72, "inserted": 48901, "attempted": 70000}
 {"set": "hospital", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "hospital", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}

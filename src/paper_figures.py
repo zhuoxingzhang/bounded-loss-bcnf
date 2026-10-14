@@ -35,13 +35,11 @@ def shift(key, bar=BAR, gap=GAP):
     i = [k for k, _, _ in STYLES].index(key)
     return (i - (len(STYLES) - 1) / 2.0) * (bar + gap)
 
-def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, bar=BAR, gap=GAP, extra="",
-          separator=None):
+def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatched=None, floor=None, bar=BAR, gap=GAP, extra=""):
     """one ybar axis: names are the x labels, series a list of (design key, {name: value}) with value None for a
     missing value; hatched maps design keys to the names whose bar was cut by the budget; on a logarithmic axis,
     floor is the y value at which zeros (circles) and missing values (crosses) are marked; bar and gap are the bar
-    width and the gap between the bars of a group in pt; extra holds further axis options; separator is a pair of
-    adjacent names between which a dashed line separates two groups of sets (from ymin to ymax)"""
+    width and the gap between the bars of a group in pt; extra holds further axis options"""
     out = [r"\nextgroupplot[ylabel={%s}, title={%s}, title style={font=\scriptsize, yshift=-6pt}," % (ylabel, title),
            r"  symbolic x coords={%s}, xtick=data, ymin=%s%s," % (",".join("{%s}" % n for n in names), ymin, "" if ymax is None else ", ymax=%s" % ymax),
            r"  %s%s]" % ("ymode=log, log origin=infty" if log else "ymode=normal", ", " + extra if extra else "")]
@@ -63,10 +61,6 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
                 if pts:
                     out.append(r"\addplot[only marks, mark=%s, mark size=1.2pt, %s, xshift=%.2fpt, forget plot] coordinates {%s};" % (
                         mark, STYLE[key].split(",")[0], shift(key, bar, gap), pts))
-    if separator:
-        a, b = separator
-        out.append(r"\draw[gray, densely dashed] ($(axis cs:{%s},%s)!0.5!(axis cs:{%s},%s)$) -- ($(axis cs:{%s},%s)!0.5!(axis cs:{%s},%s)$);" % (
-            a, ymin, b, ymin, a, ymax, b, ymax))
     return out
 
 def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, width=r"\textwidth", height=3.6, bar=BAR, gap=GAP,
@@ -77,9 +71,7 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
     vsep is the distance between the panels in pt, and ylabel_at fixes the y labels at that fraction of the panel
     width left of the axis, so that the labels of panels with tick labels of different widths align; with
     shared_xticklabels only the bottom panel names the data sets (the panels show the same sets in the same order),
-    rotate turns these names by that many degrees; a dashed line separates the documented sets (e3.DOCUMENTED),
-    which follow the discovered ones"""
-    import e3
+    rotate turns these names by that many degrees"""
     greedy = load_gbcnf()
     # RQ1: the losses of the designs on the FD sets with positive loss
     loss_rows = [r for r in rows if "error" not in r and (r.get("repair_loss") or 0) > 0]
@@ -128,16 +120,10 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
     if loss_panel:
         out += panel("(%s) dependency loss (RQ1)" % next(letters), "minimal FDs", names1,
                      [(k, loss[k]) for k in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 1, legend=True, floor=1, bar=bar, gap=gap, extra=upper)
-    def separator(names):
-        docs = [e3_label(n) for n in e3.DOCUMENTED]
-        i = next((i for i, n in enumerate(names) if n in docs), None)
-        return (names[i - 1], names[i]) if i else None
     out += panel("(%s) time for inserting 10,000 records (RQ3)" % next(letters), "seconds", names3,
-                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, floor=0.1, bar=bar, gap=gap, extra=upper,
-                 separator=separator(names3))
+                 [(k, time[k]) for k, _, _ in STYLES], True, 0.1, 20000, legend=not loss_panel, hatched=cut, floor=0.1, bar=bar, gap=gap, extra=upper)
     out += panel("(%s) integrity risk (RQ4)" % next(letters), "per cent", names4,
-                 [(k, risk[k]) for k in ("orig", "keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap,
-                 separator=separator(names4))
+                 [(k, risk[k]) for k in ("orig", "keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop")], True, 0.1, 100, floor=0.1, bar=bar, gap=gap)
     out += [r"\end{groupplot}", r"\end{tikzpicture}"]
     return "\n".join(out)
 

@@ -9,7 +9,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # the repos
 NAMES = {"letter(non-dup)": "letter", "tpch-region": "region", "tpch-nation": "nation", "tpch-partsupp": "partsupp",
          "tpch-supplier": "supplier", "tpch-customer": "customer", "tpch-orders": "orders", "tpch-part": "part",
          "tpch-lineitem": "lineitem", "china_weather(null)": "weather",
-         "doc-food+c1": "food", "doc-uk": "price paid", "doc-hospital": "hospital"}   # the documented sets
+         "doc-food+c1": "food", "doc-uk": "price paid", "doc-hospital": "hospital", "doc-tpcds": "TPC-DS"}   # the documented sets
 # FD sets that the paper leaves out: the lineitem table of the HPI benchmark duplicates the TPC-H table lineitem; pdbx and
 # the TPC-H tables other than lineitem have loss zero for 3NF synthesis and say nothing; diabetic and fd-red exceed the
 # budget in 3NF synthesis already (2026-10-11, to save space)
@@ -28,6 +28,32 @@ def tex_name(name):
 
 def num(x):
     return "--" if x is None else ("{:,}".format(x) if isinstance(x, int) else str(x))
+
+def value_of(cell):
+    """the number that a cell shows, or None (a dash, or a lower bound such as $>$7,200)"""
+    try:
+        return float(cell.partition("$")[0].replace(",", "").replace(r"\best{", "").strip("}"))
+    except ValueError:
+        return None
+
+def mark_best(cells, idx, ours=(), strict=False):
+    r"""the cells with the least value among the positions idx set in \best; where one of our designs (positions
+    ours) attains it, only ours are marked; with strict, a tie marks nothing (for comparing two variants)"""
+    vals = {i: value_of(cells[i]) for i in idx}
+    vals = {i: v for i, v in vals.items() if v is not None}
+    if not vals:
+        return cells
+    b = min(vals.values())
+    win = [i for i, v in vals.items() if v == b]
+    if any(i in ours for i in win):
+        win = [i for i in win if i in ours]
+    if strict and len(win) > 1:
+        return cells
+    out = list(cells)
+    for i in win:
+        head, sep, tail = out[i].partition("$")
+        out[i] = r"\best{%s}" % head + sep + tail
+    return out
 
 def whole_schema_lb(r):
     """the certified lower bound of the local search of Repair when 3NF synthesis returns R itself, so that the
@@ -161,11 +187,15 @@ def table_e12(rows, compact=True, records=None):
         g = greedy.get(r["name"])
         gcell = "--" if g is None else num(g["gbcnf_loss"]) + ("" if g.get("gbcnf_sound") in (True, None) else r"$^{\dagger}$")
         rec = [] if not o else [num(records[r["name"]]) if records.get(r["name"]) else "--"]
-        out.append(" & ".join([tex_name(r["name"])] + rec + [
+        cells = [tex_name(r["name"])] + rec + [
             "%d" % r["n"], num(r["minimal_fds"]), num(r["keys"]),
             num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if ob is None else num(ob), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
             bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), bound_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
-            secs(r.get("time_repair")), secs(r.get("time_drop"))]) + r"\\")
+            secs(r.get("time_repair")), secs(r.get("time_drop"))]
+        # the least loss among the eight key designs (nu, iConf, classical 3NF, classical and greedy BCNF, Hybrid,
+        # Repair, Drop; not the obstruction design inside Repair)
+        cells = mark_best(cells, [5 + o] + list(range(7 + o, 14 + o)), ours=(12 + o, 13 + o))
+        out.append(" & ".join(cells) + r"\\")
     out.append(r"\bottomrule")
     out.append(r"\end{tabular}")
     return "\n".join(out)
@@ -201,7 +231,7 @@ def table_e2(rows):
 # the designs of E3 (e3pg.py modes) and E4 (e4.py modes), in the column order of the tables and figures
 E3_ORDER = [("orig-x", "original"), ("3nf-x", "3NF (iConf)"), ("3nfc-x", "3NF (classical)"), ("keys", "keys"),
             ("bcnf", "BCNF"), ("gbcnf", "greedy"), ("repair", r"\repair"), ("drop", r"\drop")]
-E3_NAMES = {"fdred": "fd-red", "pricepaid": "price paid"}
+E3_NAMES = {"fdred": "fd-red", "pricepaid": "price paid", "tpcds": "TPC-DS"}
 
 def documented_rule(name, done):
     """a rule before the first documented set (e3.DOCUMENTED) of a table, which follow the discovered ones"""
@@ -229,20 +259,24 @@ def load_e3():
 def e3_summary(recs, mode):
     """the measurement of a mode: (design record, {size: [seconds of the completed repetitions]}, {size: elapsed
     seconds of a repetition that the budget cancelled}, sizes the budget skipped, the mode measured). A mode whose
-    design repeats an earlier one shares that measurement; only the records after the last design record of the
+    design repeats an earlier one shares that measurement, also when a later run found the repetition (e3pg.py
+    --known); only the records after the last design record of the
     mode count, so that a rerun replaces an earlier run, unless the earlier run built the same design under the same
-    protocol (a run resumed after the server closed the connection, weather 3nfc-x): then the repetitions of both
+    protocol (a run resumed after the server closed the connection): then the repetitions of both
     runs are pooled."""
     seen = set()
     while True:
         seen.add(mode)
         idx = [i for i, r in enumerate(recs) if r.get("mode") == mode and r.get("design")]
+        same = [(i, r["same_as"]) for i, r in enumerate(recs) if r.get("mode") == mode and r.get("same_as")]
+        if same and (not idx or same[-1][0] > idx[-1]):   # the latest run of the mode referred to another mode
+            if same[-1][1] in seen:
+                return None, {}, {}, set(), None
+            mode = same[-1][1]
+            continue
         if idx:
             break
-        same = [r["same_as"] for r in recs if r.get("mode") == mode and r.get("same_as")]
-        if not same or same[-1] in seen:
-            return None, {}, {}, set(), None
-        mode = same[-1]
+        return None, {}, {}, set(), None
     start = idx[-1]
     sig = lambda r: tuple(r.get(k) for k in ("loss", "rows", "copy", "schemata", "unique", "unique_md5", "exclusion",
                                              "trigger_fds", "indexes", "lookup_tables"))
@@ -321,7 +355,7 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     for name, recs in e3recs.items():
         rule, ruled = documented_rule(name, ruled)
         out += rule
-        cells = []
+        cells, times, ours = [], [], []
         for mode, _ in modes:
             d = e3_summary(recs, mode)[0]
             mean, sd, n, cut = e3_mean(recs, mode, size)
@@ -330,7 +364,11 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
                 c += r"$^{%d}$" % n
             if mode.endswith("-x"):
                 cells.append("--" if d is None else num(d["exclusion"]))
+            times.append(len(cells))
+            if mode in ("repair", "drop"):
+                ours.append(len(cells))
             cells.append(c)
+        cells = mark_best(cells, times, ours)   # the least time
         r4 = (e4recs or {}).get(name)
         if compact:
             cells.append("--" if not r4 else num(round(e4_harmful(r4))))
@@ -410,6 +448,8 @@ def table_weighted(wrecs, algs=("repair",), drift=None):
             if drift:
                 d = drift.get(name, {})
                 cells += ["--" if d.get(m) is None else "%.1f" % d[m] for m in (alg, alg + "_w")]
+        for i in range(0, len(cells), 2):   # the lower of unit and w, where they differ
+            cells = mark_best(cells, [i, i + 1], strict=True)
         out.append("%s & %s" % (e3_label(name), " & ".join(cells)) + "\\\\")
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)

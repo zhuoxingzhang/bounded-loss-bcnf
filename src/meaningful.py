@@ -4,7 +4,7 @@ discovered from data: Chicago Food Inspections (HoloClean), UK Price Paid Data (
 
 Every set lists its FDs by attribute name; the sources are in the comments. Variants add or remove the FDs whose
 status is doubtful. For every set the script computes the atomic cover Sigma_a and the designs of E1 (key-only,
-iCONF, the classical 3NF synthesis, the classical and the greedy BCNF decomposition, Hybrid without cardinality
+iCONF, the classical 3NF synthesis DecompAlg4 of the iCONF experiments, the classical and the greedy BCNF decomposition, Hybrid without cardinality
 constraints, Repair, Drop) with their losses, the lost FDs by name, soundness and local enforcement.
 
 usage: python3 meaningful.py --write                   write the FD sets to data/fds/meaningful/<name>.json
@@ -12,6 +12,7 @@ usage: python3 meaningful.py --write                   write the FD sets to data
                                                        results/meaningful_<name>.jsonl)
        python3 meaningful.py --one <name>              one set
        python3 meaningful.py --table                   the table of the records
+       python3 meaningful.py --patch-3nfc [name ...]   recompute only the classical 3NF synthesis in the records
        python3 meaningful.py --tex                     the rows of the sets in the paper, in the columns of Tab. e12
 """
 import sys, os, json, time, traceback
@@ -19,7 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
 from drop import drop
 from repair import repair
-from iconf import iconf_decomposition
+from iconf import iconf_decomposition, decomp4
 import hybrid as hyb
 from experiments import LOCAL_TIME, DROP_TIME, ASCEND_TIME, MAX_W, MAX_MINIMAL, max_extra_for, design_json
 
@@ -187,7 +188,7 @@ def run(name):
     dec = iconf_decomposition(n, Da)
     rec["iconf_critical_schemata"] = sum(1 for S in dec if not is_bcnf(Da, S))
     D["iconf"] = measure(names, Da, keyed(Da, dec))
-    D["3nf-classical"] = measure(names, Da, keyed(Da, synthesize_3nf(F, Da)))
+    D["3nf-classical"] = measure(names, Da, keyed(Da, decomp4(n, Da)))
     D["bcnf-classical"] = measure(names, Da, keyed(Da, bcnf_decomposition(Da)))
     gdec, st = greedy_bcnf_decomposition(Da, time_limit=1800)
     D["bcnf-greedy"] = measure(names, Da, keyed(Da, gdec))
@@ -209,6 +210,21 @@ def run(name):
     rec["lambda"] = dr.loss if dr.exact else None
     rec["time_total"] = round(time.time() - t0, 1)
     return rec
+
+def patch_3nfc(name):
+    """recompute the classical 3NF synthesis in the record of a set (results/meaningful_<name>.jsonl), keeping the rest"""
+    f = os.path.join(ROOT, "results", "meaningful_%s.jsonl" % name)
+    rec = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()][-1]
+    if "designs" not in rec:
+        return
+    names, F = fdset(name)
+    n = len(names)
+    Da = atomic_cover(F, cap=MAX_MINIMAL)
+    old = rec["designs"]["3nf-classical"]["loss"]
+    rec["designs"]["3nf-classical"] = measure(names, Da, keyed(Da, decomp4(n, Da)))
+    with open(f, "w", encoding="utf-8") as out:
+        out.write(json.dumps(rec) + "\n")
+    print("   %s: classical 3NF loss %s -> %s" % (name, old, rec["designs"]["3nf-classical"]["loss"]), flush=True)
 
 def run_one(name):
     try:
@@ -263,22 +279,33 @@ def tex_rows():
                           str(D["drop"]["lower_bound"]), str(D["iconf"]["schemata"]), str(D["repair"]["schemata"]),
                           secs(D["repair"]["time"]), secs(D["drop"]["time"])]) + r"\\")
 
-DATA = {"food+c1": "food", "uk": "pricepaid", "hospital": "hospital"}   # the sets with data (documented.py)
+DATA = {"food+c1": "food", "uk": "pricepaid", "hospital": "hospital", "tpcds": "tpcds"}   # the sets with data (documented.py)
 
 def tex_documented():
-    """rows of the paper's table of documented FDs (the records kept by documented.py, |R|, |Sigma_a|, nu, losses of
-    iCONF, classical 3NF synthesis, classical and greedy BCNF decomposition, Repair and Drop); dagger: unsound"""
+    """the paper's table of documented FDs (the records kept by documented.py, |R|, |Sigma_a|, nu, losses of
+    iCONF, classical 3NF synthesis, classical and greedy BCNF decomposition, Repair and Drop; the least loss in
+    \\best, ours only where Repair or Drop attains it); dagger: unsound; results/table_documented.tex"""
     def cell(d):
         return "{:,}".format(d["loss"]) + ("" if d["sound"] is not False else r"$^{\dagger}$")
     def records(name):
         f = os.path.join(ROOT, "results", "documented_%s.json" % DATA.get(name, ""))
         return "{:,}".format(json.load(open(f, encoding="utf-8"))["kept"]) if os.path.isfile(f) else "--"
+    from paper_tables import mark_best
+    out = [r"\begin{tabular}{lrrrrrrrrrr}", r"\toprule",
+           r" &  &  &  &  & \multicolumn{2}{c}{3NF} & \multicolumn{2}{c}{BCNF} &  & \\",
+           r"\cmidrule(lr){6-7}\cmidrule(lr){8-9}",
+           r"Data set & records & $|R|$ & $|\Da|$ & $\nu$ & iConf & classical & classical & greedy & \repair & \drop\\",
+           r"\midrule"]
     for name, label in PAPER:
         r = json.loads(open(os.path.join(ROOT, "results", "meaningful_%s.jsonl" % name), encoding="utf-8").readline())
         D = r["designs"]
-        print(" & ".join([label, records(name), str(r["n"]), "{:,}".format(r["minimal_fds"]), "{:,}".format(r["nu"])]
-                         + [cell(D[a]) for a in ("iconf", "3nf-classical", "bcnf-classical", "bcnf-greedy", "repair", "drop")])
-              + r"\\")
+        cells = [label, records(name), str(r["n"]), "{:,}".format(r["minimal_fds"]), "{:,}".format(r["nu"])] \
+            + [cell(D[a]) for a in ("iconf", "3nf-classical", "bcnf-classical", "bcnf-greedy", "repair", "drop")]
+        out.append(" & ".join(mark_best(cells, range(4, 11), ours=(9, 10))) + r"\\")   # the least loss
+    out += [r"\bottomrule", r"\end{tabular}"]
+    t = "\n".join(out)
+    open(os.path.join(ROOT, "results", "table_documented.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
+    print(t)
 
 def main():
     import subprocess
@@ -298,6 +325,10 @@ def main():
         return
     if args[:1] == ["--table"]:
         table()
+        return
+    if args[:1] == ["--patch-3nfc"]:
+        for name in args[1:] or [s for s in SETS if os.path.isfile(os.path.join(ROOT, "results", "meaningful_%s.jsonl" % s))]:
+            patch_3nfc(name)
         return
     parallel = 1
     if args[:1] == ["--parallel"]:

@@ -92,3 +92,15 @@
 {"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 284.899, "inserted": 13997323, "attempted": 14980000}
 {"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 271.914, "inserted": 14044746, "attempted": 14980000}
 {"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 271.141, "inserted": 13953132, "attempted": 14980000}
+{"set": "hepatitis", "mode": "3nfc-x", "design": true, "loss": 1841, "rows": 155, "copy": false, "schemata": 1634, "unique": 2444, "unique_md5": 0, "exclusion": 1242, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 9.692}
+{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 1320.578, "inserted": 15213383, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 1393.337, "inserted": 15313252, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 1336.132, "inserted": 15276554, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 1300.005, "inserted": 15327878, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 1317.326, "inserted": 15227677, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc", "design": true, "loss": 1841, "rows": 155, "copy": false, "schemata": 1634, "unique": 2444, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "lookup_tables": 0, "build_seconds": 3.913}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 286.539, "inserted": 15213383, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 283.248, "inserted": 15313252, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 285.81, "inserted": 15276554, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 286.354, "inserted": 15327878, "attempted": 16340000}
+{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 284.698, "inserted": 15227677, "attempted": 16340000}
