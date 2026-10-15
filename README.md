@@ -36,9 +36,9 @@ relative to their own location, so any working directory works.
 | `ascend.py` | `Ascend`: the iterated local search that lowers the loss of a BCNF design by exchanging the FDs it enforces, started from the obstruction design or from any BCNF design: climbs that also accept exchanges of equal loss (their violators tabu), kicks out of local optima, and restarts in random candidate order; see [E1](#e1-and-e2-budgets-caps-and-fallbacks) for the parameters. `ascend_baseline.py` runs one ascent with given parameters and start (the obstruction design or the design of `Repair` or `Drop` in the E1 record) and records its loss over time |
 | `repair.py` | `Repair(R, Σ, w)`: the 3NF synthesis iCONF, key dependencies of the BCNF schemata, local `Drop` on every critical schema, one enforceability test of the assembled set Γ, ascents, and the fallback described below |
 | `iconf.py` | the 3NF synthesis iCONF (SIGMOD 2025) ported to Python on top of `fdlib`; `iconf_check.py` compares the port with the Java implementation on every FD set (`iconf/`). `decomp4` ports DecompAlg4 of the iCONF sources, the classical 3NF synthesis that the experiments of iCONF compare it with and the classical synthesis of E1 to E4 (a schema XA for every minimal FD X → A that the remaining FDs do not imply, in the order of Σ_a, subsumed schemata removed, a key schema added); `decomp4_check.py` compares it with the Java implementation (`iconf/Decomp4Driver.java`) on every FD set: `results/decomp4_check.log` |
-| `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary, `--patch-3nfc` recomputes only the classical 3NF synthesis in the records (as `meaningful.py --patch-3nfc` for the documented sets) |
-| `meaningful.py` | the designs of E1 on four FD sets of documented rules (food inspections and hospitals of HoloClean, the address rules of Royal Mail on the UK Price Paid Data, the historical dimensions of TPC-DS) and their variants, with the lost FDs by name; see [Documented FD sets](#documented-fd-sets); `results/meaningful_<set>.jsonl` |
-| `documented.py` | the data of the four documented FD sets (food, price paid, hospital, TPC-DS) for E3 and E4: normalised, cleaned until the FDs hold, loaded into PostgreSQL, with the designs of `meaningful.py` as E1 records; see [Documented FD sets](#documented-fd-sets) |
+| `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary, `--patch-3nfc` recomputes only the classical 3NF synthesis in the records (as `meaningful.py --patch-3nfc` for the sets of meaningful FDs) |
+| `meaningful.py` | the designs of E1 on four sets of meaningful FDs (food inspections and hospitals of HoloClean, the address rules of Royal Mail on the UK Price Paid Data, the historical dimensions of TPC-DS) and their variants, with the lost FDs by name; see [Meaningful FD sets](#meaningful-fd-sets); `results/meaningful_<set>.jsonl` |
+| `documented.py` | the data of the four sets of meaningful FDs (food, price paid, hospital, TPC-DS) for E3 and E4: normalised, cleaned until the FDs hold, loaded into PostgreSQL, with the designs of `meaningful.py` as E1 records; see [Meaningful FD sets](#meaningful-fd-sets) |
 | `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
 | `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
 | `hardness_check.py` | the reduction from Maximum Independent Set to MinLoss with an explicit atomic cover (Theorem "NP-hardness with explicit atomic cover"): builds the schema of a graph, checks that it is its own atomic cover, computes the explicit design for a maximum independent set and confirms the loss `2m + n - alpha` with Drop on small graphs; prints to the console |
@@ -55,7 +55,7 @@ relative to their own location, so any working directory works.
 | `weighted.py` | `Repair` and `Drop` under weights from random updates: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
 | `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
 | `rerun_constants.sh`, `run_weighted.sh` | server drivers: the re-run of the sets whose constant attribute `drop_constants.py` removed; the weighted runs of `weighted.py` on the sets with data and positive loss, after that re-run |
-| `run_rerun_fast.sh` | server driver of the final records: E1 on every FD set with the current `Ascend` and C closures, the validation runs, the documented sets, then per set the weighted and drift runs and E3 and E4 of the designs of `Repair` and `Drop` that changed (`design_diff.py`) |
+| `run_rerun_fast.sh` | server driver of the final records: E1 on every FD set with the current `Ascend` and C closures, the validation runs, the sets of meaningful FDs, then per set the weighted and drift runs and E3 and E4 of the designs of `Repair` and `Drop` that changed (`design_diff.py`) |
 | `run_documented.sh`, `run_tpcds.sh`, `run_3nfc.sh` | server drivers: E3 and E4 on food, price paid and hospital, and on TPC-DS (its E3 from file copies of prewarmed templates, since the 77 exclusion constraints of the original relation take hours to build); E3 and E4 of the classical 3NF synthesis DecompAlg4 (`e3pg.py --known` refers a mode to the measurement of iCONF where the two designs coincide) |
 | `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
 | `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
@@ -201,12 +201,12 @@ the paper marks these runs. Every schema declares its minimal keys, as for the o
 counts the minimal FDs that no projection implies, which Hybrid enforces by assertions over joins, and the level of
 the design, the largest level of a non-key FD inside one of its schemata.
 
-### Documented FD sets
+### Meaningful FD sets
 
-`src/meaningful.py` lists four FD sets whose FDs are documented rules rather than discovered from data, by
+`src/meaningful.py` lists four sets of meaningful FDs, taken from documented rules rather than discovered from data, by
 attribute name with their sources, writes them to `data/fds/meaningful/<set>.json` (`--write`) and runs the designs of
 E1 on them with the budgets above (`results/meaningful_<set>.jsonl`, `--table`, `--tex` for the rows of the table of
-documented FDs in RQ1 and `--tex-e12` for rows in the columns of the E1 table). No data is loaded; the levels of
+meaningful FDs in RQ1 and `--tex-e12` for rows in the columns of the E1 table). No data is loaded; the levels of
 Hybrid come from the FDs alone.
 
 - **food** (17 attributes): the FDs of the Chicago food inspections in HoloClean (Rekatsinas et al., PVLDB 10(11),
@@ -242,7 +242,7 @@ duplicate records, and then removes, until every FD of the set holds, the record
 from the most frequent one for their left-hand side value (FD by FD in the order of the set, repeated until nothing
 changes). It keeps 276,716 records of food (87.3%; DBAName → Zip removes 36,131, since chains have many zip codes),
 926,485 of price paid (99.5%) and all records of hospital (`results/documented_<set>.json`). `--load` puts the records
-into `src.<set>`, `--designs` writes the designs of the table of documented FDs to `results/e1_doc-<set>.jsonl` in the
+into `src.<set>`, `--designs` writes the designs of the table of meaningful FDs to `results/e1_doc-<set>.jsonl` in the
 format of `experiments.py`, and `e3pg.py`, `e4.py`, `weighted.py` and `drift.py` then run on the sets `food`, `pricepaid`,
 `hospital` and `tpcds` as on the others. The records of TPC-DS come from `dsdgen` of tpcds-kit (github.com/gregrahn/tpcds-kit,
 commit 5a3a817, built with `make OS=LINUX CC="gcc -fcommon"`, since gcc 10 and later reject its common symbols) at
@@ -335,7 +335,7 @@ holds one record per update set with the harmful updates and the missed ones per
 At the strongest drift, the weighted designs of `Repair` miss fewer harmful updates than the unit-weight ones on the
 six sets where they do so without drift (abalone 27.2 → 15.1 %, breast 0.77 → 0.16 %, echo 10.1 → 3.0 %, hepatitis
 0.71 → 0.70 %, ncvoter 2.6 → 1.7 %, weather 2.3 → 1.2 %), and slightly more on bridges (4.30 → 4.34 %).
-On the documented sets the weights leave the designs unchanged, and both miss 16.0 % on food, 0.2 % on price paid and
+On the sets of meaningful FDs the weights leave the designs unchanged, and both miss 16.0 % on food, 0.2 % on price paid and
 none on hospital (`drift.py food pricepaid hospital`, one process per set).
 
 ## Data

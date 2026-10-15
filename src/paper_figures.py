@@ -317,7 +317,11 @@ def fig_tradeoff(rows, e3recs, size=10000, budget=7200, cols=4, sets=None, width
             opts.append(r"legend to name=tradeofflegend, legend columns=%d, legend cell align=left, legend style={font=%s, draw=none, /tikz/every even column/.append style={column sep=%dpt}}" % (legend_cols, legend_font, legend_sep))
         out.append(r"\nextgroupplot[%s]" % ", ".join(opts))
         if k == 0:
+            # a legend entry only for a design drawn in some panel (Drop is missing where it equals Repair everywhere)
+            drawn = {p[0] for n in names for p in data[n]}
             for i, (_, _, label, style) in enumerate(TRADEOFF):
+                if i not in drawn:
+                    continue
                 out.append(r"\addlegendimage{only marks, %s}\addlegendentry{%s}" % (style.replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3)), labels.get(i, label)))
         for i, x, y, cut in pts:
             style = TRADEOFF[i][3].replace("mark size=2.4pt", "mark size=%gpt" % (mark_size * 1.3))
@@ -343,7 +347,7 @@ if __name__ == "__main__":
     # a compact legend in two rows above, one x label and a y label per row
     # (plot boxes of 2.1 by 1.6 cm: three boxes, the tick labels of the first column and the two gaps fill the column)
     t = fig_tradeoff(rows, e3recs, cols=3, sets=["abalone", "bridges", "echo", "ncvoter", "weather", "hepatitis"], width=2.1, height=1.6,
-                     mark_size=2.2, legend_cols=4, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
+                     mark_size=2.2, legend_cols=3, hsep=7, vsep=20, one_ylabel=False, one_xlabel=True, legend_font=r"\tiny", legend_sep=3,
                      label_font=r"\scriptsize", legend_yshift=8, decades=True, max_xlabels=None, share_rows=True, scale_only_axis=True, ylabel_at=-0.34,
                      labels={0: "original, exclusion", 1: "3NF, exclusion", 2: "3NF, keys only", 6: r"\drop, where it differs"},
                      xmax={"bridges": 100, "echo": 100})

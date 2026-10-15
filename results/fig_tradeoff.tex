@@ -4,14 +4,13 @@
   extra y ticks={0.5}, extra y tick style={grid=none},
   tick label style={font=\tiny}, label style={font=\scriptsize},
   ylabel={dependency loss}, ylabel style={at={(axis description cs:-0.34,0.5)}, anchor=base}, title style={font=\scriptsize, yshift=-4pt}, every axis plot/.append style={mark size=2.2pt}, ymajorgrids, tick pos=left, enlarge x limits=0.12, enlarge y limits={upper, value=0.15}]
-\nextgroupplot[title={abalone}, ymax=1000, extra y tick labels={0}, xtick={1,10}, legend to name=tradeofflegend, legend columns=4, legend cell align=left, legend style={font=\tiny, draw=none, /tikz/every even column/.append style={column sep=3pt}}]
+\nextgroupplot[title={abalone}, ymax=1000, extra y tick labels={0}, xtick={1,10}, legend to name=tradeofflegend, legend columns=3, legend cell align=left, legend style={font=\tiny, draw=none, /tikz/every even column/.append style={column sep=3pt}}]
 \addlegendimage{only marks, black, mark=square*}\addlegendentry{original, exclusion}
 \addlegendimage{only marks, red, mark=triangle*}\addlegendentry{3NF, exclusion}
 \addlegendimage{only marks, red, mark=triangle, mark options={fill=white}}\addlegendentry{3NF, keys only}
 \addlegendimage{only marks, gray, mark=*}\addlegendentry{keys only}
 \addlegendimage{only marks, orange!80!black, mark=diamond*}\addlegendentry{BCNF}
 \addlegendimage{only marks, blue, mark=pentagon*}\addlegendentry{\repair}
-\addlegendimage{only marks, green!50!black, mark=star, mark size=2.86pt}\addlegendentry{\drop, where it differs}
 \addplot[only marks, black, mark=square*, forget plot] coordinates {(20.83,0.5)};
 \addplot[only marks, red, mark=triangle*, forget plot] coordinates {(10.83,0.5)};
 \addplot[only marks, red, mark=triangle, mark options={fill=white}, forget plot] coordinates {(4.211,11)};
