@@ -46,22 +46,6 @@
 {"set": "tpch_orders", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 5.666, "inserted": 328689, "attempted": 360000}
 {"set": "tpch_orders", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 5.606, "inserted": 328641, "attempted": 360000}
 {"set": "tpch_orders", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 5.536, "inserted": 328676, "attempted": 360000}
-{"set": "tpch_orders", "mode": "3nfc-x", "design": true, "loss": 0, "rows": 1500000, "schemata": 4, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 19.349}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 0.958, "inserted": 29557, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 0.961, "inserted": 29540, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 0.965, "inserted": 29574, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 0.957, "inserted": 29553, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 0.968, "inserted": 29568, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 20000, "rep": 0, "seconds": 1.873, "inserted": 59040, "attempted": 80000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 20000, "rep": 1, "seconds": 1.896, "inserted": 59113, "attempted": 80000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 20000, "rep": 2, "seconds": 1.873, "inserted": 59069, "attempted": 80000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 20000, "rep": 3, "seconds": 1.881, "inserted": 59098, "attempted": 80000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 20000, "rep": 4, "seconds": 1.86, "inserted": 59155, "attempted": 80000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 30000, "rep": 0, "seconds": 2.872, "inserted": 88684, "attempted": 120000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 30000, "rep": 1, "seconds": 2.789, "inserted": 88594, "attempted": 120000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 30000, "rep": 2, "seconds": 2.844, "inserted": 88689, "attempted": 120000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 30000, "rep": 3, "seconds": 3.01, "inserted": 88641, "attempted": 120000}
-{"set": "tpch_orders", "mode": "3nfc-x", "size": 30000, "rep": 4, "seconds": 2.83, "inserted": 88676, "attempted": 120000}
 {"set": "tpch_orders", "mode": "bcnf", "design": true, "loss": 1, "rows": 1500000, "schemata": 3, "unique": 12, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 16.215}
 {"set": "tpch_orders", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.833, "inserted": 19821, "attempted": 30000}
 {"set": "tpch_orders", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.0, "inserted": 19805, "attempted": 30000}
@@ -78,8 +62,23 @@
 {"set": "tpch_orders", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 2.539, "inserted": 59519, "attempted": 90000}
 {"set": "tpch_orders", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 2.459, "inserted": 59510, "attempted": 90000}
 {"set": "tpch_orders", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 3.003, "inserted": 59475, "attempted": 90000}
-{"set": "tpch_orders", "mode": "repair", "skipped": "same design as 3nfc-x", "same_as": "3nfc-x"}
-{"set": "tpch_orders", "mode": "drop", "skipped": "same design as 3nfc-x", "same_as": "3nfc-x"}
+{"set": "tpch_orders", "mode": "repair", "design": true, "loss": 0, "rows": 1500000, "schemata": 4, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 19.349}
+{"set": "tpch_orders", "mode": "repair", "size": 10000, "rep": 0, "seconds": 0.958, "inserted": 29557, "attempted": 40000}
+{"set": "tpch_orders", "mode": "repair", "size": 10000, "rep": 1, "seconds": 0.961, "inserted": 29540, "attempted": 40000}
+{"set": "tpch_orders", "mode": "repair", "size": 10000, "rep": 2, "seconds": 0.965, "inserted": 29574, "attempted": 40000}
+{"set": "tpch_orders", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.957, "inserted": 29553, "attempted": 40000}
+{"set": "tpch_orders", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.968, "inserted": 29568, "attempted": 40000}
+{"set": "tpch_orders", "mode": "repair", "size": 20000, "rep": 0, "seconds": 1.873, "inserted": 59040, "attempted": 80000}
+{"set": "tpch_orders", "mode": "repair", "size": 20000, "rep": 1, "seconds": 1.896, "inserted": 59113, "attempted": 80000}
+{"set": "tpch_orders", "mode": "repair", "size": 20000, "rep": 2, "seconds": 1.873, "inserted": 59069, "attempted": 80000}
+{"set": "tpch_orders", "mode": "repair", "size": 20000, "rep": 3, "seconds": 1.881, "inserted": 59098, "attempted": 80000}
+{"set": "tpch_orders", "mode": "repair", "size": 20000, "rep": 4, "seconds": 1.86, "inserted": 59155, "attempted": 80000}
+{"set": "tpch_orders", "mode": "repair", "size": 30000, "rep": 0, "seconds": 2.872, "inserted": 88684, "attempted": 120000}
+{"set": "tpch_orders", "mode": "repair", "size": 30000, "rep": 1, "seconds": 2.789, "inserted": 88594, "attempted": 120000}
+{"set": "tpch_orders", "mode": "repair", "size": 30000, "rep": 2, "seconds": 2.844, "inserted": 88689, "attempted": 120000}
+{"set": "tpch_orders", "mode": "repair", "size": 30000, "rep": 3, "seconds": 3.01, "inserted": 88641, "attempted": 120000}
+{"set": "tpch_orders", "mode": "repair", "size": 30000, "rep": 4, "seconds": 2.83, "inserted": 88676, "attempted": 120000}
+{"set": "tpch_orders", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
 {"set": "tpch_orders", "mode": "gbcnf", "design": true, "loss": 1, "rows": 1500000, "schemata": 3, "unique": 12, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 16.988}
 {"set": "tpch_orders", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.952, "inserted": 19821, "attempted": 30000}
 {"set": "tpch_orders", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.969, "inserted": 19805, "attempted": 30000}
@@ -102,9 +101,10 @@
 {"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 1.749, "inserted": 109568, "attempted": 120000}
 {"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 1.711, "inserted": 109537, "attempted": 120000}
 {"set": "tpch_orders", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 1.689, "inserted": 109584, "attempted": 120000}
-{"set": "tpch_orders", "mode": "3nfc", "design": true, "loss": 0, "rows": 1500000, "copy": false, "schemata": 4, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 18.074}
-{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 1.03, "inserted": 29587, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 0.899, "inserted": 29541, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 0.883, "inserted": 29568, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 0.879, "inserted": 29537, "attempted": 40000}
-{"set": "tpch_orders", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 0.883, "inserted": 29584, "attempted": 40000}
+{"set": "tpch_orders", "mode": "3nfc-x", "design": true, "loss": 0, "rows": 1500000, "copy": false, "schemata": 11, "unique": 22, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 44.797}
+{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 2.029, "inserted": 109551, "attempted": 110000}
+{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 1.906, "inserted": 109528, "attempted": 110000}
+{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 1.783, "inserted": 109547, "attempted": 110000}
+{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 1.768, "inserted": 109577, "attempted": 110000}
+{"set": "tpch_orders", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 1.946, "inserted": 109554, "attempted": 110000}
+{"set": "tpch_orders", "mode": "3nfc", "skipped": "same design as 3nfc-x", "same_as": "3nfc-x"}

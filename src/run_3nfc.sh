@@ -1,8 +1,8 @@
 #!/bin/bash
-# run_3nfc.sh: E3 and E4 again for the classical 3NF synthesis after it became DecompAlg4 of the iCONF experiments
-# (experiments.py --patch-3nfc, meaningful.py --patch-3nfc and documented.py --designs updated the E1 records).
+# run_3nfc.sh: E3 and E4 of the classical 3NF synthesis DecompAlg4 of the iCONF experiments, whose designs
+# experiments.py --patch-3nfc, meaningful.py --patch-3nfc and documented.py --designs write into the E1 records.
 # E4 is rerun on every set (the other designs keep their risks, since the updates depend only on the seed). In E3, the
-# modes 3nfc-x and 3nfc are measured again at 10,000 records; where DecompAlg4 returns the design of iCONF, e3pg.py
+# modes 3nfc-x and 3nfc are measured at 10,000 records; where DecompAlg4 returns the design of iCONF, e3pg.py
 # --known records that it shares the measurement of 3nf-x (3nf). The sets whose design changed are measured one after
 # the other and after the E3 measurements of run_tpcds.sh, while its drift.py and the E4 run of TPC-DS (computations
 # in Python only) proceed. FROM=2 starts at that point.

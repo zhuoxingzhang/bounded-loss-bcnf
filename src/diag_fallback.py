@@ -1,6 +1,6 @@
 r"""diag_fallback.py: where does Repair's fallback spend its time on the large FD sets?
 
-Runs the stages of Repair on one FD set with timing: the 3NF decomposition, the local Drops (with their
+Runs the stages of Repair on one FD set with timing: the 3NF decomposition of iCONF, the local Drops (with their
 budget), the atomic cover of Gamma, the enforceability test, the greedy on Gamma_a and the greedy on Sigma_a.
 
 usage: python3 diag_fallback.py <name> [local_time=120] [greedy_time=300]
@@ -8,6 +8,7 @@ usage: python3 diag_fallback.py <name> [local_time=120] [greedy_time=300]
 import sys, os, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
+from iconf import iconf_decomposition
 from drop import drop, greedy_plain, greedy_restarts, uncritical_fixpoint
 from experiments import SETS, ASSUME_ATOMIC_ABOVE, MAX_MINIMAL, max_extra_for
 
@@ -25,9 +26,9 @@ def main():
     R = (1 << n) - 1
     print("%s: n=%d |Da|=%d (%.1fs)" % (name, n, len(Da), time.time() - t0), flush=True)
     t = time.time()
-    dec0, _ = synthesize_3nf_bcnf(F, Da)
+    dec0 = iconf_decomposition(n, Da)
     crit = [S for S in dec0 if not is_bcnf(Da, S)]
-    print("3NF: %d schemata, %d critical (%.1fs)" % (len(dec0), len(crit), time.time() - t), flush=True)
+    print("iCONF: %d schemata, %d critical (%.1fs)" % (len(dec0), len(crit), time.time() - t), flush=True)
     # local Drops
     gamma = []
     t = time.time()

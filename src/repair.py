@@ -1,8 +1,7 @@
 r"""repair.py: the algorithm Repair(R, Sigma, w) of the paper (Alg. 2), on top of fdlib and drop.
 
 Repair computes a lossless, dependency-preserving 3NF decomposition that is in BCNF whenever possible
-(iCONF of iconf.py when the caller passes its schemata as dec0, else the BCNF construction when Sigma^+ is
-enforceable and 3NF synthesis otherwise),
+(iCONF of iconf.py, or the schemata that the caller passes as dec0),
 collects the key dependencies of the BCNF schemata and of a minimum-loss design of every critical
 schema (computed by Drop on the small schema), checks with one enforceability test whether the
 collected key dependencies Gamma are enforceable, and falls back to Drop on the whole schema otherwise.
@@ -24,6 +23,7 @@ import time
 from fdlib import *
 from drop import drop, DropResult, _weight, greedy_restarts, uncritical_fixpoint
 from ascend import ascend
+from iconf import iconf_decomposition
 
 class RepairResult:
     def __init__(self, **kw):
@@ -53,7 +53,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
     Da = atomic_cover(F) if Da is None else Da
     R = (1 << n) - 1
     if dec0 is None:
-        dec0, _ = synthesize_3nf_bcnf(F, Da)
+        dec0 = iconf_decomposition(n, Da)
     res = RepairResult(dec0=dec0, stats={})
     gamma = []
     crit_schemata = []

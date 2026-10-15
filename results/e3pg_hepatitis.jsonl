@@ -41,13 +41,6 @@
 {"set": "hepatitis", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 5.58, "inserted": 326773, "attempted": 330000}
 {"set": "hepatitis", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 5.689, "inserted": 326616, "attempted": 330000}
 {"set": "hepatitis", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 5.553, "inserted": 326861, "attempted": 330000}
-{"set": "hepatitis", "mode": "3nfc-x", "design": true, "loss": 1992, "rows": 155, "copy": false, "schemata": 1498, "unique": 2330, "unique_md5": 0, "exclusion": 1386, "trigger_fds": 0, "indexes": 0, "build_seconds": 14.014}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 1411.977, "inserted": 13938976, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 1393.498, "inserted": 14031393, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 1422.504, "inserted": 13997323, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 1385.161, "inserted": 14044746, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 1395.375, "inserted": 13953132, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc-x", "size": 20000, "rep": 0, "timeout_seconds": 191.491, "inserted_before_timeout": 1395659, "attempted": 29960000, "truncated": "budget of 7200 s exhausted during size 20000 repetition 0"}
 {"set": "hepatitis", "mode": "bcnf", "design": true, "loss": 8211, "rows": 155, "copy": false, "schemata": 16, "unique": 18, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.038}
 {"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 2.187, "inserted": 157008, "attempted": 160000}
 {"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 2.19, "inserted": 157340, "attempted": 160000}
@@ -86,12 +79,6 @@
 {"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 311.223, "inserted": 15682350, "attempted": 16770000}
 {"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 313.584, "inserted": 15734735, "attempted": 16770000}
 {"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 305.013, "inserted": 15632350, "attempted": 16770000}
-{"set": "hepatitis", "mode": "3nfc", "design": true, "loss": 1992, "rows": 155, "copy": false, "schemata": 1498, "unique": 2330, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 3.725}
-{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 299.245, "inserted": 13938976, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 289.499, "inserted": 14031393, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 284.899, "inserted": 13997323, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 271.914, "inserted": 14044746, "attempted": 14980000}
-{"set": "hepatitis", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 271.141, "inserted": 13953132, "attempted": 14980000}
 {"set": "hepatitis", "mode": "3nfc-x", "design": true, "loss": 1841, "rows": 155, "copy": false, "schemata": 1634, "unique": 2444, "unique_md5": 0, "exclusion": 1242, "trigger_fds": 0, "indexes": 0, "build_seconds": 9.692}
 {"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 1320.578, "inserted": 15213383, "attempted": 16340000}
 {"set": "hepatitis", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 1393.337, "inserted": 15313252, "attempted": 16340000}

@@ -16,12 +16,6 @@
 {"set": "hospital", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 1.901, "inserted": 120945, "attempted": 160000}
 {"set": "hospital", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 1.862, "inserted": 121610, "attempted": 160000}
 {"set": "hospital", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 1.882, "inserted": 120279, "attempted": 160000}
-{"set": "hospital", "mode": "3nfc-x", "design": true, "loss": 6, "rows": 1000, "copy": false, "schemata": 6, "unique": 7, "unique_md5": 0, "exclusion": 2, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.018}
-{"set": "hospital", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 1.328, "inserted": 43753, "attempted": 60000}
-{"set": "hospital", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 1.278, "inserted": 43695, "attempted": 60000}
-{"set": "hospital", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 1.248, "inserted": 43647, "attempted": 60000}
-{"set": "hospital", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 1.243, "inserted": 43721, "attempted": 60000}
-{"set": "hospital", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 1.266, "inserted": 43411, "attempted": 60000}
 {"set": "hospital", "mode": "bcnf", "design": true, "loss": 4, "rows": 1000, "copy": false, "schemata": 5, "unique": 5, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.016}
 {"set": "hospital", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.532, "inserted": 33724, "attempted": 50000}
 {"set": "hospital", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.533, "inserted": 33664, "attempted": 50000}

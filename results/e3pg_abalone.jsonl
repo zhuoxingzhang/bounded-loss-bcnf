@@ -46,7 +46,6 @@
 {"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 37.199, "inserted": 687922, "attempted": 690000}
 {"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 37.24, "inserted": 688017, "attempted": 690000}
 {"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 37.511, "inserted": 687957, "attempted": 690000}
-{"set": "abalone", "mode": "3nfc-x", "skipped": "same design as orig-x", "same_as": "orig-x"}
 {"set": "abalone", "mode": "bcnf", "design": true, "loss": 95, "rows": 4177, "schemata": 4, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.104}
 {"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.846, "inserted": 39632, "attempted": 40000}
 {"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.815, "inserted": 39631, "attempted": 40000}
@@ -117,12 +116,6 @@
 {"set": "abalone", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.205, "inserted": 229325, "attempted": 230000}
 {"set": "abalone", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.122, "inserted": 229307, "attempted": 230000}
 {"set": "abalone", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.15, "inserted": 229356, "attempted": 230000}
-{"set": "abalone", "mode": "3nfc", "design": true, "loss": 31, "rows": 4177, "copy": false, "schemata": 1, "unique": 29, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.162}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 1.381, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 1.347, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 1.341, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 1.315, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 1.296, "inserted": 10000, "attempted": 10000}
 {"set": "abalone", "mode": "3nfc-x", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 16, "trigger_fds": 0, "indexes": 0, "build_seconds": 2.864}
 {"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 14.924, "inserted": 209451, "attempted": 210000}
 {"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 14.955, "inserted": 209459, "attempted": 210000}

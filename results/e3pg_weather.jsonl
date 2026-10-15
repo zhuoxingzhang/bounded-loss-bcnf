@@ -18,8 +18,6 @@
 {"set": "weather", "mode": "keys", "size": 30000, "rep": 4, "seconds": 1.092, "inserted": 30000, "attempted": 30000}
 {"set": "weather", "mode": "3nf-x", "design": true, "loss": 147, "rows": 262920, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 222, "trigger_fds": 0, "indexes": 0, "build_seconds": 7319.516}
 {"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 0, "timeout_seconds": 1.004, "inserted_before_timeout": 0, "attempted": 4070000, "truncated": "budget of 7200 s exhausted during size 10000 repetition 0"}
-{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7592.977}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "timeout_seconds": 1.01, "inserted_before_timeout": 0, "attempted": 4030000, "truncated": "budget of 7200 s exhausted during size 10000 repetition 0"}
 {"set": "weather", "mode": "bcnf", "design": true, "loss": 869, "rows": 262920, "schemata": 9, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 7.241}
 {"set": "weather", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.736, "inserted": 80436, "attempted": 90000}
 {"set": "weather", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.738, "inserted": 80361, "attempted": 90000}
@@ -72,16 +70,6 @@
 {"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
 {"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
 {"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "error": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7681.2}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 360.175, "inserted": 3736782, "attempted": 4030000, "retries": 1, "copy_seconds": 31.806}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 357.241, "inserted": 3727661, "attempted": 4030000, "copy_seconds": 25.72}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 368.214, "inserted": 3726699, "attempted": 4030000, "retries": 2, "copy_seconds": 31.849}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "error": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
 {"set": "weather", "mode": "repair", "design": true, "loss": 114, "rows": 262920, "copy": true, "schemata": 476, "unique": 507, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 403.605}
 {"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 128.687, "inserted": 4399368, "attempted": 4760000, "copy_seconds": 42.151}
 {"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 126.414, "inserted": 4388891, "attempted": 4760000, "copy_seconds": 32.171}
@@ -106,15 +94,6 @@
 {"set": "weather", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 98.913, "inserted": 3768292, "attempted": 4070000, "copy_seconds": 15.044}
 {"set": "weather", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 98.901, "inserted": 3762756, "attempted": 4070000, "copy_seconds": 15.377}
 {"set": "weather", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 99.65, "inserted": 3768256, "attempted": 4070000, "copy_seconds": 15.04}
-{"set": "weather", "mode": "3nfc", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 428.339}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 98.285, "inserted": 3741192, "attempted": 4030000, "copy_seconds": 17.41}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 98.541, "inserted": 3734892, "attempted": 4030000, "copy_seconds": 16.248}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 97.138, "inserted": 3729348, "attempted": 4030000, "copy_seconds": 15.546}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 100.27, "inserted": 3723894, "attempted": 4030000, "copy_seconds": 15.74}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 98.325, "inserted": 3729342, "attempted": 4030000, "copy_seconds": 15.173}
-{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 403, "unique": 553, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7681.2}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 361.092, "inserted": 3741192, "attempted": 4030000, "copy_seconds": 23.03}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 359.317, "inserted": 3734892, "attempted": 4030000, "copy_seconds": 23.283}
 {"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7639.453}
 {"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 363.451, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 25.648}
 {"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 368.686, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 24.287}

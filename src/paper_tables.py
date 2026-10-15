@@ -264,8 +264,7 @@ def e3_summary(recs, mode):
     mode count, so that a rerun replaces an earlier run, unless the earlier run built the same design under the same
     protocol (a run resumed after the server closed the connection): then the repetitions of both
     runs are pooled. A reference to another mode means that mode as it was when the reference was written: a later
-    run of the referred mode with another design (adult: Repair equals the Bernstein design of 3nfc-x, whose mode now
-    refers to 3nf-x) does not change the measurement of the referring mode."""
+    run of the referred mode with another design does not change the measurement of the referring mode."""
     seen = set()
     lim = len(recs)
     while True:

@@ -12,7 +12,7 @@ Contents
   criticality         : violators of a schema, critical / uncritical minimal FDs
   enforceability      : Theorem 3.17: the uncritical minimal FDs of E must cover E
   designs             : BCNF design from an enforceable set, enforced FDs, loss, local enforcement, chase
-  classical baselines : minimal cover, 3NF synthesis (BCNF whenever possible), BCNF decomposition
+  classical baselines : minimal cover, BCNF decomposition (the 3NF syntheses are in iconf.py)
   I/O                 : the JSON format of the FD files in data/fds and the Metanome text format
 """
 from itertools import combinations
@@ -351,38 +351,6 @@ def minimal_cover(F):
         else:
             i += 1
     return FDSet(F.n, fds)
-
-def synthesize_3nf(F, Fa=None):
-    """Bernstein's 3NF synthesis with a minimal cover, merging of equivalent left-hand sides, removal of
-    subsumed schemata and a key schema if needed. Returns the list of schemata (lossless, dependency preserving)."""
-    n = F.n
-    R = (1 << n) - 1
-    C = minimal_cover(F)
-    groups = {}
-    for (X, A) in C.fds:
-        groups.setdefault(C.closure(X), []).append((X, A))
-    schemata = []
-    for cl, fds in groups.items():
-        S = 0
-        for (X, A) in fds:
-            S |= X | (1 << A)
-        schemata.append(S)
-    if not any(C.closure(S) == R for S in schemata):
-        schemata.append(minimize_key(C, R, R))
-    schemata = sorted(set(schemata), key=lambda S: (-popcount(S), S))
-    kept = []
-    for S in schemata:
-        if not any(S & ~T == 0 for T in kept):
-            kept.append(S)
-    return kept
-
-def synthesize_3nf_bcnf(F, Fa):
-    """A lossless, dependency-preserving 3NF decomposition that is in BCNF whenever possible
-    (the guarantee of iConf): the BCNF construction if Sigma^+ is enforceable, else 3NF synthesis."""
-    ok, U = enforceable(Fa)
-    if ok:
-        return [S for S, _ in design_from_cover(Fa, U)], True
-    return synthesize_3nf(F, Fa), False
 
 def bcnf_decomposition(Fa, R=None, pick="first"):
     """Classical BCNF decomposition on violating FDs: lossless for Sigma, in BCNF, not necessarily

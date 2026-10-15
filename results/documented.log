@@ -15,7 +15,6 @@ food: 276716 rows, 17 attributes loaded (10s)
 food: 4651 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
    keys    loss    11 |    1 schemata,    16 key deps | caught   613, missed  4038, risk 0.868, false rejections 0 (2s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  4640, missed    11, risk 0.002, false rejections 0 (2s)
-   3nfc    loss     6 |    5 schemata,    18 key deps | caught  4640, missed    11, risk 0.002, false rejections 0 (2s)
    bcnf    loss     4 |    4 schemata,    16 key deps | caught  3470, missed  1181, risk 0.254, false rejections 0 (2s)
    gbcnf   loss     4 |    4 schemata,    16 key deps | caught  3470, missed  1181, risk 0.254, false rejections 0 (2s)
    repair  loss     1 |    6 schemata,    19 key deps | caught  4063, missed   588, risk 0.126, false rejections 0 (2s)
@@ -23,7 +22,6 @@ food: 4651 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
 food: 4660 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
    keys    loss    11 |    1 schemata,    16 key deps | caught   622, missed  4038, risk 0.867, false rejections 0 (2s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  4653, missed     7, risk 0.002, false rejections 0 (2s)
-   3nfc    loss     6 |    5 schemata,    18 key deps | caught  4653, missed     7, risk 0.002, false rejections 0 (2s)
    bcnf    loss     4 |    4 schemata,    16 key deps | caught  3431, missed  1229, risk 0.264, false rejections 0 (2s)
    gbcnf   loss     4 |    4 schemata,    16 key deps | caught  3431, missed  1229, risk 0.264, false rejections 0 (2s)
    repair  loss     1 |    6 schemata,    19 key deps | caught  4057, missed   603, risk 0.129, false rejections 0 (2s)
@@ -31,7 +29,6 @@ food: 4660 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
 food: 4664 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
    keys    loss    11 |    1 schemata,    16 key deps | caught   616, missed  4048, risk 0.868, false rejections 0 (2s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  4654, missed    10, risk 0.002, false rejections 0 (2s)
-   3nfc    loss     6 |    5 schemata,    18 key deps | caught  4654, missed    10, risk 0.002, false rejections 0 (2s)
    bcnf    loss     4 |    4 schemata,    16 key deps | caught  3487, missed  1177, risk 0.252, false rejections 0 (2s)
    gbcnf   loss     4 |    4 schemata,    16 key deps | caught  3487, missed  1177, risk 0.252, false rejections 0 (2s)
    repair  loss     1 |    6 schemata,    19 key deps | caught  4076, missed   588, risk 0.126, false rejections 0 (2s)
@@ -39,7 +36,6 @@ food: 4664 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
 food: 4628 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
    keys    loss    11 |    1 schemata,    16 key deps | caught   588, missed  4040, risk 0.873, false rejections 0 (2s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  4622, missed     6, risk 0.001, false rejections 0 (2s)
-   3nfc    loss     6 |    5 schemata,    18 key deps | caught  4622, missed     6, risk 0.001, false rejections 0 (2s)
    bcnf    loss     4 |    4 schemata,    16 key deps | caught  3458, missed  1170, risk 0.253, false rejections 0 (2s)
    gbcnf   loss     4 |    4 schemata,    16 key deps | caught  3458, missed  1170, risk 0.253, false rejections 0 (2s)
    repair  loss     1 |    6 schemata,    19 key deps | caught  4037, missed   591, risk 0.128, false rejections 0 (2s)
@@ -47,7 +43,6 @@ food: 4628 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
 food: 4656 of 10000 updates violate Sigma (atomic cover, 27 FDs, 3s)
    keys    loss    11 |    1 schemata,    16 key deps | caught   616, missed  4040, risk 0.868, false rejections 0 (2s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  4655, missed     1, risk 0.000, false rejections 0 (2s)
-   3nfc    loss     6 |    5 schemata,    18 key deps | caught  4655, missed     1, risk 0.000, false rejections 0 (2s)
    bcnf    loss     4 |    4 schemata,    16 key deps | caught  3452, missed  1204, risk 0.259, false rejections 0 (2s)
    gbcnf   loss     4 |    4 schemata,    16 key deps | caught  3452, missed  1204, risk 0.259, false rejections 0 (2s)
    repair  loss     1 |    6 schemata,    19 key deps | caught  4053, missed   603, risk 0.130, false rejections 0 (2s)
@@ -56,7 +51,6 @@ pricepaid: 926485 rows, 16 attributes loaded (22s)
 pricepaid: 2701 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
    keys    loss     4 |    1 schemata,    15 key deps | caught   696, missed  2005, risk 0.742, false rejections 0 (7s)
    3nf     loss     3 |   15 schemata,    18 key deps | caught   799, missed  1902, risk 0.704, false rejections 0 (8s)
-   3nfc    loss     3 |    2 schemata,    18 key deps | caught   799, missed  1902, risk 0.704, false rejections 0 (8s)
    bcnf    loss     2 |    3 schemata,    17 key deps | caught  2693, missed     8, risk 0.003, false rejections 0 (8s)
    gbcnf   loss     1 |    2 schemata,    15 key deps | caught  2693, missed     8, risk 0.003, false rejections 0 (7s)
    repair  loss     1 |    2 schemata,    15 key deps | caught  2693, missed     8, risk 0.003, false rejections 0 (7s)
@@ -64,7 +58,6 @@ pricepaid: 2701 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
 pricepaid: 2678 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
    keys    loss     4 |    1 schemata,    15 key deps | caught   719, missed  1959, risk 0.732, false rejections 0 (7s)
    3nf     loss     3 |   15 schemata,    18 key deps | caught   823, missed  1855, risk 0.693, false rejections 0 (8s)
-   3nfc    loss     3 |    2 schemata,    18 key deps | caught   823, missed  1855, risk 0.693, false rejections 0 (8s)
    bcnf    loss     2 |    3 schemata,    17 key deps | caught  2670, missed     8, risk 0.003, false rejections 0 (8s)
    gbcnf   loss     1 |    2 schemata,    15 key deps | caught  2670, missed     8, risk 0.003, false rejections 0 (7s)
    repair  loss     1 |    2 schemata,    15 key deps | caught  2670, missed     8, risk 0.003, false rejections 0 (7s)
@@ -72,7 +65,6 @@ pricepaid: 2678 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
 pricepaid: 2678 of 10000 updates violate Sigma (atomic cover, 19 FDs, 8s)
    keys    loss     4 |    1 schemata,    15 key deps | caught   683, missed  1995, risk 0.745, false rejections 0 (6s)
    3nf     loss     3 |   15 schemata,    18 key deps | caught   784, missed  1894, risk 0.707, false rejections 0 (8s)
-   3nfc    loss     3 |    2 schemata,    18 key deps | caught   784, missed  1894, risk 0.707, false rejections 0 (8s)
    bcnf    loss     2 |    3 schemata,    17 key deps | caught  2673, missed     5, risk 0.002, false rejections 0 (8s)
    gbcnf   loss     1 |    2 schemata,    15 key deps | caught  2673, missed     5, risk 0.002, false rejections 0 (7s)
    repair  loss     1 |    2 schemata,    15 key deps | caught  2673, missed     5, risk 0.002, false rejections 0 (7s)
@@ -80,7 +72,6 @@ pricepaid: 2678 of 10000 updates violate Sigma (atomic cover, 19 FDs, 8s)
 pricepaid: 2646 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
    keys    loss     4 |    1 schemata,    15 key deps | caught   649, missed  1997, risk 0.755, false rejections 0 (7s)
    3nf     loss     3 |   15 schemata,    18 key deps | caught   766, missed  1880, risk 0.711, false rejections 0 (8s)
-   3nfc    loss     3 |    2 schemata,    18 key deps | caught   766, missed  1880, risk 0.711, false rejections 0 (8s)
    bcnf    loss     2 |    3 schemata,    17 key deps | caught  2643, missed     3, risk 0.001, false rejections 0 (8s)
    gbcnf   loss     1 |    2 schemata,    15 key deps | caught  2643, missed     3, risk 0.001, false rejections 0 (7s)
    repair  loss     1 |    2 schemata,    15 key deps | caught  2643, missed     3, risk 0.001, false rejections 0 (7s)
@@ -88,7 +79,6 @@ pricepaid: 2646 of 10000 updates violate Sigma (atomic cover, 19 FDs, 9s)
 pricepaid: 2717 of 10000 updates violate Sigma (atomic cover, 19 FDs, 8s)
    keys    loss     4 |    1 schemata,    15 key deps | caught   707, missed  2010, risk 0.740, false rejections 0 (6s)
    3nf     loss     3 |   15 schemata,    18 key deps | caught   815, missed  1902, risk 0.700, false rejections 0 (8s)
-   3nfc    loss     3 |    2 schemata,    18 key deps | caught   815, missed  1902, risk 0.700, false rejections 0 (8s)
    bcnf    loss     2 |    3 schemata,    17 key deps | caught  2712, missed     5, risk 0.002, false rejections 0 (7s)
    gbcnf   loss     1 |    2 schemata,    15 key deps | caught  2712, missed     5, risk 0.002, false rejections 0 (6s)
    repair  loss     1 |    2 schemata,    15 key deps | caught  2712, missed     5, risk 0.002, false rejections 0 (6s)
@@ -97,7 +87,6 @@ hospital: 1000 rows, 19 attributes loaded (0s)
 hospital: 8728 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
    keys    loss    23 |    1 schemata,    17 key deps | caught  1232, missed  7496, risk 0.859, false rejections 0 (0s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  8728, missed     0, risk 0.000, false rejections 0 (0s)
-   3nfc    loss     6 |    6 schemata,    18 key deps | caught  8728, missed     0, risk 0.000, false rejections 0 (0s)
    bcnf    loss     4 |    5 schemata,    17 key deps | caught  8110, missed   618, risk 0.071, false rejections 0 (0s)
    gbcnf   loss     1 |    6 schemata,    17 key deps | caught  8728, missed     0, risk 0.000, false rejections 0 (0s)
    repair  loss     1 |    7 schemata,    20 key deps | caught  8728, missed     0, risk 0.000, false rejections 0 (0s)
@@ -105,7 +94,6 @@ hospital: 8728 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
 hospital: 8706 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
    keys    loss    23 |    1 schemata,    17 key deps | caught  1254, missed  7452, risk 0.856, false rejections 0 (0s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  8706, missed     0, risk 0.000, false rejections 0 (0s)
-   3nfc    loss     6 |    6 schemata,    18 key deps | caught  8706, missed     0, risk 0.000, false rejections 0 (0s)
    bcnf    loss     4 |    5 schemata,    17 key deps | caught  8087, missed   619, risk 0.071, false rejections 0 (0s)
    gbcnf   loss     1 |    6 schemata,    17 key deps | caught  8706, missed     0, risk 0.000, false rejections 0 (0s)
    repair  loss     1 |    7 schemata,    20 key deps | caught  8706, missed     0, risk 0.000, false rejections 0 (0s)
@@ -113,7 +101,6 @@ hospital: 8706 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
 hospital: 8737 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
    keys    loss    23 |    1 schemata,    17 key deps | caught  1240, missed  7497, risk 0.858, false rejections 0 (0s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  8737, missed     0, risk 0.000, false rejections 0 (0s)
-   3nfc    loss     6 |    6 schemata,    18 key deps | caught  8737, missed     0, risk 0.000, false rejections 0 (0s)
    bcnf    loss     4 |    5 schemata,    17 key deps | caught  8119, missed   618, risk 0.071, false rejections 0 (0s)
    gbcnf   loss     1 |    6 schemata,    17 key deps | caught  8737, missed     0, risk 0.000, false rejections 0 (0s)
    repair  loss     1 |    7 schemata,    20 key deps | caught  8737, missed     0, risk 0.000, false rejections 0 (0s)
@@ -121,7 +108,6 @@ hospital: 8737 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
 hospital: 8778 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
    keys    loss    23 |    1 schemata,    17 key deps | caught  1183, missed  7595, risk 0.865, false rejections 0 (0s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  8776, missed     2, risk 0.000, false rejections 0 (0s)
-   3nfc    loss     6 |    6 schemata,    18 key deps | caught  8776, missed     2, risk 0.000, false rejections 0 (0s)
    bcnf    loss     4 |    5 schemata,    17 key deps | caught  8179, missed   599, risk 0.068, false rejections 0 (0s)
    gbcnf   loss     1 |    6 schemata,    17 key deps | caught  8778, missed     0, risk 0.000, false rejections 0 (0s)
    repair  loss     1 |    7 schemata,    20 key deps | caught  8778, missed     0, risk 0.000, false rejections 0 (0s)
@@ -129,7 +115,6 @@ hospital: 8778 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
 hospital: 8769 of 10000 updates violate Sigma (atomic cover, 26 FDs, 0s)
    keys    loss    23 |    1 schemata,    17 key deps | caught  1210, missed  7559, risk 0.862, false rejections 0 (0s)
    3nf     loss     6 |   16 schemata,    18 key deps | caught  8769, missed     0, risk 0.000, false rejections 0 (0s)
-   3nfc    loss     6 |    6 schemata,    18 key deps | caught  8769, missed     0, risk 0.000, false rejections 0 (0s)
    bcnf    loss     4 |    5 schemata,    17 key deps | caught  8148, missed   621, risk 0.071, false rejections 0 (0s)
    gbcnf   loss     1 |    6 schemata,    17 key deps | caught  8769, missed     0, risk 0.000, false rejections 0 (0s)
    repair  loss     1 |    7 schemata,    20 key deps | caught  8769, missed     0, risk 0.000, false rejections 0 (0s)
@@ -155,7 +140,7 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
    drop     loss     1, weighted loss    3132,    7 schemata, risk 0.000
    repair_w loss     1, weighted loss    3132,    7 schemata, risk 0.000
    drop_w   loss     1, weighted loss    3132,    7 schemata, risk 0.000
-10:25:13 hospital start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
+10:25:13 hospital start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
 10:25:13 hospital orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 16, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.341}
 10:25:26 hospital orig-x 10000 0 12.47s 10000 rows  
 10:25:39 hospital orig-x 10000 1 12.46s 10000 rows  
@@ -174,12 +159,6 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:26:25 hospital 3nf-x 10000 2 1.90s 120945 rows  
 10:26:27 hospital 3nf-x 10000 3 1.86s 121610 rows  
 10:26:29 hospital 3nf-x 10000 4 1.88s 120279 rows  
-10:26:29 hospital 3nfc-x design: {'schemata': 6, 'unique': 7, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.018}
-10:26:31 hospital 3nfc-x 10000 0 1.33s 43753 rows  
-10:26:32 hospital 3nfc-x 10000 1 1.28s 43695 rows  
-10:26:34 hospital 3nfc-x 10000 2 1.25s 43647 rows  
-10:26:35 hospital 3nfc-x 10000 3 1.24s 43721 rows  
-10:26:37 hospital 3nfc-x 10000 4 1.27s 43411 rows  
 10:26:37 hospital bcnf design: {'schemata': 5, 'unique': 5, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.016}
 10:26:37 hospital bcnf 10000 0 0.53s 33724 rows  
 10:26:38 hospital bcnf 10000 1 0.53s 33664 rows  
@@ -199,7 +178,7 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:26:48 hospital repair 10000 3 0.72s 49251 rows  
 10:26:49 hospital repair 10000 4 0.72s 48901 rows  
 10:26:49 hospital drop same design as repair
-10:26:50 food start: 276716 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
+10:26:50 food start: 276716 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
 10:27:50 food orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 7, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 60.089}
 10:27:57 food orig-x 10000 0 7.23s 10000 rows  
 10:29:05 food orig-x 10000 1 7.08s 10000 rows  
@@ -218,12 +197,6 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:33:11 food 3nf-x 10000 2 2.61s 145628 rows  
 10:33:22 food 3nf-x 10000 3 2.53s 145583 rows  
 10:33:33 food 3nf-x 10000 4 2.58s 145816 rows  
-10:33:37 food 3nfc-x design: {'schemata': 5, 'unique': 6, 'unique_md5': 0, 'exclusion': 2, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 3.779}
-10:33:39 food 3nfc-x 10000 0 1.72s 38901 rows  
-10:33:45 food 3nfc-x 10000 1 1.70s 38802 rows  
-10:33:51 food 3nfc-x 10000 2 1.79s 38972 rows  
-10:33:56 food 3nfc-x 10000 3 1.81s 38916 rows  
-10:34:02 food 3nfc-x 10000 4 1.79s 39087 rows  
 10:34:05 food bcnf design: {'schemata': 4, 'unique': 4, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 2.896}
 10:34:06 food bcnf 10000 0 0.54s 28928 rows  
 10:34:10 food bcnf 10000 1 0.56s 28786 rows  
@@ -238,7 +211,7 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:34:37 food repair 10000 3 0.70s 42261 rows  
 10:34:41 food repair 10000 4 0.71s 42487 rows  
 10:34:41 food drop same design as repair
-10:34:43 pricepaid start: 926485 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', '3nfc-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
+10:34:43 pricepaid start: 926485 rows, 10000 templates, sizes [10000], reps 5, modes ['orig-x', 'keys', '3nf-x', 'bcnf', 'gbcnf', 'repair', 'drop'], budget 7200 s per mode
 10:38:00 pricepaid orig-x design: {'schemata': 1, 'unique': 1, 'unique_md5': 0, 'exclusion': 4, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 197.767}
 10:38:06 pricepaid orig-x 10000 0 5.49s 10000 rows  
 10:41:30 pricepaid orig-x 10000 1 5.44s 10000 rows  
@@ -257,12 +230,6 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 10:58:38 pricepaid 3nf-x 10000 2 5.07s 148909 rows  
 11:00:51 pricepaid 3nf-x 10000 3 4.79s 148901 rows  
 11:03:04 pricepaid 3nf-x 10000 4 5.20s 148897 rows  
-11:04:49 pricepaid 3nfc-x design: {'schemata': 2, 'unique': 3, 'unique_md5': 0, 'exclusion': 3, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 103.843}
-11:04:53 pricepaid 3nfc-x 10000 0 4.05s 18909 rows  
-11:06:42 pricepaid 3nfc-x 10000 1 4.18s 18873 rows  
-11:08:31 pricepaid 3nfc-x 10000 2 4.12s 18909 rows  
-11:10:20 pricepaid 3nfc-x 10000 3 4.11s 18901 rows  
-11:12:08 pricepaid 3nfc-x 10000 4 4.32s 18897 rows  
 11:12:13 pricepaid bcnf design: {'schemata': 3, 'unique': 3, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 4.689}
 11:12:14 pricepaid bcnf 10000 0 0.48s 25504 rows  
 11:12:19 pricepaid bcnf 10000 1 0.50s 25421 rows  

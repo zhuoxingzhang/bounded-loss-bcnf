@@ -8,7 +8,8 @@ Checks per instance:
   D  Drop: loss == lambda (exact oracle), returned design is a BCNF design (chase-lossless for E, locally
      enforced), its unenforced set is exactly delta, and (Psi cup W)^+ == E
   E  Repair: returns a BCNF design with loss >= lambda; mode 'bcnf' iff lambda == 0 and Sigma^+ enforceable
-usage: python validate_fdlib.py [n=5] [seconds=120] [seed=1]
+usage: python validate_fdlib.py [n=5] [seconds=120] [seed=1] [instances]   (stops after `seconds` or after
+       `instances` instances, whichever comes first)
 """
 import sys, time, random
 from fdlib import *
@@ -24,12 +25,12 @@ def to_atomic(D):
             out.append((l, a))
     return out
 
-def main(n, seconds, seed):
+def main(n, seconds, seed, limit=None):
     rng = random.Random(seed)
     t0 = time.time()
     stats = {"instances": 0, "nontrivial": 0, "fail": 0, "repair_optimal": 0, "repair_fallback": 0, "drop_incomplete": 0}
     names = [chr(65 + i) for i in range(n)]
-    while time.time() - t0 < seconds:
+    while time.time() - t0 < seconds and (limit is None or stats["instances"] < limit):
         D = random_instance(n, rng)
         cltD = bf.closure_table(D, n)
         if cltD[0] != 0:
@@ -122,4 +123,5 @@ if __name__ == "__main__":
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 5
     seconds = int(sys.argv[2]) if len(sys.argv) > 2 else 120
     seed = int(sys.argv[3]) if len(sys.argv) > 3 else 1
-    main(n, seconds, seed)
+    limit = int(sys.argv[4]) if len(sys.argv) > 4 else None
+    main(n, seconds, seed, limit)

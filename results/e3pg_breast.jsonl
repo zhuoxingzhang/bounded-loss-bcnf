@@ -46,22 +46,6 @@
 {"set": "breast", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 20.791, "inserted": 1011381, "attempted": 1140000}
 {"set": "breast", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 21.062, "inserted": 1012664, "attempted": 1140000}
 {"set": "breast", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 20.834, "inserted": 1011089, "attempted": 1140000}
-{"set": "breast", "mode": "3nfc-x", "design": true, "loss": 2, "rows": 691, "schemata": 38, "unique": 41, "unique_md5": 0, "exclusion": 2, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.17}
-{"set": "breast", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 6.506, "inserted": 337916, "attempted": 380000}
-{"set": "breast", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 6.571, "inserted": 337710, "attempted": 380000}
-{"set": "breast", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 6.557, "inserted": 337160, "attempted": 380000}
-{"set": "breast", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 6.342, "inserted": 337336, "attempted": 380000}
-{"set": "breast", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 6.698, "inserted": 337498, "attempted": 380000}
-{"set": "breast", "mode": "3nfc-x", "size": 20000, "rep": 0, "seconds": 13.073, "inserted": 675097, "attempted": 760000}
-{"set": "breast", "mode": "3nfc-x", "size": 20000, "rep": 1, "seconds": 12.861, "inserted": 675152, "attempted": 760000}
-{"set": "breast", "mode": "3nfc-x", "size": 20000, "rep": 2, "seconds": 12.772, "inserted": 674746, "attempted": 760000}
-{"set": "breast", "mode": "3nfc-x", "size": 20000, "rep": 3, "seconds": 12.833, "inserted": 676024, "attempted": 760000}
-{"set": "breast", "mode": "3nfc-x", "size": 20000, "rep": 4, "seconds": 12.741, "inserted": 674470, "attempted": 760000}
-{"set": "breast", "mode": "3nfc-x", "size": 30000, "rep": 0, "seconds": 20.457, "inserted": 1011567, "attempted": 1140000}
-{"set": "breast", "mode": "3nfc-x", "size": 30000, "rep": 1, "seconds": 21.45, "inserted": 1013800, "attempted": 1140000}
-{"set": "breast", "mode": "3nfc-x", "size": 30000, "rep": 2, "seconds": 20.96, "inserted": 1011381, "attempted": 1140000}
-{"set": "breast", "mode": "3nfc-x", "size": 30000, "rep": 3, "seconds": 21.396, "inserted": 1012664, "attempted": 1140000}
-{"set": "breast", "mode": "3nfc-x", "size": 30000, "rep": 4, "seconds": 20.959, "inserted": 1011089, "attempted": 1140000}
 {"set": "breast", "mode": "bcnf", "design": true, "loss": 38, "rows": 691, "schemata": 6, "unique": 7, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.037}
 {"set": "breast", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.813, "inserted": 54349, "attempted": 60000}
 {"set": "breast", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.819, "inserted": 54264, "attempted": 60000}
@@ -132,11 +116,5 @@
 {"set": "breast", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.807, "inserted": 337160, "attempted": 380000}
 {"set": "breast", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.715, "inserted": 337336, "attempted": 380000}
 {"set": "breast", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.616, "inserted": 337498, "attempted": 380000}
-{"set": "breast", "mode": "3nfc", "design": true, "loss": 2, "rows": 691, "copy": false, "schemata": 38, "unique": 41, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.115}
-{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 4.64, "inserted": 337916, "attempted": 380000}
-{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 4.597, "inserted": 337710, "attempted": 380000}
-{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 4.857, "inserted": 337160, "attempted": 380000}
-{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 5.215, "inserted": 337336, "attempted": 380000}
-{"set": "breast", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 5.819, "inserted": 337498, "attempted": 380000}
 {"set": "breast", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
 {"set": "breast", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}

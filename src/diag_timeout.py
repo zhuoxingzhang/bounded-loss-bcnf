@@ -1,7 +1,8 @@
-"""Which stage of E1 exceeds the budget on the largest FD sets: time the minimal keys, the 3NF synthesis and the
+"""Which stage of E1 exceeds the budget on the largest FD sets: time the minimal keys, the 3NF synthesis iCONF and the
 enforceability test of Sigma+ with a cap per stage.  Usage: python3 diag_timeout.py <name> [cap_seconds]"""
 import sys, time, signal
-from fdlib import load_any, minimal_keys, synthesize_3nf, enforceable, CapExceeded
+from fdlib import load_any, minimal_keys, enforceable, CapExceeded
+from iconf import iconf_decomposition
 import experiments
 
 name = sys.argv[1]
@@ -24,7 +25,7 @@ signal.signal(signal.SIGALRM, alarm)
 from fdlib import bits
 for label, fn in (("left-reduction check", lambda: all(not any(F.implies(X & ~(1 << a), A) for a in bits(X)) for (X, A) in F.fds)),
                   ("minimal keys", lambda: len(minimal_keys(F, R))),
-                  ("3NF synthesis", lambda: len(synthesize_3nf(F))),
+                  ("iCONF", lambda: len(iconf_decomposition(n, F))),
                   ("enforceability of Sigma+", lambda: enforceable(F)[0])):
     t0 = time.time()
     signal.alarm(cap)

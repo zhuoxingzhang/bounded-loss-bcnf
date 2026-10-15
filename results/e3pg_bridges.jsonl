@@ -46,22 +46,6 @@
 {"set": "bridges", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 78.29, "inserted": 1644388, "attempted": 1710000}
 {"set": "bridges", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 79.044, "inserted": 1643049, "attempted": 1710000}
 {"set": "bridges", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 79.683, "inserted": 1647548, "attempted": 1710000}
-{"set": "bridges", "mode": "3nfc-x", "design": true, "loss": 26, "rows": 108, "schemata": 47, "unique": 67, "unique_md5": 0, "exclusion": 21, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.141}
-{"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 23.27, "inserted": 450217, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 22.364, "inserted": 450690, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 23.03, "inserted": 452057, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 22.103, "inserted": 452276, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 24.365, "inserted": 450940, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc-x", "size": 20000, "rep": 0, "seconds": 49.115, "inserted": 901246, "attempted": 940000}
-{"set": "bridges", "mode": "3nfc-x", "size": 20000, "rep": 1, "seconds": 48.25, "inserted": 903524, "attempted": 940000}
-{"set": "bridges", "mode": "3nfc-x", "size": 20000, "rep": 2, "seconds": 52.239, "inserted": 901957, "attempted": 940000}
-{"set": "bridges", "mode": "3nfc-x", "size": 20000, "rep": 3, "seconds": 47.904, "inserted": 902191, "attempted": 940000}
-{"set": "bridges", "mode": "3nfc-x", "size": 20000, "rep": 4, "seconds": 52.78, "inserted": 902818, "attempted": 940000}
-{"set": "bridges", "mode": "3nfc-x", "size": 30000, "rep": 0, "seconds": 79.281, "inserted": 1352403, "attempted": 1410000}
-{"set": "bridges", "mode": "3nfc-x", "size": 30000, "rep": 1, "seconds": 82.385, "inserted": 1352714, "attempted": 1410000}
-{"set": "bridges", "mode": "3nfc-x", "size": 30000, "rep": 2, "seconds": 84.322, "inserted": 1353008, "attempted": 1410000}
-{"set": "bridges", "mode": "3nfc-x", "size": 30000, "rep": 3, "seconds": 79.856, "inserted": 1352044, "attempted": 1410000}
-{"set": "bridges", "mode": "3nfc-x", "size": 30000, "rep": 4, "seconds": 81.557, "inserted": 1356027, "attempted": 1410000}
 {"set": "bridges", "mode": "bcnf", "design": true, "loss": 103, "rows": 108, "schemata": 5, "unique": 8, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.023}
 {"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.775, "inserted": 48316, "attempted": 50000}
 {"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.874, "inserted": 48313, "attempted": 50000}
@@ -117,12 +101,6 @@
 {"set": "bridges", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 7.909, "inserted": 549269, "attempted": 570000}
 {"set": "bridges", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 8.09, "inserted": 549503, "attempted": 570000}
 {"set": "bridges", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 8.056, "inserted": 547975, "attempted": 570000}
-{"set": "bridges", "mode": "3nfc", "design": true, "loss": 26, "rows": 108, "copy": false, "schemata": 47, "unique": 67, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.094}
-{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 7.098, "inserted": 450217, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 7.125, "inserted": 450690, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 7.055, "inserted": 452057, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 7.061, "inserted": 452276, "attempted": 470000}
-{"set": "bridges", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 7.12, "inserted": 450940, "attempted": 470000}
 {"set": "bridges", "mode": "3nfc-x", "design": true, "loss": 22, "rows": 108, "copy": false, "schemata": 56, "unique": 76, "unique_md5": 0, "exclusion": 20, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.185}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 20.116, "inserted": 538028, "attempted": 560000}
 {"set": "bridges", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 20.033, "inserted": 538453, "attempted": 560000}
