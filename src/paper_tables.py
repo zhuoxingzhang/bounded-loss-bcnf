@@ -358,7 +358,7 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
     for name, recs in e3recs.items():
         rule, ruled = documented_rule(name, ruled)
         out += rule
-        cells, times, ours = [], [], []
+        cells = []
         for mode, _ in modes:
             d = e3_summary(recs, mode)[0]
             mean, sd, n, cut = e3_mean(recs, mode, size)
@@ -367,11 +367,7 @@ def table_e3(e3recs, e4recs=None, size=10000, budget=7200, compact=False):
                 c += r"$^{%d}$" % n
             if mode.endswith("-x"):
                 cells.append("--" if d is None else num(d["exclusion"]))
-            times.append(len(cells))
-            if mode in ("repair", "drop"):
-                ours.append(len(cells))
             cells.append(c)
-        cells = mark_best(cells, times, ours)   # the least time
         r4 = (e4recs or {}).get(name)
         if compact:
             cells.append("--" if not r4 else num(round(e4_harmful(r4))))
@@ -451,8 +447,6 @@ def table_weighted(wrecs, algs=("repair",), drift=None):
             if drift:
                 d = drift.get(name, {})
                 cells += ["--" if d.get(m) is None else "%.1f" % d[m] for m in (alg, alg + "_w")]
-        for i in range(0, len(cells), 2):   # the lower of unit and w, where they differ
-            cells = mark_best(cells, [i, i + 1], strict=True)
         out.append("%s & %s" % (e3_label(name), " & ".join(cells)) + "\\\\")
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
