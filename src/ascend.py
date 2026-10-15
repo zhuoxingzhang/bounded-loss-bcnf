@@ -4,13 +4,19 @@ Theorem "Obstruction bound": the closure of the uncritical minimal FDs U of Sigm
 the weight of the obstructions O = Sigma_a - U^+. The ascent is a local search over *plain states*: sets Psi of
 FDs of Sigma^+ such that every element of Psi is uncritical for Psi^+ (then Psi^+ is enforceable by Theorem
 "Enforceable FD sets", statement 3, and the canonical design of Psi^+ has one schema per element of Psi). It starts
-from Psi = U, or from the uncritical minimal FDs of any enforceable FD set, and repeats two moves, heaviest
-candidate g in Sigma_a - Psi^+ first, until no move improves the loss or the deadline passes:
+from Psi = U, or from the uncritical minimal FDs of any enforceable FD set, and climbs by two moves, heaviest
+candidate g in Sigma_a - Psi^+ first, until no move applies or the deadline passes:
   add(g):      Psi + g is a plain state;
   swap(g, V):  Psi - V + g is a plain state, where V are the elements of Psi that violate the schema of g, and the
-               loss decreases (the minimal FDs of Sigma that g brings in outweigh those that V took along).
-Every intermediate state is a valid design, so the search is an anytime algorithm, and the deterministic run is
-followed by runs in random candidate order (among candidates of equal weight) until the deadline.
+               loss does not increase (the minimal FDs of Sigma that g brings in weigh at least as much as those
+               that V took along); at most SIDEWAYS swaps of equal loss in a row, whose violators are tabu until
+               the loss decreases, so that the climb crosses plateaus (the FD sets Sigma'_n of the paper).
+The climb is iterated (Algorithm "Ascend" of the paper): the lightest state is kept, a kick (a random exchange or
+removal that keeps the state plain, its removed FDs tabu for the next climb) restarts the climb, and the run ends
+after KICKS kicks in a row without improvement. Every intermediate state is a valid design, so the search is an
+anytime algorithm, and the deterministic run is followed by runs in random candidate order (among candidates of
+equal weight) until the deadline or `restarts` runs; among the lightest runs the one with the fewest classes of
+left-hand sides (a lower bound on the schemata) wins.
 
 The test "X -> A uncritical for Psi^+", i.e. (XA, Psi^+[XA]) in BCNF, enumerates the subsets Y of XA and asks whether
 the closure of Y under Psi meets XA trivially or covers XA (keys skip their supersets): at most 2^|XA| closures of
@@ -105,7 +111,7 @@ class Ascent:
         self.fds = list(Da.fds)
         self.psi = sorted(set(psi))
         self.G = FDSet(n, self.psi)
-        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "kicks": 0, "cascades": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
+        self.stats = {"moves_tried": 0, "adds": 0, "swaps": 0, "sideways": 0, "kicks": 0, "cascades": 0, "passes": 0, "full_checks": 0, "fast_checks": 0, "dead_keys": 0}
         self.wit = {}
         self.tabu = set()
         self.sc = {}
@@ -284,10 +290,14 @@ class Ascent:
         self.G = FDSet(self.n, self.psi)
         self._refresh(touched, new_wits)
 
-    def _climb(self, deadline, rng=None):
-        """passes over the candidates until no move improves the loss; returns whether the deadline passed"""
+    def _climb(self, deadline, rng=None, sideways=0):
+        """passes over the candidates until no move improves the loss; returns whether the deadline passed.
+        With sideways > 0, an exchange that leaves the loss unchanged is accepted as well, up to `sideways`
+        consecutive ones; the elements it removes are tabu until the next exchange that lowers the loss, so that
+        the climb crosses plateaus (such as that of the FD sets Sigma'_n of the paper) without undoing itself"""
         improved = True
         timed_out = False
+        flat = 0
         while improved and not timed_out:
             improved = False
             self.stats["passes"] += 1
@@ -299,7 +309,7 @@ class Ascent:
                 if deadline is not None and time.time() > deadline:
                     timed_out = True
                     break
-                if g in self.enforced:
+                if g in self.enforced or g in self.tabu:
                     continue
                 S = g[0] | (1 << g[1])
                 clos1 = virtual_closure(self.G, g[0], g[1])
@@ -310,10 +320,21 @@ class Ascent:
                     if not V:
                         continue
                     r = self._try(g, V, cascade=self.cascade)
-                    if r is None or r[0] <= 0:
+                    if r is None or r[0] < 0 or (r[0] == 0 and flat >= sideways):
                         continue
-                    self._apply(r, "swaps")
+                    if r[0] == 0:
+                        flat += 1
+                        self.tabu |= set(V)
+                        self._apply(r, "sideways")
+                    else:
+                        flat = 0
+                        if sideways:
+                            self.tabu = set()
+                        self._apply(r, "swaps")
                 else:
+                    flat = 0
+                    if sideways:
+                        self.tabu = set()
                     self._apply(r, "adds")
                 improved = True
         return timed_out
@@ -362,29 +383,50 @@ class Ascent:
         self._refresh(touched, new_wits)
         return True
 
-    def run(self, deadline, rng=None, max_kicks=0):
+    def _snapshot(self):
+        # every move replaces these objects instead of changing them, so references suffice
+        return (self.loss(), self.psi, self.G, self.sc, self.lc, self.enforced, self.wit)
+
+    def _restore(self, s):
+        _, self.psi, self.G, self.sc, self.lc, self.enforced, self.wit = s
+
+    def classes(self):
+        """the number of equivalence classes of left-hand sides in a nonredundant cover of psi^+, a lower bound on
+        the schemata of its designs (FDSet.classes)"""
+        return self.G.classes()
+
+    def run(self, deadline, rng=None, max_kicks=0, sideways=0, accept="walk", secondary=False):
         """the climb, followed by up to max_kicks perturbations (iterated local search) until the deadline or
-        until max_kicks consecutive kicks fail to improve the best state, which is restored at the end"""
+        until max_kicks consecutive kicks fail to improve the best state, which is restored at the end.
+        accept="walk" continues from the state after every kick; accept="better" returns to the best state
+        whenever a kick and its climb end heavier than it (a state of equal loss is kept). With secondary=True,
+        states of equal loss are compared by classes(), so that the best state is the lightest one with the
+        fewest classes among the lightest, and a kick that lowers the classes at equal loss counts as an
+        improvement."""
         self.tabu = set()
-        timed_out = self._climb(deadline, rng)
-        best = (self.loss(), list(self.psi))
+        timed_out = self._climb(deadline, rng, sideways)
+        best = self._snapshot()
+        best_c = self.classes() if secondary else 0
         krng = rng if rng is not None else random.Random(0)
         stale = 0
         while max_kicks and not timed_out and stale < max_kicks:
             if not self._kick(krng):
                 break
-            timed_out = self._climb(deadline, krng)
+            timed_out = self._climb(deadline, krng, sideways)
             self.tabu = set()
             l = self.loss()
-            if l < best[0]:
-                best, stale = (l, list(self.psi)), 0
+            c = self.classes() if secondary and l <= best[0] else 0
+            if (l, c) < (best[0], best_c):
+                best, best_c, stale = self._snapshot(), c, 0
             else:
                 stale += 1
-        if self.loss() > best[0]:
-            self.psi = sorted(best[1])
-            self.G = FDSet(self.n, self.psi)
-            self.wit, self.sc = {}, {}
-            self._refresh(None, None)
+                if (l, c) == (best[0], best_c):
+                    best = self._snapshot()
+                elif accept == "better":
+                    self._restore(best)
+        if self.psi is not best[1]:
+            self._restore(best)
+        self.best_classes = best_c
         self.stats["timed_out"] = timed_out
         return self
 
@@ -398,11 +440,18 @@ def plain_start(Ea):
     unc, crit = split_critical(Ea)
     return unc
 
-def ascend(n, Da, w, R, deadline, stats, start=None, restarts=60, seed=0, max_schema=14, max_kicks=0, cascade=0):
+KICKS = 20        # an ascent stops after this many consecutive kicks without improvement
+SIDEWAYS = 50     # consecutive exchanges of equal loss that a climb accepts
+ACCEPT = "better" # after a kick whose climb ends heavier, the ascent returns to the best state
+
+def ascend(n, Da, w, R, deadline, stats, start=None, restarts=60, seed=0, max_schema=14, max_kicks=KICKS, cascade=0,
+           sideways=SIDEWAYS, accept=ACCEPT):
     """Ascent from the obstruction design (start = the uncritical minimal FDs of Sigma) or from any plain state:
     the deterministic run first, then runs in random candidate order until the deadline or `restarts` runs, the
-    lightest state wins; with max_kicks > 0 every run continues as an iterated local search (random exchanges
-    followed by climbs) until the deadline or until max_kicks consecutive kicks bring no improvement.
+    lightest state wins, and among the lightest the one with the fewest classes; with max_kicks > 0 every run
+    continues as an iterated local search (random exchanges followed by climbs) until the deadline or until max_kicks
+    consecutive kicks bring no improvement; with sideways > 0 the climbs also accept exchanges that leave the loss
+    unchanged (Ascent._climb). The classes (Ascent.classes) only break ties between runs, so they never cost loss.
     Returns (design, loss, Delta, psi) with Delta the unenforced minimal FDs, or None if the start is not plain."""
     if start is None:
         start = plain_start(Da)
@@ -410,16 +459,20 @@ def ascend(n, Da, w, R, deadline, stats, start=None, restarts=60, seed=0, max_sc
     if not base.plain():
         return None
     rng = random.Random(seed)
-    best = None
+    best, best_c = None, None
     runs = 0
     for i in range(1 + restarts):
         if i > 0 and (deadline is None or time.time() > deadline):
             break
         asc = base if i == 0 else Ascent(n, Da, w, R, start, max_schema, cascade)
-        asc.run(deadline, None if i == 0 else rng, max_kicks)
+        asc.run(deadline, None if i == 0 else rng, max_kicks, sideways, accept)
         runs += 1
-        if best is None or asc.loss() < best.loss():
-            best = asc
+        l = asc.loss()
+        if best is not None and l == best.loss() and best_c is None:
+            best_c = best.classes()
+        c = asc.classes() if best is not None and l == best.loss() else None
+        if best is None or l < best.loss() or (c is not None and c < best_c):
+            best, best_c = asc, c
             stats["ascend_best_run"] = i
         if i == 0:
             stats.update({"ascend_" + k: v for k, v in asc.stats.items()})

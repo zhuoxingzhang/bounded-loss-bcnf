@@ -256,3 +256,35 @@
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 9.712, "inserted": 753347, "attempted": 760000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 9.664, "inserted": 753564, "attempted": 760000}
 {"set": "echo", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 9.774, "inserted": 753261, "attempted": 760000}
+{"set": "echo", "mode": "repair", "design": true, "loss": 11, "rows": 132, "copy": false, "schemata": 61, "unique": 138, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.155}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 0, "seconds": 9.807, "inserted": 603081, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 1, "seconds": 9.971, "inserted": 603119, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 2, "seconds": 9.915, "inserted": 603012, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 3, "seconds": 9.726, "inserted": 603234, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 4, "seconds": 9.723, "inserted": 603037, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 0, "seconds": 20.219, "inserted": 1206397, "attempted": 1220000}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 1, "seconds": 19.922, "inserted": 1206560, "attempted": 1220000}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 2, "seconds": 20.189, "inserted": 1206091, "attempted": 1220000}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 3, "seconds": 20.098, "inserted": 1206305, "attempted": 1220000}
+{"set": "echo", "mode": "repair", "size": 20000, "rep": 4, "seconds": 20.081, "inserted": 1206237, "attempted": 1220000}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 0, "seconds": 31.038, "inserted": 1809334, "attempted": 1830000}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 1, "seconds": 31.037, "inserted": 1809841, "attempted": 1830000}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 2, "seconds": 30.286, "inserted": 1809599, "attempted": 1830000}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 3, "seconds": 29.556, "inserted": 1810065, "attempted": 1830000}
+{"set": "echo", "mode": "repair", "size": 30000, "rep": 4, "seconds": 29.282, "inserted": 1809243, "attempted": 1830000}
+{"set": "echo", "mode": "drop", "design": true, "loss": 11, "rows": 132, "copy": false, "schemata": 61, "unique": 140, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.143}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 0, "seconds": 9.606, "inserted": 603081, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 1, "seconds": 9.533, "inserted": 603119, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 2, "seconds": 9.504, "inserted": 603012, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 3, "seconds": 9.829, "inserted": 603234, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 4, "seconds": 9.552, "inserted": 603037, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 0, "seconds": 19.725, "inserted": 1206397, "attempted": 1220000}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 1, "seconds": 19.329, "inserted": 1206560, "attempted": 1220000}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 2, "seconds": 19.281, "inserted": 1206091, "attempted": 1220000}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 3, "seconds": 19.472, "inserted": 1206305, "attempted": 1220000}
+{"set": "echo", "mode": "drop", "size": 20000, "rep": 4, "seconds": 19.355, "inserted": 1206237, "attempted": 1220000}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 0, "seconds": 29.606, "inserted": 1809334, "attempted": 1830000}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 1, "seconds": 29.71, "inserted": 1809841, "attempted": 1830000}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 2, "seconds": 29.785, "inserted": 1809599, "attempted": 1830000}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 3, "seconds": 29.816, "inserted": 1810065, "attempted": 1830000}
+{"set": "echo", "mode": "drop", "size": 30000, "rep": 4, "seconds": 29.682, "inserted": 1809243, "attempted": 1830000}

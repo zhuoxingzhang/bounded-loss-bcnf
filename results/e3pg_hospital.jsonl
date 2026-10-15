@@ -36,3 +36,10 @@
 {"set": "hospital", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.72, "inserted": 48901, "attempted": 70000}
 {"set": "hospital", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
 {"set": "hospital", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
+{"set": "hospital", "mode": "repair", "design": true, "loss": 1, "rows": 1000, "copy": false, "schemata": 6, "unique": 6, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.02}
+{"set": "hospital", "mode": "repair", "size": 10000, "rep": 0, "seconds": 0.652, "inserted": 41788, "attempted": 60000}
+{"set": "hospital", "mode": "repair", "size": 10000, "rep": 1, "seconds": 0.627, "inserted": 41677, "attempted": 60000}
+{"set": "hospital", "mode": "repair", "size": 10000, "rep": 2, "seconds": 0.617, "inserted": 41683, "attempted": 60000}
+{"set": "hospital", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.637, "inserted": 41704, "attempted": 60000}
+{"set": "hospital", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.677, "inserted": 41480, "attempted": 60000}
+{"set": "hospital", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

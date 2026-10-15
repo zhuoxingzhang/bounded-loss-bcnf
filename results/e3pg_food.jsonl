@@ -31,3 +31,10 @@
 {"set": "food", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.705, "inserted": 42487, "attempted": 60000}
 {"set": "food", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
 {"set": "food", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
+{"set": "food", "mode": "repair", "design": true, "loss": 1, "rows": 276716, "copy": false, "schemata": 5, "unique": 5, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 2.738}
+{"set": "food", "mode": "repair", "size": 10000, "rep": 0, "seconds": 0.628, "inserted": 35603, "attempted": 50000}
+{"set": "food", "mode": "repair", "size": 10000, "rep": 1, "seconds": 0.608, "inserted": 35473, "attempted": 50000}
+{"set": "food", "mode": "repair", "size": 10000, "rep": 2, "seconds": 0.602, "inserted": 35621, "attempted": 50000}
+{"set": "food", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.596, "inserted": 35594, "attempted": 50000}
+{"set": "food", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.602, "inserted": 35758, "attempted": 50000}
+{"set": "food", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

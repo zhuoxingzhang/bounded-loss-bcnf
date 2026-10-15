@@ -115,7 +115,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
                     candidates.append((label, a[1], a[0]))
                     res.stats[label] = astats
                 res.stats["time_ascend"] = time.time() - t4
-            stage, loss, design = min(candidates, key=lambda c: c[1])
+            stage, loss, design = min(candidates, key=lambda c: (c[1], len(c[2])))   # fewer schemata on ties
             res.stats["success_candidates"] = [(c[0], c[1]) for c in candidates]
             res.stats["success_stage"] = stage
             if stage != "assembled":
@@ -175,7 +175,7 @@ def repair(n, F, Da=None, w=None, time_limit=None, local_time_limit=None, max_w=
                     candidates.append((label, a[1], a[0], None))
                     res.stats[label] = astats
             res.stats["time_ascend"] = time.time() - t4
-        stage, loss, design, r = min(candidates, key=lambda c: c[1])
+        stage, loss, design, r = min(candidates, key=lambda c: (c[1], len(c[2])))   # fewer schemata on ties
         res.design, res.loss = design, loss
         res.exact = (stage == "drop" and r2.exact and not r2.heuristic) or (res.lower_bound is not None and loss <= res.lower_bound)
         res.stats["fallback_stage"] = stage

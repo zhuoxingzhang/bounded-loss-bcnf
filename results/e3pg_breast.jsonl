@@ -118,3 +118,19 @@
 {"set": "breast", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.616, "inserted": 337498, "attempted": 380000}
 {"set": "breast", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
 {"set": "breast", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}
+{"set": "breast", "mode": "repair", "design": true, "loss": 3, "rows": 691, "copy": false, "schemata": 38, "unique": 40, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.548}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 0, "seconds": 4.93, "inserted": 337916, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 1, "seconds": 4.691, "inserted": 337710, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 2, "seconds": 4.611, "inserted": 337160, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 3, "seconds": 4.614, "inserted": 337336, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 4, "seconds": 4.665, "inserted": 337498, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 20000, "rep": 0, "seconds": 9.498, "inserted": 675097, "attempted": 760000}
+{"set": "breast", "mode": "repair", "size": 20000, "rep": 1, "seconds": 9.379, "inserted": 675152, "attempted": 760000}
+{"set": "breast", "mode": "repair", "size": 20000, "rep": 2, "seconds": 9.304, "inserted": 674746, "attempted": 760000}
+{"set": "breast", "mode": "repair", "size": 20000, "rep": 3, "seconds": 9.518, "inserted": 676024, "attempted": 760000}
+{"set": "breast", "mode": "repair", "size": 20000, "rep": 4, "seconds": 10.647, "inserted": 674470, "attempted": 760000}
+{"set": "breast", "mode": "repair", "size": 30000, "rep": 0, "seconds": 15.292, "inserted": 1011567, "attempted": 1140000}
+{"set": "breast", "mode": "repair", "size": 30000, "rep": 1, "seconds": 14.893, "inserted": 1013800, "attempted": 1140000}
+{"set": "breast", "mode": "repair", "size": 30000, "rep": 2, "seconds": 14.91, "inserted": 1011381, "attempted": 1140000}
+{"set": "breast", "mode": "repair", "size": 30000, "rep": 3, "seconds": 14.852, "inserted": 1012664, "attempted": 1140000}
+{"set": "breast", "mode": "repair", "size": 30000, "rep": 4, "seconds": 14.897, "inserted": 1011089, "attempted": 1140000}

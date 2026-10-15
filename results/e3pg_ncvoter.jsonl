@@ -226,3 +226,20 @@
 {"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 21.149, "inserted": 1565964, "attempted": 1650000}
 {"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 21.19, "inserted": 1566245, "attempted": 1650000}
 {"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 21.175, "inserted": 1563015, "attempted": 1650000}
+{"set": "ncvoter", "mode": "repair", "design": true, "loss": 48, "rows": 1000, "copy": false, "schemata": 158, "unique": 192, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.833}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 20.565, "inserted": 1505799, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 21.02, "inserted": 1505678, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 20.514, "inserted": 1507053, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 20.053, "inserted": 1507408, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 20.257, "inserted": 1504661, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 0, "seconds": 41.182, "inserted": 3010235, "attempted": 3160000}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 1, "seconds": 41.125, "inserted": 3009589, "attempted": 3160000}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 2, "seconds": 41.601, "inserted": 3010703, "attempted": 3160000}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 3, "seconds": 41.381, "inserted": 3013445, "attempted": 3160000}
+{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 4, "seconds": 44.199, "inserted": 3009827, "attempted": 3160000}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 0, "seconds": 62.868, "inserted": 4517630, "attempted": 4740000}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 1, "seconds": 62.355, "inserted": 4517482, "attempted": 4740000}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 2, "seconds": 62.741, "inserted": 4519921, "attempted": 4740000}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 62.612, "inserted": 4517198, "attempted": 4740000}
+{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 62.976, "inserted": 4516196, "attempted": 4740000}
+{"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

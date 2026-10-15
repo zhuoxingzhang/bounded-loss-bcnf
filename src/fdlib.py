@@ -6,7 +6,10 @@ int bitmask, and an FD is a pair (lhs, rhs) with rhs a single attribute index (a
 with dozens of attributes and thousands of FDs are fine as long as the number of minimal FDs is.
 
 Contents
-  closures            : linear-time attribute closure (Beeri-Bernstein), minimisation of left-hand sides
+  closures            : linear-time attribute closure (Beeri-Bernstein), minimisation of left-hand sides; the
+                        closures run in C (closure.c, compiled with gcc on first import) when a compiler is present
+                        and there are at most 64 attributes, and in Python otherwise or with FDLIB_PYTHON=1, with
+                        equal results
   minimal keys        : Lucchesi-Osborn enumeration of all minimal keys of (S, F[S])
   atomic cover        : all minimal FDs X -> A of F^+ (minimal keys of F + A -> R, per attribute A)
   criticality         : violators of a schema, critical / uncritical minimal FDs
@@ -16,7 +19,7 @@ Contents
   I/O                 : the JSON format of the FD files in data/fds and the Metanome text format
 """
 from itertools import combinations
-import json, re
+import json, re, os, sys, ctypes, array, subprocess
 
 # ----------------------------------------------------------------------------- sets
 
@@ -43,13 +46,43 @@ def fmt_fd(f, names=None):
 
 # ----------------------------------------------------------------------------- closures
 
+def _load_c():
+    """the C closures of closure.c, compiled next to it on first use; None without a compiler"""
+    if os.environ.get("FDLIB_PYTHON") or sys.platform == "win32":
+        return None
+    here = os.path.dirname(os.path.abspath(__file__))
+    src, so = os.path.join(here, "closure.c"), os.path.join(here, "_closure.so")
+    try:
+        if not os.path.isfile(so) or os.path.getmtime(so) < os.path.getmtime(src):
+            tmp = "%s.%d" % (so, os.getpid())
+            subprocess.check_call(["gcc", "-O3", "-shared", "-fPIC", "-o", tmp, src], stderr=subprocess.DEVNULL)
+            os.replace(tmp, so)
+        lib = ctypes.CDLL(so)
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    P, I = ctypes.c_void_p, ctypes.c_int
+    lib.closure_groups.restype = ctypes.c_uint64
+    lib.closure_groups.argtypes = [P, P, I, ctypes.c_uint64]
+    lib.closure_without.restype = ctypes.c_uint64
+    lib.closure_without.argtypes = [I, I, P, P, P, P, P, P, I, P, ctypes.c_uint64, P, P, P, P]
+    return lib
+
+_C = _load_c()
+
 class FDSet:
     """A list of atomic FDs with an index for linear-time closures."""
 
     def __init__(self, n, fds):
         self.n = n
         self.fds = [(l, r) for (l, r) in fds if not (l >> r) & 1]  # drop trivial FDs
-        self.by_attr = [[] for _ in range(n)]
+        self._cache = {}
+        self._groups = self._cw = None
+        self._c = _C is not None and n <= 64   # the C routines hold attribute sets in 64 bits
+        if not self._c:
+            self._index()
+
+    def _index(self):
+        self.by_attr = [[] for _ in range(self.n)]
         self.size = []
         self.empty_lhs = []
         for i, (l, r) in enumerate(self.fds):
@@ -58,7 +91,6 @@ class FDSet:
                 self.empty_lhs.append(r)
             for a in bits(l):
                 self.by_attr[a].append(i)
-        self._cache = {}
 
     def __len__(self):
         return len(self.fds)
@@ -67,6 +99,28 @@ class FDSet:
         C = self._cache.get(X)
         if C is not None:
             return C
+        if self._c:
+            g = self._groups
+            if g is None:
+                g = self._groups = self._build_groups()
+            C = _C.closure_groups(g[2], g[3], g[4], X)
+        else:
+            C = self._closure_py(X)
+        if len(self._cache) < 200000:
+            self._cache[X] = C
+        return C
+
+    def _build_groups(self):
+        g = {}
+        for l, r in self.fds:
+            g[l] = g.get(l, 0) | (1 << r)
+        order = sorted(g, key=popcount)
+        L, R = array.array("Q", order), array.array("Q", [g[l] for l in order])
+        return (L, R, L.buffer_info()[0], R.buffer_info()[0], len(L))
+
+    def _closure_py(self, X):
+        if not hasattr(self, "size"):
+            self._index()
         cnt = list(self.size)
         C = X
         stack = list(bits(X))
@@ -84,8 +138,6 @@ class FDSet:
                     if not (C >> r) & 1:
                         C |= 1 << r
                         stack.append(r)
-        if len(self._cache) < 200000:
-            self._cache[X] = C
         return C
 
     def implies(self, X, A):
@@ -94,6 +146,84 @@ class FDSet:
     def closure_without(self, X, disabled, record=None):
         """Closure of X under the FDs whose index is not in `disabled` (no index rebuild).
         If `record` is a list, the indices of the FDs that fired are appended to it."""
+        if not self._c:
+            return self._closure_without_py(X, disabled, record)
+        c = self._cw
+        if c is None:
+            c = self._cw = self._build_cw()
+        dis = c["dis"]
+        for i in disabled:
+            dis[i] = 1
+        C = _C.closure_without(self.n, len(self.fds), *c["args"], X, *c["scratch"])
+        for i in disabled:
+            dis[i] = 0
+        if record is not None:
+            record.extend(c["rec"][:c["nrec"][0]])
+        return C
+
+    def nonredundant(self, order=None):
+        """the indices of a nonredundant subset of the FDs: every FD, in the given order of indices, is dropped if
+        the FDs not dropped so far imply it"""
+        order = range(len(self.fds)) if order is None else order
+        removed = set()
+        if not self._c:
+            for i in order:
+                removed.add(i)
+                X, A = self.fds[i]
+                if not (self._closure_without_py(X, removed) >> A) & 1:
+                    removed.discard(i)
+        else:
+            c = self._cw
+            if c is None:
+                c = self._cw = self._build_cw()
+            dis = c["dis"]
+            for i in order:
+                dis[i] = 1
+                X, A = self.fds[i]
+                if (_C.closure_without(self.n, len(self.fds), *c["args"], X, *c["scratch"]) >> A) & 1:
+                    removed.add(i)
+                else:
+                    dis[i] = 0
+            for i in removed:
+                dis[i] = 0
+        return [i for i in range(len(self.fds)) if i not in removed]
+
+    def classes(self):
+        """the number of equivalence classes of left-hand sides (X ~ Y iff X+ = Y+) in a nonredundant subset of the
+        FDs; all nonredundant covers of a closed set have the same number (Maier 1980), a lower bound on the schemata
+        of every key design that enforces it, since the keys of a schema have the same closure"""
+        return len(set(self.closure(self.fds[i][0]) for i in self.nonredundant()))
+
+    def _build_cw(self):
+        """the arrays of the C routine closure_without: FD index by attribute in increasing order, as in _index"""
+        m, n = len(self.fds), self.n
+        by_attr = [[] for _ in range(n)]
+        empty = []
+        for i, (l, r) in enumerate(self.fds):
+            if l == 0:
+                empty.append(i)
+            for a in bits(l):
+                by_attr[a].append(i)
+        start = [0]
+        for a in range(n):
+            start.append(start[-1] + len(by_attr[a]))
+        c = {"lhs": array.array("Q", [l for l, r in self.fds] or [0]),
+             "rhs": array.array("i", [r for l, r in self.fds] or [0]),
+             "size": array.array("i", [popcount(l) for l, r in self.fds] or [0]),
+             "start": array.array("i", start), "idx": array.array("i", [i for a in range(n) for i in by_attr[a]] or [0]),
+             "empty": array.array("i", empty or [0]), "dis": bytearray(max(m, 1)),
+             "cnt": array.array("i", [0] * max(m, 1)), "stack": array.array("i", [0] * max(n, 1)),
+             "rec": array.array("i", [0] * max(n, 1)), "nrec": array.array("i", [0])}
+        c["dis_c"] = (ctypes.c_uint8 * len(c["dis"])).from_buffer(c["dis"])
+        ptr = lambda k: c[k].buffer_info()[0]
+        c["args"] = (ptr("lhs"), ptr("rhs"), ptr("size"), ptr("start"), ptr("idx"), ptr("empty"), len(empty),
+                     ctypes.addressof(c["dis_c"]))
+        c["scratch"] = (ptr("cnt"), ptr("stack"), ptr("rec"), ptr("nrec"))
+        return c
+
+    def _closure_without_py(self, X, disabled, record=None):
+        if not hasattr(self, "size"):
+            self._index()
         cnt = list(self.size)
         C = X
         stack = list(bits(X))
@@ -214,12 +344,22 @@ def enforceable(Fa):
 # ----------------------------------------------------------------------------- designs
 
 def design_from_cover(Fa, U, R=None):
-    """A BCNF design for the enforceable set with atomic cover Fa and uncritical cover U.
-    Schemata: for every left-hand side X of U, X together with as many of its right-hand sides as keep the
-    schema in BCNF; a minimal key of (R, E) if no schema is a superkey; subsumed schemata removed.
-    Returns a list of (S, keys)."""
+    """A BCNF design for the enforceable set E with atomic cover Fa and uncritical cover U, the one with fewer
+    schemata of two constructions that enforce E alike (so the loss is the same):
+      by left-hand side: for every left-hand side X of U, X together with as many of its right-hand sides as keep
+        the schema in BCNF, and XA for each of the others;
+      by class: a nonredundant subset of U (larger left-hand sides dropped first), grouped by the closure of the
+        left-hand side, and the schemata XA of a group merged first-fit while the union stays in BCNF (only schemata
+        whose keys have the same closure can share a BCNF schema);
+    then a minimal key of (R, E) if no schema is a superkey, subsumed schemata removed, and schemata removed whose key
+    dependencies the others imply. Returns a list of (S, keys)."""
     n = Fa.n
     R = (1 << n) - 1 if R is None else R
+    a = _design_schemata(Fa, _schemata_by_lhs(Fa, U), R)
+    b = _design_schemata(Fa, _schemata_by_class(Fa, U), R)
+    return b if len(b) < len(a) else a
+
+def _schemata_by_lhs(Fa, U):
     groups = {}
     for (X, A) in U.fds:
         groups.setdefault(X, []).append(A)
@@ -233,6 +373,30 @@ def design_from_cover(Fa, U, R=None):
                 schemata.append(X | (1 << A))
         if S != X:
             schemata.append(S)
+    return schemata
+
+def _schemata_by_class(Fa, U):
+    order = sorted(range(len(U.fds)), key=lambda i: (-popcount(U.fds[i][0]), U.fds[i]))
+    classes = {}
+    for i in U.nonredundant(order):
+        X, A = U.fds[i]
+        classes.setdefault(Fa.closure(X), []).append((X, A))
+    schemata = []
+    for fs in classes.values():
+        parts = []
+        for X, A in sorted(fs, key=lambda f: (popcount(f[0]), f)):
+            S = X | (1 << A)
+            for j, T in enumerate(parts):
+                if S & ~T == 0 or is_bcnf(Fa, T | S):
+                    parts[j] = T | S
+                    break
+            else:
+                parts.append(S)
+        schemata += parts
+    return schemata
+
+def _design_schemata(Fa, schemata, R):
+    n = Fa.n
     if not any(Fa.closure(S) & R == R for S in schemata):
         schemata.append(minimize_key(Fa, R, R))
     schemata = sorted(set(schemata), key=lambda S: (-popcount(S), S))
@@ -244,16 +408,26 @@ def design_from_cover(Fa, U, R=None):
     # drop schemata whose key dependencies the other schemata already enforce (smallest first),
     # as long as a superkey schema remains, so that the decomposition stays lossless
     design.sort(key=lambda d: (popcount(d[0]), d[0]))
-    i = 0
-    while i < len(design):
-        others = design[:i] + design[i + 1:]
-        if any(Fa.closure(S) & R == R for S, _ in others):
-            E_others = key_dependencies(n, others)
-            S, keys = design[i]
-            if all(E_others.implies(K, b) for K in keys for b in bits(S & ~K)):
-                del design[i]
-                continue
-        i += 1
+    kd, of = [], []
+    for S, keys in design:
+        of.append([])
+        for K in keys:
+            for b in bits(S & ~K):
+                of[-1].append(len(kd))
+                kd.append((K, b))
+    H = FDSet(n, kd)
+    superkey = [Fa.closure(S) & R == R for S, _ in design]
+    supers = sum(superkey)
+    dead, deleted = set(), set()
+    for j in range(len(design)):
+        if supers - superkey[j] == 0:
+            continue
+        dis = dead | set(of[j])
+        if all((H.closure_without(kd[i][0], dis) >> kd[i][1]) & 1 for i in of[j]):
+            deleted.add(j)
+            dead |= set(of[j])
+            supers -= superkey[j]
+    design = [d for j, d in enumerate(design) if j not in deleted]
     design.sort(key=lambda d: (-popcount(d[0]), d[0]))
     return design
 

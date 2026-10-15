@@ -128,3 +128,35 @@
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 3.863, "inserted": 209460, "attempted": 210000}
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 3.875, "inserted": 209482, "attempted": 210000}
 {"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 3.812, "inserted": 209487, "attempted": 210000}
+{"set": "abalone", "mode": "repair", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 50, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.489}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 0, "seconds": 3.807, "inserted": 149313, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 1, "seconds": 3.712, "inserted": 149319, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 2, "seconds": 3.676, "inserted": 149312, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 3, "seconds": 3.506, "inserted": 149315, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 4, "seconds": 3.537, "inserted": 149348, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 20000, "rep": 0, "seconds": 7.335, "inserted": 298593, "attempted": 300000}
+{"set": "abalone", "mode": "repair", "size": 20000, "rep": 1, "seconds": 7.18, "inserted": 298612, "attempted": 300000}
+{"set": "abalone", "mode": "repair", "size": 20000, "rep": 2, "seconds": 7.242, "inserted": 298604, "attempted": 300000}
+{"set": "abalone", "mode": "repair", "size": 20000, "rep": 3, "seconds": 7.272, "inserted": 298656, "attempted": 300000}
+{"set": "abalone", "mode": "repair", "size": 20000, "rep": 4, "seconds": 7.246, "inserted": 298655, "attempted": 300000}
+{"set": "abalone", "mode": "repair", "size": 30000, "rep": 0, "seconds": 11.053, "inserted": 447979, "attempted": 450000}
+{"set": "abalone", "mode": "repair", "size": 30000, "rep": 1, "seconds": 11.04, "inserted": 448034, "attempted": 450000}
+{"set": "abalone", "mode": "repair", "size": 30000, "rep": 2, "seconds": 11.152, "inserted": 447940, "attempted": 450000}
+{"set": "abalone", "mode": "repair", "size": 30000, "rep": 3, "seconds": 10.966, "inserted": 448024, "attempted": 450000}
+{"set": "abalone", "mode": "repair", "size": 30000, "rep": 4, "seconds": 11.158, "inserted": 447999, "attempted": 450000}
+{"set": "abalone", "mode": "drop", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 53, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.458}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 0, "seconds": 3.673, "inserted": 149313, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 1, "seconds": 3.694, "inserted": 149319, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 2, "seconds": 3.644, "inserted": 149312, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 3, "seconds": 3.682, "inserted": 149315, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 4, "seconds": 3.678, "inserted": 149348, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 20000, "rep": 0, "seconds": 7.569, "inserted": 298593, "attempted": 300000}
+{"set": "abalone", "mode": "drop", "size": 20000, "rep": 1, "seconds": 7.521, "inserted": 298612, "attempted": 300000}
+{"set": "abalone", "mode": "drop", "size": 20000, "rep": 2, "seconds": 7.532, "inserted": 298604, "attempted": 300000}
+{"set": "abalone", "mode": "drop", "size": 20000, "rep": 3, "seconds": 7.471, "inserted": 298656, "attempted": 300000}
+{"set": "abalone", "mode": "drop", "size": 20000, "rep": 4, "seconds": 7.472, "inserted": 298655, "attempted": 300000}
+{"set": "abalone", "mode": "drop", "size": 30000, "rep": 0, "seconds": 12.027, "inserted": 447979, "attempted": 450000}
+{"set": "abalone", "mode": "drop", "size": 30000, "rep": 1, "seconds": 11.539, "inserted": 448034, "attempted": 450000}
+{"set": "abalone", "mode": "drop", "size": 30000, "rep": 2, "seconds": 11.645, "inserted": 447940, "attempted": 450000}
+{"set": "abalone", "mode": "drop", "size": 30000, "rep": 3, "seconds": 11.679, "inserted": 448024, "attempted": 450000}
+{"set": "abalone", "mode": "drop", "size": 30000, "rep": 4, "seconds": 11.558, "inserted": 447999, "attempted": 450000}

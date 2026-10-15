@@ -245,3 +245,19 @@ hospital: weighted Drop, weighted loss 3132, exact True (0s)
 11:13:00 pricepaid repair same design as gbcnf
 11:13:00 pricepaid drop same design as gbcnf
 11:13:00 done
+20:57:11 food start: 276716 rows, 10000 templates, sizes [10000], reps 5, modes ['repair', 'drop'], budget 7200 s per mode
+20:57:14 food repair design: {'schemata': 5, 'unique': 5, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 2.738}
+20:57:14 food repair 10000 0 0.63s 35603 rows  
+20:57:18 food repair 10000 1 0.61s 35473 rows  
+20:57:21 food repair 10000 2 0.60s 35621 rows  
+20:57:25 food repair 10000 3 0.60s 35594 rows  
+20:57:29 food repair 10000 4 0.60s 35758 rows  
+20:57:29 food drop same design as repair
+20:59:50 hospital start: 1000 rows, 1000 templates, sizes [10000], reps 5, modes ['repair', 'drop'], budget 7200 s per mode
+20:59:50 hospital repair design: {'schemata': 6, 'unique': 6, 'unique_md5': 0, 'exclusion': 0, 'trigger_fds': 0, 'indexes': 0, 'build_seconds': 0.02}
+20:59:51 hospital repair 10000 0 0.65s 41788 rows  
+20:59:52 hospital repair 10000 1 0.63s 41677 rows  
+20:59:52 hospital repair 10000 2 0.62s 41683 rows  
+20:59:53 hospital repair 10000 3 0.64s 41704 rows  
+20:59:54 hospital repair 10000 4 0.68s 41480 rows  
+20:59:54 hospital drop same design as repair

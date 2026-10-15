@@ -654,7 +654,7 @@ def drop(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_de
                     stats["ascend_candidates"].append(("ascend-" + labels[id(c)], loss_a))
                     if labels[id(c)] == stats["heuristic_source"] or "ascend_moves_tried" not in stats:
                         stats.update({k: v for k, v in astats.items()})
-                    if loss_a < res.loss:
+                    if (loss_a, len(design_a)) < (res.loss, len(res.design)):   # fewer schemata on ties
                         res.loss = loss_a
                         res.delta = sorted(Delta_a)
                         res.E = FDSet(n, psi_a)

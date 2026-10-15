@@ -75,10 +75,12 @@ def repair_cell(r):
     return s
 
 def drop_cell(r):
-    """the loss of Drop, with an asterisk unless it is proved minimal; a dash where Drop did not run"""
+    """the loss of Drop, with an asterisk unless it is proved minimal, by the exact search of Drop or by the certified
+    lower bound (see bound_cell); a dash where Drop did not run"""
     if r.get("drop_loss") is None:
         return "--"
-    return num(r["drop_loss"]) + ("" if r.get("drop_exact") else r"$^{*}$")
+    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r), 0) if x is not None)
+    return num(r["drop_loss"]) + ("" if r.get("drop_exact") or r["drop_loss"] <= lb else r"$^{*}$")
 
 def bound_cell(r):
     """the certified lower bound on the loss: of the exact search of Drop, of the fallback of Repair, or of the
