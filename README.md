@@ -333,8 +333,8 @@ permutation k, shared by all α and s). The total variation distance of the mixt
 the drift; it reaches 0.59 to 0.70 at s = 2, α = 1. Updates are drawn and judged as in E4. `results/drift_<set>.jsonl`
 holds one record per update set with the harmful updates and the missed ones per design; `--table` summarizes them.
 At the strongest drift, the weighted designs of `Repair` miss fewer harmful updates than the unit-weight ones on the
-six sets where they do so without drift (abalone 27.2 → 15.1 %, breast 0.77 → 0.16 %, echo 10.1 → 3.0 %, hepatitis
-0.71 → 0.70 %, ncvoter 2.6 → 1.7 %, weather 2.3 → 1.2 %), and slightly more on bridges (4.30 → 4.34 %).
+six sets where they do so without drift (abalone 27.2 → 15.1 %, bridges 5.43 → 4.34 %, echo 10.9 → 2.30 %, hepatitis
+0.82 → 0.70 %, ncvoter 5.20 → 1.75 %, weather 2.15 → 1.33 %), and slightly more on breast (0.09 → 0.16 %).
 On the sets of meaningful FDs the weights leave the designs unchanged, and both miss 16.0 % on food, 0.2 % on price paid and
 none on hospital (`drift.py food pricepaid hospital`, one process per set).
 
