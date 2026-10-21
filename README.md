@@ -51,8 +51,8 @@ relative to their own location, so any working directory works.
 | `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
 | `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs and the enforcement of the non-key FDs (`-x`: exclusion constraints, `-t`: triggers); `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
 | `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
-| `drift.py` | the designs of `weighted.py` under update workloads that drift away from the one their weights came from (Zipf mixtures over the attributes); `results/drift_<set>.jsonl` |
-| `weighted.py` | `Repair` and `Drop` under weights from random updates: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
+| `drift.py` | the designs of `weighted.py` under update workloads that drift away from the one their violation weights were counted on (Zipf mixtures over the attributes); `results/drift_<set>.jsonl` |
+| `weighted.py` | `Repair` and `Drop` under violation weights: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
 | `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
 | `rerun_constants.sh`, `run_weighted.sh` | server drivers: the re-run of the sets whose constant attribute `drop_constants.py` removed; the weighted runs of `weighted.py` on the sets with data and positive loss, after that re-run |
 | `run_rerun_fast.sh` | server driver of the final records: E1 on every FD set with the current `Ascend` and C closures, the validation runs, the sets of meaningful FDs, then per set the weighted and drift runs and E3 and E4 of the designs of `Repair` and `Drop` that changed (`design_diff.py`) |
@@ -79,7 +79,7 @@ python src/hardness_check.py 600 3     # the reduction of the hardness theorem f
 python src/obstruction_stats.py        # the bounds of the paper on all FD sets
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py (3nf, 3nfc: the 3NF syntheses with keys only, for the trade-off figure)
 python src/e4.py abalone               # E4
-python src/weighted.py --budgets 1000000 abalone   # Repair and Drop under weights from random updates, evaluated as in E4
+python src/weighted.py --budgets 1000000 abalone   # Repair and Drop under violation weights, evaluated as in E4
 python src/paper_tables.py             # results/table_*.tex
 python src/paper_figures.py            # results/fig_*.tex
 ```
@@ -316,10 +316,10 @@ one sorted index per FD. The seven key designs enter with the non-key FDs of 3NF
 the original relation with every FD enforced has risk zero by construction. `results/e4_<set>.jsonl` holds the
 counts per seed and design.
 
-### Weights from random updates
+### Violation weights
 
-`weighted.py` gives every minimal FD of Σ_a the weight one plus the number of updates that violate it among the
-50,000 random updates of the weighting seeds 6 to 10, drawn as in E4. `Repair` and `Drop` then run with these
+`weighted.py` gives every minimal FD of Σ_a its violation weight, one plus the number of updates that violate it
+among the 50,000 random updates of the weighting seeds 6 to 10, drawn as in E4. `Repair` and `Drop` then run with these
 weights and the budgets of E1, with every subset sum of the weights as a bound of the iterative deepening of `Drop`
 (`--budgets 1000000`; the default of 60 bounds stops the exact search early under non-unit weights and reports it as
 unproved). The weighted designs and the unit-weight designs of E1 are evaluated on the updates of the evaluation

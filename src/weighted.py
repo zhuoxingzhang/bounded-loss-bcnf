@@ -1,4 +1,4 @@
-r"""weighted.py: Repair and Drop under weights that estimate how often each minimal FD is at risk (runs on the server).
+r"""weighted.py (server): Repair and Drop under violation weights, which estimate how often each minimal FD is at risk.
 
 The weight of a minimal FD f of Sigma_a is one plus the number of updates that violate f among the random updates of
 the weighting seeds (default 6..10, 10,000 updates each, drawn as in e4.py). Repair and Drop then run with these

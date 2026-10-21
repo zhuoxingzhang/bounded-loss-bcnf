@@ -1,5 +1,5 @@
 #!/bin/bash
-# run_weighted.sh: Repair and Drop under weights from random updates (weighted.py) on the FD sets with data and
+# run_weighted.sh: Repair and Drop under violation weights (weighted.py) on the FD sets with data and
 # positive loss, after the re-run of the constant-attribute sets has finished (results/rerun_constants.done), so that
 # no two measurements overlap. The weighted runs are independent and run in
 # parallel, one process per set. Run from any directory on the experiment server; an optional env.sh in the
