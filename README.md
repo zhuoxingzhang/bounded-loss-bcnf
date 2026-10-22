@@ -1,352 +1,171 @@
-# Boyce-Codd Normal Form with Bounded Dependency Loss: code and experiments
+# Boyce-Codd Normal Form with Bounded Dependency Loss
 
-This repository holds the implementation of the algorithms `Drop`, `Ascend` and `Repair` of the paper
-"Boyce-Codd Normal Form with Bounded Dependency Loss", the brute-force oracles that back its negative results, the
-validation scripts, the FD sets of the experiments, the experiment drivers, the record of every run, and the full
-protocol of the experiments (the paper states the protocol in brief and refers here for the details).
+Code, FD sets and experiment records of the paper "Boyce-Codd Normal Form with Bounded Dependency Loss", and its
+appendix `appendix.pdf` (Appendix A: further results, Appendix B: all proofs, numbered as in the paper).
 
-Everything is Python 3 (tested with 3.13). The algorithms use only the standard library and one C routine for
-attribute closures (`src/closure.c`), which `fdlib.py` compiles with gcc at its first import and calls through
-ctypes; without gcc, on Windows, for more than 64 attributes or with `FDLIB_PYTHON=1`, the same closures run in
-Python (`src/closure_check.py` compares the two). The scripts of the database experiments use psycopg2 and NumPy
-(PostgreSQL) and pymysql (the MySQL stage that holds the source tables).
+## Requirements
+
+Python 3.13. The algorithms use the standard library only. `fdlib.py` compiles the closures of `src/closure.c` with
+gcc at its first import and otherwise runs them in Python (also on Windows, above 64 attributes, or with
+`FDLIB_PYTHON=1`). The database experiments need PostgreSQL 18 with `btree_gist` and `pg_prewarm`, psycopg2 and
+NumPy, and MySQL 8 with pymysql for staging the source tables. `pgdb.py` reads `PGHOST`, `PGPORT` and `PGDATABASE`;
+`e3load.py` reads `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB`.
 
 ## Layout
 
 | path | content |
 |---|---|
-| `appendix.pdf` | Appendix A (further results) and Appendix B (all proofs) of the paper, which the paper refers to; references and numbers are those of the paper |
-| `src/` | the algorithms, the experiment drivers, the validation scripts and the scripts that produce the tables and figures of the paper (listed below) |
-| `search/` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper, with their logs next to them (`*_n5.log`: five attributes, `*_n6.log`: six, `*_n7.log`: seven; the four largest logs, `weak*_n*.log`, are not in the repository) |
-| `logs/` | the logs of the validation runs (`validate_*.log`) |
-| `data/fds/` | the FD sets of the experiments (see [Data](#data)) |
-| `results/` | the record of every run (`e1_<set>.jsonl`, `gbcnf_<set>.jsonl`, `hybrid_<set>.jsonl`, `e3pg_<set>.jsonl`, `e4_<set>.jsonl`, `weighted_<set>.jsonl`, `teaser_pg.jsonl`, `obstructions.jsonl`, `concurrency_check.log`) and the generated tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
-| `results/mysql/` | the records of the earlier MySQL variant of the teaser (`teaser.jsonl`), which the paper does not report |
-| `iconf/` | the Java driver that runs the original iCONF implementation for cross-checks (`iconf/README.md`) |
+| `src/` | algorithms, experiment drivers, checks, and the scripts that write the tables and figures |
+| `data/fds/` | the FD sets of the experiments |
+| `results/` | the record of every run (`<experiment>_<set>.jsonl`) and the tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
+| `logs/` | the validation runs |
+| `search/` | the random and exhaustive searches behind the counterexamples of the paper, with their logs |
+| `iconf/` | Java drivers that run the original iCONF and DecompAlg4 for the cross-checks (`iconf/README.md`) |
 
-All scripts are run from the repository root (`python src/experiments.py`); they locate `data/` and `results/`
-relative to their own location, so any working directory works.
+Every script states its purpose and options in its docstring and runs from the repository root. The main ones:
 
-### `src/`
-
-| file | content |
+| scripts in `src/` | purpose |
 |---|---|
-| `fdlib.py` | attribute closure (linear; in C through `closure.c` where available, see above), minimal keys (Lucchesi-Osborn), atomic cover Σ_a (all minimal FDs, via the minimal keys of Σ + A→R per attribute A), violators and critical minimal FDs, enforceability test, BCNF design from an enforceable set (the schemata of the uncritical minimal FDs grouped by left-hand side, or by the closure of the left-hand side over a nonredundant subset, merged while BCNF holds, plus a key schema, redundant schemata removed; the construction with fewer schemata wins), key dependencies, dependency loss, local enforcement, tableau chase, minimal cover, classical and greedy BCNF decomposition, loaders for the FD files |
-| `closure.c`, `closure_check.py` | the C routines of `fdlib.py` (the closure by passes over the FDs grouped by left-hand side, and the counter algorithm with excluded FDs that records the order in which the FDs fire); `closure_check.py` digests covers, keys, iCONF, DecompAlg4, BCNF decomposition and the recorded closures on every FD set, once with C and once with `FDLIB_PYTHON=1`, and the two runs must agree |
-| `drop.py` | `Drop(R, Σ, w)`. The sets Δ are generated by a tree search: a node Δ computes *requirement sets*, sets of minimal FDs of which every closed choice above Δ that satisfies the cover condition must contain one (the FDs that fire in a derivation of an element of Δ from Σ_a − Δ; for a critical minimal FD g = Y→B that U ∪ C(Δ) ∪ Δ does not imply, the critical minimal FDs with left-hand side inside Y⁺ and the violators of their schemata). The search branches over the smallest requirement set, prunes with the packing bound of pairwise disjoint requirement sets, and uses iterative deepening on the weight, so the first feasible candidate is optimal. A candidate is tested by a goal-directed, complete search for the weakened FDs W (iterative deepening on \|W\| up to `max_w`). The result reports whether the loss is proved minimal (`exact`), a certified lower bound, and otherwise the lightest design of the fallback described below. `drop_plain` is the plain enumeration of the closed choices by increasing weight, kept for cross-checks |
-| `ascend.py` | `Ascend`: the iterated local search that lowers the loss of a BCNF design by exchanging the FDs it enforces, started from the obstruction design or from any BCNF design: climbs that also accept exchanges of equal loss (their violators tabu), kicks out of local optima, and restarts in random candidate order; see [E1](#e1-and-e2-budgets-caps-and-fallbacks) for the parameters. `ascend_baseline.py` runs one ascent with given parameters and start (the obstruction design or the design of `Repair` or `Drop` in the E1 record) and records its loss over time |
-| `repair.py` | `Repair(R, Σ, w)`: the 3NF synthesis iCONF, key dependencies of the BCNF schemata, local `Drop` on every critical schema, one enforceability test of the assembled set Γ, ascents, and the fallback described below |
-| `iconf.py` | the 3NF synthesis iCONF (SIGMOD 2025) ported to Python on top of `fdlib`; `iconf_check.py` compares the port with the Java implementation on every FD set (`iconf/`). `decomp4` ports DecompAlg4 of the iCONF sources, the classical 3NF synthesis that the experiments of iCONF compare it with and the classical synthesis of E1 to E4 (a schema XA for every minimal FD X → A that the remaining FDs do not imply, in the order of Σ_a, subsumed schemata removed, a key schema added); `decomp4_check.py` compares it with the Java implementation (`iconf/Decomp4Driver.java`) on every FD set: `results/decomp4_check.log` |
-| `experiments.py` | experiments E1 and E2 on the FD sets in `data/fds`: every FD set runs in its own process with a timeout, and writes `results/e1_<set>.jsonl` (losses of all designs, schemata, running times, the candidates of `Repair` and the certified bounds); `--one <set>` runs one set, `--table` prints a summary, `--patch-3nfc` recomputes only the classical 3NF synthesis in the records (as `meaningful.py --patch-3nfc` for the sets of meaningful FDs) |
-| `meaningful.py` | the designs of E1 on four sets of meaningful FDs (food inspections and hospitals of HoloClean, the address rules of Royal Mail on the UK Price Paid Data, the historical dimensions of TPC-DS) and their variants, with the lost FDs by name; see [Meaningful FD sets](#meaningful-fd-sets); `results/meaningful_<set>.jsonl` |
-| `documented.py` | the data of the four sets of meaningful FDs (food, price paid, hospital, TPC-DS) for E3 and E4: normalised, cleaned until the FDs hold, loaded into PostgreSQL, with the designs of `meaningful.py` as E1 records; see [Meaningful FD sets](#meaningful-fd-sets) |
-| `gbcnf.py` | the greedy BCNF decomposition: every split is chosen among the violating FDs by the loss of its completion by the classical algorithm, so it never loses more than the classical decomposition; `results/gbcnf_<set>.jsonl` |
-| `hybrid.py` | the algorithms Opt and Hybrid of Wei and Link (SIGMOD 2021, TODS 2025) for FDs with cardinality constraints, ported to Python on top of `fdlib`: Opt synthesizes an FD-preserving decomposition that treats the critical FDs with the highest levels first, Hybrid decomposes its schemata along the non-key FDs whose level exceeds the level of the generating left-hand side; the levels come from the data where a source table exists, see [E1](#e1-and-e2-budgets-caps-and-fallbacks); `--test` runs the example of the TODS article; `results/hybrid_<set>.jsonl` |
-| `hardness_check.py` | the reduction from Maximum Independent Set to MinLoss with an explicit atomic cover (Theorem "NP-hardness with explicit atomic cover"): builds the schema of a graph, checks that it is its own atomic cover, computes the explicit design for a maximum independent set and confirms the loss `2m + n - alpha` with Drop on small graphs; prints to the console |
-| `obstruction_stats.py`, `check_upper_bound.py`, `acyclic.py`, `lb_proto.py` | the obstruction bound and the certified lower bound on every FD set (`results/obstructions.jsonl`), a random check of the bound, the acyclicity test of Majster-Cederbaum on the FD sets, and a prototype of stronger lower bounds |
-| `test_examples.py` | the schemata of the paper with their proved losses |
-| `validate_fdlib.py` | cross-checks the symbolic layer against the brute-force oracles on random instances (atomic cover, enforceability, keys, `Drop` loss = λ, designs sound and locally enforced, unenforced set = Δ, `Repair` ≥ λ) |
-| `minloss_bruteforce.py`, `weak_stats.py` | the brute-force layer: closure tables of size 2^n, enumeration of the closed FD sets, exact λ, level-wise exact solver (schemata with at most about seven attributes); the searches in `search/` build on it |
-| `diag_timeout.py`, `diag_fallback.py`, `design_diff.py` | which stage of E1 exceeds the budget on the largest FD sets; where the fallback of `Repair` spends its time; whether the designs of a new E1 run differ from the previous one (so that E3 and E4 are re-run only where they do) |
-| `embedded_loss.py`, `ablation.py`, `fd_names.py` | how many unenforced FDs of each of the eight key designs lie inside one schema and how many span several schemata (`results/table_embedded.tex`, the appendix table); the losses of every design that `Repair` examines before it returns the lightest, from the E1 records (`results/table_ablation.tex`, the appendix table of the branches of `Repair`); the minimal FDs of a data set written with the names of its columns, to tell the FDs that express a rule of the domain from accidents of the sample (`results/table_embedded.tex`) |
-| `e3load.py`, `dbload.py`, `pgload.py`, `pgdb.py` | the source tables of E3 and E4: the CSV data sets are loaded into MySQL by `e3load.py` (one `VARCHAR` column per attribute in the column order of the FD file; the environment variables `MYSQL_SOCKET`, `HPI_CSV_DIR` and `ICONF_DB` name the socket, the CSV directory and the database that holds the weather table) and copied into PostgreSQL by `pgload.py`; `pgdb.py` is the connection to the PostgreSQL build of the experiments (`PGHOST`, `PGPORT`, `PGDATABASE`) |
-| `e3pg.py` | experiment E3 in PostgreSQL: materializes every design of `results/e1_<set>.jsonl` and measures the insertion times; `--check` verifies the FDs and keys on the source tables, `--copy` runs every repetition from a file copy of a template database (weather), `--modes` selects the designs and the enforcement of the non-key FDs (`-x`: exclusion constraints, `-t`: triggers); `results/e3pg_<set>.jsonl`, summarized by `e3_report.py` |
-| `e4.py` | experiment E4: the integrity risk of the designs under random updates; `results/e4_<set>.jsonl` |
-| `drift.py` | the designs of `weighted.py` under update workloads that drift away from the one their violation weights were counted on (Zipf mixtures over the attributes); `results/drift_<set>.jsonl` |
-| `weighted.py` | `Repair` and `Drop` under violation weights: the weight of a minimal FD is one plus the number of updates that violate it on the weighting seeds, and the designs are evaluated as in E4 on the disjoint evaluation seeds together with the unit-weight designs; `results/weighted_<set>.jsonl` |
-| `concurrency_check.py` | the concurrency check of exclusion constraints against triggers (`results/concurrency_check.log`) |
-| `rerun_constants.sh`, `run_weighted.sh` | server drivers: the re-run of the sets whose constant attribute `drop_constants.py` removed; the weighted runs of `weighted.py` on the sets with data and positive loss, after that re-run |
-| `run_rerun_fast.sh` | server driver of the final records: E1 on every FD set with the current `Ascend` and C closures, the validation runs, the sets of meaningful FDs, then per set the weighted and drift runs and E3 and E4 of the designs of `Repair` and `Drop` that changed (`design_diff.py`) |
-| `run_documented.sh`, `run_tpcds.sh`, `run_3nfc.sh` | server drivers: E3 and E4 on food, price paid and hospital, and on TPC-DS (its E3 from file copies of prewarmed templates, since the 77 exclusion constraints of the original relation take hours to build); E3 and E4 of the classical 3NF synthesis DecompAlg4 (`e3pg.py --known` refers a mode to the measurement of iCONF where the two designs coincide) |
-| `teaser_pg.py` | the update overheads of the running example in PostgreSQL (the figure in the introduction); `teaser.py`, `e3.py`, `triggers.py`, `trigger_test.py` and `e3_refresh.py` are the earlier MySQL variants of the teaser and of E3 with FDs enforced by triggers, whose results the paper does not report |
-| `paper_tables.py`, `paper_figures.py` | the tables (`results/table_*.tex`) and figures (`results/fig_*.tex`) of the paper from the records in `results/` |
-| `e1_relaunch.sh`, `load_lineitem.sh`, `mysqld_stat.sh` | server scripts: re-run E1 on given sets, load the HPI lineitem dump into MySQL (`MYSQL_BIN`, `MYSQL_CNF`, `DUMP_DIR`), sample the memory of the MySQL server |
+| `fdlib.py`, `closure.c` | closures, minimal keys, atomic cover Σ_a, enforceability test, BCNF designs, dependency loss, classical BCNF decomposition |
+| `drop.py`, `ascend.py`, `repair.py` | the algorithms Drop, Ascend and Repair |
+| `iconf.py`, `gbcnf.py`, `hybrid.py` | competitors: iCONF and the classical 3NF synthesis DecompAlg4, the greedy BCNF decomposition, Opt and Hybrid of Wei and Link |
+| `experiments.py`, `meaningful.py` | E1 and E2 on the discovered and on the meaningful FD sets |
+| `documented.py` | the data of the meaningful FD sets for E3 and E4 |
+| `e3load.py`, `pgload.py`, `e3pg.py`, `e3_report.py` | E3: source tables in MySQL and PostgreSQL, insertion times, summary |
+| `e4.py`, `weighted.py`, `drift.py` | E4: integrity risk, violation weights, drift |
+| `teaser_pg.py` | the running example of the introduction |
+| `test_examples.py`, `validate_fdlib.py`, `minloss_bruteforce.py` | the examples of the paper, and random instances against brute force |
+| `closure_check.py`, `iconf_check.py`, `decomp4_check.py` | C against Python closures, the ports against the Java originals |
+| `hardness_check.py`, `obstruction_stats.py` | the reduction of the hardness theorem for atomic covers, the bounds on every FD set |
+| `paper_tables.py`, `paper_figures.py`, `embedded_loss.py`, `ablation.py` | the tables and figures |
+| `run_*.sh`, `rerun_constants.sh`, `e1_relaunch.sh` | the server drivers of the final runs |
+
+The remaining scripts are diagnostics, prototypes, and earlier MySQL variants of E3 that the paper does not report
+(`e3.py`, `triggers.py`, `results/mysql/`).
 
 ## Reproducing
 
 ```bash
-python src/test_examples.py            # the examples of the paper (seconds)
-python src/validate_fdlib.py 5 14400 32 300322  # random five-attribute instances against the brute force: seed 32, the 300,322 instances of logs/validate_n5f.log
-python src/validate_fdlib.py 6 14400 31 73730   # six attributes: seed 31, the 73,730 instances of logs/validate_n6e.log
-python src/closure_check.py > c.txt && FDLIB_PYTHON=1 python src/closure_check.py > py.txt   # the C closures against the Python ones: c.txt and py.txt must agree
-python src/iconf_check.py              # the Python ports of iCONF and DecompAlg4 against the Java originals (iconf/README.md)
-python src/decomp4_check.py
-python src/experiments.py              # E1 and E2 on all FD sets, one process per set; then
-python src/experiments.py --table      # the summary of results/e1_*.jsonl
-python src/experiments.py --one abalone
-python src/gbcnf.py                    # the greedy BCNF decomposition on all FD sets
-python src/hybrid.py                   # Opt and Hybrid on all FD sets (the levels need the source tables of pgdb.py)
-python src/hardness_check.py 600 3     # the reduction of the hardness theorem for explicit atomic covers, checked with Drop
-python src/obstruction_stats.py        # the bounds of the paper on all FD sets
-python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3, needs the PostgreSQL build of pgdb.py (3nf, 3nfc: the 3NF syntheses with keys only, for the trade-off figure)
-python src/e4.py abalone               # E4
-python src/weighted.py --budgets 1000000 abalone   # Repair and Drop under violation weights, evaluated as in E4
-python src/paper_tables.py             # results/table_*.tex
-python src/paper_figures.py            # results/fig_*.tex
+python src/test_examples.py                          # the examples of the paper
+python src/validate_fdlib.py 5 14400 32 300322       # logs/validate_n5f.log
+python src/validate_fdlib.py 6 14400 31 73730        # logs/validate_n6e.log
+python src/experiments.py                            # E1 and E2 (--one <set>, --table)
+python src/meaningful.py                             # E1 on the meaningful FD sets
+python src/gbcnf.py && python src/hybrid.py          # greedy BCNF decomposition, Opt and Hybrid
+python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3
+python src/e4.py abalone                             # E4
+python src/weighted.py --budgets 1000000 abalone     # violation weights
+python src/drift.py abalone                          # drift
+python src/paper_tables.py && python src/paper_figures.py
 ```
 
-Validation status: with the plain enumeration, 44,943 five-attribute and 21,156 six-attribute random instances
-without failure (`logs/validate_n5.log`, `logs/validate_n5b.log`, `logs/validate_n6b.log`); with the tree search and the
-final `Repair`, 300,322 five-attribute and 73,730 six-attribute random instances without failure
-(`logs/validate_n5f.log`, `logs/validate_n6e.log` with the final `Ascend` and the C closures; earlier runs
-`logs/validate_n5c.log`, `logs/validate_n5d.log`, `logs/validate_n5e.log`, `logs/validate_n6c.log`,
-`logs/validate_n6d.log`).
+Both validation runs pass: 300,322 random instances with five attributes and 73,730 with six.
 
-## Experimental protocol
-
-The paper states the set up of every experiment in brief; this section holds the details.
+## Protocol
 
 ### Platform
 
-Every run was single-threaded on a server with two AMD EPYC 7742 processors and 1 TB of main memory under Red Hat
-Enterprise Linux 8.10. The algorithms use the standard library of Python 3.13 and the C closures of `closure.c`
-(gcc 11.2, `-O3`). The database experiments run on
-an unmodified PostgreSQL 18.4 with the extensions `btree_gist` (for the exclusion constraints) and `pg_prewarm`,
-accessed through psycopg2 (the environment variables `PGHOST`, `PGPORT` and `PGDATABASE` of `pgdb.py` select the
-server); `e4.py` uses NumPy. The source tables were loaded into a user-space MySQL 8.0 first
-(`e3load.py`) and copied from there into PostgreSQL (`pgload.py`), so that both systems hold the same data.
+Every run is single-threaded on two AMD EPYC 7742 processors with 1 TB of main memory under Red Hat Enterprise
+Linux 8.10 (`closure.c` with gcc 11.2, `-O3`). PostgreSQL 18.4 is built from source and initialised with
+`initdb -E UTF8 --locale=C`; its configuration differs from the defaults in `shared_buffers = 32GB`,
+`work_mem = 64MB`, `maintenance_work_mem = 2GB`, `max_locks_per_transaction = 4096`, `max_wal_size = 64GB`,
+`checkpoint_timeout = 30min`, `autovacuum = off`, `jit = off` and `max_connections = 50`. The sessions of E3 set
+`enable_seqscan = off` and `enable_bitmapscan = off`, so that the cached plans of the constraint checks do not depend
+on the order of the measurements.
 
-The PostgreSQL instance was built from source and initialised with `initdb -E UTF8 --locale=C`. Its
-`postgresql.conf` differs from the defaults in `shared_buffers = 32GB`, `work_mem = 64MB`,
-`maintenance_work_mem = 2GB`, `max_locks_per_transaction = 4096`, `max_wal_size = 64GB`,
-`checkpoint_timeout = 30min`, `autovacuum = off`, `jit = off`, `max_connections = 50` and
-`logging_collector = on`; everything else, in particular the planner settings, is the default. Every measurement
-session of `e3pg.py` sets `enable_seqscan = off` and `enable_bitmapscan = off`, since the cached plans of the
-constraint checks otherwise kept sequential scans on the small tables, which would make the cost of a
-constraint depend on the order of the measurements.
+### Data
 
-### Data sets
+`data/fds/complete` and `data/fds/null-equality` hold the minimal FDs that HyFD discovers on the data sets of the
+HPI repeatability benchmark (https://hpi.de/naumann/projects/repeatability/data-profiling/fds.html), under the null
+equality interpretation for incomplete data; `data/fds/tpch` holds those of the eight TPC-H tables at scale factor
+0.1. Attributes are column indices, which `src/fd_names.py` maps to names. The discovered sets are their own atomic
+covers. `drop_constants.py` removes the constant attributes of echo, ncvoter, uniprot and TPC-H orders, since the
+paper assumes that no attribute is constant; the discovered files remain in `data/fds/discovered/`.
 
-The FD sets are the complete sets of minimal FDs of the data sets of the FD discovery benchmark (the
-repeatability page of the HPI information systems group, https://hpi.de/naumann/projects/repeatability/data-profiling/fds.html)
-under the null equality interpretation and of the lineitem table of TPC-H at scale factor 0.1, mined with HyFD;
-see [Data](#data). The benchmark files of abalone, adult, breast-cancer-wisconsin, bridges, echocardiogram,
-hepatitis and letter are the UCI data sets of these names (the files carry no header; `src/fd_names.py` maps the
-column indices to the attribute names of the UCI documentation); ncvoter is the 1,000-row, 19-column sample and
-uniprot the 1,000-row, 223-column sample of the page, with the attribute names in the header. weather is the
-table `china_weather` of the iConf experiments (262,920 rows, 18 columns), loaded from the database of the iConf
-project (`e3load.py`, `ICONF_DB`), whose attribute names are not part of the benchmark.
+The paper reports ten benchmark sets and TPC-H lineitem; `results/table_e12_full.tex` lists all 21 FD sets that we
+computed. It leaves out the benchmark lineitem (the same picture as TPC-H lineitem), pdbx (3NF synthesis is in BCNF
+already), diabetic and fd-red (3NF synthesis exceeds the budget), and the other TPC-H tables (loss zero for 3NF
+synthesis). The source tables hold the distinct rows of the files: adult 32,537 of 32,561, breast 691 of 699,
+letter 18,668 of 20,000, the others all. weather is the table `china_weather` of the iConf experiments (262,920 rows).
 
-Selection: the paper reports ten benchmark sets and TPC-H lineitem. It leaves out four benchmark sets whose FD
-sets we computed: lineitem, whose FD set gives the same picture as the lineitem table of TPC-H; pdbx, on which 3NF
-synthesis is in BCNF already; and diabetic and fd-red, with 40,195 and 89,571 minimal FDs, on which 3NF synthesis
-exceeds the budget of four hours (`results/diag_timeout_*.log`). We did not attempt the three sets of the
-benchmark whose FD sets are larger than that of fd-red, according to the counts on the benchmark page (horse
-128,726, plista 178,152 and flight 982,631 minimal FDs), nor the four sets with at most four FDs (iris,
-balance-scale, chess, nursery), nor the two large files without published FD sets (ncvoter statewide, flight with
-500,000 rows). The other seven TPC-H tables have at most three non-key FDs and loss zero for 3NF synthesis.
-`results/table_e12_full.tex` lists all 21 FD sets.
+### E1 and E2
 
-Records: the source tables hold the distinct rows of the files (`e3load.py` loads a set of rows), so the column
-"records" of the main table counts distinct records: adult 32,537 of the 32,561 rows of the benchmark file,
-breast 691 of 699 and letter 18,668 of 20,000; the other files have no duplicate rows. The FDs hold on the
-distinct rows iff they hold on the file.
-
-### E1 and E2: budgets, caps and fallbacks
-
-Every FD set had four hours for all algorithms together. A search that hits its budget or a cap reports its
-design as unproved, so a loss is proved minimal only by a complete search. The budgets of the steps are:
+Every FD set has four hours for all algorithms together. A search that hits a budget or a cap reports its design as
+unproved. Budgets are checked between the steps of a search, so running times exceed them on the largest sets.
 
 | step | budget |
 |---|---|
-| `Drop` with budget b, where b = 60 min on the whole schema: exact search | b, or b/2 if \|Σ_a\| > 200 |
-| `Drop`: greedy, if the exact search did not finish | until 1.5 b |
+| `Drop`: exact search, budget b = 60 min on the whole schema | b, or b/2 if \|Σ_a\| > 200 |
+| `Drop`: greedy, if the exact search does not finish | until 1.5 b |
 | `Drop`: `Ascend` from the obstruction design and from the greedy design | 15 min each |
 | `Repair`: `Drop` on a critical schema, without `Ascend` | b = 5 min each |
-| `Repair`: the ascents after the assembly | 15 min each |
-| `Repair` fallback: greedy on Γ⁺ | 30 min |
-| `Repair` fallback: `Drop` | b = 30 min |
-| `Repair` fallback: ascents from the obstruction designs | 15 min each |
-| all algorithms on one FD set | 4 h |
+| `Repair`: ascents after the assembly | 15 min each |
+| `Repair` fallback: greedy on Γ⁺, then `Drop` | 30 min, b = 30 min |
+| `Repair` fallback: ascents from the obstruction designs of (R, Γ⁺) and (R, Σ) | 15 min each |
 
-A budget is checked between the steps of a search, and on the large FD sets a single step that computes an atomic
-cover takes minutes, so the running times exceed the budgets there.
-
-`Drop` enumerated at most four weakened FDs per candidate, and on schemata with more than twelve attributes only
-weakened FDs that add at most three attributes to a left-hand side. When its exact search did not finish, `Drop`
-reported its certified lower bound and ran a greedy that drops, for an obstruction Y→B of the enforceability test,
-either Y→B or a violator of its schema, and restarts in random order; `Ascend` then started from the obstruction
-design and from the lightest design of the greedy, and `Drop` returned the lightest design it had found. On FD sets
-with thousands of minimal FDs, the greedy exceeded its budget, and the ascent started from the obstruction design
-alone with thirty minutes.
-
-The fallback of `Repair` (when the assembled set Γ⁺ is not enforceable) ran a greedy that drops FDs from Γ⁺ until
-the remainder is enforceable, then `Drop`, and then the ascents from the obstruction designs of (R, Γ⁺) and, unless
-`Drop` had run it, of (R, Σ), and returned the lightest of these designs and of the key-only design.
-
-`Ascend` examined candidates with at most 14 attributes in their schema. Each of its runs is an iterated local
-search: a climb accepts at most 50 exchanges of equal loss in a row, whose violators stay tabu until the loss
-decreases; after a climb, the lightest state so far is kept (a state of equal loss replaces it), a kick (a random
-exchange, or the removal of up to four random elements together with those that turn critical, its removed FDs tabu
-for the next climb) starts the next climb from it, and the run ends after 20 kicks in a row that do not lower the
-loss. The deterministic run is followed by up to sixty runs in random order among candidates of equal weight; among
-the runs of least loss, the one with the fewest equivalence classes of left-hand sides in a nonredundant cover of
-its enforced FDs wins, a lower bound on the schemata of any design that enforces them, since all keys of a schema
-have the same closure. `Repair` and `Drop` return, among their candidate designs of least loss, the one with the
-fewest schemata. These tie-breaks never trade loss for schemata.
-
-The record `results/e1_<set>.jsonl` of every set holds the losses of all designs, their schemata, the running times
-of every stage, the candidates of `Repair` with their losses, and the certified lower bounds.
-
-**Hybrid.** The Hybrid algorithm of Wei and Link needs cardinality constraints card(X) ≤ ℓ, which bound the number of
-records that agree on X. As in the experiments of the TODS article, `hybrid.py` discovers them from the data: for
-every left-hand side X of Σ_a, ℓ_X is the largest number of records of the source table (the table of E3 and E4 in
-PostgreSQL) that agree on X, and 1 when X is a superkey. Since the FDs hold on the data, this is the smallest level
-that the discovered constraints imply for X. Opt orders the minimal FDs X→A by the largest level of a non-key FD on
-XA, removes an FD that the remaining ones imply and otherwise adds XA as a schema, removes the non-maximal schemata
-and adds a minimal key when no schema is a superkey. Hybrid decomposes every schema XA of Opt along each non-key FD
-Y→B on it with ℓ_Y > ℓ_X, into YB and Y(XA − B), and removes the non-maximal schemata. On the FD sets without a
-source table (TPC-H lineitem, uniprot and the TPC-H sets without data), the levels come from the FDs alone, 1 for a
-superkey and unbounded otherwise, and Hybrid decomposes exactly the critical schemata that a minimal key generates;
-the paper marks these runs. Every schema declares its minimal keys, as for the other designs, and the record also
-counts the minimal FDs that no projection implies, which Hybrid enforces by assertions over joins, and the level of
-the design, the largest level of a non-key FD inside one of its schemata.
+- `Drop` enumerates at most four weakened FDs per candidate, and on schemata with more than twelve attributes only
+  those that add at most three attributes to a left-hand side. On FD sets with thousands of minimal FDs its greedy
+  exceeds the budget, and the ascent starts from the obstruction design alone, with 30 min.
+- `Ascend` examines candidates with at most 14 attributes in their schema. A climb accepts at most 50 exchanges of
+  equal loss in a row, a kick makes a random exchange or removes up to four random elements, and a run ends after 20
+  kicks without improvement. The deterministic run is followed by up to 60 runs in random order.
+- Ties between designs of least loss go to fewer equivalence classes of left-hand sides (`Ascend`) and to fewer
+  schemata (`Repair`, `Drop`); a tie-break never trades loss for schemata.
+- Hybrid takes the level of X as the largest number of records of the source table that agree on X (1 for a
+  superkey). Without data, the level is 1 for a superkey and unbounded otherwise; the paper marks these runs.
 
 ### Meaningful FD sets
 
-`src/meaningful.py` lists four sets of meaningful FDs, taken from documented rules rather than discovered from data, by
-attribute name with their sources, writes them to `data/fds/meaningful/<set>.json` (`--write`) and runs the designs of
-E1 on them with the budgets above (`results/meaningful_<set>.jsonl`, `--table`, `--tex` for the rows of the table of
-meaningful FDs in RQ1 and `--tex-e12` for rows in the columns of the E1 table). No data is loaded; the levels of
-Hybrid come from the FDs alone.
+`meaningful.py` lists the FDs by attribute name with their sources and writes them to `data/fds/meaningful/`.
 
-- **food** (17 attributes): the FDs of the Chicago food inspections in HoloClean (Rekatsinas et al., PVLDB 10(11),
-  2017, Fig. 1): DBAName → Zip, Zip → City, State and City, State, Address → Zip; the conflicts of Sec. 6.1 of that
-  paper as License → Zip, FacilityType and License, InspectionDate → Results; and the key InspectionID.
-- **price paid** (`uk`, 16 attributes): the columns of the UK Price Paid Data of HM Land Registry with the rules of the
-  Royal Mail PAF Programmers' Guide (Edition 7, Version 6, pp. 14 and 17): Postcode → Street, Locality, Town and
-  PAON, SAON, Street, Locality, Town → Postcode, and the key TransactionID.
-- **hospital** (19 attributes): the nine denial constraints of HoloClean on its hospital data set (as FDs: ZipCode →
-  City, State; PhoneNumber → ZipCode, City, State; ProviderNumber, MeasureCode → Stateavg; MeasureCode →
-  MeasureName, Condition; State, MeasureCode → Stateavg), ProviderNumber → the twelve hospital attributes,
-  ProviderNumber, MeasureCode → Score, Sample, and the address rule of food, Address1, City, State → ZipCode.
-- **TPC-DS** (`tpcds`, 95 attributes): store_sales joined with item, store and date_dim on their surrogate keys,
-  without the validity columns `*_rec_start_date` and `*_rec_end_date`. The keys of the four tables, d_date and
-  d_date_id → d_date_sk, the rule of historical dimensions (TPC-DS v4.0.0, Clause 1.3.3) as i_item_id, d_date →
-  i_item_sk and s_store_id, d_date → s_store_sk, and ss_ticket_number → d_date_sk, s_store_sk, since the generator
-  draws the date and the store once per ticket.
+- **food** (17 attributes): the FDs of the Chicago food inspections in HoloClean (Rekatsinas et al., PVLDB 2017,
+  Fig. 1 and Sec. 6.1) and the key InspectionID.
+- **price paid** (16): the UK Price Paid Data with the address rules of the Royal Mail PAF Programmers' Guide
+  (Edition 7, Version 6, pp. 14 and 17) and the key TransactionID.
+- **hospital** (19): the nine denial constraints of HoloClean on its hospital data as FDs, ProviderNumber → the
+  hospital attributes, ProviderNumber, MeasureCode → Score, Sample, and the address rule of food.
+- **TPC-DS** (95): store_sales joined with item, store and date_dim without their validity columns, with the keys,
+  the rule of historical dimensions (Clause 1.3.3 of v4.0.0) and ss_ticket_number → d_date_sk, s_store_sk.
 
-Variants in the same records: `food+c1` is food as listed (the paper's food); `food` leaves out DBAName → Zip, which
-fails for chains; `uk+admin` adds Postcode → District and District → County, which hold only approximately;
-`hospital-all` adds the FDs of the other published constraint lists of the hospital data set that hold on its
-clean version; `tpcds-core` keeps 12 of the 95 attributes. Every variant has λ = 1 (2 on TPC-DS), attained by
-`Repair` and `Drop`. On every set and variant, the classical synthesis (DecompAlg4) returns the design of iCONF.
+In the E1 records these sets are `food+c1`, `uk`, `hospital` and `tpcds`; the other entries are variants that add or
+remove FDs of doubtful status. E3 and E4 run on them as `food`, `pricepaid`, `hospital` and `tpcds`.
 
-**Data for E3 and E4.** Three of the sets have public data, which `src/documented.py` prepares on the server from
-downloads in `data/documented/<set>/` (not part of the repository; downloaded on 14 October 2026): food from the Food
-Inspections of the City of Chicago (data.cityofchicago.org, data set 4ijn-s7e5, `rows.csv`, 316,963 records), price
-paid from the Price Paid Data of HM Land Registry for 2024 (`pp-2024.csv`, 931,453 records; contains HM Land Registry
-data © Crown copyright and database right 2024, licensed under the Open Government Licence v3.0), and hospital from
-the clean hospital data of Raha (github.com/BigDaMa/raha, `datasets/hospital/clean.csv`, 1,000 records). The script
-trims every value, collapses runs of white space, writes letters in upper case and the empty value as `?`, removes
-duplicate records, and then removes, until every FD of the set holds, the records whose right-hand side value differs
-from the most frequent one for their left-hand side value (FD by FD in the order of the set, repeated until nothing
-changes). It keeps 276,716 records of food (87.3%; DBAName → Zip removes 36,131, since chains have many zip codes),
-926,485 of price paid (99.5%) and all records of hospital (`results/documented_<set>.json`). `--load` puts the records
-into `src.<set>`, `--designs` writes the designs of the table of meaningful FDs to `results/e1_doc-<set>.jsonl` in the
-format of `experiments.py`, and `e3pg.py`, `e4.py`, `weighted.py` and `drift.py` then run on the sets `food`, `pricepaid`,
-`hospital` and `tpcds` as on the others. The records of TPC-DS come from `dsdgen` of tpcds-kit (github.com/gregrahn/tpcds-kit,
-commit 5a3a817, built with `make OS=LINUX CC="gcc -fcommon"`, since gcc 10 and later reject its common symbols) at
-scale factor 1 in `data/documented/tpcds/raw/`: `documented.py` joins the 2,880,404 sales of `store_sales.dat` with
-`item.dat`, `store.dat` and `date_dim.dat` on their surrogate keys and leaves out the 194,717 sales without an item, a store or a
-date (dsdgen leaves these keys empty), so 2,685,687 records remain, all of which satisfy the FDs. On this set `e3pg.py` measures from file copies
-of prewarmed templates (`--copy`, `run_tpcds.sh`).
+`documented.py` prepares the data from downloads of 14 October 2026, which are not in the repository: the Food
+Inspections of the City of Chicago (data set 4ijn-s7e5), the Price Paid Data of 2024 (contains HM Land Registry data
+© Crown copyright and database right 2024, licensed under the Open Government Licence v3.0), the clean hospital data
+of Raha (github.com/BigDaMa/raha), and TPC-DS at scale factor 1 from `dsdgen` of tpcds-kit (commit 5a3a817, built
+with `make OS=LINUX CC="gcc -fcommon"`). It normalises the values, removes duplicates and, until every FD holds, the records that
+disagree with the most frequent right-hand side of their group. It keeps 276,716 records of food (87.3%), 926,485
+of price paid (99.5%), all 1,000 of hospital and the 2,685,687 sales of TPC-DS that have an item, a store and a date.
 
-### E3: operational overheads in PostgreSQL
+### E3: insertion times
 
-Every design was materialized in PostgreSQL 18.4 with a table per schema that holds the distinct projection of the
-data set, a `UNIQUE` constraint per declared key, and, on the original relation and on the critical schemata of
-3NF synthesis, an exclusion constraint `EXCLUDE USING gist (X WITH =, A WITH <>)` per non-key FD X→A of a minimal
-cover. The exclusion constraint states the FD exactly, and the database system validates it like a key while it
-maintains the index of the constraint.
+Every design gets one table per schema with the distinct projection of the data, a `UNIQUE` constraint per declared
+key, and, on the original relation and on the critical schemata of 3NF synthesis, an exclusion constraint
+`EXCLUDE USING gist (X WITH =, A WITH <>)` per non-key FD X → A of a minimal cover. Values are stored as text, so a
+missing value is a value of its own, as under the null equality interpretation.
 
-Every value was stored as text, so that the marker of a missing value is a value of its own, as under the null
-equality interpretation of the FD sets. Under the SQL semantics of nulls, a `UNIQUE` constraint does not enforce
-its key on rows with a missing value, and since version 15 PostgreSQL enforces it by `UNIQUE NULLS NOT DISTINCT`,
-while the equality operator of an exclusion constraint never matches a null, so stored nulls would weaken the
-exclusion constraints rather than the keys.
+A synthetic record copies a random stored record on a closed set of attributes and has fresh values elsewhere, so it
+satisfies Σ while the exclusion constraints still meet the copied group. The 10,000, 20,000 and 30,000 records are
+generated before the clock starts and inserted in one transaction with one `INSERT ... ON CONFLICT DO NOTHING` per
+table and batch of 1,000; the commit is timed. Times are means of five repetitions, each on rebuilt tables (weather
+and TPC-DS from file copies of prewarmed templates, `--copy`), with a watchdog after two hours of insertion time.
 
-Into every design we inserted 10,000, 20,000 and 30,000 synthetic records, projected onto its schemata. A synthetic
-record copies a randomly chosen stored record on a closed set of attributes and carries fresh values elsewhere, so
-that the enlarged relation satisfies Σ and no insertion is rejected, while every exclusion constraint whose
-left-hand side lies inside the closed set finds the group of the copied record and compares right-hand sides. The
-records were generated before the clock started and inserted in one transaction with one multi-row `INSERT` per
-table and batch of 1,000 records, where a projection that duplicates a stored tuple is skipped by
-`ON CONFLICT DO NOTHING`; the commit is included in the time.
+`teaser_pg.py` measures the running example on an address book of 100,000 customers in 200 towns with ten zip codes
+each, where half of the inserted customers move to an existing address. `concurrency_check.py` confirms that an
+exclusion constraint rejects the second of two concurrent conflicting insertions under every isolation level, while
+a trigger admits both under `READ COMMITTED` and `REPEATABLE READ`. `conc.py` (`run_conc.sh`) measures throughput
+with up to 32 concurrent clients; the paper does not report it.
 
-We report the mean of five repetitions. Every repetition rebuilt the tables, since a GiST index degrades after
-deletions, and on weather, whose tables take minutes to build, every repetition started from a file copy of a
-prewarmed template database (`e3pg.py --copy`: `CREATE DATABASE ... TEMPLATE ... STRATEGY FILE_COPY`, then
-`pg_prewarm`). Every design had a budget of two hours of insertion time, after which a watchdog cancelled the
-running insertion, and the record notes the cancellation. `e3pg.py --check` verifies the FDs and the keys on the
-loaded source tables before the measurements.
+### E4: integrity risk, violation weights and drift
 
-### Concurrency check
-
-`concurrency_check.py` (`results/concurrency_check.log`) lets two transactions insert (1, zebra) and (1, lion)
-concurrently into a table with the exclusion constraint for cage→animal: the second insertion waits for the first
-transaction and fails under `READ COMMITTED`, `REPEATABLE READ` and `SERIALIZABLE`. With a `BEFORE INSERT` trigger
-that looks up a stored tuple of the same cage instead, both transactions commit under `READ COMMITTED` and
-`REPEATABLE READ` (two animals in cage 1), as the analyses of snapshot isolation predict, and `SERIALIZABLE` aborts
-the first transaction. Hence, E3 compares guarantees of the same kind: FDs that the database system enforces, by
-keys in the BCNF designs and by exclusion constraints elsewhere.
-
-**Throughput under concurrency** (supplementary). `conc.py` lets C ∈ {1, 4, 16, 32} clients insert the 40,000
-synthetic records of E3 concurrently in transactions of ten records, under a uniform and a skewed (Zipf 1.0) choice of
-the copied stored records, three repetitions each from file copies of a prewarmed template (`run_conc.sh`;
-`results/conc_<set>.jsonl`, `results/conc.log`, `conc.py --table`). The PostgreSQL build allows 50 connections, so a
-first run with 64 clients was refused (`results/conc_run1/`). Throughput grows with the clients in every mode, and the
-key designs of `Repair` keep the lead over the iCONF design with exclusion constraints: 1.2 to 2.3 times its
-throughput with one client and 1.1 to 1.6 times with 32 clients.
-
-### The running example (the figure in the introduction)
-
-`teaser_pg.py` builds an address book of 100,000 customers on the streets of 200 towns with ten zip codes each,
-materializes the designs of the running example, and inserts customers of whom half move to an existing address,
-so that the exclusion constraints on Z→T find stored tuples (`results/teaser_pg.jsonl`).
-
-### E4: integrity risk
-
-For every data set, `e4.py` draws 10,000 random updates per seed. Each update replaces the value of a random
-attribute in a random stored record by the value of that attribute in another random record, and it is evaluated
-on its own against the stored relation, whose projections the designs store. An update is *harmful* if the updated
-relation violates some FD of Σ; a design *catches* it if the updated relation violates a key dependency that the
-design declares, which is the case iff it violates an enforced FD. The *integrity risk* of a design is the share
-of harmful updates that it does not catch, reported as the mean over five seeds. The tests run in main memory with
-one sorted index per FD. The seven key designs enter with the non-key FDs of 3NF synthesis left to the application;
-the original relation with every FD enforced has risk zero by construction. `results/e4_<set>.jsonl` holds the
-counts per seed and design.
-
-### Violation weights
-
-`weighted.py` gives every minimal FD of Σ_a its violation weight, one plus the number of updates that violate it
-among the 50,000 random updates of the weighting seeds 6 to 10, drawn as in E4. `Repair` and `Drop` then run with these
-weights and the budgets of E1, with every subset sum of the weights as a bound of the iterative deepening of `Drop`
-(`--budgets 1000000`; the default of 60 bounds stops the exact search early under non-unit weights and reports it as
-unproved). The weighted designs and the unit-weight designs of E1 are evaluated on the updates of the evaluation
-seeds 1 to 5 of E4, so every design meets the same updates. `results/weighted_<set>.jsonl` holds the weights, the
-unit and weighted loss of every design and the counts per evaluation seed.
-
-**Drift.** `drift.py` evaluates the same stored designs (`Repair` and `Drop`, unit and weighted) on updates whose
-attribute follows the mixture (1 − α)·uniform + α·Zipf(s) over a random permutation of the non-constant attributes,
-for s ∈ {1, 2} and α ∈ {0.25, 0.5, 0.75, 1}, with ten permutations of 10,000 updates each (seed 1000 + k for
-permutation k, shared by all α and s). The total variation distance of the mixture from the uniform choice measures
-the drift; it reaches 0.59 to 0.70 at s = 2, α = 1. Updates are drawn and judged as in E4. `results/drift_<set>.jsonl`
-holds one record per update set with the harmful updates and the missed ones per design; `--table` summarizes them.
-At the strongest drift, the weighted designs of `Repair` miss fewer harmful updates than the unit-weight ones on the
-six sets where they do so without drift (abalone 27.2 → 15.1 %, bridges 5.43 → 4.34 %, echo 10.9 → 2.30 %, hepatitis
-0.82 → 0.70 %, ncvoter 5.20 → 1.75 %, weather 2.15 → 1.33 %), and slightly more on breast (0.09 → 0.16 %).
-On the sets of meaningful FDs the weights leave the designs unchanged, and both miss 16.0 % on food, 0.2 % on price paid and
-none on hospital (`drift.py food pricepaid hospital`, one process per set).
-
-## Data
-
-`data/fds/complete` and `data/fds/null-equality` hold the minimal FDs discovered by Metanome on the data sets of
-the HPI repeatability page (JSON: `{"R": n, "fds": [{"lhs": [...], "rhs": [...]}]}`; attributes are column
-indices), on complete data (abalone, adult, fd-red, letter, lineitem) and on incomplete data under the null
-equality interpretation (breast, bridges, china_weather, diabetic, echo, hepatitis, ncvoter, pdbx, uniprot).
-`data/fds/tpch` holds the FDs of the eight TPC-H tables in the Metanome text format. The discovery output for
-orders omits the FD with empty left-hand side of the constant column o_shippriority, which we added as the last
-line `->5` of `orders-fds.txt`. The discovered sets are complete sets of minimal FDs and hence their own atomic
-covers: on every set with at most 918 FDs the computed atomic cover equals the input, and above 2,000 input FDs
-`experiments.py` takes the input as Σ_a after checking that every left-hand side is minimal.
+- An update replaces the value of a random attribute in a random record by its value in another random record, and
+  is evaluated on its own against the stored relation. It is harmful if it violates an FD of Σ, and a design catches
+  it if it violates a declared key. The integrity risk is the share of harmful updates missed, averaged over
+  seeds 1 to 5 with 10,000 updates each. 3NF synthesis enters with its non-key FDs left to the application, and the
+  original relation with every FD enforced has risk zero.
+- The violation weight of a minimal FD is one plus the number of updates of seeds 6 to 10 that violate it.
+  `Repair` and `Drop` run with the budgets of E1, and `--budgets 1000000` lets the iterative deepening of `Drop` use
+  every subset sum of the weights. All designs are evaluated on the updates of seeds 1 to 5.
+- Under drift, the attribute of an update follows (1 − α)·uniform + α·Zipf(s) over a random permutation of the
+  non-constant attributes, for s ∈ {1, 2} and α ∈ {0.25, 0.5, 0.75, 1}, with ten permutations of 10,000 updates each.
