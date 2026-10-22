@@ -1,3 +1,0 @@
-hospital: 1000 records, 0 duplicates, 1000 kept (100.0%), removed by {} (0s)
-pricepaid: 931453 records, 0 duplicates, 926485 kept (99.5%), removed by {'Postcode->Street': 3755, 'Postcode->Locality': 1012, 'PAON,SAON,Street,Locality,Town->Postcode': 112, 'Postcode->Town': 89} (94s)
-food: 316963 records, 0 duplicates, 276716 kept (87.3%), removed by {'DBAName->Zip': 36131, 'License,InspectionDate->Results': 1511, 'License->Zip': 1278, 'License->FacilityType': 830, 'Zip->City': 288, 'City,State,Address->Zip': 159} (42s)

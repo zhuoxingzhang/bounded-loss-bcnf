@@ -1,5 +1,0 @@
-fd-red: 30 attributes, 89571 FDs in the file
-  left-reduction check            0.7 s  -> True
-  minimal keys               exceeds 600 s
-  iCONF                      exceeds 600 s
-  enforceability of Sigma+   exceeds 600 s

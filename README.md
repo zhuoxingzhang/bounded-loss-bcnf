@@ -41,7 +41,7 @@ Every script states its purpose and options in its docstring and runs from the r
 | `run_*.sh`, `rerun_constants.sh`, `e1_relaunch.sh` | the server drivers of the final runs |
 
 The remaining scripts are diagnostics, prototypes, and earlier MySQL variants of E3 that the paper does not report
-(`e3.py`, `triggers.py`, `results/mysql/`).
+(`e3.py`, `triggers.py`).
 
 ## Reproducing
 
