@@ -1,7 +1,7 @@
 # Boyce-Codd Normal Form with Bounded Dependency Loss
 
 Code, FD sets and experiment records of the paper "Boyce-Codd Normal Form with Bounded Dependency Loss", and its
-appendix `appendix.pdf` (Appendix A: further results, Appendix B: all proofs, numbered as in the paper).
+full version `paper.pdf` (with Appendix A: further results, Appendix B: all proofs).
 
 ## Requirements
 
