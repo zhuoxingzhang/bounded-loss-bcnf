@@ -15,6 +15,7 @@ Python (`src/closure_check.py` compares the two). The scripts of the database ex
 
 | path | content |
 |---|---|
+| `appendix.pdf` | Appendix A (further results) and Appendix B (all proofs) of the paper, which the paper refers to; references and numbers are those of the paper |
 | `src/` | the algorithms, the experiment drivers, the validation scripts and the scripts that produce the tables and figures of the paper (listed below) |
 | `search/` | the random and exhaustive searches behind the negative results and the conjecture tests of the paper, with their logs next to them (`*_n5.log`: five attributes, `*_n6.log`: six, `*_n7.log`: seven; the four largest logs, `weak*_n*.log`, are not in the repository) |
 | `logs/` | the logs of the validation runs (`validate_*.log`) |
