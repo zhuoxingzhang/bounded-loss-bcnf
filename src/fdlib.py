@@ -19,7 +19,7 @@ Contents
   I/O                 : the JSON format of the FD files in data/fds and the Metanome text format
 """
 from itertools import combinations
-import json, re, os, sys, ctypes, array, subprocess
+import json, re, os, sys, time, ctypes, array, subprocess
 
 # ----------------------------------------------------------------------------- sets
 
@@ -46,16 +46,36 @@ def fmt_fd(f, names=None):
 
 # ----------------------------------------------------------------------------- closures
 
+def _compile_msvc(src, out):
+    """closure.c as a DLL from the Visual C++ compiler that vswhere finds (Windows)"""
+    import tempfile
+    vswhere = os.path.join(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"), "Microsoft Visual Studio",
+                           "Installer", "vswhere.exe")
+    root = subprocess.check_output([vswhere, "-latest", "-products", "*", "-requires",
+                                    "Microsoft.VisualStudio.Component.VC.Tools.x86.x64", "-property",
+                                    "installationPath"], text=True).strip()
+    vcvars = os.path.join(root, "VC", "Auxiliary", "Build", "vcvars64.bat")
+    with tempfile.TemporaryDirectory() as tmp:
+        subprocess.check_call('call "%s" >nul && cl /nologo /O2 /LD "%s" /Fe"%s" /link /EXPORT:closure_groups '
+                              '/EXPORT:closure_without' % (vcvars, src, os.path.join(tmp, "c.dll")), shell=True,
+                              cwd=tmp, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        os.replace(os.path.join(tmp, "c.dll"), out)
+
 def _load_c():
-    """the C closures of closure.c, compiled next to it on first use; None without a compiler"""
-    if os.environ.get("FDLIB_PYTHON") or sys.platform == "win32":
+    """the C closures of closure.c, compiled next to it on first use (gcc, or Visual C++ on Windows); None without
+    a compiler"""
+    if os.environ.get("FDLIB_PYTHON"):
         return None
     here = os.path.dirname(os.path.abspath(__file__))
-    src, so = os.path.join(here, "closure.c"), os.path.join(here, "_closure.so")
+    win = sys.platform == "win32"
+    src, so = os.path.join(here, "closure.c"), os.path.join(here, "_closure.dll" if win else "_closure.so")
     try:
         if not os.path.isfile(so) or os.path.getmtime(so) < os.path.getmtime(src):
             tmp = "%s.%d" % (so, os.getpid())
-            subprocess.check_call(["gcc", "-O3", "-shared", "-fPIC", "-o", tmp, src], stderr=subprocess.DEVNULL)
+            if win:
+                _compile_msvc(src, tmp)
+            else:
+                subprocess.check_call(["gcc", "-O3", "-shared", "-fPIC", "-o", tmp, src], stderr=subprocess.DEVNULL)
             os.replace(tmp, so)
         lib = ctypes.CDLL(so)
     except (OSError, subprocess.CalledProcessError):
@@ -272,12 +292,17 @@ def minimize_key(F, X, S):
 class CapExceeded(Exception):
     pass
 
-def minimal_keys(F, S, cap=None):
+class DeadlineExceeded(Exception):
+    """raised by minimal_keys, minimal_generators and atomic_cover once the time is past their deadline"""
+
+def minimal_keys(F, S, cap=None, deadline=None):
     """All minimal keys of (S, F[S]) by the Lucchesi-Osborn exchange algorithm.
     F must be a cover of the FDs on S (for S a proper subschema, pass the restriction of an atomic cover)."""
     keys = [minimize_key(F, S, S)]
     i = 0
     while i < len(keys):
+        if deadline is not None and time.time() > deadline:
+            raise DeadlineExceeded("minimal keys past the deadline")
         K = keys[i]
         i += 1
         for (Y, B) in F.fds:
@@ -289,20 +314,21 @@ def minimal_keys(F, S, cap=None):
                         raise CapExceeded("more than %d minimal keys" % cap)
     return keys
 
-def minimal_generators(F, A, cap=None):
+def minimal_generators(F, A, cap=None, deadline=None):
     """All minimal X with A in closure(X) and A not in X: the minimal keys of F + {A -> R} other
     than {A} (the exchange algorithm needs the FDs A -> b to be complete, so they are really added)."""
     if not any(F.implies(Y, A) and not (Y >> A) & 1 for (Y, B) in F.fds):
         return []
     R = (1 << F.n) - 1
     Fp = FDSet(F.n, F.fds + [(1 << A, b) for b in range(F.n) if b != A])
-    return [K for K in minimal_keys(Fp, R, cap) if K != 1 << A]
+    return [K for K in minimal_keys(Fp, R, cap, deadline) if K != 1 << A]
 
-def atomic_cover(F, cap=None):
-    """All minimal FDs (X, A) of F^+, as an FDSet (the atomic cover, Sigma_a in the paper)."""
+def atomic_cover(F, cap=None, deadline=None):
+    """All minimal FDs (X, A) of F^+, as an FDSet (the atomic cover, Sigma_a in the paper); past the deadline (a
+    time.time() value), DeadlineExceeded"""
     out = []
     for A in range(F.n):
-        for X in minimal_generators(F, A, cap):
+        for X in minimal_generators(F, A, cap, deadline):
             out.append((X, A))
         if cap is not None and len(out) > cap:
             raise CapExceeded("more than %d minimal FDs" % cap)

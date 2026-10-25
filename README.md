@@ -21,6 +21,7 @@ NumPy, and MySQL 8 with pymysql for staging the source tables. `pgdb.py` reads `
 | `results/` | the record of every run (`<experiment>_<set>.jsonl`) and the tables (`table_*.tex`) and figures (`fig_*.tex`) of the paper |
 | `logs/` | the validation runs |
 | `search/` | the random and exhaustive searches behind the counterexamples of the paper, with their logs |
+| `e8/` | the machine checks of the theory (`e8/run_validation.sh`), with their logs in `results/e8/` |
 | `iconf/` | Java drivers that run the original iCONF and DecompAlg4 for the cross-checks (`iconf/README.md`) |
 
 Every script states its purpose and options in its docstring and runs from the repository root. The main ones:
@@ -28,13 +29,15 @@ Every script states its purpose and options in its docstring and runs from the r
 | scripts in `src/` | purpose |
 |---|---|
 | `fdlib.py`, `closure.c` | closures, minimal keys, atomic cover Σ_a, enforceability test, BCNF designs, dependency loss, classical BCNF decomposition |
-| `drop.py`, `ascend.py`, `repair.py` | the algorithms Drop, Ascend and Repair |
+| `drop.py`, `ascend.py`, `repair.py`, `hit.py` | the algorithms Drop, Ascend, Repair and Hit |
 | `iconf.py`, `gbcnf.py`, `hybrid.py` | competitors: iCONF and the classical 3NF synthesis DecompAlg4, the greedy BCNF decomposition, Opt and Hybrid of Wei and Link |
 | `experiments.py`, `meaningful.py` | E1 and E2 on the discovered and on the meaningful FD sets |
 | `documented.py` | the data of the meaningful FD sets for E3 and E4 |
 | `e3load.py`, `pgload.py`, `e3pg.py`, `e3_report.py` | E3: source tables in MySQL and PostgreSQL, insertion times, summary |
-| `e4.py`, `weighted.py`, `drift.py` | E4: integrity risk, violation weights, drift |
-| `teaser_pg.py` | the running example of the introduction |
+| `e4.py`, `weighted.py`, `drift.py`, `worst_case.py`, `worst_stored.py` | E4: integrity risk, violation weights, drift, the risk of the baselines over random orders |
+| `stored_risk.py`, `independence.py` | the risk on the stored tables, the independence of the designs, the parts of the FD sets |
+| `queries.py` | the queries that reconstruct records from the tables of a design |
+| `teaser_pg.py`, `teaser_risk.py` | the running example of the introduction |
 | `test_examples.py`, `validate_fdlib.py`, `minloss_bruteforce.py` | the examples of the paper, and random instances against brute force |
 | `closure_check.py`, `iconf_check.py`, `decomp4_check.py` | C against Python closures, the ports against the Java originals |
 | `hardness_check.py`, `obstruction_stats.py` | the reduction of the hardness theorem for atomic covers, the bounds on every FD set |
@@ -55,8 +58,16 @@ python src/meaningful.py                             # E1 on the meaningful FD s
 python src/gbcnf.py && python src/hybrid.py          # greedy BCNF decomposition, Opt and Hybrid
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3
 python src/e4.py abalone                             # E4
+python src/worst_case.py abalone                     # the baselines on 100 random orders
+python src/worst_stored.py abalone                   # their designs on the stored tables
 python src/weighted.py --budgets 1000000 abalone     # violation weights
 python src/drift.py abalone                          # drift
+python src/hit.py --core --time 3600 abalone         # Hit (--weights: violation weights)
+python src/stored_risk.py abalone                    # the risk on the stored tables
+python src/independence.py                           # independence and parts
+python src/e3pg.py --modes keys,3nf,bcnf,gbcnf,repair,drop --fks abalone   # foreign keys
+python src/queries.py abalone                        # queries
+bash e8/run_validation.sh                            # machine checks
 python src/paper_tables.py && python src/paper_figures.py
 ```
 
@@ -66,13 +77,14 @@ Both validation runs pass: 300,322 random instances with five attributes and 73,
 
 ### Platform
 
-Every run is single-threaded on two AMD EPYC 7742 processors with 1 TB of main memory under Red Hat Enterprise
-Linux 8.10 (`closure.c` with gcc 11.2, `-O3`). PostgreSQL 18.4 is built from source and initialised with
-`initdb -E UTF8 --locale=C`; its configuration differs from the defaults in `shared_buffers = 32GB`,
+Every run is single-threaded on an AMD Ryzen 7 9700X with 64 GB of main memory under Ubuntu 26.04 (Python 3.14,
+`closure.c` with gcc 15.2, `-O3`). `src/run_v2.sh` runs all experiments in the order of their dependencies, the
+PostgreSQL timings alone on the machine. PostgreSQL 18.4 is built from source and initialised with
+`initdb -E UTF8 --locale=C`; its configuration differs from the defaults in `shared_buffers = 16GB`,
 `work_mem = 64MB`, `maintenance_work_mem = 2GB`, `max_locks_per_transaction = 4096`, `max_wal_size = 64GB`,
 `checkpoint_timeout = 30min`, `autovacuum = off`, `jit = off` and `max_connections = 50`. The sessions of E3 set
 `enable_seqscan = off` and `enable_bitmapscan = off`, so that the cached plans of the constraint checks do not depend
-on the order of the measurements.
+on the order of the measurements; the queries of E5 fix their join methods (`queries.py`).
 
 ### Data
 
@@ -151,6 +163,8 @@ satisfies Σ while the exclusion constraints still meet the copied group. The 10
 generated before the clock starts and inserted in one transaction with one `INSERT ... ON CONFLICT DO NOTHING` per
 table and batch of 1,000; the commit is timed. Times are means of five repetitions, each on rebuilt tables (weather
 and TPC-DS from file copies of prewarmed templates, `--copy`), with a watchdog after two hours of insertion time.
+The coefficient of variation of the five repetitions is at most 8.1%; the records `e3pg_<set>.jsonl` hold every
+repetition.
 
 `teaser_pg.py` measures the running example on an address book of 100,000 customers in 200 towns with ten zip codes
 each, where half of the inserted customers move to an existing address. `concurrency_check.py` confirms that an
@@ -170,3 +184,42 @@ with up to 32 concurrent clients; the paper does not report it.
   every subset sum of the weights. All designs are evaluated on the updates of seeds 1 to 5.
 - Under drift, the attribute of an update follows (1 − α)·uniform + α·Zipf(s) over a random permutation of the
   non-constant attributes, for s ∈ {1, 2} and α ∈ {0.25, 0.5, 0.75, 1}, with ten permutations of 10,000 updates each.
+- The baselines leave choices open: the order in which 3NF synthesis removes redundant FDs (for iCONF, only among FDs
+  of equal rank) and the minimal key of R it adds, and the violating FD on which a BCNF decomposition splits.
+  `worst_case.py` runs iCONF, the classical 3NF synthesis and both BCNF decompositions on 100 orders: run 0 is the
+  order of E1 and reproduces its design on every set, run r > 0 relabels the attributes and lists Σ_a in an order
+  drawn with seed r. Every distinct design is evaluated on the updates of seeds 1 to 5, and Fig. 2b shows the highest
+  risk of every baseline. `worst_stored.py` replays the same updates on the stored tables of these designs, and
+  Tab. 7 shows, for iCONF and the classical BCNF decomposition, the split of the design with the highest risk there.
+
+### Hit, independence and the stored tables
+
+- `hit.py --core` runs one hour per FD set, under unit weights and under the violation weights of E4, and solves its
+  master problems with HiGHS (`scipy.optimize.milp`). A run ends early when its bound reaches the loss of the best
+  design of E1, which proves that design optimal.
+- `independence.py` tests every design of E1 and E4 and recomputes its loss.
+- `stored_risk.py` replays the updates of E4 on the stored tables of every design: an update becomes one SQL `UPDATE`
+  per table that contains its attribute, and it is caught iff some `UPDATE` violates a unique constraint. An update
+  anomaly is an accepted update that changes the records of other customers, since a rejected transaction changes
+  nothing. `teaser_risk.py` does the same for the running example on 100,000 customers.
+
+### Foreign keys and queries
+
+- `e3pg.py --fks` declares, in every table, a foreign key to every other table whose declared key lies in its schema,
+  checked at the commit (`DEFERRABLE INITIALLY DEFERRED`), and times the insertions as in E3.
+- `queries.py` times Q_full, the count of the natural join of all tables, and Q_point, the reconstruction of one
+  record from its values on a minimal key of R, as a chain of subqueries with fixed join methods (its docstring says
+  why). Times are means of five repetitions, for Q_point of 1,000 random records each.
+
+### Machine checks
+
+- `e8/run_validation.sh` runs the checks of the theory. Two of them search longer than its limits allow:
+  `conp_check.py`, the realizability of the 20 small formulas, and `q2ctx.py`, the local weakenings of the 64
+  variants of the schema.
+- `e8/conp_fast.py` and `e8/q2ctx_fast.py` run the same searches faster. They visit the same states in the same order,
+  count them against the same limit, and agree with the originals wherever both finish. `conp_fast.py --digest` keeps
+  a visited closure table as its 128-bit digest, which fits 50,000,000 tables into a few GB.
+- `src/hit_check.py` compares Hit with the exact minimum loss on random schemata with five and six attributes.
+- `results/e8/` holds the logs of `run_validation.sh`, `fast/` those of `conp_fast.py` with its limit of 200,000
+  tables, `end/` those of the fast searches with 2,000,000 tables and of `hit_check.py`, and `digest/` those with
+  50,000,000 tables.

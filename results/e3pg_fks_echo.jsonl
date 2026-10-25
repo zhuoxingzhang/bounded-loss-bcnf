@@ -1,0 +1,36 @@
+{"set": "echo", "mode": "keys", "design": true, "loss": 125, "rows": 132, "copy": false, "schemata": 1, "unique": 72, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.012}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.993, "inserted": 10000, "attempted": 10000}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.993, "inserted": 10000, "attempted": 10000}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.978, "inserted": 10000, "attempted": 10000}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.988, "inserted": 10000, "attempted": 10000}
+{"set": "echo", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.988, "inserted": 10000, "attempted": 10000}
+{"set": "echo", "mode": "3nf", "design": true, "loss": 63, "rows": 132, "copy": false, "schemata": 79, "unique": 121, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 157, "build_seconds": 0.1}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 7.657, "inserted": 782993, "attempted": 790000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 7.778, "inserted": 782974, "attempted": 790000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 7.704, "inserted": 782998, "attempted": 790000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 7.734, "inserted": 783270, "attempted": 790000}
+{"set": "echo", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 7.741, "inserted": 782911, "attempted": 790000}
+{"set": "echo", "mode": "bcnf", "design": true, "loss": 463, "rows": 132, "copy": false, "schemata": 7, "unique": 15, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 6, "build_seconds": 0.009}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.527, "inserted": 68194, "attempted": 70000}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.518, "inserted": 68172, "attempted": 70000}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.526, "inserted": 68171, "attempted": 70000}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.516, "inserted": 68142, "attempted": 70000}
+{"set": "echo", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.531, "inserted": 68181, "attempted": 70000}
+{"set": "echo", "mode": "gbcnf", "design": true, "loss": 392, "rows": 132, "copy": false, "schemata": 6, "unique": 22, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 8, "build_seconds": 0.01}
+{"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.65, "inserted": 59157, "attempted": 60000}
+{"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.635, "inserted": 59182, "attempted": 60000}
+{"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.639, "inserted": 59195, "attempted": 60000}
+{"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.641, "inserted": 59226, "attempted": 60000}
+{"set": "echo", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.636, "inserted": 59134, "attempted": 60000}
+{"set": "echo", "mode": "repair", "design": true, "loss": 11, "rows": 132, "copy": false, "schemata": 61, "unique": 138, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 171, "build_seconds": 0.1}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 0, "seconds": 8.013, "inserted": 603081, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 1, "seconds": 7.975, "inserted": 603119, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 2, "seconds": 8.021, "inserted": 603012, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 3, "seconds": 8.009, "inserted": 603234, "attempted": 610000}
+{"set": "echo", "mode": "repair", "size": 10000, "rep": 4, "seconds": 8.014, "inserted": 603037, "attempted": 610000}
+{"set": "echo", "mode": "drop", "design": true, "loss": 11, "rows": 132, "copy": false, "schemata": 61, "unique": 140, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 174, "build_seconds": 0.117}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 0, "seconds": 8.108, "inserted": 603081, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 1, "seconds": 8.084, "inserted": 603119, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 2, "seconds": 8.122, "inserted": 603012, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 3, "seconds": 8.05, "inserted": 603234, "attempted": 610000}
+{"set": "echo", "mode": "drop", "size": 10000, "rep": 4, "seconds": 8.139, "inserted": 603037, "attempted": 610000}

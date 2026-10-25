@@ -1,0 +1,134 @@
+{"set": "abalone", "design": "keys", "schemata": 1, "loss": 31, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "abalone", "design": "3nf", "schemata": 23, "loss": 11, "independent": false, "fk_candidates": 30, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 5, 7, 8], "T": [0, 1, 3, 4, 7, 8], "K": [1, 3, 4, 7, 8]}}
+{"set": "abalone", "design": "3nfc", "schemata": 21, "loss": 26, "independent": false, "fk_candidates": 46, "time": 0.0, "witness": {"S": [2, 3, 4, 5, 8], "T": [0, 2, 3, 4, 7], "K": [2, 3, 4, 7]}}
+{"set": "abalone", "design": "bcnf", "schemata": 4, "loss": 95, "independent": true, "fk_candidates": 3, "time": 0.0}
+{"set": "abalone", "design": "repair", "schemata": 15, "loss": 8, "independent": false, "fk_candidates": 17, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 4, 5, 8], "T": [1, 2, 3, 4, 6, 7, 8], "K": [4, 6, 7]}}
+{"set": "abalone", "design": "drop", "schemata": 15, "loss": 8, "independent": false, "fk_candidates": 18, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 4, 5, 8], "T": [0, 1, 2, 4, 6, 7, 8], "K": [4, 6, 7]}}
+{"set": "abalone", "design": "gbcnf", "schemata": 4, "loss": 92, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "abalone", "design": "hybrid", "schemata": 26, "loss": 24, "independent": false, "fk_candidates": 44, "time": 0.0, "witness": {"S": [0, 1, 2, 6, 7, 8], "T": [0, 1, 3, 4, 7, 8], "K": [1, 3, 4, 7, 8]}}
+{"set": "abalone", "design": "repair_w", "schemata": 22, "loss": 8, "independent": false, "fk_candidates": 43, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 7, 8], "T": [1, 2, 3, 4, 6, 7, 8], "K": [4, 6, 7]}}
+{"set": "abalone", "design": "drop_w", "schemata": 22, "loss": 8, "independent": false, "fk_candidates": 45, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 7, 8], "T": [1, 2, 3, 4, 6, 7, 8], "K": [4, 6, 7]}}
+{"set": "breast(null)", "design": "keys", "schemata": 1, "loss": 46, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "breast(null)", "design": "3nf", "schemata": 38, "loss": 3, "independent": false, "fk_candidates": 43, "time": 0.0, "witness": {"S": [0, 1, 4, 6, 9], "T": [0, 1, 4, 8], "K": [0, 1, 4]}}
+{"set": "breast(null)", "design": "3nfc", "schemata": 38, "loss": 3, "independent": false, "fk_candidates": 43, "time": 0.0, "witness": {"S": [0, 1, 2, 7], "T": [0, 1, 10], "K": [0, 1]}}
+{"set": "breast(null)", "design": "bcnf", "schemata": 6, "loss": 38, "independent": true, "fk_candidates": 11, "time": 0.0}
+{"set": "breast(null)", "design": "repair", "schemata": 38, "loss": 3, "independent": false, "fk_candidates": 43, "time": 0.0, "witness": {"S": [0, 2, 3, 5, 8], "T": [0, 2, 10], "K": [0, 2]}}
+{"set": "breast(null)", "design": "drop", "schemata": 37, "loss": 3, "independent": false, "fk_candidates": 41, "time": 0.0, "witness": {"S": [0, 1, 4, 6, 7], "T": [2, 3, 5, 6, 8, 9, 10], "K": [2, 3, 5, 6, 8, 9]}}
+{"set": "breast(null)", "design": "gbcnf", "schemata": 7, "loss": 37, "independent": true, "fk_candidates": 12, "time": 0.0}
+{"set": "breast(null)", "design": "hybrid", "schemata": 38, "loss": 3, "independent": false, "fk_candidates": 43, "time": 0.0, "witness": {"S": [0, 1, 4, 6, 9], "T": [0, 1, 4, 8], "K": [0, 1, 4]}}
+{"set": "breast(null)", "design": "repair_w", "schemata": 40, "loss": 3, "independent": false, "fk_candidates": 57, "time": 0.0, "witness": {"S": [0, 1, 4, 5, 7], "T": [0, 2, 3, 5, 8], "K": [0, 2, 3, 5]}}
+{"set": "breast(null)", "design": "drop_w", "schemata": 40, "loss": 3, "independent": false, "fk_candidates": 57, "time": 0.0, "witness": {"S": [0, 1, 4, 5, 7], "T": [0, 2, 3, 5, 8], "K": [0, 2, 3, 5]}}
+{"set": "bridges(null)", "design": "keys", "schemata": 1, "loss": 108, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "bridges(null)", "design": "3nf", "schemata": 57, "loss": 19, "independent": false, "fk_candidates": 70, "time": 0.0, "witness": {"S": [2, 4, 5, 9, 11], "T": [2, 4, 5, 7, 11], "K": [2, 4, 5, 11]}}
+{"set": "bridges(null)", "design": "3nfc", "schemata": 56, "loss": 22, "independent": false, "fk_candidates": 68, "time": 0.0, "witness": {"S": [0, 2, 3], "T": [1, 3, 5], "K": [3, 5]}}
+{"set": "bridges(null)", "design": "bcnf", "schemata": 5, "loss": 103, "independent": true, "fk_candidates": 3, "time": 0.0}
+{"set": "bridges(null)", "design": "repair", "schemata": 58, "loss": 11, "independent": false, "fk_candidates": 65, "time": 0.0, "witness": {"S": [1, 3, 5, 6, 8, 9, 10], "T": [1, 3, 6, 7, 8, 10], "K": [1, 3, 7, 8, 10]}}
+{"set": "bridges(null)", "design": "drop", "schemata": 59, "loss": 11, "independent": false, "fk_candidates": 70, "time": 0.0, "witness": {"S": [1, 5, 6, 8, 9, 11, 12], "T": [1, 5, 6, 7, 8, 11], "K": [1, 5, 6, 8, 11]}}
+{"set": "bridges(null)", "design": "gbcnf", "schemata": 9, "loss": 99, "independent": true, "fk_candidates": 13, "time": 0.0}
+{"set": "bridges(null)", "design": "hybrid", "schemata": 61, "loss": 20, "independent": false, "fk_candidates": 77, "time": 0.0, "witness": {"S": [1, 4, 5, 7, 8, 10, 12], "T": [1, 4, 5, 7, 10, 11], "K": [1, 4, 5, 7, 10]}}
+{"set": "bridges(null)", "design": "repair_w", "schemata": 56, "loss": 11, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 5, 6, 8, 9, 11, 12], "T": [1, 5, 6, 7, 8, 11], "K": [1, 5, 6, 8, 11]}}
+{"set": "bridges(null)", "design": "drop_w", "schemata": 56, "loss": 11, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 5, 6, 8, 9, 11, 12], "T": [1, 5, 6, 7, 8, 11], "K": [1, 5, 6, 8, 11]}}
+{"set": "echo(null)", "design": "keys", "schemata": 1, "loss": 125, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "echo(null)", "design": "3nf", "schemata": 79, "loss": 63, "independent": false, "fk_candidates": 157, "time": 0.0, "witness": {"S": [4, 6, 7, 9, 11], "T": [5, 6, 7, 10], "K": [6, 7, 10]}}
+{"set": "echo(null)", "design": "3nfc", "schemata": 76, "loss": 52, "independent": false, "fk_candidates": 140, "time": 0.0, "witness": {"S": [0, 3, 6, 7, 10], "T": [0, 1, 8], "K": [0, 8]}}
+{"set": "echo(null)", "design": "bcnf", "schemata": 7, "loss": 463, "independent": true, "fk_candidates": 6, "time": 0.0}
+{"set": "echo(null)", "design": "repair", "schemata": 61, "loss": 11, "independent": false, "fk_candidates": 127, "time": 0.0, "witness": {"S": [0, 2, 4, 5, 7, 8], "T": [1, 2, 3, 4, 6, 9], "K": [2, 6, 9]}}
+{"set": "echo(null)", "design": "drop", "schemata": 61, "loss": 11, "independent": false, "fk_candidates": 128, "time": 0.0, "witness": {"S": [0, 2, 4, 5, 7, 8], "T": [1, 2, 3, 4, 6, 9], "K": [2, 6, 9]}}
+{"set": "echo(null)", "design": "gbcnf", "schemata": 6, "loss": 392, "independent": true, "fk_candidates": 8, "time": 0.0}
+{"set": "echo(null)", "design": "hybrid", "schemata": 80, "loss": 84, "independent": false, "fk_candidates": 180, "time": 0.0, "witness": {"S": [4, 5, 6, 9, 11], "T": [4, 5, 7, 9], "K": [5, 7, 9]}}
+{"set": "echo(null)", "design": "repair_w", "schemata": 59, "loss": 15, "independent": false, "fk_candidates": 131, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 8], "T": [0, 2, 4, 5, 7, 8], "K": [4, 5, 7, 8]}}
+{"set": "echo(null)", "design": "drop_w", "schemata": 59, "loss": 15, "independent": false, "fk_candidates": 131, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 8], "T": [0, 2, 4, 5, 7, 8], "K": [4, 5, 7, 8]}}
+{"set": "adult", "design": "keys", "schemata": 1, "loss": 78, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "adult", "design": "3nf", "schemata": 46, "loss": 0, "independent": false, "fk_candidates": 81, "time": 0.0, "witness": {"S": [0, 2, 4, 5, 6, 7, 12], "T": [0, 2, 4, 5, 8], "K": [0, 2, 4, 5]}}
+{"set": "adult", "design": "3nfc", "schemata": 46, "loss": 0, "independent": false, "fk_candidates": 81, "time": 0.0, "witness": {"S": [0, 2, 4, 5, 6, 7, 12], "T": [0, 2, 4, 5, 8], "K": [0, 2, 4, 5]}}
+{"set": "adult", "design": "bcnf", "schemata": 5, "loss": 68, "independent": true, "fk_candidates": 7, "time": 0.0}
+{"set": "adult", "design": "repair", "schemata": 42, "loss": 0, "independent": false, "fk_candidates": 64, "time": 0.0, "witness": {"S": [0, 1, 2, 4, 6, 7, 10, 12, 13, 14], "T": [1, 2, 4, 5, 7, 8, 9, 11, 13], "K": [1, 2, 4, 5, 7, 9, 11, 13]}}
+{"set": "adult", "design": "drop", "schemata": 42, "loss": 0, "independent": false, "fk_candidates": 64, "time": 0.0, "witness": {"S": [0, 1, 2, 4, 6, 7, 10, 12, 13, 14], "T": [1, 2, 4, 5, 7, 8, 9, 11, 13], "K": [1, 2, 4, 5, 7, 9, 11, 13]}}
+{"set": "adult", "design": "gbcnf", "schemata": 6, "loss": 67, "independent": true, "fk_candidates": 7, "time": 0.0}
+{"set": "adult", "design": "hybrid", "schemata": 46, "loss": 0, "independent": false, "fk_candidates": 81, "time": 0.0, "witness": {"S": [0, 2, 4, 5, 6, 7, 12], "T": [0, 2, 4, 5, 8], "K": [0, 2, 4, 5]}}
+{"set": "letter(non-dup)", "design": "keys", "schemata": 1, "loss": 61, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "letter(non-dup)", "design": "3nf", "schemata": 62, "loss": 0, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "T": [0, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "K": [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}}
+{"set": "letter(non-dup)", "design": "3nfc", "schemata": 62, "loss": 0, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "T": [0, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "K": [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}}
+{"set": "letter(non-dup)", "design": "bcnf", "schemata": 2, "loss": 60, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "letter(non-dup)", "design": "repair", "schemata": 62, "loss": 0, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "T": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15]}}
+{"set": "letter(non-dup)", "design": "drop", "schemata": 62, "loss": 0, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "T": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15], "K": [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15]}}
+{"set": "letter(non-dup)", "design": "gbcnf", "schemata": 2, "loss": 60, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "letter(non-dup)", "design": "hybrid", "schemata": 62, "loss": 0, "independent": false, "fk_candidates": 61, "time": 0.0, "witness": {"S": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "T": [0, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "K": [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]}}
+{"set": "ncvoter(null)", "design": "keys", "schemata": 1, "loss": 402, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "ncvoter(null)", "design": "3nf", "schemata": 172, "loss": 89, "independent": false, "fk_candidates": 405, "time": 0.0, "witness": {"S": [2, 3, 7, 12, 14, 16, 17], "T": [3, 6, 7, 8, 12, 14, 16], "K": [3, 7, 12, 14, 16]}}
+{"set": "ncvoter(null)", "design": "3nfc", "schemata": 165, "loss": 88, "independent": false, "fk_candidates": 402, "time": 0.0, "witness": {"S": [0, 5, 7, 8, 13], "T": [2, 3, 5], "K": [3, 5]}}
+{"set": "ncvoter(null)", "design": "bcnf", "schemata": 10, "loss": 704, "independent": true, "fk_candidates": 9, "time": 0.0}
+{"set": "ncvoter(null)", "design": "repair", "schemata": 158, "loss": 48, "independent": false, "fk_candidates": 346, "time": 0.0, "witness": {"S": [2, 6, 7, 8, 13, 14, 15, 16], "T": [6, 7, 8, 9, 10, 12, 16], "K": [6, 7, 8, 9, 12, 16]}}
+{"set": "ncvoter(null)", "design": "drop", "schemata": 158, "loss": 48, "independent": false, "fk_candidates": 346, "time": 0.0, "witness": {"S": [2, 6, 7, 8, 13, 14, 15, 16], "T": [6, 7, 8, 9, 10, 12, 16], "K": [6, 7, 8, 9, 12, 16]}}
+{"set": "ncvoter(null)", "design": "gbcnf", "schemata": 13, "loss": 668, "independent": true, "fk_candidates": 16, "time": 0.0}
+{"set": "ncvoter(null)", "design": "hybrid", "schemata": 180, "loss": 266, "independent": false, "fk_candidates": 518, "time": 0.0, "witness": {"S": [4, 8, 11, 15, 16], "T": [2, 11, 16, 17], "K": [11, 16, 17]}}
+{"set": "ncvoter(null)", "design": "repair_w", "schemata": 154, "loss": 58, "independent": false, "fk_candidates": 335, "time": 0.0, "witness": {"S": [2, 6, 7, 8, 13, 14, 15, 16], "T": [6, 7, 8, 9, 10, 12, 16], "K": [6, 7, 8, 9, 12, 16]}}
+{"set": "ncvoter(null)", "design": "drop_w", "schemata": 154, "loss": 58, "independent": false, "fk_candidates": 335, "time": 0.0, "witness": {"S": [2, 6, 7, 8, 13, 14, 15, 16], "T": [6, 7, 8, 9, 10, 12, 16], "K": [6, 7, 8, 9, 12, 16]}}
+{"set": "china_weather(null)", "design": "keys", "schemata": 1, "loss": 894, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "china_weather(null)", "design": "3nf", "schemata": 407, "loss": 147, "independent": false, "fk_candidates": 1704, "time": 0.02, "witness": {"S": [1, 2, 3, 4, 6, 7, 9, 11, 12, 13], "T": [1, 2, 4, 5, 6], "K": [1, 2, 4, 6]}}
+{"set": "china_weather(null)", "design": "3nfc", "schemata": 406, "loss": 149, "independent": false, "fk_candidates": 1730, "time": 0.02, "witness": {"S": [1, 2, 3, 4, 6, 7, 8, 9], "T": [1, 2, 4, 5, 6], "K": [1, 2, 4, 6]}}
+{"set": "china_weather(null)", "design": "bcnf", "schemata": 9, "loss": 869, "independent": true, "fk_candidates": 14, "time": 0.0}
+{"set": "china_weather(null)", "design": "repair", "schemata": 453, "loss": 84, "independent": false, "fk_candidates": 1676, "time": 0.02, "witness": {"S": [1, 2, 4, 6, 7, 8, 9, 11, 12, 13, 15], "T": [1, 2, 4, 5, 7, 15], "K": [1, 2, 4, 7, 15]}}
+{"set": "china_weather(null)", "design": "drop", "schemata": 453, "loss": 84, "independent": false, "fk_candidates": 1676, "time": 0.02, "witness": {"S": [1, 2, 4, 6, 7, 8, 9, 11, 12, 13, 15], "T": [1, 2, 4, 5, 7, 15], "K": [1, 2, 4, 7, 15]}}
+{"set": "china_weather(null)", "design": "gbcnf", "schemata": 9, "loss": 858, "independent": true, "fk_candidates": 11, "time": 0.0}
+{"set": "china_weather(null)", "design": "hybrid", "schemata": 401, "loss": 234, "independent": false, "fk_candidates": 1775, "time": 0.02, "witness": {"S": [2, 3, 4, 7, 9, 11, 15, 16], "T": [2, 3, 5, 9], "K": [2, 3, 9]}}
+{"set": "china_weather(null)", "design": "repair_w", "schemata": 402, "loss": 145, "independent": false, "fk_candidates": 1085, "time": 0.02, "witness": {"S": [1, 2, 4, 6, 7, 8, 9, 11, 12, 13, 15], "T": [1, 2, 4, 5, 7, 15], "K": [1, 2, 4, 7, 15]}}
+{"set": "china_weather(null)", "design": "drop_w", "schemata": 400, "loss": 148, "independent": false, "fk_candidates": 1108, "time": 0.02, "witness": {"S": [1, 2, 4, 6, 7, 8, 9, 11, 12, 13, 15], "T": [1, 2, 4, 5, 7, 15], "K": [1, 2, 4, 7, 15]}}
+{"set": "tpch-lineitem", "design": "keys", "schemata": 1, "loss": 788, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "tpch-lineitem", "design": "3nf", "schemata": 594, "loss": 516, "independent": false, "fk_candidates": 2414, "time": 0.05, "witness": {"S": [0, 4, 5, 7, 9, 11, 12, 14], "T": [5, 7, 8, 9, 11], "K": [5, 7, 9, 11]}}
+{"set": "tpch-lineitem", "design": "3nfc", "schemata": 526, "loss": 528, "independent": false, "fk_candidates": 4231, "time": 0.04, "witness": {"S": [0, 1, 3, 15], "T": [0, 8], "K": [0]}}
+{"set": "tpch-lineitem", "design": "bcnf", "schemata": 6, "loss": 3487, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "tpch-lineitem", "design": "repair", "schemata": 450, "loss": 69, "independent": false, "fk_candidates": 1945, "time": 0.03, "witness": {"S": [0, 2, 5, 8, 9, 10, 12, 13, 14, 15], "T": [0, 1, 2, 4, 5, 9, 10, 11, 13], "K": [2, 4, 5, 9, 10, 11]}}
+{"set": "tpch-lineitem", "design": "gbcnf", "schemata": 8, "loss": 3375, "independent": true, "fk_candidates": 6, "time": 0.0}
+{"set": "tpch-lineitem", "design": "hybrid", "schemata": 553, "loss": 550, "independent": false, "fk_candidates": 3066, "time": 0.04, "witness": {"S": [1, 4, 7, 9, 14], "T": [1, 6, 7, 8], "K": [1, 6, 7]}}
+{"set": "uniprot(null)", "design": "keys", "schemata": 1, "loss": 3579, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "uniprot(null)", "design": "3nf", "schemata": 1675, "loss": 810, "independent": false, "fk_candidates": 6016, "time": 0.32, "witness": {"S": [2, 3, 12, 13, 14, 17, 19, 22], "T": [2, 3, 13, 16, 17, 19], "K": [2, 3, 13, 17, 19]}}
+{"set": "uniprot(null)", "design": "3nfc", "schemata": 1673, "loss": 816, "independent": false, "fk_candidates": 6023, "time": 0.33, "witness": {"S": [9, 10, 11, 27], "T": [9, 10, 25], "K": [9, 10]}}
+{"set": "uniprot(null)", "design": "bcnf", "schemata": 16, "loss": 3552, "independent": true, "fk_candidates": 37, "time": 0.0}
+{"set": "uniprot(null)", "design": "repair", "schemata": 1796, "loss": 136, "independent": false, "fk_candidates": 4648, "time": 0.36, "witness": {"S": [2, 3, 10, 11, 13, 14, 16, 22, 24, 25, 28], "T": [10, 11, 14, 16, 17, 22], "K": [10, 11, 14, 16, 22]}}
+{"set": "uniprot(null)", "design": "gbcnf", "schemata": 14, "loss": 3526, "independent": true, "fk_candidates": 24, "time": 0.0}
+{"set": "uniprot(null)", "design": "hybrid", "schemata": 1675, "loss": 810, "independent": false, "fk_candidates": 6016, "time": 0.32, "witness": {"S": [2, 4, 7, 12, 13, 15, 24], "T": [2, 4, 12, 13, 15, 21, 24], "K": [2, 12, 13, 15, 21, 24]}}
+{"set": "hepatitis(null)", "design": "keys", "schemata": 1, "loss": 7220, "independent": true, "fk_candidates": 0, "time": 0.01}
+{"set": "hepatitis(null)", "design": "3nf", "schemata": 1677, "loss": 1554, "independent": false, "fk_candidates": 2070, "time": 0.35, "witness": {"S": [3, 7, 8, 14, 15, 16, 17, 19], "T": [0, 2, 4, 6, 7, 9, 11, 12, 13, 16], "K": [2, 4, 6, 9, 11, 13, 16]}}
+{"set": "hepatitis(null)", "design": "3nfc", "schemata": 1634, "loss": 1841, "independent": false, "fk_candidates": 1951, "time": 0.34, "witness": {"S": [0, 1, 3, 4, 5, 6, 9, 11], "T": [1, 3, 9, 11, 12], "K": [1, 3, 9, 11]}}
+{"set": "hepatitis(null)", "design": "bcnf", "schemata": 16, "loss": 8211, "independent": true, "fk_candidates": 9, "time": 0.0}
+{"set": "hepatitis(null)", "design": "repair", "schemata": 1962, "loss": 992, "independent": false, "fk_candidates": 2713, "time": 0.45, "witness": {"S": [0, 2, 3, 4, 5, 8, 10, 11, 12, 14, 19], "T": [2, 3, 4, 5, 8, 10, 11, 13, 14], "K": [2, 3, 4, 5, 8, 10, 11, 14]}}
+{"set": "hepatitis(null)", "design": "gbcnf", "schemata": 11, "loss": 7995, "independent": false, "fk_candidates": 14, "time": 0.0, "witness": {"S": [1, 5, 9, 14, 15, 16], "T": [1, 4, 5, 11, 13, 16], "K": [1, 5, 16]}}
+{"set": "hepatitis(null)", "design": "hybrid", "schemata": 1907, "loss": 2578, "independent": false, "fk_candidates": 3212, "time": 0.43, "witness": {"S": [0, 2, 6, 7, 10, 11, 13, 15, 18], "T": [7, 10, 11, 12, 15, 18], "K": [7, 10, 11, 15, 18]}}
+{"set": "hepatitis(null)", "design": "repair_w", "schemata": 1932, "loss": 1070, "independent": false, "fk_candidates": 3194, "time": 0.44, "witness": {"S": [0, 2, 3, 4, 5, 8, 10, 11, 12, 14, 19], "T": [2, 3, 4, 5, 8, 10, 11, 13, 14], "K": [2, 3, 4, 5, 8, 10, 11, 14]}}
+{"set": "doc-food+c1", "design": "keys", "schemata": 1, "loss": 11, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "doc-food+c1", "design": "3nf", "schemata": 16, "loss": 6, "independent": false, "fk_candidates": 117, "time": 0.0, "witness": {"S": [0, 1], "T": [3, 9], "K": [3]}}
+{"set": "doc-food+c1", "design": "3nfc", "schemata": 16, "loss": 6, "independent": false, "fk_candidates": 117, "time": 0.0, "witness": {"S": [0, 1], "T": [3, 9], "K": [3]}}
+{"set": "doc-food+c1", "design": "bcnf", "schemata": 4, "loss": 4, "independent": true, "fk_candidates": 4, "time": 0.0}
+{"set": "doc-food+c1", "design": "repair", "schemata": 5, "loss": 1, "independent": false, "fk_candidates": 6, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 5, 6, 10, 11, 13, 14, 15, 16], "T": [3, 4, 9], "K": [3]}}
+{"set": "doc-food+c1", "design": "drop", "schemata": 5, "loss": 1, "independent": false, "fk_candidates": 6, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 5, 6, 10, 11, 13, 14, 15, 16], "T": [3, 4, 9], "K": [3]}}
+{"set": "doc-food+c1", "design": "gbcnf", "schemata": 4, "loss": 4, "independent": true, "fk_candidates": 4, "time": 0.0}
+{"set": "doc-food+c1", "design": "repair_w", "schemata": 5, "loss": 1, "independent": false, "fk_candidates": 6, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 5, 6, 10, 11, 13, 14, 15, 16], "T": [3, 4, 9], "K": [3]}}
+{"set": "doc-food+c1", "design": "drop_w", "schemata": 5, "loss": 1, "independent": false, "fk_candidates": 6, "time": 0.0, "witness": {"S": [0, 1, 2, 3, 5, 6, 10, 11, 13, 14, 15, 16], "T": [3, 4, 9], "K": [3]}}
+{"set": "doc-uk", "design": "keys", "schemata": 1, "loss": 4, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "doc-uk", "design": "3nf", "schemata": 15, "loss": 3, "independent": true, "fk_candidates": 182, "time": 0.0}
+{"set": "doc-uk", "design": "3nfc", "schemata": 15, "loss": 3, "independent": true, "fk_candidates": 182, "time": 0.0}
+{"set": "doc-uk", "design": "bcnf", "schemata": 3, "loss": 2, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-uk", "design": "repair", "schemata": 2, "loss": 1, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-uk", "design": "drop", "schemata": 2, "loss": 1, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-uk", "design": "gbcnf", "schemata": 2, "loss": 1, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-uk", "design": "repair_w", "schemata": 2, "loss": 1, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-uk", "design": "drop_w", "schemata": 2, "loss": 1, "independent": true, "fk_candidates": 1, "time": 0.0}
+{"set": "doc-hospital", "design": "keys", "schemata": 1, "loss": 23, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "doc-hospital", "design": "3nf", "schemata": 16, "loss": 6, "independent": true, "fk_candidates": 101, "time": 0.0}
+{"set": "doc-hospital", "design": "3nfc", "schemata": 16, "loss": 6, "independent": true, "fk_candidates": 101, "time": 0.0}
+{"set": "doc-hospital", "design": "bcnf", "schemata": 5, "loss": 4, "independent": true, "fk_candidates": 4, "time": 0.0}
+{"set": "doc-hospital", "design": "repair", "schemata": 6, "loss": 1, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "doc-hospital", "design": "drop", "schemata": 6, "loss": 1, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "doc-hospital", "design": "gbcnf", "schemata": 6, "loss": 1, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "doc-hospital", "design": "repair_w", "schemata": 6, "loss": 1, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "doc-hospital", "design": "drop_w", "schemata": 6, "loss": 1, "independent": true, "fk_candidates": 5, "time": 0.0}
+{"set": "doc-tpcds", "design": "keys", "schemata": 1, "loss": 316, "independent": true, "fk_candidates": 0, "time": 0.0}
+{"set": "doc-tpcds", "design": "3nf", "schemata": 94, "loss": 2, "independent": false, "fk_candidates": 2045, "time": 0.0, "witness": {"S": [20, 21, 68], "T": [67, 68], "K": [68]}}
+{"set": "doc-tpcds", "design": "3nfc", "schemata": 94, "loss": 2, "independent": false, "fk_candidates": 2045, "time": 0.0, "witness": {"S": [0, 6, 20], "T": [67, 68], "K": [68]}}
+{"set": "doc-tpcds", "design": "bcnf", "schemata": 7, "loss": 180, "independent": true, "fk_candidates": 6, "time": 0.0}
+{"set": "doc-tpcds", "design": "repair", "schemata": 8, "loss": 2, "independent": true, "fk_candidates": 9, "time": 0.0}
+{"set": "doc-tpcds", "design": "drop", "schemata": 8, "loss": 2, "independent": true, "fk_candidates": 9, "time": 0.0}
+{"set": "doc-tpcds", "design": "gbcnf", "schemata": 9, "loss": 51, "independent": true, "fk_candidates": 9, "time": 0.0}
+{"set": "doc-tpcds", "design": "repair_w", "schemata": 8, "loss": 5, "independent": false, "fk_candidates": 8, "time": 0.0, "witness": {"S": [6, 20], "T": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 69], "K": [21, 69]}}
+{"set": "doc-tpcds", "design": "drop_w", "schemata": 8, "loss": 5, "independent": false, "fk_candidates": 8, "time": 0.0, "witness": {"S": [6, 20], "T": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 69], "K": [21, 69]}}

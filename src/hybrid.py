@@ -23,8 +23,9 @@ when the key dependencies do not imply it. A minimal FD that no projection impli
 of the TODS article (Hybrid enforces these by assertions); the others are non-key FDs inside schemata.
 
 usage: python3 hybrid.py [--no-data] [name ...]    one record per E1 set in results/hybrid_<name>.jsonl (default: all
-                                                   sets; the levels come from the data where e3.SETS lists a table,
-                                                   and --no-data uses the FDs alone everywhere)
+                                                   sets; the levels come from the data where e3.SETS lists a table
+                                                   that the database holds, and --no-data uses the FDs alone
+                                                   everywhere)
        python3 hybrid.py --table                   the records next to the other designs
        python3 hybrid.py --test                    the running example of the TODS article
 """
@@ -162,11 +163,18 @@ def atomic(F, n):
     return atomic_cover(F, cap=MAX_MINIMAL), False
 
 def data_table(name):
-    """the E3 table that holds the data of an E1 set, or None"""
-    import e3
+    """the E3 table that holds the data of an E1 set, or None when e3.SETS lists none or the database lacks it"""
+    import e3, pgdb
     for t, e1 in e3.SETS.items():
         if e1 == name:
-            return t
+            con = pgdb.connect()
+            cur = con.cursor()
+            cur.execute("SELECT to_regclass(%s)", ("src.%s" % t,))
+            found = cur.fetchone()[0] is not None
+            con.close()
+            if not found:
+                print("%s: no table src.%s, so the levels come from the FDs" % (name, t), flush=True)
+            return t if found else None
     return None
 
 def run(name, use_data=True):

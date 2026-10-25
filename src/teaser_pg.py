@@ -1,13 +1,14 @@
 r"""teaser_pg.py: update overheads of the designs of the running example in PostgreSQL (the teaser of the paper;
-runs on the server against the official build, pgdb.py).
+the official build, pgdb.py).
 
 The schema is R = {C, S, T, Z} with Sigma = {C -> ST, ST -> Z, Z -> T}, and the synthetic address book of
-teaser.py (World): `base` customers, then `size` new customers inserted (projected onto the schemata,
-INSERT ... ON CONFLICT DO NOTHING in batches of 1,000 rows, one transaction, the commit included), reps times
-per size. Half of the new customers move to an existing address, the other half to a new street of an existing
-town with a new zip code, so that every FD remains satisfied. Non-key FDs are enforced by exclusion constraints
-(btree_gist) or by a BEFORE INSERT trigger that probes one stored tuple through an index on the left-hand side,
-as in e3pg.py (the session disables sequential and bitmap scans, so that the cached plans use the index).
+teaser.py (World): `base` customers at random addresses among the 50 streets of each of the 200 towns, then `size`
+new customers inserted (projected onto the schemata, INSERT ... ON CONFLICT DO NOTHING in batches of 1,000 rows, one
+transaction, the commit included), reps times per size. Half of the new customers move to an existing address, the
+other half to a new street of an existing town with a new zip code, so that every FD remains satisfied. Non-key
+FDs are enforced by exclusion constraints (btree_gist) or by a BEFORE INSERT trigger that probes one stored tuple
+through an index on the left-hand side, as in e3pg.py (the session disables sequential and bitmap scans, so that the
+cached plans use the index).
 
   D1+triggers  CSTZ with key C, ST -> Z and Z -> T by triggers
   D1+exclude   CSTZ with key C, ST -> Z and Z -> T by exclusion constraints
@@ -17,7 +18,7 @@ as in e3pg.py (the session disables sequential and bitmap scans, so that the cac
   D2           ZT (Z), CSZ (C): classical BCNF decomposition (loss 1)
   D4           STZ (ST, SZ), CST (C): the BCNF design with loss 1
 
-usage: python3 teaser_pg.py [--base 100000] [--sizes 10000,20000,30000] [--reps 5] [--designs D1,D2,...]
+usage: python3 teaser_pg.py [--base 100000] [--sizes 10000,20000,30000] [--reps 5] [--designs D1,D2,...] [--out F]
        results/teaser_pg.jsonl
 """
 import sys, os, json, time, random
@@ -64,6 +65,7 @@ def build(cur, table, attrs, keys, fds, how):
 def main():
     args = sys.argv[1:]
     base, sizes, reps, names = 100000, [10000, 20000, 30000], 5, [d for d in DESIGNS if "trigger" not in d]
+    path = os.path.join(ROOT, "results", "teaser_pg.jsonl")
     i = 0
     while i < len(args):
         if args[i] == "--base":
@@ -74,6 +76,8 @@ def main():
             reps = int(args[i + 1]); i += 2
         elif args[i] == "--designs":
             names = args[i + 1].split(","); i += 2
+        elif args[i] == "--out":
+            path = args[i + 1]; i += 2
         else:
             i += 1
     con = connect()
@@ -81,14 +85,14 @@ def main():
     cur.execute("SET enable_seqscan = off")
     cur.execute("SET enable_bitmapscan = off")
     con.commit()
-    out = open(os.path.join(ROOT, "results", "teaser_pg.jsonl"), "a", encoding="utf-8")
+    out = open(path, "a", encoding="utf-8")
     for name in names:
         tables = DESIGNS[name]
         for size in sizes:
             for rep in range(reps):
                 rng = random.Random(1000 * size + rep)
                 world = World(rng)
-                basedata = world.customers(base, 0)
+                basedata = world.customers(base, 0, fresh_share=0)
                 for table, attrs, keys, fds, how in reversed(tables):
                     cur.execute("DROP TABLE IF EXISTS w.%s CASCADE" % qi("teaser_" + table))
                 built = []

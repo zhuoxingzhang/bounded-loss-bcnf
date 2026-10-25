@@ -1,0 +1,2 @@
+formula 17: n=3 m=2 |R|=10 |Sa|=24 sat=True plain_realizable=False full_realizable=False OK
+passed (521593 closure tables, 981 s)

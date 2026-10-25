@@ -1,0 +1,6 @@
+designs 5400
+test says conflict, search found inconsistency: 4365
+test says conflict, search found none (search miss?): 0
+test says independent, search found inconsistency (TEST WRONG): 0
+test says independent, search found none: 1035
+all-orders vs canonical-order disagreements: 0

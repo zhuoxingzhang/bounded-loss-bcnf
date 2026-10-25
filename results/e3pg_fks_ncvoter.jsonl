@@ -1,0 +1,31 @@
+{"set": "ncvoter", "mode": "keys", "design": true, "loss": 402, "rows": 1000, "copy": false, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.034}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 0, "seconds": 1.091, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 1, "seconds": 1.08, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 2, "seconds": 1.078, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 3, "seconds": 1.072, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 4, "seconds": 1.083, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 172, "unique": 222, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 405, "build_seconds": 0.59}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 18.375, "inserted": 1634535, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 18.431, "inserted": 1634252, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 18.107, "inserted": 1636019, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 18.797, "inserted": 1636347, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 18.645, "inserted": 1633072, "attempted": 1720000}
+{"set": "ncvoter", "mode": "bcnf", "design": true, "loss": 704, "rows": 1000, "copy": false, "schemata": 10, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 9, "build_seconds": 0.032}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.654, "inserted": 84727, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.63, "inserted": 84490, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.674, "inserted": 84951, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.624, "inserted": 84915, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.589, "inserted": 84302, "attempted": 100000}
+{"set": "ncvoter", "mode": "gbcnf", "design": true, "loss": 668, "rows": 1000, "copy": false, "schemata": 13, "unique": 18, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 16, "build_seconds": 0.041}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.882, "inserted": 110204, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.913, "inserted": 109875, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.948, "inserted": 110477, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.936, "inserted": 110454, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.937, "inserted": 109631, "attempted": 130000}
+{"set": "ncvoter", "mode": "repair", "design": true, "loss": 48, "rows": 1000, "copy": false, "schemata": 158, "unique": 192, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 346, "build_seconds": 0.609}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 16.744, "inserted": 1505799, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 16.763, "inserted": 1505678, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 16.54, "inserted": 1507053, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 16.597, "inserted": 1507408, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 16.409, "inserted": 1504661, "attempted": 1580000}
+{"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

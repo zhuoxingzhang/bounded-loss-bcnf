@@ -44,6 +44,33 @@ def atomic_cover_of(F, n):
 def fd_list(Da):
     return [(tuple(bits(X)), A) for (X, A) in Da.fds]
 
+def weights_from(codes, n, Da, updates, wseeds):
+    """(weights, violation counts): one plus the number of updates of the weighting seeds that violate a minimal FD"""
+    sigma = fd_list(Da)
+    counts = np.zeros(len(sigma), dtype=np.int64)
+    for seed in wseeds:
+        upd_row, upd_attr, upd_val, mult = e4.draw_updates(codes, n, updates, seed)
+        counts += e4.violations(codes, mult, sigma, upd_row, upd_attr, upd_val).sum(axis=0)
+    w = Weights()
+    for f, c in zip(Da.fds, counts):
+        w[f] = 1 + int(c)
+    return w, counts
+
+def e4_name(e1_name):
+    """the name of E3 and E4 (weighted_<name>.jsonl) of an E1 set"""
+    return {v: k for k, v in SETS.items()}[e1_name]
+
+def violation_weights(e1_name, n, Da, updates=10000, wseeds=(6, 7, 8, 9, 10)):
+    """the violation weights of run() for the E1 set e1_name, from its source table"""
+    return weights_from(e4.load_table(e4_name(e1_name)), n, Da, updates, wseeds)[0]
+
+def record(e1_name):
+    """the record of weighted.py for the E1 set e1_name, or None"""
+    p = os.path.join(ROOT, "results", "weighted_%s.jsonl" % e4_name(e1_name))
+    if not os.path.isfile(p):
+        return None
+    return [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()][-1]
+
 def risk_of(codes, n, sigma, design, updates, seeds, cache):
     """per seed: harmful updates, missed ones, risk and false rejections of the design"""
     kd = e4.key_dependencies_of(design)
@@ -69,13 +96,7 @@ def run(name, updates, wseeds, seeds):
     out = {"set": name, "rows": int(codes.shape[0]), "attributes": n, "minimal_fds": len(Da), "updates": updates,
            "weight_seeds": wseeds, "eval_seeds": seeds}
     # the weights: one plus the number of violating updates over the weighting seeds
-    counts = np.zeros(len(sigma), dtype=np.int64)
-    for seed in wseeds:
-        upd_row, upd_attr, upd_val, mult = e4.draw_updates(codes, n, updates, seed)
-        counts += e4.violations(codes, mult, sigma, upd_row, upd_attr, upd_val).sum(axis=0)
-    w = Weights()
-    for f, c in zip(Da.fds, counts):
-        w[f] = 1 + int(c)
+    w, counts = weights_from(codes, n, Da, updates, wseeds)
     out["time_weights"] = round(time.time() - t0, 1)
     out["weights"] = {"zero_count": int((counts == 0).sum()), "max": int(counts.max()) + 1,
                       "total": int(counts.sum()) + len(sigma)}

@@ -46,9 +46,21 @@ def analyse(names):
         out.append((name, row))
     return out
 
+def load_independence():
+    """{(set, mode): whether the design is independent} from results/independence.jsonl (independence.py)"""
+    f = os.path.join(ROOT, "results", "independence.jsonl")
+    out = {}
+    if os.path.isfile(f):
+        for l in open(f, encoding="utf-8"):
+            if l.strip():
+                r = json.loads(l)
+                out[(r["set"], "orig" if r["design"] == "keys" else r["design"])] = r["independent"]
+    return out
+
 def table(rows):
     """one column per design with the number of unenforced minimal FDs that span several schemata; the loss of
-    every design is in the main table, and the difference lies inside one schema"""
+    every design is in the main table, and the difference lies inside one schema; a last row counts the sets on
+    which the design is independent, out of those on which it ran"""
     from paper_tables import tex_name, num
     out = [r"\begin{tabular}{l" + "r" * len(MODES) + "}", r"\toprule",
            r"Data set & " + " & ".join(LABELS[m] for m in MODES) + r"\\", r"\midrule"]
@@ -57,6 +69,13 @@ def table(rows):
             out.append(r"\midrule")   # the documented sets follow the discovered ones
         cells = ["--" if row.get(m) is None else num(row[m][2]) for m in MODES]
         out.append("%s & %s\\\\" % (tex_name(name), " & ".join(cells)))
+    ind = load_independence()
+    if ind:
+        cells = []
+        for m in MODES:
+            xs = [ind[(name, m)] for name, row in rows if m in row and (name, m) in ind]
+            cells.append("%d/%d" % (sum(xs), len(xs)))
+        out += [r"\midrule", "independent & %s\\\\" % " & ".join(cells)]
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
 

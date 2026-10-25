@@ -1,0 +1,16 @@
+n=1 m=2 |R|=6 |Sa|=8 sat=False plain_realizable=True full_realizable=True OK
+n=1 m=1 |R|=5 |Sa|=6 sat=True plain_realizable=False full_realizable=False OK
+n=2 m=4 |R|=10 |Sa|=20 sat=False plain_realizable=True full_realizable=True OK
+n=2 m=2 |R|=8 |Sa|=14 sat=True plain_realizable=False full_realizable=False OK
+n=2 m=3 |R|=9 |Sa|=17 sat=False plain_realizable=True full_realizable=True OK
+n=2 m=2 |R|=8 |Sa|=14 sat=True plain_realizable=False full_realizable=False OK
+Traceback (most recent call last):
+  File "~/kloss/tools/e8/conp_check.py", line 39, in <module>
+    print(all([check(n,c) for n,c in tests]))
+               ~~~~~^^^^^
+  File "~/kloss/tools/e8/conp_check.py", line 27, in check
+    full=complete_full(N,Psi,Delta) is not None
+         ~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "~/kloss/tools/e8/minloss.py", line 96, in complete_full
+    raise RuntimeError("limit")
+RuntimeError: limit

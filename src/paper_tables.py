@@ -1,6 +1,7 @@
-r"""paper_tables.py: LaTeX tables for Section 6 from the records of experiments.py (E1, E2) and e3.py (E3).
+r"""paper_tables.py: LaTeX tables for Section 6 from the records of experiments.py (E1, E2), hit.py, e3pg.py (E3),
+e4.py, stored_risk.py, weighted.py and drift.py.
 
-usage: python paper_tables.py            writes results/table_e1.tex, table_e2.tex, table_e3.tex and prints them
+usage: python paper_tables.py            writes results/table_*.tex and fig_teaser.tex and prints them
 """
 import os, json, sys, glob
 from experiments import SETS, load_rows
@@ -63,30 +64,45 @@ def whole_schema_lb(r):
         return loc[0][2]
     return None
 
+def hit_record(name, weighted=False):
+    """the record of hit.py with the core cuts (results/hit_core[_w]_<set>.json) for an E1 name, or None"""
+    from experiments import safe
+    f = os.path.join(ROOT, "results", "hit_core_%s%s.json" % ("w_" if weighted else "", safe(name)))
+    return json.load(open(f, encoding="utf-8")) if os.path.isfile(f) else None
+
+def certified_lb(r):
+    """the largest certified lower bound on the loss: of the searches of Drop (see bound_cell) and of Hit"""
+    h = hit_record(r["name"])
+    return max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r), h and h["lower_bound"], 0)
+               if x is not None)
+
 def repair_cell(r):
-    """the loss of Repair; an asterisk unless it is proved minimal, by Repair itself or by the certified lower
-    bound of Drop (the exact search of Drop or of the fallback of Repair)"""
+    """the loss of Repair; an asterisk unless it is proved minimal, by Repair itself or by a certified lower bound
+    (certified_lb)"""
     if "repair_loss" not in r or r["repair_loss"] is None:
         return "--"
     s = num(r["repair_loss"])
-    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r), 0) if x is not None)
-    if not r.get("repair_exact") and r["repair_loss"] > lb:
+    if not r.get("repair_exact") and r["repair_loss"] > certified_lb(r):
         s += r"$^{*}$"
     return s
 
 def drop_cell(r):
-    """the loss of Drop, with an asterisk unless it is proved minimal, by the exact search of Drop or by the certified
-    lower bound (see bound_cell); a dash where Drop did not run"""
+    """the loss of Drop, with an asterisk unless it is proved minimal, by the exact search of Drop or by a certified
+    lower bound (certified_lb); a dash where Drop did not run"""
     if r.get("drop_loss") is None:
         return "--"
-    lb = max(x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r), 0) if x is not None)
-    return num(r["drop_loss"]) + ("" if r.get("drop_exact") or r["drop_loss"] <= lb else r"$^{*}$")
+    return num(r["drop_loss"]) + ("" if r.get("drop_exact") or r["drop_loss"] <= certified_lb(r) else r"$^{*}$")
 
 def bound_cell(r):
     """the certified lower bound on the loss: of the exact search of Drop, of the fallback of Repair, or of the
     local search of Repair when 3NF synthesis returns R itself (a loss is proved minimal iff it equals the bound)"""
     lbs = [x for x in (r.get("drop_lb"), r.get("repair_fallback_lb"), whole_schema_lb(r)) if x is not None]
     return num(max(lbs)) if lbs else "--"
+
+def hit_cell(r):
+    """the certified lower bound of Hit within its budget, which equals the loss where Hit proves it minimal"""
+    h = hit_record(r["name"])
+    return "--" if h is None else num(h["lower_bound"])
 
 def table_e1(rows):
     out = []
@@ -147,8 +163,8 @@ def hybrid_cell(h):
 
 def table_e12(rows, compact=True, records=None):
     """E1 and E2 in one full-width table: sizes, critical schemata of iCONF, the losses of the key-only design (nu),
-    the obstruction design and the seven key designs with the certified lower bound, the numbers of schemata of iCONF
-    and Repair, running times;
+    the obstruction design and the seven key designs, the certified lower bounds of Drop and of Hit, the numbers of
+    schemata of iCONF and Repair, running times;
     compact leaves out the FD sets without a non-key FD (loss zero for every design) and those that exceeded the
     budget, which the text states in one sentence each; records maps FD set names to the numbers of records of
     the data sets loaded for E3 and E4, shown in a column after the name"""
@@ -156,17 +172,17 @@ def table_e12(rows, compact=True, records=None):
     greedy = load_gbcnf()
     hyb = load_hybrid()
     o = 1 if records is not None else 0
-    cols = 19 + o
+    cols = 20 + o
     out = []
     out.append(r"\begin{tabular}{l" + "r" * (cols - 1) + "}")
     out.append(r"\toprule")
-    # the leading columns: data set, records (if any), |R|, |Sigma_a|, keys, crit.; then ten loss columns, two for the
-    # schemata and two for the times
-    out.append(" & ".join([""] * (5 + o) + [r"\multicolumn{10}{c}{dependency loss}", r"\multicolumn{2}{c}{schemata}", r"\multicolumn{2}{c}{time (s)}"]) + r"\\")
-    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 15 + o, 16 + o, 17 + o, 18 + o, 19 + o))
-    out.append(" & ".join([""] * (7 + o) + [r"\multicolumn{2}{c}{3NF}", r"\multicolumn{2}{c}{BCNF}"] + [""] * 8) + r"\\")
+    # the leading columns: data set, records (if any), |R|, |Sigma_a|, keys, crit.; then nine loss columns, two for the
+    # lower bounds, two for the schemata and two for the times
+    out.append(" & ".join([""] * (5 + o) + [r"\multicolumn{9}{c}{dependency loss}", r"\multicolumn{2}{c}{bound}", r"\multicolumn{2}{c}{schemata}", r"\multicolumn{2}{c}{time (s)}"]) + r"\\")
+    out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (6 + o, 14 + o, 15 + o, 16 + o, 17 + o, 18 + o, 19 + o, 20 + o))
+    out.append(" & ".join([""] * (7 + o) + [r"\multicolumn{2}{c}{3NF}", r"\multicolumn{2}{c}{BCNF}"] + [""] * 9) + r"\\")
     out.append(r"\cmidrule(lr){%d-%d}\cmidrule(lr){%d-%d}" % (8 + o, 9 + o, 10 + o, 11 + o))
-    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & Hybrid & \repair & \drop & bound"
+    out.append(r"Data set & " + ("records & " if o else "") + r"$|R|$ & $|\Da|$ & keys & crit. & $\nu$ & $|\mathcal{O}|$ & iConf & classical & classical & greedy & Hybrid & \repair & \drop & \drop & \hit"
                r" & 3NF & \repair & \repair & \drop\\")
     out.append(r"\midrule")
     for r in rows:
@@ -192,7 +208,7 @@ def table_e12(rows, compact=True, records=None):
         cells = [tex_name(r["name"])] + rec + [
             "%d" % r["n"], num(r["minimal_fds"]), num(r["keys"]),
             num(len(r.get("3nf_critical") or [])), num(r["nu"]), "--" if ob is None else num(ob), num(r["3nf_loss"]), num(r.get("3nfc_loss")),
-            bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), bound_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
+            bcnf, gcell, hybrid_cell(hyb.get(r["name"])), repair_cell(r), drop_cell(r), bound_cell(r), hit_cell(r), num(r.get("3nf_schemata")), num(r.get("repair_schemata")),
             secs(r.get("time_repair")), secs(r.get("time_drop"))]
         # the least loss among the eight key designs (nu, iConf, classical 3NF, classical and greedy BCNF, Hybrid,
         # Repair, Drop; not the obstruction design inside Repair)
@@ -395,6 +411,111 @@ def table_e4(e4recs):
     out.append(r"\end{tabular}")
     return "\n".join(out)
 
+STORED_MODES = [("3nf", "iConf"), ("bcnf", "BCNF"), ("repair", r"\repair")]
+
+def load_stored():
+    """the records of stored_risk.py per set, one per seed: {set: [records]} (results/stored_<set>.jsonl)"""
+    import e3
+    out = {}
+    for name in e3.SETS:
+        f = os.path.join(ROOT, "results", "stored_%s.jsonl" % name)
+        if os.path.isfile(f) and name not in E3_EXCLUDE:
+            out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
+    return out
+
+def load_worst_stored():
+    """the baselines at their highest and Repair at its lowest risk on the stored tables over the orders of
+    worst_case.py: {set: {mode: (viol., anom.)}} (results/worst_stored_<set>.jsonl of worst_stored.py)"""
+    import e3, worst_stored
+    out = {}
+    for name in e3.SETS:
+        f = os.path.join(ROOT, "results", "worst_stored_%s.jsonl" % name)
+        if os.path.isfile(f):
+            r = json.loads(open(f, encoding="utf-8").readline())
+            out[name] = {m: worst_stored.worst(r, m) for m in r["modes"]}
+    return out
+
+def table_stored(srecs, worst=None):
+    """per data set: the mean integrity risk (per cent of the harmful updates) when the updates run on the stored
+    tables (stored_risk.py), split into the missed harmful updates that change no other record, so that the violation
+    stays, and those that change other records instead (update anomalies); the key-only design stores one table, so
+    that its risk is the one on the universal relation and it has no anomalies; with worst (load_worst_stored()), the
+    baselines show the split of their design with the highest and Repair that of its design with the lowest risk on
+    the stored tables"""
+    import statistics
+    out = [r"\begin{tabular}{lr" + "r" * (2 * len(STORED_MODES)) + "}", r"\toprule",
+           r"Data set & key-only & " + " & ".join(r"\multicolumn{2}{c}{%s}" % l for _, l in STORED_MODES) + r"\\",
+           "".join(r"\cmidrule(lr){%d-%d}" % (3 + 2 * i, 4 + 2 * i) for i in range(len(STORED_MODES))),
+           " & & " + " & ".join([r"viol. & anom."] * len(STORED_MODES)) + r"\\",
+           r"\midrule"]
+
+    def pct(recs, mode, key, minus=None):
+        return statistics.mean(100.0 * (r["modes"][mode][key] - (r["modes"][mode][minus] if minus else 0)) / r["harmful"]
+                               for r in recs)
+
+    ruled = False
+    for name, recs in srecs.items():
+        rule, ruled = documented_rule(name, ruled)
+        out += rule
+        cells = ["%.1f" % pct(recs, "keys", "missed_stored")]
+        for mode, _ in STORED_MODES:
+            if mode in (worst or {}).get(name, {}):
+                cells += ["%.1f" % v for v in worst[name][mode]]
+            else:
+                cells += ["%.1f" % pct(recs, mode, "missed_stored_local"), "%.1f" % pct(recs, mode, "missed_stored", "missed_stored_local")]
+        out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
+    out += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(out)
+
+OPS_MODES = [("keys", "keys"), ("3nf", "3NF keys (iConf)"), ("bcnf", "BCNF"), ("repair", r"\repair")]
+
+def load_ops():
+    """the records of E5 per set: ({set: [insertion records with foreign keys]}, {set: {mode: query record}})
+    (results/e3pg_fks_<set>.jsonl of e3pg.py --fks and results/queries_<set>.jsonl of queries.py, where a mode whose
+    design equals an earlier one refers to its record; a later record of a mode replaces an earlier one)"""
+    import e3
+    fks, queries = {}, {}
+    for name in e3.SETS:
+        if name in E3_EXCLUDE:
+            continue
+        f = os.path.join(ROOT, "results", "e3pg_fks_%s.jsonl" % name)
+        if os.path.isfile(f):
+            fks[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
+        f = os.path.join(ROOT, "results", "queries_%s.jsonl" % name)
+        if os.path.isfile(f):
+            q = {}
+            for r in (json.loads(l) for l in open(f, encoding="utf-8") if l.strip()):
+                q[r["mode"]] = q.get(r["same_as"]) if "same_as" in r else r
+            queries[name] = q
+    return fks, queries
+
+def table_ops(e3recs, fkrecs, qrecs, size=10000):
+    """per data set and design: the mean seconds for inserting `size` records without and with foreign keys (e3pg.py
+    and e3pg.py --fks), and the mean milliseconds for reconstructing a record by a key of R (Q_point of queries.py)"""
+    def cell(t):
+        return "--" if t is None else ("%.2f" % t if t < 10 else ("%.1f" % t if t < 100 else "{:,.0f}".format(t)))
+
+    out = [r"\begin{tabular}{l" + "r" * (3 * len(OPS_MODES)) + "}", r"\toprule",
+           r"Data set & " + " & ".join(r"\multicolumn{3}{c}{%s}" % l for _, l in OPS_MODES) + r"\\",
+           "".join(r"\cmidrule(lr){%d-%d}" % (2 + 3 * i, 4 + 3 * i) for i in range(len(OPS_MODES))),
+           " & " + " & ".join([r"s & +FK s & ms"] * len(OPS_MODES)) + r"\\",
+           r"\midrule"]
+    ruled = False
+    for name, recs in e3recs.items():
+        if name not in fkrecs and name not in qrecs:
+            continue
+        rule, ruled = documented_rule(name, ruled)
+        out += rule
+        cells = []
+        for mode, _ in OPS_MODES:
+            q = qrecs.get(name, {}).get(mode)
+            cells += [cell(e3_mean(recs, mode, size)[0]),
+                      cell(e3_mean(fkrecs[name], mode, size)[0] if name in fkrecs else None),
+                      cell(q.get("q_point_mean") if q else None)]
+        out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
+    out += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(out)
+
 def load_weighted():
     """the records of weighted.py per set: {set: record} (results/weighted_<set>.jsonl)"""
     import e3
@@ -452,55 +573,59 @@ def table_weighted(wrecs, algs=("repair",), drift=None):
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
 
-TEASER_ORDER = ["D1+exclude", "3NF+exclude", "D1", "D2", "D4"]
-TEASER_LABELS = {"D1+exclude": r"$\dec_1$, FDs by exclusion", "3NF+exclude": r"3NF, $Z\rightarrow T$ by exclusion",
-                 "D1": r"$\dec_1$, keys only (loss 2)", "D2": r"$\dec_2$ (loss 1)", "D4": r"$\dec_4$ (loss 1)"}
+TEASER_DESIGNS = [("D1", 2), ("D2", 1), ("D4", 1), ("D5", 0)]   # the designs of Fig. 1 with their loss
+TEASER_PG = {"D5": "3NF+exclude"}   # the name of D5 in teaser_pg.py
 
-def fig_teaser(recs):
-    """a pgfplots bar chart of the mean insertion time per design and number of records (results/teaser_pg.jsonl of
-    teaser_pg.py) on a logarithmic axis: the layout of figures/fig_teaser.tex, with two legend rows centred over the
-    plot box"""
+def fig_teaser(recs, risks, size=10000):
+    """two pgfplots bar charts on the designs of the running example, each labelled with its loss: the mean
+    milliseconds for inserting `size` customers (results/teaser_pg.jsonl of teaser_pg.py), and the mean share of the
+    harmful updates that no constraint catches on the stored tables (results/teaser_risk.jsonl of teaser_risk.py),
+    split as in table_stored into the violations that stay and the updates that change other records"""
     import statistics
-    sizes = sorted(set(r["size"] for r in recs))
-    keys = {"D1+exclude": "d1x", "3NF+exclude": "3nfx", "D1": "d1", "D2": "d2", "D4": "d4"}
-    out = [r"\begin{tikzpicture}",
-           r"\begin{axis}[name=teaseraxis, ybar, width=\columnwidth, height=3.8cm, bar width=4.5pt, enlarge x limits=0.25,",
-           r"  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={%s}, xtick=data," % ",".join("{" + "{:,}".format(s) + "}" for s in sizes),
-           r"  ymode=log, log origin y=infty, ymin=0.08, ymax=20, log ticks with fixed point, tick pos=left,",
-           r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},",
-           r"  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]"]
-    for d in TEASER_ORDER:
-        pts = []
-        for size in sizes:
-            xs = [r["seconds"] for r in recs if r["design"] == d and r["size"] == size]
-            if xs:
-                pts.append("({" + "{:,}".format(size) + "}," + "{:.3f})".format(statistics.mean(xs)))
-        out.append(r"\addplot coordinates {%s};" % " ".join(pts))
-        out.append(r"\label{plot:teaser-%s}" % keys[d])
-    out.append(r"\end{axis}")
-    out.append(r"% two legend rows, each centered over the plot box (the y label is not counted): the designs with exclusion constraints, then the designs with keys only")
-    out.append(r"\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=13pt]teaseraxis.north) {%s};" % r"\qquad".join(
-        r"\ref{plot:teaser-%s}\,%s" % (keys[d], TEASER_LABELS[d]) for d in TEASER_ORDER[:2]))
-    out.append(r"\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=2pt]teaseraxis.north) {%s};" % r"\qquad".join(
-        r"\ref{plot:teaser-%s}\,%s" % (keys[d], TEASER_LABELS[d]) for d in TEASER_ORDER[2:]))
-    out.append(r"\end{tikzpicture}")
-    return "\n".join(out)
+    ms = {d: 1000 * statistics.mean(r["seconds"] for r in recs if r["design"] == TEASER_PG.get(d, d) and r["size"] == size)
+          for d, _ in TEASER_DESIGNS}
+    share = lambda d, k: statistics.mean(100.0 * r["designs"][d][k] / r["harmful"] for r in risks)
+    viol = {d: share(d, "missed_stored_local") for d, _ in TEASER_DESIGNS}
+    anom = {d: share(d, "missed_stored") - viol[d] for d, _ in TEASER_DESIGNS}
+    pts = lambda v: " ".join("(%s,%.1f)" % (d, v[d]) for d, _ in TEASER_DESIGNS)
+    return "\n".join([
+        r"\begin{tikzpicture}",
+        r"\begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.1cm}, scale only axis, width=3.0cm, height=1.6cm,",
+        r"  symbolic x coords={%s}, xtick=data, xticklabels={%s}," % (",".join(d for d, _ in TEASER_DESIGNS),
+                                                                    ",".join(r"{$\dec_%s$\\loss %d}" % (d[1:], l) for d, l in TEASER_DESIGNS)),
+        r"  xticklabel style={align=center, font=\scriptsize}, xtick style={draw=none}, enlarge x limits=0.18, ymin=0, ymajorgrids, tick pos=left,",
+        r"  tick label style={font=\scriptsize}, label style={font=\scriptsize}, title style={font=\scriptsize, yshift=-4pt},",
+        r"  /pgf/bar width=9pt, legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]",
+        r"\nextgroupplot[ybar, xtick align=inside, title={(a) inserting %s customers}, ylabel={ms}, ymax=%d," % ("{:,}".format(size), 50 * (int(max(ms.values()) * 1.25) // 50 + 1)),
+        r"  nodes near coords={\pgfmathprintnumber[fixed, precision=0]{\pgfplotspointmeta}}, nodes near coords style={font=\tiny, black}]",
+        r"\addplot[blue, fill=blue!30] coordinates {%s};" % pts(ms),
+        r"\nextgroupplot[ybar stacked, title={(b) harmful updates missed}, ylabel={\%}, ymax=100,",
+        r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},",
+        r"  legend style={font=\tiny, at={(0.99,0.99)}, anchor=north east, draw=none, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt, row sep=-2pt}, legend cell align=left]",
+        r"\addplot[red!70!black, fill=red!35] coordinates {%s};" % pts(viol),
+        r"\addlegendentry{violation stays}",
+        r"\addplot[orange!80!black, fill=orange!35] coordinates {%s};" % pts(anom),
+        r"\addlegendentry{other records change}",
+        r"\end{groupplot}",
+        r"\end{tikzpicture}"])
 
 if __name__ == "__main__":
     rows = paper_rows()
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     e3recs = load_e3()
     e4recs = load_e4()
-    tf = os.path.join(ROOT, "results", "teaser_pg.jsonl")
-    teaser = [json.loads(l) for l in open(tf, encoding="utf-8") if l.strip()] if os.path.isfile(tf) else []
+    teaser = [[json.loads(l) for l in open(f, encoding="utf-8") if l.strip()] if os.path.isfile(f) else []
+              for f in (os.path.join(ROOT, "results", "teaser_%s.jsonl" % k) for k in ("pg", "risk"))]
     import e3
     records = {e3.SETS[n]: recs[0]["rows"] for n, recs in e4recs.items() if n in e3.SETS}
     for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows, records=records)),
                   ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
-                  ("table_e4.tex", table_e4(e4recs)), ("table_weighted.tex", table_weighted(load_weighted(), drift=load_drift())),
+                  ("table_e4.tex", table_e4(e4recs)), ("table_stored.tex", table_stored(load_stored(), load_worst_stored())),
+                  ("table_ops.tex", table_ops(e3recs, *load_ops())),
+                  ("table_weighted.tex", table_weighted(load_weighted(), drift=load_drift())),
                   ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"), drift=load_drift())),
-                  ("fig_teaser.tex", fig_teaser(teaser) if teaser else "")):
+                  ("fig_teaser.tex", fig_teaser(*teaser) if all(teaser) else "")):
         open(os.path.join(ROOT, "results", fn), "w", encoding="utf-8", newline="\n").write(t + "\n")
         print("==", fn)
         print(t)

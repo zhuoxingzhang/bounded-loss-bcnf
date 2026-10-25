@@ -1,0 +1,36 @@
+{"set": "breast", "mode": "keys", "design": true, "loss": 46, "rows": 691, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.004}
+{"set": "breast", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.096, "inserted": 10000, "attempted": 10000}
+{"set": "breast", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.097, "inserted": 10000, "attempted": 10000}
+{"set": "breast", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.094, "inserted": 10000, "attempted": 10000}
+{"set": "breast", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.092, "inserted": 10000, "attempted": 10000}
+{"set": "breast", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.093, "inserted": 10000, "attempted": 10000}
+{"set": "breast", "mode": "3nf", "design": true, "loss": 3, "rows": 691, "copy": false, "schemata": 38, "unique": 41, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 43, "build_seconds": 0.057}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 2.777, "inserted": 337916, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 2.707, "inserted": 337710, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 2.715, "inserted": 337160, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 2.732, "inserted": 337336, "attempted": 380000}
+{"set": "breast", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 2.717, "inserted": 337498, "attempted": 380000}
+{"set": "breast", "mode": "bcnf", "design": true, "loss": 38, "rows": 691, "copy": false, "schemata": 6, "unique": 7, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 11, "build_seconds": 0.013}
+{"set": "breast", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.545, "inserted": 54349, "attempted": 60000}
+{"set": "breast", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.508, "inserted": 54264, "attempted": 60000}
+{"set": "breast", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.492, "inserted": 54195, "attempted": 60000}
+{"set": "breast", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.49, "inserted": 54247, "attempted": 60000}
+{"set": "breast", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.495, "inserted": 54405, "attempted": 60000}
+{"set": "breast", "mode": "gbcnf", "design": true, "loss": 37, "rows": 691, "copy": false, "schemata": 7, "unique": 8, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 12, "build_seconds": 0.015}
+{"set": "breast", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.536, "inserted": 62742, "attempted": 70000}
+{"set": "breast", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.537, "inserted": 62645, "attempted": 70000}
+{"set": "breast", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.533, "inserted": 62566, "attempted": 70000}
+{"set": "breast", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.537, "inserted": 62675, "attempted": 70000}
+{"set": "breast", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.537, "inserted": 62839, "attempted": 70000}
+{"set": "breast", "mode": "repair", "design": true, "loss": 3, "rows": 691, "copy": false, "schemata": 38, "unique": 40, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 43, "build_seconds": 0.062}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 0, "seconds": 2.53, "inserted": 337916, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 1, "seconds": 2.567, "inserted": 337710, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 2, "seconds": 2.537, "inserted": 337160, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 3, "seconds": 2.536, "inserted": 337336, "attempted": 380000}
+{"set": "breast", "mode": "repair", "size": 10000, "rep": 4, "seconds": 2.652, "inserted": 337498, "attempted": 380000}
+{"set": "breast", "mode": "drop", "design": true, "loss": 3, "rows": 691, "copy": false, "schemata": 37, "unique": 39, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 41, "build_seconds": 0.06}
+{"set": "breast", "mode": "drop", "size": 10000, "rep": 0, "seconds": 2.462, "inserted": 328451, "attempted": 370000}
+{"set": "breast", "mode": "drop", "size": 10000, "rep": 1, "seconds": 2.631, "inserted": 328242, "attempted": 370000}
+{"set": "breast", "mode": "drop", "size": 10000, "rep": 2, "seconds": 2.482, "inserted": 327715, "attempted": 370000}
+{"set": "breast", "mode": "drop", "size": 10000, "rep": 3, "seconds": 2.462, "inserted": 327883, "attempted": 370000}
+{"set": "breast", "mode": "drop", "size": 10000, "rep": 4, "seconds": 2.639, "inserted": 328021, "attempted": 370000}

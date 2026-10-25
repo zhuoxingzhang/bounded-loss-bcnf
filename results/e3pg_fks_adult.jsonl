@@ -1,0 +1,31 @@
+{"set": "adult", "mode": "keys", "design": true, "loss": 78, "rows": 32537, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.145}
+{"set": "adult", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.134, "inserted": 10000, "attempted": 10000}
+{"set": "adult", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.13, "inserted": 10000, "attempted": 10000}
+{"set": "adult", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.132, "inserted": 10000, "attempted": 10000}
+{"set": "adult", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.13, "inserted": 10000, "attempted": 10000}
+{"set": "adult", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.13, "inserted": 10000, "attempted": 10000}
+{"set": "adult", "mode": "3nf", "design": true, "loss": 0, "rows": 32537, "copy": false, "schemata": 46, "unique": 47, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 81, "build_seconds": 3.892}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 4.781, "inserted": 409756, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 4.834, "inserted": 408354, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.954, "inserted": 410396, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.895, "inserted": 410154, "attempted": 460000}
+{"set": "adult", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.951, "inserted": 410584, "attempted": 460000}
+{"set": "adult", "mode": "bcnf", "design": true, "loss": 68, "rows": 32537, "copy": false, "schemata": 5, "unique": 6, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 7, "build_seconds": 0.373}
+{"set": "adult", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.47, "inserted": 40483, "attempted": 50000}
+{"set": "adult", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.47, "inserted": 40446, "attempted": 50000}
+{"set": "adult", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.463, "inserted": 40676, "attempted": 50000}
+{"set": "adult", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.468, "inserted": 40484, "attempted": 50000}
+{"set": "adult", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.466, "inserted": 40665, "attempted": 50000}
+{"set": "adult", "mode": "gbcnf", "design": true, "loss": 67, "rows": 32537, "copy": false, "schemata": 6, "unique": 7, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 7, "build_seconds": 0.414}
+{"set": "adult", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.51, "inserted": 49175, "attempted": 60000}
+{"set": "adult", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.513, "inserted": 48943, "attempted": 60000}
+{"set": "adult", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.519, "inserted": 49267, "attempted": 60000}
+{"set": "adult", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.507, "inserted": 49086, "attempted": 60000}
+{"set": "adult", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.514, "inserted": 49236, "attempted": 60000}
+{"set": "adult", "mode": "repair", "design": true, "loss": 0, "rows": 32537, "copy": false, "schemata": 42, "unique": 43, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 64, "build_seconds": 3.467}
+{"set": "adult", "mode": "repair", "size": 10000, "rep": 0, "seconds": 4.317, "inserted": 374982, "attempted": 420000}
+{"set": "adult", "mode": "repair", "size": 10000, "rep": 1, "seconds": 4.283, "inserted": 373680, "attempted": 420000}
+{"set": "adult", "mode": "repair", "size": 10000, "rep": 2, "seconds": 4.23, "inserted": 375511, "attempted": 420000}
+{"set": "adult", "mode": "repair", "size": 10000, "rep": 3, "seconds": 4.3, "inserted": 375249, "attempted": 420000}
+{"set": "adult", "mode": "repair", "size": 10000, "rep": 4, "seconds": 4.307, "inserted": 375670, "attempted": 420000}
+{"set": "adult", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

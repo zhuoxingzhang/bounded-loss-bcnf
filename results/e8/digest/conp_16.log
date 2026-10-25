@@ -1,0 +1,28 @@
+formula 16: 1000000 closure tables, 340 waiting (2319 s)
+2000000 closure tables, 280 waiting (4934 s)
+3000000 closure tables, 183 waiting (7688 s)
+n=3 m=2 |R|=10 |Sa|=24 sat=True plain_realizable=False full_realizable=False OK
+passed (3586939 closure tables, 9367 s)
+	Command being timed: "~/kloss/venv/bin/python -I ~/kloss/tools/e8/conp_fast.py ~/kloss/tools/e8 50000000 --digest 16"
+	User time (seconds): 9366.92
+	System time (seconds): 0.28
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:36:07
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 373144
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 123074
+	Voluntary context switches: 4
+	Involuntary context switches: 33115
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 40
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

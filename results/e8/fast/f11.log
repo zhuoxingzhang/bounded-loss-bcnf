@@ -1,0 +1,2 @@
+formula 11: n=2 m=3 |R|=9 |Sa|=17 sat=True plain_realizable=False full_realizable=False OK
+passed (1412 closure tables, 1 s)

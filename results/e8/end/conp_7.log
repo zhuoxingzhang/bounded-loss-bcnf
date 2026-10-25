@@ -1,0 +1,12 @@
+formula 7: Traceback (most recent call last):
+  File "~/kloss/e8par/conp_fast.py", line 79, in <module>
+  File "conp_check.py", line 27, in check
+  File "~/kloss/e8par/conp_fast.py", line 69, in <lambda>
+  File "~/kloss/e8par/conp_fast.py", line 37, in complete_full
+  File "~/kloss/e8par/conp_fast.py", line 20, in extend
+object address  : 0x707fe032df00
+object refcount : 3
+object type     : 0xa99aa0
+object type name: MemoryError
+object repr     : MemoryError()
+lost sys.stderr

@@ -1,0 +1,31 @@
+{"set": "tpcds", "mode": "keys", "design": true, "loss": 316, "rows": 2685687, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 9.15}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.48, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.479, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.477, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.488, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.486, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "3nf", "design": true, "loss": 2, "rows": 2685687, "copy": false, "schemata": 94, "unique": 99, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 2045, "build_seconds": 557.951}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 26.492, "inserted": 543096, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 26.633, "inserted": 544613, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 26.376, "inserted": 544069, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 26.444, "inserted": 545106, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 26.343, "inserted": 539722, "attempted": 940000}
+{"set": "tpcds", "mode": "bcnf", "design": true, "loss": 180, "rows": 2685687, "copy": false, "schemata": 7, "unique": 9, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 6, "build_seconds": 16.15}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.757, "inserted": 44837, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.763, "inserted": 44936, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.757, "inserted": 44794, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.75, "inserted": 44955, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.764, "inserted": 44597, "attempted": 70000}
+{"set": "tpcds", "mode": "gbcnf", "design": true, "loss": 51, "rows": 2685687, "copy": false, "schemata": 9, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 9, "build_seconds": 23.33}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.891, "inserted": 56813, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.879, "inserted": 56950, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.873, "inserted": 56694, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.89, "inserted": 56978, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.832, "inserted": 56528, "attempted": 90000}
+{"set": "tpcds", "mode": "repair", "design": true, "loss": 2, "rows": 2685687, "copy": false, "schemata": 8, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 9, "build_seconds": 20.242}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 0, "seconds": 0.817, "inserted": 54837, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 1, "seconds": 0.823, "inserted": 54936, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 2, "seconds": 0.868, "inserted": 54794, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.869, "inserted": 54955, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.864, "inserted": 54597, "attempted": 80000}
+{"set": "tpcds", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

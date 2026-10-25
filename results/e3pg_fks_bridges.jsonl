@@ -1,0 +1,36 @@
+{"set": "bridges", "mode": "keys", "design": true, "loss": 108, "rows": 108, "copy": false, "schemata": 1, "unique": 5, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.003}
+{"set": "bridges", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.134, "inserted": 10000, "attempted": 10000}
+{"set": "bridges", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.132, "inserted": 10000, "attempted": 10000}
+{"set": "bridges", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.131, "inserted": 10000, "attempted": 10000}
+{"set": "bridges", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.129, "inserted": 10000, "attempted": 10000}
+{"set": "bridges", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.127, "inserted": 10000, "attempted": 10000}
+{"set": "bridges", "mode": "3nf", "design": true, "loss": 19, "rows": 108, "copy": false, "schemata": 57, "unique": 76, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 70, "build_seconds": 0.057}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 4.388, "inserted": 547243, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 4.459, "inserted": 547692, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.605, "inserted": 549269, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.399, "inserted": 549503, "attempted": 570000}
+{"set": "bridges", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.524, "inserted": 547975, "attempted": 570000}
+{"set": "bridges", "mode": "bcnf", "design": true, "loss": 103, "rows": 108, "copy": false, "schemata": 5, "unique": 8, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 3, "build_seconds": 0.006}
+{"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.356, "inserted": 48316, "attempted": 50000}
+{"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.359, "inserted": 48313, "attempted": 50000}
+{"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.343, "inserted": 48404, "attempted": 50000}
+{"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.334, "inserted": 48390, "attempted": 50000}
+{"set": "bridges", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.333, "inserted": 48299, "attempted": 50000}
+{"set": "bridges", "mode": "gbcnf", "design": true, "loss": 99, "rows": 108, "copy": false, "schemata": 9, "unique": 12, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 13, "build_seconds": 0.01}
+{"set": "bridges", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.667, "inserted": 84616, "attempted": 90000}
+{"set": "bridges", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.67, "inserted": 84660, "attempted": 90000}
+{"set": "bridges", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.68, "inserted": 85049, "attempted": 90000}
+{"set": "bridges", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.669, "inserted": 85080, "attempted": 90000}
+{"set": "bridges", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.672, "inserted": 84818, "attempted": 90000}
+{"set": "bridges", "mode": "repair", "design": true, "loss": 11, "rows": 108, "copy": false, "schemata": 58, "unique": 67, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 65, "build_seconds": 0.058}
+{"set": "bridges", "mode": "repair", "size": 10000, "rep": 0, "seconds": 4.315, "inserted": 554400, "attempted": 580000}
+{"set": "bridges", "mode": "repair", "size": 10000, "rep": 1, "seconds": 4.528, "inserted": 554864, "attempted": 580000}
+{"set": "bridges", "mode": "repair", "size": 10000, "rep": 2, "seconds": 4.517, "inserted": 556766, "attempted": 580000}
+{"set": "bridges", "mode": "repair", "size": 10000, "rep": 3, "seconds": 4.575, "inserted": 557002, "attempted": 580000}
+{"set": "bridges", "mode": "repair", "size": 10000, "rep": 4, "seconds": 4.538, "inserted": 555272, "attempted": 580000}
+{"set": "bridges", "mode": "drop", "design": true, "loss": 11, "rows": 108, "copy": false, "schemata": 59, "unique": 67, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 70, "build_seconds": 0.055}
+{"set": "bridges", "mode": "drop", "size": 10000, "rep": 0, "seconds": 4.753, "inserted": 564198, "attempted": 590000}
+{"set": "bridges", "mode": "drop", "size": 10000, "rep": 1, "seconds": 4.712, "inserted": 564680, "attempted": 590000}
+{"set": "bridges", "mode": "drop", "size": 10000, "rep": 2, "seconds": 4.681, "inserted": 566581, "attempted": 590000}
+{"set": "bridges", "mode": "drop", "size": 10000, "rep": 3, "seconds": 4.754, "inserted": 566793, "attempted": 590000}
+{"set": "bridges", "mode": "drop", "size": 10000, "rep": 4, "seconds": 4.71, "inserted": 565069, "attempted": 590000}

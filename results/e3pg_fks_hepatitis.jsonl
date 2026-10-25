@@ -1,0 +1,31 @@
+{"set": "hepatitis", "mode": "keys", "design": true, "loss": 7220, "rows": 155, "copy": false, "schemata": 1, "unique": 348, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.067}
+{"set": "hepatitis", "mode": "keys", "size": 10000, "rep": 0, "seconds": 7.15, "inserted": 10000, "attempted": 10000}
+{"set": "hepatitis", "mode": "keys", "size": 10000, "rep": 1, "seconds": 7.021, "inserted": 10000, "attempted": 10000}
+{"set": "hepatitis", "mode": "keys", "size": 10000, "rep": 2, "seconds": 7.057, "inserted": 10000, "attempted": 10000}
+{"set": "hepatitis", "mode": "keys", "size": 10000, "rep": 3, "seconds": 7.038, "inserted": 10000, "attempted": 10000}
+{"set": "hepatitis", "mode": "keys", "size": 10000, "rep": 4, "seconds": 7.055, "inserted": 10000, "attempted": 10000}
+{"set": "hepatitis", "mode": "3nf", "design": true, "loss": 1554, "rows": 155, "copy": false, "schemata": 1677, "unique": 2468, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 2070, "build_seconds": 3.184}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 165.907, "inserted": 15617920, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 167.449, "inserted": 15719780, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 168.328, "inserted": 15682350, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 166.791, "inserted": 15734735, "attempted": 16770000}
+{"set": "hepatitis", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 169.031, "inserted": 15632350, "attempted": 16770000}
+{"set": "hepatitis", "mode": "bcnf", "design": true, "loss": 8211, "rows": 155, "copy": false, "schemata": 16, "unique": 18, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 9, "build_seconds": 0.083}
+{"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.142, "inserted": 157008, "attempted": 160000}
+{"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.154, "inserted": 157340, "attempted": 160000}
+{"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.186, "inserted": 157330, "attempted": 160000}
+{"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.159, "inserted": 157374, "attempted": 160000}
+{"set": "hepatitis", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.156, "inserted": 157342, "attempted": 160000}
+{"set": "hepatitis", "mode": "gbcnf", "design": true, "loss": 7995, "rows": 155, "copy": false, "schemata": 11, "unique": 24, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 14, "build_seconds": 0.098}
+{"set": "hepatitis", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 1.071, "inserted": 108879, "attempted": 110000}
+{"set": "hepatitis", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 1.054, "inserted": 108887, "attempted": 110000}
+{"set": "hepatitis", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.062, "inserted": 108817, "attempted": 110000}
+{"set": "hepatitis", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 1.042, "inserted": 108910, "attempted": 110000}
+{"set": "hepatitis", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 1.065, "inserted": 108838, "attempted": 110000}
+{"set": "hepatitis", "mode": "repair", "design": true, "loss": 992, "rows": 155, "copy": false, "schemata": 1962, "unique": 2250, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 2713, "build_seconds": 12.259}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 0, "seconds": 201.433, "inserted": 18245393, "attempted": 19620000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 1, "seconds": 190.997, "inserted": 18367385, "attempted": 19620000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 2, "seconds": 190.708, "inserted": 18322721, "attempted": 19620000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 3, "seconds": 193.582, "inserted": 18385176, "attempted": 19620000}
+{"set": "hepatitis", "mode": "repair", "size": 10000, "rep": 4, "seconds": 191.343, "inserted": 18260804, "attempted": 19620000}
+{"set": "hepatitis", "mode": "drop", "skipped": "no design"}

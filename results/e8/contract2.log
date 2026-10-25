@@ -1,0 +1,3 @@
+structured enforceable E: 3000 with crossing minimal FDs: 378
+contraction fails: 10  restriction fails: 3
+{'contr': (7, [0], [1, 2, 3], [4, 5, 6], [(3, 2), (9, 2), (64, 5), (12, 1), (68, 1), (73, 5), (67, 2)]), 'restr': (6, [0, 1], [2, 3], [4, 5], [(1, 5), (9, 2), (32, 4), (33, 4), (9, 4), (22, 3)])}

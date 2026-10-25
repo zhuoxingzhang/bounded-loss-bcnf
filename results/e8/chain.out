@@ -1,0 +1,27 @@
+== Thm. Independence: criterion vs brute-force chase (5,400 random designs) (2026-10-25 14:24:20)
+test says conflict, search found inconsistency: 4365
+test says conflict, search found none (search miss?): 0
+test says independent, search found inconsistency (TEST WRONG): 0
+test says independent, search found none: 1035
+all-orders vs canonical-order disagreements: 0
+== Thm. Decomposition by sources: additivity on random source-separated schemata (2026-10-25 14:24:23)
+instances 3000 with positive loss 414
+full mismatches 0 []
+plain mismatches 0 []
+== Thm. Decomposition by sources: three parts, more instances (2026-10-25 14:24:36)
+instances 5054 lossy 769 needing weakenings 0 mismatches 0 []
+== Conjecture (sources): glued weakening gadgets, where weakened FDs matter (slow) (2026-10-25 14:24:43)
+instances 1498 needing weakenings 1332 full mismatches 0 [] plain mismatches 0
+== Projections need not preserve enforceability (motivates the conjecture) (2026-10-25 15:40:17)
+structured enforceable E: 3000 with crossing minimal FDs: 378
+contraction fails: 10  restriction fails: 3
+{'contr': (7, [0], [1, 2, 3], [4, 5, 6], [(3, 2), (9, 2), (64, 5), (12, 1), (68, 1), (73, 5), (67, 2)]), 'restr': (6, [0, 1], [2, 3], [4, 5], [(1, 5), (9, 2), (32, 4), (33, 4), (9, 4), (22, 3)])}
+== Open question: local weakened FDs suffice under unit weights (random search, 15 min) (2026-10-25 15:40:17)
+{'tried': 3382, 'lossy': 1812, 'nonplain': 91, 'skipped': 8} hits: 0
+== Open question: local weakened FDs, context-replicated variants (slow) (2026-10-25 16:01:21)
+['AF->D', 'BDE->A'] (12, 2, 2, 2, ['AE->B', 'ACE->D']) 
+['DF->C', 'AF->D', 'BDE->A'] (14, 1, 1, 1, ['AE->B']) 
+['ACE->D', 'AF->D', 'BDE->A'] (14, 3, 3, 3, ['AE->B', 'DE->C', 'DE->F']) 
+/usr/lib/python3.14/multiprocessing/resource_tracker.py:396: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown: {'/mp-d4ttsngy', '/mp-6z55zgm8', '/mp-o4lmx28v', '/mp-n637_3hw', '/mp-s5xdpvye', '/mp-eikmsnn9'}
+  warnings.warn(
+chain done 2026-10-25 16:46:05

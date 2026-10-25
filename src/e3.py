@@ -22,7 +22,10 @@ usage: python3 e3.py [--sizes 10000,20000,30000] [--reps 5] [--modes orig,3nf,bc
 sets: abalone adult breast bridges echo fdred hepatitis letter ncvoter weather tpch_orders tpch_part
 """
 import sys, os, json, time, random, subprocess, threading
-import pymysql
+try:
+    import pymysql   # the MySQL runs only; e3pg.py imports the sets and helpers of this module without it
+except ImportError:
+    pymysql = None
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fdlib import *
 from triggers import enforcement_statements, q

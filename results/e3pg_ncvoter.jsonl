@@ -1,245 +1,55 @@
-{"set": "ncvoter", "mode": "orig-x", "design": true, "loss": 0, "rows": 1000, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 217, "trigger_fds": 0, "indexes": 0, "build_seconds": 5.389}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 194.806, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 183.549, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 181.808, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 180.544, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 175.566, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 0, "seconds": 465.48, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 1, "seconds": 404.016, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 2, "seconds": 401.259, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 3, "seconds": 402.049, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 4, "seconds": 403.984, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 0, "seconds": 651.096, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 1, "seconds": 658.942, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 2, "seconds": 636.319, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 3, "seconds": 642.457, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 4, "seconds": 679.607, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "design": true, "loss": 403, "rows": 1000, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.102}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 0, "seconds": 3.49, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 1, "seconds": 3.305, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 2, "seconds": 3.312, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 3, "seconds": 3.357, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 4, "seconds": 3.296, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 0, "seconds": 7.111, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 1, "seconds": 6.771, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 2, "seconds": 7.013, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 3, "seconds": 7.193, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 4, "seconds": 7.157, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 0, "seconds": 10.676, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 1, "seconds": 10.571, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 2, "seconds": 10.863, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 3, "seconds": 10.632, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 4, "seconds": 10.945, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "3nf-x", "design": true, "loss": 89, "rows": 1000, "schemata": 173, "unique": 223, "unique_md5": 0, "exclusion": 46, "trigger_fds": 0, "indexes": 0, "build_seconds": 1.866}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 55.486, "inserted": 1633858, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 55.895, "inserted": 1633613, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 55.035, "inserted": 1635272, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 55.056, "inserted": 1633699, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 54.194, "inserted": 1634350, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 0, "seconds": 121.682, "inserted": 3266546, "attempted": 3460000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 1, "seconds": 119.633, "inserted": 3269424, "attempted": 3460000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 2, "seconds": 120.534, "inserted": 3267340, "attempted": 3460000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 3, "seconds": 121.621, "inserted": 3271018, "attempted": 3460000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 4, "seconds": 120.336, "inserted": 3266303, "attempted": 3460000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 0, "seconds": 195.346, "inserted": 4900138, "attempted": 5190000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 1, "seconds": 193.168, "inserted": 4906839, "attempted": 5190000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 188.303, "inserted": 4898965, "attempted": 5190000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 195.92, "inserted": 4904194, "attempted": 5190000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 194.863, "inserted": 4906184, "attempted": 5190000}
-{"set": "ncvoter", "mode": "bcnf", "design": true, "loss": 704, "rows": 1000, "schemata": 11, "unique": 14, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.055}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.308, "inserted": 84659, "attempted": 110000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.286, "inserted": 84510, "attempted": 110000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.345, "inserted": 84926, "attempted": 110000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.257, "inserted": 84583, "attempted": 110000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.315, "inserted": 84546, "attempted": 110000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 2.567, "inserted": 168937, "attempted": 220000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 2.579, "inserted": 169500, "attempted": 220000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 2.536, "inserted": 168971, "attempted": 220000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 2.411, "inserted": 169976, "attempted": 220000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 2.401, "inserted": 168586, "attempted": 220000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 3.637, "inserted": 253093, "attempted": 330000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 3.699, "inserted": 254618, "attempted": 330000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 3.636, "inserted": 252926, "attempted": 330000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 3.633, "inserted": 254114, "attempted": 330000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 3.629, "inserted": 254307, "attempted": 330000}
-{"set": "ncvoter", "mode": "gbcnf", "design": true, "loss": 668, "rows": 1000, "schemata": 14, "unique": 19, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.07}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 1.645, "inserted": 110128, "attempted": 140000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 1.63, "inserted": 109995, "attempted": 140000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.635, "inserted": 110446, "attempted": 140000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 1.641, "inserted": 110009, "attempted": 140000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 1.671, "inserted": 109981, "attempted": 140000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 0, "seconds": 3.331, "inserted": 219807, "attempted": 280000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 1, "seconds": 3.419, "inserted": 220537, "attempted": 280000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 2, "seconds": 3.382, "inserted": 219767, "attempted": 280000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 3, "seconds": 3.369, "inserted": 221104, "attempted": 280000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 4, "seconds": 3.405, "inserted": 219356, "attempted": 280000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 0, "seconds": 5.145, "inserted": 329327, "attempted": 420000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 1, "seconds": 5.041, "inserted": 331162, "attempted": 420000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 5.024, "inserted": 328847, "attempted": 420000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 5.26, "inserted": 330447, "attempted": 420000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 5.299, "inserted": 330720, "attempted": 420000}
-{"set": "ncvoter", "mode": "repair", "design": true, "loss": 58, "rows": 1000, "schemata": 170, "unique": 206, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.962}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 22.49, "inserted": 1607779, "attempted": 1700000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 23.071, "inserted": 1607583, "attempted": 1700000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 22.655, "inserted": 1609128, "attempted": 1700000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 22.617, "inserted": 1607669, "attempted": 1700000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 23.516, "inserted": 1608402, "attempted": 1700000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 0, "seconds": 45.32, "inserted": 3214598, "attempted": 3400000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 1, "seconds": 45.986, "inserted": 3217223, "attempted": 3400000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 2, "seconds": 46.683, "inserted": 3215469, "attempted": 3400000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 3, "seconds": 46.61, "inserted": 3218767, "attempted": 3400000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 4, "seconds": 45.494, "inserted": 3214884, "attempted": 3400000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 0, "seconds": 69.998, "inserted": 4822604, "attempted": 5100000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 1, "seconds": 69.177, "inserted": 4828839, "attempted": 5100000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 2, "seconds": 69.293, "inserted": 4821432, "attempted": 5100000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 70.452, "inserted": 4825977, "attempted": 5100000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 71.367, "inserted": 4828242, "attempted": 5100000}
-{"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
-{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 173, "unique": 223, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.934}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 22.976, "inserted": 1633858, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 22.237, "inserted": 1633613, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 22.171, "inserted": 1635272, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 21.983, "inserted": 1633699, "attempted": 1730000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 22.239, "inserted": 1634350, "attempted": 1730000}
-{"set": "ncvoter", "mode": "orig-x", "design": true, "loss": 0, "rows": 1000, "copy": false, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 216, "trigger_fds": 0, "indexes": 0, "build_seconds": 4.844}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 161.024, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 160.824, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 162.857, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 172.179, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 168.452, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 0, "seconds": 396.026, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 1, "seconds": 405.452, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 2, "seconds": 394.661, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 3, "seconds": 393.152, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 20000, "rep": 4, "seconds": 403.34, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 0, "seconds": 679.459, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 1, "seconds": 685.951, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 2, "seconds": 643.041, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 3, "seconds": 700.886, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "orig-x", "size": 30000, "rep": 4, "seconds": 662.094, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "3nf-x", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 172, "unique": 222, "unique_md5": 0, "exclusion": 46, "trigger_fds": 0, "indexes": 0, "build_seconds": 1.89}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 53.185, "inserted": 1634535, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 53.741, "inserted": 1634252, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 53.577, "inserted": 1636019, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 53.55, "inserted": 1636347, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 53.024, "inserted": 1633072, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 0, "seconds": 114.986, "inserted": 3267311, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 1, "seconds": 116.314, "inserted": 3266942, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 2, "seconds": 117.732, "inserted": 3267988, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 3, "seconds": 116.563, "inserted": 3271115, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 20000, "rep": 4, "seconds": 118.669, "inserted": 3267055, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 0, "seconds": 184.61, "inserted": 4903567, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 1, "seconds": 188.965, "inserted": 4903690, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 183.999, "inserted": 4906574, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 185.905, "inserted": 4903099, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 181.517, "inserted": 4902064, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 172, "unique": 222, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.874}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 22.475, "inserted": 1634535, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 22.016, "inserted": 1634252, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 21.968, "inserted": 1636019, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 21.97, "inserted": 1636347, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 21.872, "inserted": 1633072, "attempted": 1720000}
-{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 0, "seconds": 44.815, "inserted": 3267311, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 1, "seconds": 45.809, "inserted": 3266942, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 2, "seconds": 46.035, "inserted": 3267988, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 3, "seconds": 45.477, "inserted": 3271115, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf", "size": 20000, "rep": 4, "seconds": 46.835, "inserted": 3267055, "attempted": 3440000}
-{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 0, "seconds": 68.266, "inserted": 4903567, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 1, "seconds": 69.13, "inserted": 4903690, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 2, "seconds": 69.968, "inserted": 4906574, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 3, "seconds": 71.593, "inserted": 4903099, "attempted": 5160000}
-{"set": "ncvoter", "mode": "3nf", "size": 30000, "rep": 4, "seconds": 70.86, "inserted": 4902064, "attempted": 5160000}
-{"set": "ncvoter", "mode": "keys", "design": true, "loss": 402, "rows": 1000, "copy": false, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.106}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 0, "seconds": 2.933, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 1, "seconds": 2.921, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 2, "seconds": 3.04, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 3, "seconds": 2.909, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 4, "seconds": 2.914, "inserted": 10000, "attempted": 10000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 0, "seconds": 6.263, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 1, "seconds": 6.097, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 2, "seconds": 6.24, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 3, "seconds": 6.053, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 20000, "rep": 4, "seconds": 6.118, "inserted": 20000, "attempted": 20000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 0, "seconds": 9.715, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 1, "seconds": 9.806, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 2, "seconds": 9.772, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 3, "seconds": 9.835, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "keys", "size": 30000, "rep": 4, "seconds": 9.738, "inserted": 30000, "attempted": 30000}
-{"set": "ncvoter", "mode": "bcnf", "design": true, "loss": 704, "rows": 1000, "copy": false, "schemata": 10, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.052}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.142, "inserted": 84727, "attempted": 100000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.149, "inserted": 84490, "attempted": 100000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.148, "inserted": 84951, "attempted": 100000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.177, "inserted": 84915, "attempted": 100000}
-{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.145, "inserted": 84302, "attempted": 100000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 2.323, "inserted": 168899, "attempted": 200000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 2.331, "inserted": 169237, "attempted": 200000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 2.315, "inserted": 169155, "attempted": 200000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 2.294, "inserted": 169664, "attempted": 200000}
-{"set": "ncvoter", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 2.419, "inserted": 169071, "attempted": 200000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 3.393, "inserted": 253855, "attempted": 300000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 3.342, "inserted": 253986, "attempted": 300000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 3.393, "inserted": 254751, "attempted": 300000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 3.401, "inserted": 253799, "attempted": 300000}
-{"set": "ncvoter", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 3.434, "inserted": 253667, "attempted": 300000}
-{"set": "ncvoter", "mode": "gbcnf", "design": true, "loss": 668, "rows": 1000, "copy": false, "schemata": 13, "unique": 18, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.065}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 1.528, "inserted": 110204, "attempted": 130000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 1.551, "inserted": 109875, "attempted": 130000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.521, "inserted": 110477, "attempted": 130000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 1.56, "inserted": 110454, "attempted": 130000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 1.524, "inserted": 109631, "attempted": 130000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 0, "seconds": 3.1, "inserted": 219709, "attempted": 260000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 1, "seconds": 3.104, "inserted": 220145, "attempted": 260000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 2, "seconds": 3.112, "inserted": 220013, "attempted": 260000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 3, "seconds": 3.137, "inserted": 220588, "attempted": 260000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 20000, "rep": 4, "seconds": 3.145, "inserted": 219975, "attempted": 260000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 0, "seconds": 4.614, "inserted": 330032, "attempted": 390000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 1, "seconds": 4.684, "inserted": 330270, "attempted": 390000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 4.776, "inserted": 331407, "attempted": 390000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 4.755, "inserted": 330162, "attempted": 390000}
-{"set": "ncvoter", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 4.783, "inserted": 330104, "attempted": 390000}
-{"set": "ncvoter", "mode": "repair", "design": true, "loss": 58, "rows": 1000, "copy": false, "schemata": 169, "unique": 205, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.869}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 21.588, "inserted": 1608559, "attempted": 1690000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 21.223, "inserted": 1608343, "attempted": 1690000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 21.475, "inserted": 1609838, "attempted": 1690000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 21.335, "inserted": 1610233, "attempted": 1690000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 21.756, "inserted": 1607233, "attempted": 1690000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 0, "seconds": 43.298, "inserted": 3215507, "attempted": 3380000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 1, "seconds": 43.246, "inserted": 3214911, "attempted": 3380000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 2, "seconds": 43.723, "inserted": 3216082, "attempted": 3380000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 3, "seconds": 45.546, "inserted": 3219039, "attempted": 3380000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 4, "seconds": 49.019, "inserted": 3215109, "attempted": 3380000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 0, "seconds": 65.99, "inserted": 4825577, "attempted": 5070000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 1, "seconds": 65.704, "inserted": 4825775, "attempted": 5070000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 2, "seconds": 65.195, "inserted": 4828394, "attempted": 5070000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 64.907, "inserted": 4825425, "attempted": 5070000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 65.057, "inserted": 4824319, "attempted": 5070000}
-{"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
-{"set": "ncvoter", "mode": "3nfc-x", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 50, "trigger_fds": 0, "indexes": 0, "build_seconds": 1.868}
-{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 51.742, "inserted": 1564448, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 51.761, "inserted": 1564214, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 51.591, "inserted": 1565964, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 53.242, "inserted": 1566245, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 51.952, "inserted": 1563015, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.853}
-{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 20.859, "inserted": 1564448, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 21.338, "inserted": 1564214, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 21.149, "inserted": 1565964, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 21.19, "inserted": 1566245, "attempted": 1650000}
-{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 21.175, "inserted": 1563015, "attempted": 1650000}
-{"set": "ncvoter", "mode": "repair", "design": true, "loss": 48, "rows": 1000, "copy": false, "schemata": 158, "unique": 192, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.833}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 20.565, "inserted": 1505799, "attempted": 1580000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 21.02, "inserted": 1505678, "attempted": 1580000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 20.514, "inserted": 1507053, "attempted": 1580000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 20.053, "inserted": 1507408, "attempted": 1580000}
-{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 20.257, "inserted": 1504661, "attempted": 1580000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 0, "seconds": 41.182, "inserted": 3010235, "attempted": 3160000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 1, "seconds": 41.125, "inserted": 3009589, "attempted": 3160000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 2, "seconds": 41.601, "inserted": 3010703, "attempted": 3160000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 3, "seconds": 41.381, "inserted": 3013445, "attempted": 3160000}
-{"set": "ncvoter", "mode": "repair", "size": 20000, "rep": 4, "seconds": 44.199, "inserted": 3009827, "attempted": 3160000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 0, "seconds": 62.868, "inserted": 4517630, "attempted": 4740000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 1, "seconds": 62.355, "inserted": 4517482, "attempted": 4740000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 2, "seconds": 62.741, "inserted": 4519921, "attempted": 4740000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 3, "seconds": 62.612, "inserted": 4517198, "attempted": 4740000}
-{"set": "ncvoter", "mode": "repair", "size": 30000, "rep": 4, "seconds": 62.976, "inserted": 4516196, "attempted": 4740000}
+{"set": "ncvoter", "mode": "orig-x", "design": true, "loss": 0, "rows": 1000, "copy": false, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 216, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 1.81}
+{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 55.971, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 56.123, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 56.156, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 58.993, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 57.262, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "3nf-x", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 172, "unique": 222, "unique_md5": 0, "exclusion": 46, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.689}
+{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 19.51, "inserted": 1634535, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 19.851, "inserted": 1634252, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 19.237, "inserted": 1636019, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 19.397, "inserted": 1636347, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 18.845, "inserted": 1633072, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nfc-x", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 50, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.682}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 19.412, "inserted": 1564448, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 18.87, "inserted": 1564214, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 19.057, "inserted": 1565964, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 19.738, "inserted": 1566245, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 19.776, "inserted": 1563015, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nf", "design": true, "loss": 89, "rows": 1000, "copy": false, "schemata": 172, "unique": 222, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.339}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 8.662, "inserted": 1634535, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 8.966, "inserted": 1634252, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 8.478, "inserted": 1636019, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 8.706, "inserted": 1636347, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 8.846, "inserted": 1633072, "attempted": 1720000}
+{"set": "ncvoter", "mode": "3nfc", "design": true, "loss": 88, "rows": 1000, "copy": false, "schemata": 165, "unique": 218, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.328}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 8.65, "inserted": 1564448, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 8.007, "inserted": 1564214, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 8.672, "inserted": 1565964, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 8.511, "inserted": 1566245, "attempted": 1650000}
+{"set": "ncvoter", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 8.495, "inserted": 1563015, "attempted": 1650000}
+{"set": "ncvoter", "mode": "keys", "design": true, "loss": 402, "rows": 1000, "copy": false, "schemata": 1, "unique": 69, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.033}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 0, "seconds": 1.087, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 1, "seconds": 1.096, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 2, "seconds": 1.105, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 3, "seconds": 1.089, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "keys", "size": 10000, "rep": 4, "seconds": 1.1, "inserted": 10000, "attempted": 10000}
+{"set": "ncvoter", "mode": "bcnf", "design": true, "loss": 704, "rows": 1000, "copy": false, "schemata": 10, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.019}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.502, "inserted": 84727, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.499, "inserted": 84490, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.478, "inserted": 84951, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.413, "inserted": 84915, "attempted": 100000}
+{"set": "ncvoter", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.447, "inserted": 84302, "attempted": 100000}
+{"set": "ncvoter", "mode": "gbcnf", "design": true, "loss": 668, "rows": 1000, "copy": false, "schemata": 13, "unique": 18, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.025}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.622, "inserted": 110204, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.619, "inserted": 109875, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.598, "inserted": 110477, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.637, "inserted": 110454, "attempted": 130000}
+{"set": "ncvoter", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.639, "inserted": 109631, "attempted": 130000}
+{"set": "ncvoter", "mode": "repair", "design": true, "loss": 48, "rows": 1000, "copy": false, "schemata": 158, "unique": 192, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.313}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 0, "seconds": 8.262, "inserted": 1505799, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 1, "seconds": 8.349, "inserted": 1505678, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 2, "seconds": 8.349, "inserted": 1507053, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 3, "seconds": 8.327, "inserted": 1507408, "attempted": 1580000}
+{"set": "ncvoter", "mode": "repair", "size": 10000, "rep": 4, "seconds": 8.854, "inserted": 1504661, "attempted": 1580000}
 {"set": "ncvoter", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}

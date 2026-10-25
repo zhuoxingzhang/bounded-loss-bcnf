@@ -1,0 +1,6 @@
+# run 5 masks with limit 2000000
+['ACE->D', 'AE->B', 'AF->D', 'BDE->A'] (15, 4, 4, 4, ['DE->C', 'DE->F', 'AEG->B', 'AEH->B']) 
+['DF->C', 'ACE->D', 'BDE->A'] (15, 4, 5, 4, ['AE->B', 'DE->F', 'DEG->C', 'DEH->C']) 
+['ACE->D', 'AE->B', 'BDE->A', 'DE->F'] (15, 4, 4, 4, ['AF->C', 'AF->D', 'AEG->B', 'AEH->B']) 
+['ACE->D', 'AE->B', 'BDE->A'] (13, 4, 5, 4, ['DE->C', 'DE->F', 'AEG->B', 'AEH->B']) 
+['DF->C', 'ACE->D', 'AE->B', 'BDE->A'] (16, 5, 6, 5, ['DE->F', 'AEG->B', 'DEG->C', 'AEH->B', 'DEH->C']) 

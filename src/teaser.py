@@ -18,7 +18,10 @@ street of an existing town with a new zip code, so that every FD remains satisfi
 usage: python3 teaser.py [--base 100000] [--sizes 10000,20000,30000] [--reps 5]       results/mysql/teaser.jsonl
 """
 import sys, os, json, time, random
-import pymysql
+try:
+    import pymysql   # the MySQL runs only; teaser_pg.py and teaser_risk.py import World without it
+except ImportError:
+    pymysql = None
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from triggers import enforcement_statements, q
 

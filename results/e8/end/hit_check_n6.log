@@ -1,0 +1,2 @@
+running example: loss 1, optimal, 1 iterations
+DONE {'instances': 657529, 'lossy': 159330, 'root_optimal': 628698, 'capped': 804, 'fail': 0} 3600s

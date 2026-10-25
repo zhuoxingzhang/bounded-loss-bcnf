@@ -1,0 +1,25 @@
+formula 17: n=3 m=2 |R|=10 |Sa|=24 sat=True plain_realizable=False full_realizable=False OK
+passed (521593 closure tables, 2167 s)
+	Command being timed: "~/kloss/venv/bin/python -I ~/kloss/tools/e8/conp_fast.py ~/kloss/tools/e8 2000000 --digest 17"
+	User time (seconds): 2166.19
+	System time (seconds): 0.23
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 36:06.63
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 66464
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 17602
+	Voluntary context switches: 1
+	Involuntary context switches: 10891
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,2 @@
+formula 20: n=3 m=2 |R|=10 |Sa|=24 sat=True plain_realizable=False full_realizable=False OK
+passed (196000 closure tables, 400 s)

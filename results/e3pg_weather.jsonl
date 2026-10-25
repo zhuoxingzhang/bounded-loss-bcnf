@@ -1,125 +1,55 @@
-{"set": "weather", "mode": "orig-x", "design": true, "loss": 0, "rows": 262920, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 516, "trigger_fds": 0, "indexes": 0, "build_seconds": 16096.131}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 0, "timeout_seconds": 1.006, "inserted_before_timeout": 0, "attempted": 10000, "truncated": "budget of 7200 s exhausted during size 10000 repetition 0"}
-{"set": "weather", "mode": "keys", "design": true, "loss": 894, "rows": 262920, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 1.33}
-{"set": "weather", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.39, "inserted": 10000, "attempted": 10000}
-{"set": "weather", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.455, "inserted": 10000, "attempted": 10000}
-{"set": "weather", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.381, "inserted": 10000, "attempted": 10000}
-{"set": "weather", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.384, "inserted": 10000, "attempted": 10000}
-{"set": "weather", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.396, "inserted": 10000, "attempted": 10000}
-{"set": "weather", "mode": "keys", "size": 20000, "rep": 0, "seconds": 0.823, "inserted": 20000, "attempted": 20000}
-{"set": "weather", "mode": "keys", "size": 20000, "rep": 1, "seconds": 0.75, "inserted": 20000, "attempted": 20000}
-{"set": "weather", "mode": "keys", "size": 20000, "rep": 2, "seconds": 0.753, "inserted": 20000, "attempted": 20000}
-{"set": "weather", "mode": "keys", "size": 20000, "rep": 3, "seconds": 0.861, "inserted": 20000, "attempted": 20000}
-{"set": "weather", "mode": "keys", "size": 20000, "rep": 4, "seconds": 0.761, "inserted": 20000, "attempted": 20000}
-{"set": "weather", "mode": "keys", "size": 30000, "rep": 0, "seconds": 1.122, "inserted": 30000, "attempted": 30000}
-{"set": "weather", "mode": "keys", "size": 30000, "rep": 1, "seconds": 1.094, "inserted": 30000, "attempted": 30000}
-{"set": "weather", "mode": "keys", "size": 30000, "rep": 2, "seconds": 1.078, "inserted": 30000, "attempted": 30000}
-{"set": "weather", "mode": "keys", "size": 30000, "rep": 3, "seconds": 1.102, "inserted": 30000, "attempted": 30000}
-{"set": "weather", "mode": "keys", "size": 30000, "rep": 4, "seconds": 1.092, "inserted": 30000, "attempted": 30000}
-{"set": "weather", "mode": "3nf-x", "design": true, "loss": 147, "rows": 262920, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 222, "trigger_fds": 0, "indexes": 0, "build_seconds": 7319.516}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 0, "timeout_seconds": 1.004, "inserted_before_timeout": 0, "attempted": 4070000, "truncated": "budget of 7200 s exhausted during size 10000 repetition 0"}
-{"set": "weather", "mode": "bcnf", "design": true, "loss": 869, "rows": 262920, "schemata": 9, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 7.241}
-{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.736, "inserted": 80436, "attempted": 90000}
-{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.738, "inserted": 80361, "attempted": 90000}
-{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.746, "inserted": 80205, "attempted": 90000}
-{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.772, "inserted": 80344, "attempted": 90000}
-{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.799, "inserted": 80018, "attempted": 90000}
-{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 3.49, "inserted": 160541, "attempted": 180000}
-{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 3.481, "inserted": 160258, "attempted": 180000}
-{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 3.536, "inserted": 159969, "attempted": 180000}
-{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 3.467, "inserted": 160709, "attempted": 180000}
-{"set": "weather", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 3.466, "inserted": 160830, "attempted": 180000}
-{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 5.185, "inserted": 240230, "attempted": 270000}
-{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 5.267, "inserted": 240447, "attempted": 270000}
-{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 5.383, "inserted": 241039, "attempted": 270000}
-{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 5.204, "inserted": 240715, "attempted": 270000}
-{"set": "weather", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 5.25, "inserted": 240074, "attempted": 270000}
-{"set": "weather", "mode": "gbcnf", "design": true, "loss": 858, "rows": 262920, "schemata": 9, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 6.137}
-{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 1.578, "inserted": 80988, "attempted": 90000}
-{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 1.589, "inserted": 80792, "attempted": 90000}
-{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.606, "inserted": 80672, "attempted": 90000}
-{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 1.626, "inserted": 80929, "attempted": 90000}
-{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 1.6, "inserted": 80602, "attempted": 90000}
-{"set": "weather", "mode": "gbcnf", "size": 20000, "rep": 0, "seconds": 3.167, "inserted": 161497, "attempted": 180000}
-{"set": "weather", "mode": "gbcnf", "size": 20000, "rep": 1, "seconds": 3.182, "inserted": 161355, "attempted": 180000}
-{"set": "weather", "mode": "gbcnf", "size": 20000, "rep": 2, "seconds": 3.167, "inserted": 160986, "attempted": 180000}
-{"set": "weather", "mode": "gbcnf", "size": 20000, "rep": 3, "seconds": 3.138, "inserted": 161697, "attempted": 180000}
-{"set": "weather", "mode": "gbcnf", "size": 20000, "rep": 4, "seconds": 3.17, "inserted": 161852, "attempted": 180000}
-{"set": "weather", "mode": "gbcnf", "size": 30000, "rep": 0, "seconds": 4.757, "inserted": 241741, "attempted": 270000}
-{"set": "weather", "mode": "gbcnf", "size": 30000, "rep": 1, "seconds": 5.031, "inserted": 242168, "attempted": 270000}
-{"set": "weather", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 4.938, "inserted": 242580, "attempted": 270000}
-{"set": "weather", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 5.009, "inserted": 242324, "attempted": 270000}
-{"set": "weather", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 4.884, "inserted": 241661, "attempted": 270000}
-{"set": "weather", "mode": "orig-x", "design": true, "loss": 0, "rows": 262920, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 516, "trigger_fds": 0, "indexes": 0, "build_seconds": 16182.939}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 833.223, "inserted": 10000, "attempted": 10000, "copy_seconds": 26.156}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 817.583, "inserted": 10000, "attempted": 10000, "copy_seconds": 23.688}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 840.527, "inserted": 10000, "attempted": 10000, "copy_seconds": 22.907}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 837.595, "inserted": 10000, "attempted": 10000, "copy_seconds": 21.452}
-{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 785.03, "inserted": 10000, "attempted": 10000, "copy_seconds": 20.533}
-{"set": "weather", "mode": "orig-x", "size": 20000, "rep": 0, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "orig-x", "size": 20000, "rep": 0, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "orig-x", "size": 20000, "rep": 0, "error": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nf-x", "design": true, "loss": 147, "rows": 262920, "copy": true, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 222, "trigger_fds": 0, "indexes": 0, "build_seconds": 7449.933}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 358.14, "inserted": 3775754, "attempted": 4070000, "copy_seconds": 30.666}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 356.393, "inserted": 3766608, "attempted": 4070000, "copy_seconds": 30.433}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 366.351, "inserted": 3765608, "attempted": 4070000, "copy_seconds": 25.989}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 363.049, "inserted": 3776963, "attempted": 4070000, "copy_seconds": 25.562}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 4, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 4, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 358.588, "inserted": 3767831, "attempted": 4070000, "retries": 2, "copy_seconds": 30.524}
-{"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "attempt": 1, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "3nf-x", "size": 20000, "rep": 0, "error": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "repair", "design": true, "loss": 114, "rows": 262920, "copy": true, "schemata": 476, "unique": 507, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 403.605}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 128.687, "inserted": 4399368, "attempted": 4760000, "copy_seconds": 42.151}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 126.414, "inserted": 4388891, "attempted": 4760000, "copy_seconds": 32.171}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 2, "seconds": 127.793, "inserted": 4387243, "attempted": 4760000, "copy_seconds": 31.869}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 3, "seconds": 129.228, "inserted": 4400254, "attempted": 4760000, "copy_seconds": 42.6}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 4, "seconds": 133.733, "inserted": 4388901, "attempted": 4760000, "copy_seconds": 35.728}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 0, "seconds": 239.448, "inserted": 8776602, "attempted": 9520000, "copy_seconds": 24.346}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 1, "seconds": 205.19, "inserted": 8780037, "attempted": 9520000, "copy_seconds": 38.73}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 2, "seconds": 186.708, "inserted": 8765372, "attempted": 9520000, "copy_seconds": 17.45}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 3, "seconds": 186.364, "inserted": 8786048, "attempted": 9520000, "copy_seconds": 17.033}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 4, "seconds": 195.975, "inserted": 8790494, "attempted": 9520000, "copy_seconds": 16.917}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 0, "seconds": 283.643, "inserted": 13150459, "attempted": 14280000, "copy_seconds": 18.286}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 1, "seconds": 281.721, "inserted": 13166313, "attempted": 14280000, "copy_seconds": 16.581}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 2, "seconds": 283.067, "inserted": 13183511, "attempted": 14280000, "copy_seconds": 16.155}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 3, "seconds": 285.567, "inserted": 13173179, "attempted": 14280000, "copy_seconds": 14.772}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 4, "attempt": 0, "connection_lost": "server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 4, "seconds": 281.234, "inserted": 13152833, "attempted": 14280000, "retries": 1, "copy_seconds": 20.751}
+{"set": "weather", "mode": "3nf", "design": true, "loss": 147, "rows": 262920, "copy": false, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 144.427}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 34.087, "inserted": 3780161, "attempted": 4070000}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 33.786, "inserted": 3773826, "attempted": 4070000}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 34.686, "inserted": 3768292, "attempted": 4070000}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 33.633, "inserted": 3762756, "attempted": 4070000}
+{"set": "weather", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 34.772, "inserted": 3768256, "attempted": 4070000}
+{"set": "weather", "mode": "3nfc", "design": true, "loss": 149, "rows": 262920, "copy": false, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 144.324}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 33.583, "inserted": 3771192, "attempted": 4060000}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 33.557, "inserted": 3764892, "attempted": 4060000}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 32.712, "inserted": 3759348, "attempted": 4060000}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 37.157, "inserted": 3753894, "attempted": 4060000}
+{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 32.961, "inserted": 3759342, "attempted": 4060000}
+{"set": "weather", "mode": "keys", "design": true, "loss": 894, "rows": 262920, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.539}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.128, "inserted": 10000, "attempted": 10000}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.132, "inserted": 10000, "attempted": 10000}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.128, "inserted": 10000, "attempted": 10000}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.13, "inserted": 10000, "attempted": 10000}
+{"set": "weather", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.129, "inserted": 10000, "attempted": 10000}
+{"set": "weather", "mode": "bcnf", "design": true, "loss": 869, "rows": 262920, "copy": false, "schemata": 9, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 2.839}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.618, "inserted": 80549, "attempted": 90000}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.69, "inserted": 80363, "attempted": 90000}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.627, "inserted": 80440, "attempted": 90000}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.68, "inserted": 79952, "attempted": 90000}
+{"set": "weather", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.627, "inserted": 80123, "attempted": 90000}
+{"set": "weather", "mode": "gbcnf", "design": true, "loss": 858, "rows": 262920, "copy": false, "schemata": 9, "unique": 13, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 2.356}
+{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.589, "inserted": 81085, "attempted": 90000}
+{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.634, "inserted": 80867, "attempted": 90000}
+{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.629, "inserted": 80985, "attempted": 90000}
+{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.643, "inserted": 80518, "attempted": 90000}
+{"set": "weather", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.589, "inserted": 80753, "attempted": 90000}
+{"set": "weather", "mode": "repair", "design": true, "loss": 84, "rows": 262920, "copy": false, "schemata": 453, "unique": 479, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 144.946}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 36.549, "inserted": 4203875, "attempted": 4530000}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 33.643, "inserted": 4196732, "attempted": 4530000}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 2, "seconds": 37.795, "inserted": 4191055, "attempted": 4530000}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 3, "seconds": 33.611, "inserted": 4184092, "attempted": 4530000}
+{"set": "weather", "mode": "repair", "size": 10000, "rep": 4, "seconds": 34.464, "inserted": 4190505, "attempted": 4530000}
 {"set": "weather", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
-{"set": "weather", "mode": "3nf", "design": true, "loss": 147, "rows": 262920, "copy": true, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 432.585}
-{"set": "weather", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 98.239, "inserted": 3780161, "attempted": 4070000, "copy_seconds": 20.403}
-{"set": "weather", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 98.188, "inserted": 3773826, "attempted": 4070000, "copy_seconds": 15.803}
-{"set": "weather", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 98.913, "inserted": 3768292, "attempted": 4070000, "copy_seconds": 15.044}
-{"set": "weather", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 98.901, "inserted": 3762756, "attempted": 4070000, "copy_seconds": 15.377}
-{"set": "weather", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 99.65, "inserted": 3768256, "attempted": 4070000, "copy_seconds": 15.04}
-{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "build_seconds": 7639.453}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 363.451, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 25.648}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 368.686, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 24.287}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 371.959, "inserted": 3759348, "attempted": 4060000, "copy_seconds": 23.33}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 374.122, "inserted": 3753894, "attempted": 4060000, "copy_seconds": 23.519}
-{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 365.236, "inserted": 3759342, "attempted": 4060000, "copy_seconds": 23.028}
-{"set": "weather", "mode": "3nfc", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 387.486}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 97.532, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 22.998}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 98.083, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 16.806}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 101.265, "inserted": 3759348, "attempted": 4060000, "copy_seconds": 15.967}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 98.796, "inserted": 3753894, "attempted": 4060000, "copy_seconds": 15.54}
-{"set": "weather", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 99.916, "inserted": 3759342, "attempted": 4060000, "copy_seconds": 15.363}
-{"set": "weather", "mode": "repair", "design": true, "loss": 84, "rows": 262920, "copy": true, "schemata": 453, "unique": 479, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 392.256}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 0, "seconds": 99.092, "inserted": 4198913, "attempted": 4530000, "copy_seconds": 25.474}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 1, "seconds": 99.197, "inserted": 4188354, "attempted": 4530000, "copy_seconds": 16.103}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 2, "seconds": 101.802, "inserted": 4187518, "attempted": 4530000, "copy_seconds": 15.307}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 3, "seconds": 105.219, "inserted": 4200286, "attempted": 4530000, "copy_seconds": 16.277}
-{"set": "weather", "mode": "repair", "size": 10000, "rep": 4, "seconds": 97.929, "inserted": 4189688, "attempted": 4530000, "copy_seconds": 15.119}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 0, "seconds": 194.077, "inserted": 8376639, "attempted": 9060000, "copy_seconds": 15.224}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 1, "seconds": 194.28, "inserted": 8381482, "attempted": 9060000, "copy_seconds": 16.097}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 2, "seconds": 190.589, "inserted": 8367504, "attempted": 9060000, "copy_seconds": 15.253}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 3, "seconds": 190.631, "inserted": 8386088, "attempted": 9060000, "copy_seconds": 14.88}
-{"set": "weather", "mode": "repair", "size": 20000, "rep": 4, "seconds": 189.49, "inserted": 8388974, "attempted": 9060000, "copy_seconds": 15.571}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 0, "seconds": 284.98, "inserted": 12552866, "attempted": 13590000, "copy_seconds": 15.722}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 1, "seconds": 279.035, "inserted": 12567216, "attempted": 13590000, "copy_seconds": 15.746}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 2, "seconds": 319.046, "inserted": 12582495, "attempted": 13590000, "copy_seconds": 15.477}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 3, "seconds": 315.631, "inserted": 12573823, "attempted": 13590000, "copy_seconds": 19.24}
-{"set": "weather", "mode": "repair", "size": 30000, "rep": 4, "seconds": 416.33, "inserted": 12554135, "attempted": 13590000, "copy_seconds": 16.72}
-{"set": "weather", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "weather", "mode": "orig-x", "design": true, "loss": 0, "rows": 262920, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 516, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 5641.618}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 272.031, "inserted": 10000, "attempted": 10000, "copy_seconds": 11.022}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 274.477, "inserted": 10000, "attempted": 10000, "copy_seconds": 11.429}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 277.045, "inserted": 10000, "attempted": 10000, "copy_seconds": 12.253}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 275.28, "inserted": 10000, "attempted": 10000, "copy_seconds": 18.807}
+{"set": "weather", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 269.708, "inserted": 10000, "attempted": 10000, "copy_seconds": 17.381}
+{"set": "weather", "mode": "3nf-x", "design": true, "loss": 147, "rows": 262920, "copy": true, "schemata": 407, "unique": 557, "unique_md5": 0, "exclusion": 222, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 2671.398}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 135.384, "inserted": 3780161, "attempted": 4070000, "copy_seconds": 31.549}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 133.315, "inserted": 3773826, "attempted": 4070000, "copy_seconds": 31.865}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 135.158, "inserted": 3768292, "attempted": 4070000, "copy_seconds": 33.675}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 134.135, "inserted": 3762756, "attempted": 4070000, "copy_seconds": 33.354}
+{"set": "weather", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 132.441, "inserted": 3768256, "attempted": 4070000, "copy_seconds": 32.996}
+{"set": "weather", "mode": "3nfc-x", "design": true, "loss": 149, "rows": 262920, "copy": true, "schemata": 406, "unique": 556, "unique_md5": 0, "exclusion": 226, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 2756.24}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 135.914, "inserted": 3771192, "attempted": 4060000, "copy_seconds": 32.845}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 135.195, "inserted": 3764892, "attempted": 4060000, "copy_seconds": 33.35}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 136.092, "inserted": 3759348, "attempted": 4060000, "copy_seconds": 33.879}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 135.55, "inserted": 3753894, "attempted": 4060000, "copy_seconds": 34.62}
+{"set": "weather", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 134.108, "inserted": 3759342, "attempted": 4060000, "copy_seconds": 34.557}

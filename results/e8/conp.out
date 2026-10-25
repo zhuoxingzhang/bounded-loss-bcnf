@@ -1,0 +1,2 @@
+Terminated                 seq 8 20 | xargs -P 3 -I{} bash -c "$PY -I $P/conp_one.py $D {} > $L/conp_{}.log 2>&1"
+conp 8-20 done 2026-10-25 16:25:54

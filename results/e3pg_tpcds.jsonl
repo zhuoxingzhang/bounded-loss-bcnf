@@ -1,50 +1,45 @@
-{"set": "tpcds", "mode": "orig-x", "design": true, "loss": 0, "rows": 2685687, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 77, "trigger_fds": 0, "indexes": 0, "build_seconds": 13428.932}
-{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 147.361, "inserted": 10000, "attempted": 10000, "copy_seconds": 21.588}
-{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 150.038, "inserted": 10000, "attempted": 10000, "copy_seconds": 17.639}
-{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 152.516, "inserted": 10000, "attempted": 10000, "copy_seconds": 17.089}
-{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 148.649, "inserted": 10000, "attempted": 10000, "copy_seconds": 17.718}
-{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 148.957, "inserted": 10000, "attempted": 10000, "copy_seconds": 18.459}
-{"set": "tpcds", "mode": "keys", "design": true, "loss": 316, "rows": 2685687, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 24.848}
-{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 0, "seconds": 1.437, "inserted": 10000, "attempted": 10000, "copy_seconds": 5.78}
-{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 1, "seconds": 1.553, "inserted": 10000, "attempted": 10000, "copy_seconds": 5.591}
-{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 2, "seconds": 1.433, "inserted": 10000, "attempted": 10000, "copy_seconds": 5.444}
-{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 3, "seconds": 1.451, "inserted": 10000, "attempted": 10000, "copy_seconds": 5.645}
-{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 4, "seconds": 1.504, "inserted": 10000, "attempted": 10000, "copy_seconds": 5.365}
-{"set": "tpcds", "mode": "3nf-x", "design": true, "loss": 2, "rows": 2685687, "copy": true, "schemata": 94, "unique": 99, "unique_md5": 0, "exclusion": 2, "trigger_fds": 0, "indexes": 0, "build_seconds": 349.733}
-{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 9.33, "inserted": 543096, "attempted": 940000, "copy_seconds": 10.213}
-{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 9.348, "inserted": 544613, "attempted": 940000, "copy_seconds": 9.703}
-{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 9.698, "inserted": 544069, "attempted": 940000, "copy_seconds": 9.847}
-{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 9.339, "inserted": 545106, "attempted": 940000, "copy_seconds": 9.385}
-{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 9.279, "inserted": 539722, "attempted": 940000, "copy_seconds": 9.938}
+{"set": "tpcds", "mode": "3nf-x", "design": true, "loss": 2, "rows": 2685687, "copy": false, "schemata": 94, "unique": 99, "unique_md5": 0, "exclusion": 2, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 144.705}
+{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 3.319, "inserted": 543096, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 3.093, "inserted": 544613, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 3.283, "inserted": 544069, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 3.452, "inserted": 545106, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 3.254, "inserted": 539722, "attempted": 940000}
 {"set": "tpcds", "mode": "3nfc-x", "skipped": "same design as 3nf-x", "same_as": "3nf-x"}
-{"set": "tpcds", "mode": "bcnf", "design": true, "loss": 180, "rows": 2685687, "copy": true, "schemata": 7, "unique": 9, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 38.124}
-{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 1.895, "inserted": 44837, "attempted": 70000, "copy_seconds": 3.427}
-{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 1.901, "inserted": 44936, "attempted": 70000, "copy_seconds": 3.336}
-{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 1.875, "inserted": 44794, "attempted": 70000, "copy_seconds": 3.44}
-{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 1.924, "inserted": 44955, "attempted": 70000, "copy_seconds": 3.241}
-{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 1.901, "inserted": 44597, "attempted": 70000, "copy_seconds": 3.233}
-{"set": "tpcds", "mode": "gbcnf", "design": true, "loss": 51, "rows": 2685687, "copy": true, "schemata": 9, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 50.731}
-{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 2.161, "inserted": 56813, "attempted": 90000, "copy_seconds": 4.61}
-{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 2.183, "inserted": 56950, "attempted": 90000, "copy_seconds": 4.377}
-{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 2.163, "inserted": 56694, "attempted": 90000, "copy_seconds": 4.325}
-{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 2.164, "inserted": 56978, "attempted": 90000, "copy_seconds": 4.725}
-{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 2.22, "inserted": 56528, "attempted": 90000, "copy_seconds": 4.39}
-{"set": "tpcds", "mode": "repair", "design": true, "loss": 2, "rows": 2685687, "copy": true, "schemata": 9, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 52.71}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 0, "seconds": 2.739, "inserted": 63415, "attempted": 90000, "copy_seconds": 4.217}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 1, "seconds": 2.717, "inserted": 63525, "attempted": 90000, "copy_seconds": 4.235}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 2, "seconds": 2.911, "inserted": 63400, "attempted": 90000, "copy_seconds": 4.249}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 3, "seconds": 2.825, "inserted": 63557, "attempted": 90000, "copy_seconds": 4.357}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 4, "seconds": 2.688, "inserted": 63118, "attempted": 90000, "copy_seconds": 4.411}
-{"set": "tpcds", "mode": "drop", "design": true, "loss": 2, "rows": 2685687, "copy": true, "schemata": 9, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 63.815}
-{"set": "tpcds", "mode": "drop", "size": 10000, "rep": 0, "seconds": 2.892, "inserted": 63415, "attempted": 90000, "copy_seconds": 5.589}
-{"set": "tpcds", "mode": "drop", "size": 10000, "rep": 1, "seconds": 3.032, "inserted": 63525, "attempted": 90000, "copy_seconds": 5.259}
-{"set": "tpcds", "mode": "drop", "size": 10000, "rep": 2, "seconds": 2.982, "inserted": 63400, "attempted": 90000, "copy_seconds": 5.263}
-{"set": "tpcds", "mode": "drop", "size": 10000, "rep": 3, "seconds": 2.903, "inserted": 63557, "attempted": 90000, "copy_seconds": 5.221}
-{"set": "tpcds", "mode": "drop", "size": 10000, "rep": 4, "seconds": 2.888, "inserted": 63118, "attempted": 90000, "copy_seconds": 4.916}
-{"set": "tpcds", "mode": "repair", "design": true, "loss": 2, "rows": 2685687, "copy": true, "schemata": 8, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 45.242}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 0, "seconds": 2.035, "inserted": 54837, "attempted": 80000, "copy_seconds": 7.644}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 1, "seconds": 2.009, "inserted": 54936, "attempted": 80000, "copy_seconds": 4.596}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 2, "seconds": 2.115, "inserted": 54794, "attempted": 80000, "copy_seconds": 4.098}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 3, "seconds": 2.139, "inserted": 54955, "attempted": 80000, "copy_seconds": 4.125}
-{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 4, "seconds": 1.973, "inserted": 54597, "attempted": 80000, "copy_seconds": 3.959}
+{"set": "tpcds", "mode": "3nf", "design": true, "loss": 2, "rows": 2685687, "copy": false, "schemata": 94, "unique": 99, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 99.622}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 3.016, "inserted": 543096, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 2.779, "inserted": 544613, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 2.679, "inserted": 544069, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 2.819, "inserted": 545106, "attempted": 940000}
+{"set": "tpcds", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 2.698, "inserted": 539722, "attempted": 940000}
+{"set": "tpcds", "mode": "3nfc", "skipped": "same design as 3nf", "same_as": "3nf"}
+{"set": "tpcds", "mode": "keys", "design": true, "loss": 316, "rows": 2685687, "copy": false, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 8.422}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.491, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.483, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.495, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.48, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.483, "inserted": 10000, "attempted": 10000}
+{"set": "tpcds", "mode": "bcnf", "design": true, "loss": 180, "rows": 2685687, "copy": false, "schemata": 7, "unique": 9, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 13.688}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.654, "inserted": 44837, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.647, "inserted": 44936, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.665, "inserted": 44794, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.612, "inserted": 44955, "attempted": 70000}
+{"set": "tpcds", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.641, "inserted": 44597, "attempted": 70000}
+{"set": "tpcds", "mode": "gbcnf", "design": true, "loss": 51, "rows": 2685687, "copy": false, "schemata": 9, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 19.706}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.749, "inserted": 56813, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.737, "inserted": 56950, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.722, "inserted": 56694, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.722, "inserted": 56978, "attempted": 90000}
+{"set": "tpcds", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.717, "inserted": 56528, "attempted": 90000}
+{"set": "tpcds", "mode": "repair", "design": true, "loss": 2, "rows": 2685687, "copy": false, "schemata": 8, "unique": 10, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 16.556}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 0, "seconds": 0.701, "inserted": 54837, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 1, "seconds": 0.679, "inserted": 54936, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 2, "seconds": 0.668, "inserted": 54794, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 3, "seconds": 0.697, "inserted": 54955, "attempted": 80000}
+{"set": "tpcds", "mode": "repair", "size": 10000, "rep": 4, "seconds": 0.7, "inserted": 54597, "attempted": 80000}
 {"set": "tpcds", "mode": "drop", "skipped": "same design as repair", "same_as": "repair"}
+{"set": "tpcds", "mode": "orig-x", "design": true, "loss": 0, "rows": 2685687, "copy": true, "schemata": 1, "unique": 2, "unique_md5": 0, "exclusion": 77, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 4706.741}
+{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 53.736, "inserted": 10000, "attempted": 10000, "copy_seconds": 11.76}
+{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 53.91, "inserted": 10000, "attempted": 10000, "copy_seconds": 20.715}
+{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 53.209, "inserted": 10000, "attempted": 10000, "copy_seconds": 12.824}
+{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 53.068, "inserted": 10000, "attempted": 10000, "copy_seconds": 19.44}
+{"set": "tpcds", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 53.527, "inserted": 10000, "attempted": 10000, "copy_seconds": 13.55}

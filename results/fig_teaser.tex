@@ -1,21 +1,18 @@
 \begin{tikzpicture}
-\begin{axis}[name=teaseraxis, ybar, width=\columnwidth, height=3.8cm, bar width=4.5pt, enlarge x limits=0.25,
-  ylabel={time (s)}, xlabel={records inserted}, symbolic x coords={{10,000},{20,000},{30,000}}, xtick=data,
-  ymode=log, log origin y=infty, ymin=0.08, ymax=20, log ticks with fixed point, tick pos=left,
+\begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.1cm}, scale only axis, width=3.0cm, height=1.6cm,
+  symbolic x coords={D1,D2,D4,D5}, xtick=data, xticklabels={{$\dec_1$\\loss 2},{$\dec_2$\\loss 1},{$\dec_4$\\loss 1},{$\dec_5$\\loss 0}},
+  xticklabel style={align=center, font=\scriptsize}, xtick style={draw=none}, enlarge x limits=0.18, ymin=0, ymajorgrids, tick pos=left,
+  tick label style={font=\scriptsize}, label style={font=\scriptsize}, title style={font=\scriptsize, yshift=-4pt},
+  /pgf/bar width=9pt, legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);}]
+\nextgroupplot[ybar, xtick align=inside, title={(a) inserting 10,000 customers}, ylabel={ms}, ymax=300,
+  nodes near coords={\pgfmathprintnumber[fixed, precision=0]{\pgfplotspointmeta}}, nodes near coords style={font=\tiny, black}]
+\addplot[blue, fill=blue!30] coordinates {(D1,43.6) (D2,64.4) (D4,81.8) (D5,213.8)};
+\nextgroupplot[ybar stacked, title={(b) harmful updates missed}, ylabel={\%}, ymax=100,
   legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},
-  tick label style={font=\scriptsize}, label style={font=\scriptsize}, ymajorgrids]
-\addplot coordinates {({10,000},3.811) ({20,000},8.064) ({30,000},10.976)};
-\label{plot:teaser-d1x}
-\addplot coordinates {({10,000},0.582) ({20,000},1.150) ({30,000},1.673)};
-\label{plot:teaser-3nfx}
-\addplot coordinates {({10,000},0.121) ({20,000},0.235) ({30,000},0.350)};
-\label{plot:teaser-d1}
-\addplot coordinates {({10,000},0.186) ({20,000},0.352) ({30,000},0.531)};
-\label{plot:teaser-d2}
-\addplot coordinates {({10,000},0.223) ({20,000},0.440) ({30,000},0.656)};
-\label{plot:teaser-d4}
-\end{axis}
-% two legend rows, each centered over the plot box (the y label is not counted): the designs with exclusion constraints, then the designs with keys only
-\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=13pt]teaseraxis.north) {\ref{plot:teaser-d1x}\,$\dec_1$, FDs by exclusion\qquad\ref{plot:teaser-3nfx}\,3NF, $Z\rightarrow T$ by exclusion};
-\node[anchor=south, font=\scriptsize, inner sep=1pt] at ([yshift=2pt]teaseraxis.north) {\ref{plot:teaser-d1}\,$\dec_1$, keys only (loss 2)\qquad\ref{plot:teaser-d2}\,$\dec_2$ (loss 1)\qquad\ref{plot:teaser-d4}\,$\dec_4$ (loss 1)};
+  legend style={font=\tiny, at={(0.99,0.99)}, anchor=north east, draw=none, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt, row sep=-2pt}, legend cell align=left]
+\addplot[red!70!black, fill=red!35] coordinates {(D1,74.1) (D2,22.8) (D4,0.0) (D5,0.0)};
+\addlegendentry{violation stays}
+\addplot[orange!80!black, fill=orange!35] coordinates {(D1,0.0) (D2,25.7) (D4,22.5) (D5,0.1)};
+\addlegendentry{other records change}
+\end{groupplot}
 \end{tikzpicture}

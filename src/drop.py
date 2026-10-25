@@ -91,8 +91,14 @@ def search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra=None):
     enforceable. At every node some critical minimal FD g = Y -> B of E that the uncritical ones do not imply
     is chosen, and the search branches over the weakened FDs with left-hand side inside the closure of Y
     for E: every resolution of g in a larger closed set must add such an FD, so the search is complete.
-    Returns ((W, E, Ea, U) or None, cut) where cut says that a bound (w_bound, max_extra, deadline) was hit,
-    so that failure does not certify that Delta is infeasible."""
+    Returns ((W, E, Ea, U) or None, cut, timed_out) where cut says that a bound (w_bound, max_extra, deadline) was
+    hit, so that failure does not certify that Delta is infeasible; an atomic cover past the deadline is a timeout."""
+    try:
+        return _search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra)
+    except DeadlineExceeded:
+        return None, True, True
+
+def _search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra):
     base = Psi.fds
     state = {"cut": False, "cut_depth": False, "timeout": False}
 
@@ -121,7 +127,7 @@ def search_W(n, R, Psi, Pa, Delta, w_bound, deadline, stats, max_extra=None):
         if any(E2.implies(Y, B) for (Y, B) in Delta):
             return None
         stats["tested"] += 1
-        return E2, atomic_cover(E2)
+        return E2, atomic_cover(E2, deadline=deadline)
 
     # greedy descent first: take the candidate that leaves the fewest obstructions
     W, E, Ea = [], Psi, Pa
@@ -192,7 +198,14 @@ def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3, max_options=6):
     critical one g, drop g or one of the violators of its schema (the cheapest option measured by the
     weight added to Delta and the obstructions that remain), keeping Delta a closed choice.
     With rng, the obstruction and the option are chosen at random among the best `top` ones.
-    At most `max_options` options are evaluated per step (g and the lightest violators)."""
+    At most `max_options` options are evaluated per step (g and the lightest violators). None at the deadline,
+    also when an atomic cover runs past it."""
+    try:
+        return _greedy_plain(n, Da, w, R, deadline, stats, rng, top, max_options)
+    except DeadlineExceeded:
+        return None
+
+def _greedy_plain(n, Da, w, R, deadline, stats, rng, top, max_options):
     fds = list(Da.fds)
     idx = {f: i for i, f in enumerate(fds)}
     def close_choice(Delta):
@@ -221,7 +234,7 @@ def greedy_plain(n, Da, w, R, deadline, stats, rng=None, top=3, max_options=6):
             Delta.add(fds[best[1]])
     def evaluate(Delta):
         Psi = FDSet(n, [f for f in fds if f not in Delta])
-        Pa = atomic_cover(Psi)
+        Pa = atomic_cover(Psi, deadline=deadline)
         unc, crit = split_critical(Pa)
         U = FDSet(n, unc)
         obstructions = [g for g in crit if not U.implies(g[0], g[1])]
@@ -282,7 +295,8 @@ def uncritical_fixpoint(n, Da, w, R, deadline, stats):
     E_0 = Sigma^+ and E_{i+1} = (uncritical minimal FDs of E_i)^+, until E_i is enforceable (Theorem 3.17).
     Every round costs one atomic cover; the sequence decreases and stops at an enforceable subset of Sigma^+.
     Returns (Delta, Psi, Pa, U) like greedy_plain (Pa the atomic cover of the enforced set, U its uncritical
-    minimal FDs, Delta the minimal FDs of Sigma it does not imply), or None at the deadline."""
+    minimal FDs, Delta the minimal FDs of Sigma it does not imply), or None at the deadline, also when an atomic
+    cover runs past it."""
     Pa = Da
     rounds = 0
     while True:
@@ -295,7 +309,10 @@ def uncritical_fixpoint(n, Da, w, R, deadline, stats):
             Delta = set(f for f in Da.fds if not Pa.implies(f[0], f[1]))
             Psi = FDSet(n, [f for f in Da.fds if f not in Delta])
             return Delta, Psi, Pa, U
-        Pa = atomic_cover(U)
+        try:
+            Pa = atomic_cover(U, deadline=deadline)
+        except DeadlineExceeded:
+            return None
         rounds += 1
 
 def drop_plain(n, Da, w=None, R=None, time_limit=None, max_w=4, max_extra=None, max_delta=None, heuristic=True, verbose=False):
@@ -542,7 +559,12 @@ def _structured(n, Da, w, R, deadline, max_w, max_extra, max_weight, stats, verb
             stats["candidates"] += 1
             Psi = FDSet(n, [f for f in fds if f not in Delta])
             stats["tested"] += 1
-            Pa = atomic_cover(Psi)
+            try:
+                Pa = atomic_cover(Psi, deadline=deadline)
+            except DeadlineExceeded:
+                state["timeout"] = True
+                state["incomplete_at"] = min(state["incomplete_at"], bound)
+                return
             ok, U = enforceable(Pa)
             if ok:
                 state["best"] = (wt, Delta, [], Psi, Pa, U)

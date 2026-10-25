@@ -3,32 +3,20 @@ tpch-nation            |Da|=     9  same=True  |D| py=4 java=4  loss py=0 java=0
 tpch-partsupp          |Da|=    19  same=True  |D| py=6 java=6  loss py=0 java=0  time py=0.0s java=0.0s
 tpch-supplier          |Da|=    34  same=True  |D| py=9 java=9  loss py=0 java=0  time py=0.0s java=0.0s
 tpch-customer          |Da|=    51  same=True  |D| py=12 java=12  loss py=0 java=0  time py=0.0s java=0.0s
-tpch-orders            |Da|=    52  same=True  |D| py=12 java=12  loss py=0 java=0  time py=0.0s java=0.0s
-tpch-part              |Da|=    88  same=True  |D| py=15 java=15  loss py=0 java=0  time py=0.0s java=0.1s
-abalone                |Da|=   137  same=True  |D| py=23 java=23  loss py=11 java=11  time py=0.0s java=0.2s
-breast(null)           |Da|=    46  same=True  |D| py=38 java=38  loss py=3 java=3  time py=0.0s java=0.1s
-pdbx(null)             |Da|=    68  same=True  |D| py=16 java=16  loss py=0 java=0  time py=0.0s java=0.1s
-bridges(null)          |Da|=   142  same=True  |D| py=57 java=57  loss py=19 java=19  time py=0.0s java=0.1s
-echo(null)             |Da|=   527  same=True  |D| py=80 java=80  loss py=63 java=63  time py=0.1s java=0.5s
+tpch-orders            |Da|=    51  same=True  |D| py=11 java=11  loss py=0 java=0  time py=0.0s java=0.0s
+tpch-part              |Da|=    88  same=True  |D| py=15 java=15  loss py=0 java=0  time py=0.0s java=0.0s
+abalone                |Da|=   137  same=True  |D| py=23 java=23  loss py=11 java=11  time py=0.0s java=0.0s
+breast(null)           |Da|=    46  same=True  |D| py=38 java=38  loss py=3 java=3  time py=0.0s java=0.0s
+pdbx(null)             |Da|=    68  same=True  |D| py=16 java=16  loss py=0 java=0  time py=0.0s java=0.0s
+bridges(null)          |Da|=   142  same=True  |D| py=57 java=57  loss py=19 java=19  time py=0.0s java=0.0s
+echo(null)             |Da|=   526  same=True  |D| py=79 java=79  loss py=63 java=63  time py=0.0s java=0.2s
 adult                  |Da|=    78  same=True  |D| py=46 java=46  loss py=0 java=0  time py=0.0s java=0.0s
 letter(non-dup)        |Da|=    61  same=True  |D| py=62 java=62  loss py=0 java=0  time py=0.0s java=0.0s
-ncvoter(null)          |Da|=   758  same=True  |D| py=173 java=173  loss py=89 java=89  time py=0.3s java=0.8s
-china_weather(null)    |Da|=   918  same=True  |D| py=407 java=407  loss py=147 java=147  time py=0.6s java=1.4s
-tpch-lineitem          |Da|=  3687  same=True  |D| py=594 java=594  loss py=516 java=516  time py=7.2s java=19.2s
-lineitem               |Da|=  3984  same=True  |D| py=595 java=595  loss py=476 java=476  time py=8.5s java=28.9s
-uniprot(null)          |Da|=  3703  same=True  |D| py=1676 java=1676  loss py=810 java=810  time py=6.6s java=11.6s
-hepatitis(null)        |Da|=  8250  same=True  |D| py=1677 java=1677  loss py=1554 java=1554  time py=31.2s java=53.0s
-diabetic(null)         |Da|= 40195  same=True  |D| py=26961 java=26961  loss py=7644 java=7644  time py=1330.8s java=4489.0s
-Traceback (most recent call last):
-  File "/data/user/bounded-loss-bcnf/iconf_check.py", line 24, in <module>
-    dj, tj = iconf_java(n, Da)
-             ~~~~~~~~~~^^^^^^^
-  File "/data/user/bounded-loss-bcnf/iconf.py", line 176, in iconf_java
-    subprocess.run([java, "-cp", classpath(), "IConfDriver", fin, str(n), fout], check=True, timeout=timeout,
-    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                   stdout=subprocess.DEVNULL)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/data/user/miniconda3/lib/python3.13/subprocess.py", line 577, in run
-    raise CalledProcessError(retcode, process.args,
-                             output=stdout, stderr=stderr)
-subprocess.CalledProcessError: Command '['java', '-cp', '/data/user/bounded-loss-bcnf/iconf/build/classes:/data/user/bounded-loss-bcnf/iconf/build/fastjson-1.2.79.jar', 'IConfDriver', '/data/user/tmp/tmpf3c9hifl/fds.txt', '30', '/data/user/tmp/tmpf3c9hifl/out.txt']' returned non-zero exit status 143.
+ncvoter(null)          |Da|=   757  same=True  |D| py=172 java=172  loss py=89 java=89  time py=0.1s java=0.3s
+china_weather(null)    |Da|=   918  same=True  |D| py=407 java=407  loss py=147 java=147  time py=0.1s java=0.6s
+tpch-lineitem          |Da|=  3687  same=True  |D| py=594 java=594  loss py=516 java=516  time py=0.9s java=8.2s
+lineitem               |Da|=  3984  same=True  |D| py=595 java=595  loss py=476 java=476  time py=1.1s java=10.8s
+uniprot(null)          |Da|=  3702  same=True  |D| py=1675 java=1675  loss py=810 java=810  time py=1.0s java=4.4s
+hepatitis(null)        |Da|=  8250  same=True  |D| py=1677 java=1677  loss py=1554 java=1554  time py=4.6s java=22.8s
+diabetic(null)         |Da|= 40195  same=True  |D| py=26961 java=26961  loss py=7644 java=7644  time py=143.0s java=1188.5s
+fd-red                 |Da|= 89571  same=True  |D| py=1269 java=1269  loss py=0 java=0  time py=214.1s java=4652.0s

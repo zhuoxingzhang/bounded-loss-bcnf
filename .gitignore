@@ -8,3 +8,7 @@ search/weak6_n6.log
 
 # compiled iCONF classes (iconf/README.md)
 iconf/build/
+
+# the closure library that fdlib.py compiles on first use
+src/_closure.so
+src/_closure.dll

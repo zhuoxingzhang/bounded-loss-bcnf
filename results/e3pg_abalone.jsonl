@@ -1,162 +1,60 @@
-{"set": "abalone", "mode": "orig-x", "design": true, "loss": 0, "rows": 4177, "schemata": 1, "unique": 29, "unique_md5": 0, "exclusion": 25, "trigger_fds": 0, "indexes": 0, "build_seconds": 4.111}
-{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 20.205, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 20.741, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 20.915, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 20.482, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 21.811, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "orig-x", "size": 20000, "rep": 0, "seconds": 42.984, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "orig-x", "size": 20000, "rep": 1, "seconds": 46.478, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "orig-x", "size": 20000, "rep": 2, "seconds": 45.271, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "orig-x", "size": 20000, "rep": 3, "seconds": 44.576, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "orig-x", "size": 20000, "rep": 4, "seconds": 46.277, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "orig-x", "size": 30000, "rep": 0, "seconds": 71.696, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "orig-x", "size": 30000, "rep": 1, "seconds": 73.766, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "orig-x", "size": 30000, "rep": 2, "seconds": 75.318, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "orig-x", "size": 30000, "rep": 3, "seconds": 71.64, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "orig-x", "size": 30000, "rep": 4, "seconds": 75.754, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "keys", "design": true, "loss": 31, "rows": 4177, "schemata": 1, "unique": 29, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.161}
-{"set": "abalone", "mode": "keys", "size": 10000, "rep": 0, "seconds": 1.427, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "keys", "size": 10000, "rep": 1, "seconds": 1.416, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "keys", "size": 10000, "rep": 2, "seconds": 1.433, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "keys", "size": 10000, "rep": 3, "seconds": 1.463, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "keys", "size": 10000, "rep": 4, "seconds": 1.407, "inserted": 10000, "attempted": 10000}
-{"set": "abalone", "mode": "keys", "size": 20000, "rep": 0, "seconds": 2.924, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "keys", "size": 20000, "rep": 1, "seconds": 3.017, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "keys", "size": 20000, "rep": 2, "seconds": 2.933, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "keys", "size": 20000, "rep": 3, "seconds": 3.74, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "keys", "size": 20000, "rep": 4, "seconds": 2.924, "inserted": 20000, "attempted": 20000}
-{"set": "abalone", "mode": "keys", "size": 30000, "rep": 0, "seconds": 4.759, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "keys", "size": 30000, "rep": 1, "seconds": 4.782, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "keys", "size": 30000, "rep": 2, "seconds": 4.805, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "keys", "size": 30000, "rep": 3, "seconds": 4.778, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "keys", "size": 30000, "rep": 4, "seconds": 4.854, "inserted": 30000, "attempted": 30000}
-{"set": "abalone", "mode": "3nf-x", "design": true, "loss": 11, "rows": 4177, "schemata": 23, "unique": 49, "unique_md5": 0, "exclusion": 9, "trigger_fds": 0, "indexes": 0, "build_seconds": 1.847}
-{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 10.555, "inserted": 229300, "attempted": 230000}
-{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 10.846, "inserted": 229308, "attempted": 230000}
-{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 10.827, "inserted": 229325, "attempted": 230000}
-{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 10.68, "inserted": 229307, "attempted": 230000}
-{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 11.267, "inserted": 229356, "attempted": 230000}
-{"set": "abalone", "mode": "3nf-x", "size": 20000, "rep": 0, "seconds": 22.697, "inserted": 458580, "attempted": 460000}
-{"set": "abalone", "mode": "3nf-x", "size": 20000, "rep": 1, "seconds": 23.844, "inserted": 458633, "attempted": 460000}
-{"set": "abalone", "mode": "3nf-x", "size": 20000, "rep": 2, "seconds": 22.335, "inserted": 458623, "attempted": 460000}
-{"set": "abalone", "mode": "3nf-x", "size": 20000, "rep": 3, "seconds": 22.158, "inserted": 458657, "attempted": 460000}
-{"set": "abalone", "mode": "3nf-x", "size": 20000, "rep": 4, "seconds": 23.424, "inserted": 458632, "attempted": 460000}
-{"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 0, "seconds": 35.843, "inserted": 687975, "attempted": 690000}
-{"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 1, "seconds": 35.995, "inserted": 688051, "attempted": 690000}
-{"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 2, "seconds": 37.199, "inserted": 687922, "attempted": 690000}
-{"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 3, "seconds": 37.24, "inserted": 688017, "attempted": 690000}
-{"set": "abalone", "mode": "3nf-x", "size": 30000, "rep": 4, "seconds": 37.511, "inserted": 687957, "attempted": 690000}
-{"set": "abalone", "mode": "bcnf", "design": true, "loss": 95, "rows": 4177, "schemata": 4, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.104}
-{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.846, "inserted": 39632, "attempted": 40000}
-{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.815, "inserted": 39631, "attempted": 40000}
-{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.84, "inserted": 39625, "attempted": 40000}
-{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.849, "inserted": 39659, "attempted": 40000}
-{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.825, "inserted": 39652, "attempted": 40000}
-{"set": "abalone", "mode": "bcnf", "size": 20000, "rep": 0, "seconds": 1.676, "inserted": 79265, "attempted": 80000}
-{"set": "abalone", "mode": "bcnf", "size": 20000, "rep": 1, "seconds": 1.679, "inserted": 79224, "attempted": 80000}
-{"set": "abalone", "mode": "bcnf", "size": 20000, "rep": 2, "seconds": 1.67, "inserted": 79320, "attempted": 80000}
-{"set": "abalone", "mode": "bcnf", "size": 20000, "rep": 3, "seconds": 1.668, "inserted": 79297, "attempted": 80000}
-{"set": "abalone", "mode": "bcnf", "size": 20000, "rep": 4, "seconds": 1.683, "inserted": 79301, "attempted": 80000}
-{"set": "abalone", "mode": "bcnf", "size": 30000, "rep": 0, "seconds": 2.501, "inserted": 118966, "attempted": 120000}
-{"set": "abalone", "mode": "bcnf", "size": 30000, "rep": 1, "seconds": 2.62, "inserted": 118910, "attempted": 120000}
-{"set": "abalone", "mode": "bcnf", "size": 30000, "rep": 2, "seconds": 2.607, "inserted": 118952, "attempted": 120000}
-{"set": "abalone", "mode": "bcnf", "size": 30000, "rep": 3, "seconds": 2.581, "inserted": 119031, "attempted": 120000}
-{"set": "abalone", "mode": "bcnf", "size": 30000, "rep": 4, "seconds": 2.579, "inserted": 118929, "attempted": 120000}
-{"set": "abalone", "mode": "repair", "design": true, "loss": 8, "rows": 4177, "schemata": 17, "unique": 64, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.601}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 0, "seconds": 4.847, "inserted": 169313, "attempted": 170000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 1, "seconds": 4.886, "inserted": 169319, "attempted": 170000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 2, "seconds": 4.863, "inserted": 169312, "attempted": 170000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 3, "seconds": 4.845, "inserted": 169315, "attempted": 170000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 4, "seconds": 4.741, "inserted": 169348, "attempted": 170000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 0, "seconds": 9.857, "inserted": 338593, "attempted": 340000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 1, "seconds": 9.925, "inserted": 338612, "attempted": 340000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 2, "seconds": 9.97, "inserted": 338604, "attempted": 340000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 3, "seconds": 10.205, "inserted": 338656, "attempted": 340000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 4, "seconds": 10.079, "inserted": 338655, "attempted": 340000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 0, "seconds": 15.711, "inserted": 507979, "attempted": 510000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 1, "seconds": 15.337, "inserted": 508034, "attempted": 510000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 2, "seconds": 15.038, "inserted": 507940, "attempted": 510000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 3, "seconds": 14.713, "inserted": 508024, "attempted": 510000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 4, "seconds": 14.772, "inserted": 507999, "attempted": 510000}
-{"set": "abalone", "mode": "drop", "design": true, "loss": 8, "rows": 4177, "schemata": 17, "unique": 57, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.596}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 0, "seconds": 4.366, "inserted": 169313, "attempted": 170000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 1, "seconds": 4.329, "inserted": 169319, "attempted": 170000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 2, "seconds": 4.449, "inserted": 169312, "attempted": 170000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 3, "seconds": 4.343, "inserted": 169315, "attempted": 170000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 4, "seconds": 4.403, "inserted": 169348, "attempted": 170000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 0, "seconds": 8.906, "inserted": 338593, "attempted": 340000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 1, "seconds": 9.067, "inserted": 338612, "attempted": 340000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 2, "seconds": 9.224, "inserted": 338604, "attempted": 340000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 3, "seconds": 9.26, "inserted": 338656, "attempted": 340000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 4, "seconds": 9.141, "inserted": 338655, "attempted": 340000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 0, "seconds": 14.134, "inserted": 507979, "attempted": 510000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 1, "seconds": 14.22, "inserted": 508034, "attempted": 510000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 2, "seconds": 14.391, "inserted": 507940, "attempted": 510000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 3, "seconds": 14.38, "inserted": 508024, "attempted": 510000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 4, "seconds": 14.231, "inserted": 507999, "attempted": 510000}
-{"set": "abalone", "mode": "gbcnf", "design": true, "loss": 92, "rows": 4177, "schemata": 4, "unique": 12, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.116}
-{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.946, "inserted": 39749, "attempted": 40000}
-{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.865, "inserted": 39737, "attempted": 40000}
-{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 1.014, "inserted": 39735, "attempted": 40000}
-{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.952, "inserted": 39768, "attempted": 40000}
-{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.957, "inserted": 39759, "attempted": 40000}
-{"set": "abalone", "mode": "gbcnf", "size": 20000, "rep": 0, "seconds": 1.89, "inserted": 79465, "attempted": 80000}
-{"set": "abalone", "mode": "gbcnf", "size": 20000, "rep": 1, "seconds": 1.971, "inserted": 79448, "attempted": 80000}
-{"set": "abalone", "mode": "gbcnf", "size": 20000, "rep": 2, "seconds": 2.086, "inserted": 79446, "attempted": 80000}
-{"set": "abalone", "mode": "gbcnf", "size": 20000, "rep": 3, "seconds": 1.904, "inserted": 79499, "attempted": 80000}
-{"set": "abalone", "mode": "gbcnf", "size": 20000, "rep": 4, "seconds": 2.107, "inserted": 79501, "attempted": 80000}
-{"set": "abalone", "mode": "gbcnf", "size": 30000, "rep": 0, "seconds": 3.242, "inserted": 119242, "attempted": 120000}
-{"set": "abalone", "mode": "gbcnf", "size": 30000, "rep": 1, "seconds": 3.313, "inserted": 119247, "attempted": 120000}
-{"set": "abalone", "mode": "gbcnf", "size": 30000, "rep": 2, "seconds": 3.107, "inserted": 119211, "attempted": 120000}
-{"set": "abalone", "mode": "gbcnf", "size": 30000, "rep": 3, "seconds": 3.051, "inserted": 119239, "attempted": 120000}
-{"set": "abalone", "mode": "gbcnf", "size": 30000, "rep": 4, "seconds": 2.997, "inserted": 119247, "attempted": 120000}
-{"set": "abalone", "mode": "3nf", "design": true, "loss": 11, "rows": 4177, "copy": false, "schemata": 23, "unique": 49, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.593}
-{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 4.472, "inserted": 229300, "attempted": 230000}
-{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 4.104, "inserted": 229308, "attempted": 230000}
-{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 4.205, "inserted": 229325, "attempted": 230000}
-{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 4.122, "inserted": 229307, "attempted": 230000}
-{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 4.15, "inserted": 229356, "attempted": 230000}
-{"set": "abalone", "mode": "3nfc-x", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 16, "trigger_fds": 0, "indexes": 0, "build_seconds": 2.864}
-{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 14.924, "inserted": 209451, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 14.955, "inserted": 209459, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 15.292, "inserted": 209460, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 15.389, "inserted": 209482, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 15.577, "inserted": 209487, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.508}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 3.824, "inserted": 209451, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 3.815, "inserted": 209459, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 3.863, "inserted": 209460, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 3.875, "inserted": 209482, "attempted": 210000}
-{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 3.812, "inserted": 209487, "attempted": 210000}
-{"set": "abalone", "mode": "repair", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 50, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.489}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 0, "seconds": 3.807, "inserted": 149313, "attempted": 150000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 1, "seconds": 3.712, "inserted": 149319, "attempted": 150000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 2, "seconds": 3.676, "inserted": 149312, "attempted": 150000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 3, "seconds": 3.506, "inserted": 149315, "attempted": 150000}
-{"set": "abalone", "mode": "repair", "size": 10000, "rep": 4, "seconds": 3.537, "inserted": 149348, "attempted": 150000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 0, "seconds": 7.335, "inserted": 298593, "attempted": 300000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 1, "seconds": 7.18, "inserted": 298612, "attempted": 300000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 2, "seconds": 7.242, "inserted": 298604, "attempted": 300000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 3, "seconds": 7.272, "inserted": 298656, "attempted": 300000}
-{"set": "abalone", "mode": "repair", "size": 20000, "rep": 4, "seconds": 7.246, "inserted": 298655, "attempted": 300000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 0, "seconds": 11.053, "inserted": 447979, "attempted": 450000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 1, "seconds": 11.04, "inserted": 448034, "attempted": 450000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 2, "seconds": 11.152, "inserted": 447940, "attempted": 450000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 3, "seconds": 10.966, "inserted": 448024, "attempted": 450000}
-{"set": "abalone", "mode": "repair", "size": 30000, "rep": 4, "seconds": 11.158, "inserted": 447999, "attempted": 450000}
-{"set": "abalone", "mode": "drop", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 53, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "build_seconds": 0.458}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 0, "seconds": 3.673, "inserted": 149313, "attempted": 150000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 1, "seconds": 3.694, "inserted": 149319, "attempted": 150000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 2, "seconds": 3.644, "inserted": 149312, "attempted": 150000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 3, "seconds": 3.682, "inserted": 149315, "attempted": 150000}
-{"set": "abalone", "mode": "drop", "size": 10000, "rep": 4, "seconds": 3.678, "inserted": 149348, "attempted": 150000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 0, "seconds": 7.569, "inserted": 298593, "attempted": 300000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 1, "seconds": 7.521, "inserted": 298612, "attempted": 300000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 2, "seconds": 7.532, "inserted": 298604, "attempted": 300000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 3, "seconds": 7.471, "inserted": 298656, "attempted": 300000}
-{"set": "abalone", "mode": "drop", "size": 20000, "rep": 4, "seconds": 7.472, "inserted": 298655, "attempted": 300000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 0, "seconds": 12.027, "inserted": 447979, "attempted": 450000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 1, "seconds": 11.539, "inserted": 448034, "attempted": 450000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 2, "seconds": 11.645, "inserted": 447940, "attempted": 450000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 3, "seconds": 11.679, "inserted": 448024, "attempted": 450000}
-{"set": "abalone", "mode": "drop", "size": 30000, "rep": 4, "seconds": 11.558, "inserted": 447999, "attempted": 450000}
+{"set": "abalone", "mode": "orig-x", "design": true, "loss": 0, "rows": 4177, "copy": false, "schemata": 1, "unique": 29, "unique_md5": 0, "exclusion": 25, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 1.548}
+{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 0, "seconds": 6.9, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 1, "seconds": 7.041, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 2, "seconds": 7.184, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 3, "seconds": 7.113, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "orig-x", "size": 10000, "rep": 4, "seconds": 7.244, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "3nf-x", "design": true, "loss": 11, "rows": 4177, "copy": false, "schemata": 23, "unique": 49, "unique_md5": 0, "exclusion": 9, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.707}
+{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 0, "seconds": 3.774, "inserted": 229300, "attempted": 230000}
+{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 1, "seconds": 3.736, "inserted": 229308, "attempted": 230000}
+{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 2, "seconds": 3.872, "inserted": 229325, "attempted": 230000}
+{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 3, "seconds": 3.797, "inserted": 229307, "attempted": 230000}
+{"set": "abalone", "mode": "3nf-x", "size": 10000, "rep": 4, "seconds": 3.872, "inserted": 229356, "attempted": 230000}
+{"set": "abalone", "mode": "3nfc-x", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 16, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 1.09}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 0, "seconds": 5.41, "inserted": 209451, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 1, "seconds": 5.431, "inserted": 209459, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 2, "seconds": 5.533, "inserted": 209460, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 3, "seconds": 5.554, "inserted": 209482, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc-x", "size": 10000, "rep": 4, "seconds": 5.732, "inserted": 209487, "attempted": 210000}
+{"set": "abalone", "mode": "3nf", "design": true, "loss": 11, "rows": 4177, "copy": false, "schemata": 23, "unique": 49, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.213}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 0, "seconds": 1.596, "inserted": 229300, "attempted": 230000}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 1, "seconds": 1.587, "inserted": 229308, "attempted": 230000}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 2, "seconds": 1.607, "inserted": 229325, "attempted": 230000}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 3, "seconds": 1.58, "inserted": 229307, "attempted": 230000}
+{"set": "abalone", "mode": "3nf", "size": 10000, "rep": 4, "seconds": 1.543, "inserted": 229356, "attempted": 230000}
+{"set": "abalone", "mode": "3nfc", "design": true, "loss": 26, "rows": 4177, "copy": false, "schemata": 21, "unique": 51, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.203}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 0, "seconds": 1.512, "inserted": 209451, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 1, "seconds": 1.532, "inserted": 209459, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 2, "seconds": 1.447, "inserted": 209460, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 3, "seconds": 1.447, "inserted": 209482, "attempted": 210000}
+{"set": "abalone", "mode": "3nfc", "size": 10000, "rep": 4, "seconds": 1.518, "inserted": 209487, "attempted": 210000}
+{"set": "abalone", "mode": "keys", "design": true, "loss": 31, "rows": 4177, "copy": false, "schemata": 1, "unique": 29, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.055}
+{"set": "abalone", "mode": "keys", "size": 10000, "rep": 0, "seconds": 0.468, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "keys", "size": 10000, "rep": 1, "seconds": 0.478, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "keys", "size": 10000, "rep": 2, "seconds": 0.485, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "keys", "size": 10000, "rep": 3, "seconds": 0.474, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "keys", "size": 10000, "rep": 4, "seconds": 0.48, "inserted": 10000, "attempted": 10000}
+{"set": "abalone", "mode": "bcnf", "design": true, "loss": 95, "rows": 4177, "copy": false, "schemata": 4, "unique": 11, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.035}
+{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 0, "seconds": 0.292, "inserted": 39632, "attempted": 40000}
+{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 1, "seconds": 0.291, "inserted": 39631, "attempted": 40000}
+{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 2, "seconds": 0.275, "inserted": 39625, "attempted": 40000}
+{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 3, "seconds": 0.257, "inserted": 39659, "attempted": 40000}
+{"set": "abalone", "mode": "bcnf", "size": 10000, "rep": 4, "seconds": 0.266, "inserted": 39652, "attempted": 40000}
+{"set": "abalone", "mode": "gbcnf", "design": true, "loss": 92, "rows": 4177, "copy": false, "schemata": 4, "unique": 12, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.038}
+{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 0, "seconds": 0.283, "inserted": 39749, "attempted": 40000}
+{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 1, "seconds": 0.28, "inserted": 39737, "attempted": 40000}
+{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 2, "seconds": 0.291, "inserted": 39735, "attempted": 40000}
+{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 3, "seconds": 0.301, "inserted": 39768, "attempted": 40000}
+{"set": "abalone", "mode": "gbcnf", "size": 10000, "rep": 4, "seconds": 0.294, "inserted": 39759, "attempted": 40000}
+{"set": "abalone", "mode": "repair", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 50, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.167}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 0, "seconds": 1.338, "inserted": 149313, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 1, "seconds": 1.367, "inserted": 149319, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 2, "seconds": 1.343, "inserted": 149312, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 3, "seconds": 1.384, "inserted": 149315, "attempted": 150000}
+{"set": "abalone", "mode": "repair", "size": 10000, "rep": 4, "seconds": 1.413, "inserted": 149348, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "design": true, "loss": 8, "rows": 4177, "copy": false, "schemata": 15, "unique": 53, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0, "foreign_keys": 0, "build_seconds": 0.173}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 0, "seconds": 1.393, "inserted": 149313, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 1, "seconds": 1.369, "inserted": 149319, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 2, "seconds": 1.388, "inserted": 149312, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 3, "seconds": 1.393, "inserted": 149315, "attempted": 150000}
+{"set": "abalone", "mode": "drop", "size": 10000, "rep": 4, "seconds": 1.398, "inserted": 149348, "attempted": 150000}

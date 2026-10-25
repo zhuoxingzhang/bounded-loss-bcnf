@@ -32,13 +32,17 @@ insertion time only, and a watchdog cancels the insertion that exhausts it. A re
 closes is repeated from fresh tables on a new connection (at most RETRIES times; its record notes the retries).
 
 With --copy, the tables of a mode are built once in a database e3t_<set>_<mode> (from e3t_<set>_base, which holds
-the extensions and a copy of the source table), and every repetition inserts into a file copy of that database
+the extensions and a copy of the source table, dropped from the template once its tables are built), and every
+repetition inserts into a file copy of that database
 (CREATE DATABASE ... TEMPLATE ... STRATEGY FILE_COPY) whose tables and indexes are first loaded into the buffer
 cache (pg_prewarm). The copy holds the same pages as freshly built tables; this serves the sets on which building
 the exclusion constraints takes hours. A template is reused while its design is unchanged (a hash in the comment of
 the database), and --prepare builds the templates without measuring, so that several modes can be built in parallel.
 
-usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [--copy] [--out F] [set ...]
+With --fks, every table S also declares, for every declared key K of another table T with K inside S, the foreign key
+S(K) -> T(K), DEFERRABLE INITIALLY DEFERRED, so that the commit checks them; the records go to e3pg_fks_<set>.jsonl.
+
+usage: python3 e3pg.py [--sizes 10000,20000,30000] [--reps 5] [--modes ...] [--budget 7200] [--parallel K] [--copy] [--fks] [--out F] [set ...]
        python3 e3pg.py --modes 3nfc-x,3nfc --known orig-x,keys,3nf-x,3nf [set ...]   remeasure modes whose design changed;
                                               a design equal to that of a known mode refers to its earlier measurement
        python3 e3pg.py --prepare --modes ... [set ...]   build the templates of --copy
@@ -83,9 +87,10 @@ def loss_of_mode(rec, mode):
             "bcnf": rec.get("bcnf_loss"), "gbcnf": rec.get("gbcnf_loss"), "repair": rec.get("repair_loss"), "drop": rec.get("drop_loss")}[base]
 
 class Harness:
-    def __init__(self, name, con, rec, n, Da, sizes, reps, budget=7200, verbose=True, copy=False, out=None):
+    def __init__(self, name, con, rec, n, Da, sizes, reps, budget=7200, verbose=True, copy=False, out=None, fks=False):
         self.name, self.con, self.rec, self.n, self.Da = name, con, rec, n, Da
         self.sizes, self.reps, self.budget, self.verbose, self.copy = sizes, reps, budget, verbose, copy
+        self.fks = fks
         self.cur = con.cursor()
         self.wcon, self.wcur = con, self.cur      # the connection to the database of the tables (a copy with --copy)
         self.R = (1 << n) - 1
@@ -105,7 +110,8 @@ class Harness:
         self.rows = cur.fetchone()[0]
         con.commit()
         self.tables = []
-        self.out = open(out or os.path.join(ROOT, "results", "e3pg_%s.jsonl" % name), "a", encoding="utf-8")
+        self.out = open(out or os.path.join(ROOT, "results", "e3pg%s_%s.jsonl" % ("_fks" if fks else "", name)), "a",
+                        encoding="utf-8")
 
     def log(self, *a):
         if self.verbose:
@@ -148,7 +154,8 @@ class Harness:
         t0 = time.time()
         self.drop_tables()
         cur = self.wcur
-        info = {"schemata": len(design), "unique": 0, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0}
+        info = {"schemata": len(design), "unique": 0, "unique_md5": 0, "exclusion": 0, "trigger_fds": 0, "indexes": 0,
+                "foreign_keys": 0}
         for i, sch in enumerate(design):
             table = "%s_%s_%d" % (self.name, mode.replace("-", "_"), i)
             t = "w.%s" % qi(table)
@@ -194,6 +201,20 @@ class Harness:
                 info["trigger_fds"] += len(fds)
             self.tables.append((table, cols))
             cur.execute("ANALYZE %s" % t)
+        if self.fks:
+            # S(K) -> T(K) for every declared key K of another table T inside S, checked at the commit
+            for i, sch in enumerate(design):
+                k = 0
+                for j, other in enumerate(design):
+                    for K in other["keys"] if j != i else ():
+                        kc = [self.cols[a] for a in K]
+                        if kc and set(K) <= set(sch["attrs"]) and sum(self.width[c] for c in kc) <= MAX_KEY_BYTES:
+                            cur.execute("ALTER TABLE w.%s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES w.%s (%s) "
+                                        "DEFERRABLE INITIALLY DEFERRED" % (qi(self.tables[i][0]),
+                                        qi("%s_f%d" % (self.tables[i][0], k)), ", ".join(kc), qi(self.tables[j][0]),
+                                        ", ".join(kc)))
+                            k += 1
+                            info["foreign_keys"] += 1
         self.wcon.commit()
         info["build_seconds"] = round(time.time() - t0, 3)
         return info
@@ -276,8 +297,8 @@ class Harness:
     def template(self, mode, design, how):
         """(name, build information) of the database e3t_<set>_<mode> that holds the freshly built tables of the mode;
         built unless a complete template of the same design exists (the comment is written after the build)"""
-        tag = hashlib.md5(json.dumps([design, how], sort_keys=True).encode()).hexdigest()
-        db = self.dbname(mode.replace("-", "_"))
+        tag = hashlib.md5(json.dumps([design, how] + (["fks"] if self.fks else []), sort_keys=True).encode()).hexdigest()
+        db = self.dbname(mode.replace("-", "_") + ("_fk" if self.fks else ""))
         self.cur.execute("SELECT shobj_description(oid, 'pg_database') FROM pg_database WHERE datname = %s", (db,))
         row = self.cur.fetchone()
         self.con.commit()
@@ -294,6 +315,8 @@ class Harness:
         self.attach(db)
         self.tables = []
         info = self.build(mode, design, how)
+        self.wcur.execute("DROP TABLE %s" % self.src)   # the copies need the built tables only
+        self.wcon.commit()
         self.detach()
         self.admin("COMMENT ON DATABASE %s IS %%s" % qi(db), (json.dumps(dict(info, tag=tag, tables=self.tables)),))
         self.log(mode, "template", db, "built:", info)
@@ -524,11 +547,13 @@ def table():
 def main():
     args = sys.argv[1:]
     sizes, reps, modes, parallel, budget, copy, out, known = [10000, 20000, 30000], 5, MODES, 0, 7200, False, None, []
-    names, action, i = [], "run", 0
+    names, action, i, fks = [], "run", 0, False
     while i < len(args):
         a = args[i]
         if a == "--copy":
             copy = True; i += 1
+        elif a == "--fks":
+            fks = True; i += 1
         elif a == "--known":
             known = args[i + 1].split(","); i += 2
         elif a == "--prepare":
@@ -561,7 +586,7 @@ def main():
             check(name)
         return
     if parallel:
-        opts = ["--sizes", ",".join(map(str, sizes)), "--reps", str(reps), "--modes", ",".join(modes), "--budget", str(budget)] + (["--copy"] if copy else [])
+        opts = ["--sizes", ",".join(map(str, sizes)), "--reps", str(reps), "--modes", ",".join(modes), "--budget", str(budget)] + (["--copy"] if copy else []) + (["--fks"] if fks else [])
         running, todo = {}, list(names)
         while todo or running:
             while todo and len(running) < parallel:
@@ -579,7 +604,7 @@ def main():
         rec = e1_record(name)
         n, Da = atomic(name)
         con = connect()
-        h = Harness(name, con, rec, n, Da, sizes, reps, budget=budget, copy=copy, out=out)
+        h = Harness(name, con, rec, n, Da, sizes, reps, budget=budget, copy=copy, out=out, fks=fks)
         if action == "prepare":
             h.prepare(modes)
         else:
