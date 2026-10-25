@@ -423,25 +423,11 @@ def load_stored():
             out[name] = [json.loads(l) for l in open(f, encoding="utf-8") if l.strip()]
     return out
 
-def load_worst_stored():
-    """the baselines at their highest and Repair at its lowest risk on the stored tables over the orders of
-    worst_case.py: {set: {mode: (viol., anom.)}} (results/worst_stored_<set>.jsonl of worst_stored.py)"""
-    import e3, worst_stored
-    out = {}
-    for name in e3.SETS:
-        f = os.path.join(ROOT, "results", "worst_stored_%s.jsonl" % name)
-        if os.path.isfile(f):
-            r = json.loads(open(f, encoding="utf-8").readline())
-            out[name] = {m: worst_stored.worst(r, m) for m in r["modes"]}
-    return out
-
-def table_stored(srecs, worst=None):
+def table_stored(srecs):
     """per data set: the mean integrity risk (per cent of the harmful updates) when the updates run on the stored
     tables (stored_risk.py), split into the missed harmful updates that change no other record, so that the violation
     stays, and those that change other records instead (update anomalies); the key-only design stores one table, so
-    that its risk is the one on the universal relation and it has no anomalies; with worst (load_worst_stored()), the
-    baselines show the split of their design with the highest and Repair that of its design with the lowest risk on
-    the stored tables"""
+    that its risk is the one on the universal relation and it has no anomalies"""
     import statistics
     out = [r"\begin{tabular}{lr" + "r" * (2 * len(STORED_MODES)) + "}", r"\toprule",
            r"Data set & key-only & " + " & ".join(r"\multicolumn{2}{c}{%s}" % l for _, l in STORED_MODES) + r"\\",
@@ -459,10 +445,7 @@ def table_stored(srecs, worst=None):
         out += rule
         cells = ["%.1f" % pct(recs, "keys", "missed_stored")]
         for mode, _ in STORED_MODES:
-            if mode in (worst or {}).get(name, {}):
-                cells += ["%.1f" % v for v in worst[name][mode]]
-            else:
-                cells += ["%.1f" % pct(recs, mode, "missed_stored_local"), "%.1f" % pct(recs, mode, "missed_stored", "missed_stored_local")]
+            cells += ["%.1f" % pct(recs, mode, "missed_stored_local"), "%.1f" % pct(recs, mode, "missed_stored", "missed_stored_local")]
         out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
@@ -621,7 +604,7 @@ if __name__ == "__main__":
     for fn, t in (("table_e1.tex", table_e1(rows)), ("table_e2.tex", table_e2(rows)), ("table_e12.tex", table_e12(rows, records=records)),
                   ("table_e12_full.tex", table_e12(rows, compact=False, records=records)), ("table_e3.tex", table_e3(e3recs, e4recs, compact=True)),
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
-                  ("table_e4.tex", table_e4(e4recs)), ("table_stored.tex", table_stored(load_stored(), load_worst_stored())),
+                  ("table_e4.tex", table_e4(e4recs)), ("table_stored.tex", table_stored(load_stored())),
                   ("table_ops.tex", table_ops(e3recs, *load_ops())),
                   ("table_weighted.tex", table_weighted(load_weighted(), drift=load_drift())),
                   ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"), drift=load_drift())),

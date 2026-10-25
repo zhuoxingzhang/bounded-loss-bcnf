@@ -63,29 +63,15 @@ def panel(title, ylabel, names, series, log, ymin, ymax=None, legend=False, hatc
                         mark, STYLE[key].split(",")[0], shift(key, bar, gap), pts))
     return out
 
-def load_orders():
-    """the integrity risk in per cent (mean over the seeds) over the runs of worst_case.py, per set and design key:
-    the highest for the baselines and the lowest for Repair: {set: {key: risk}} (results/worst_<set>.jsonl)"""
-    import json, e3
-    out = {}
-    for name in e3.SETS:
-        f = os.path.join(ROOT, "results", "worst_%s.jsonl" % name)
-        if os.path.isfile(f):
-            r = json.loads(open(f, encoding="utf-8").readline())
-            out[name] = {m: (min if m == "repair" else max)(100.0 * sum(d["risk"]) / len(d["risk"]) for d in v["designs"])
-                         for m, v in r["modes"].items()}
-    return out
-
 def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, width=r"\textwidth", height=3.6, bar=BAR, gap=GAP,
-                legend_cols=-1, legend_y=1.18, vsep=36, ylabel_at=None, shared_xticklabels=False, rotate=0, orders=None):
+                legend_cols=-1, legend_y=1.18, vsep=36, ylabel_at=None, shared_xticklabels=False, rotate=0):
     """the bar panels of the losses (RQ1), the insertion times (RQ3) and the integrity risks (RQ4); with
     loss_panel=False the panel of the losses is left out and the other two are lettered (a) and (b); width, height,
     bar and gap size the panels and the bars, legend_cols and legend_y lay out the legend above the first panel,
     vsep is the distance between the panels in pt, and ylabel_at fixes the y labels at that fraction of the panel
     width left of the axis, so that the labels of panels with tick labels of different widths align; with
     shared_xticklabels only the bottom panel names the data sets (the panels show the same sets in the same order),
-    rotate turns these names by that many degrees; with orders (load_orders()), the baselines show their highest and
-    Repair its lowest risk over the orders of worst_case.py instead of the risk of their design in E1"""
+    rotate turns these names by that many degrees"""
     greedy = load_gbcnf()
     # RQ1: the losses of the designs on the FD sets with positive loss
     loss_rows = [r for r in rows if "error" not in r and (r.get("repair_loss") or 0) > 0]
@@ -119,7 +105,6 @@ def fig_results(rows, e3recs, e4recs, size=10000, budget=7200, loss_panel=True, 
         risk["orig"][label] = 0
         for key in ("keys", "3nf", "3nfc", "bcnf", "gbcnf", "repair", "drop"):
             m, _ = e4_risk(recs, key)
-            m = (orders or {}).get(name, {}).get(key, m)
             risk[key][label] = None if m is None else (0 if m < 0.1 else "%.2f" % m)   # below the floor of the axis: a circle
     letters = iter("abc")
     out = [r"\begin{tikzpicture}",
@@ -355,7 +340,7 @@ if __name__ == "__main__":
     # the single-column variant of the paper: time and risk on the nine discovered and the three documented E3/E4
     # sets, legend in two rows, the names of the sets turned
     t = fig_results(rows, e3recs, e4recs, loss_panel=False, width=r"\columnwidth", height=3.1, bar=1.5, gap=0.15, legend_cols=4, legend_y=1.16,
-                    vsep=15, ylabel_at=-0.1, shared_xticklabels=True, rotate=35, orders=load_orders())
+                    vsep=15, ylabel_at=-0.1, shared_xticklabels=True, rotate=35)
     open(os.path.join(ROOT, "results", "fig_results.tex"), "w", encoding="utf-8", newline="\n").write(t + "\n")
     print(t)
     # the single-column variant of the paper: the six largest sets with positive loss in three columns and two rows,

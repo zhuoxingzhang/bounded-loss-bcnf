@@ -34,7 +34,7 @@ Every script states its purpose and options in its docstring and runs from the r
 | `experiments.py`, `meaningful.py` | E1 and E2 on the discovered and on the meaningful FD sets |
 | `documented.py` | the data of the meaningful FD sets for E3 and E4 |
 | `e3load.py`, `pgload.py`, `e3pg.py`, `e3_report.py` | E3: source tables in MySQL and PostgreSQL, insertion times, summary |
-| `e4.py`, `weighted.py`, `drift.py`, `worst_case.py`, `worst_stored.py` | E4: integrity risk, violation weights, drift, the risk of the baselines over random orders |
+| `e4.py`, `weighted.py`, `drift.py` | E4: integrity risk, violation weights, drift |
 | `stored_risk.py`, `independence.py` | the risk on the stored tables, the independence of the designs, the parts of the FD sets |
 | `queries.py` | the queries that reconstruct records from the tables of a design |
 | `teaser_pg.py`, `teaser_risk.py` | the running example of the introduction |
@@ -58,8 +58,6 @@ python src/meaningful.py                             # E1 on the meaningful FD s
 python src/gbcnf.py && python src/hybrid.py          # greedy BCNF decomposition, Opt and Hybrid
 python src/e3pg.py --modes orig-x,3nf-x,3nfc-x,3nf,3nfc,keys,bcnf,gbcnf,repair,drop abalone   # E3
 python src/e4.py abalone                             # E4
-python src/worst_case.py abalone                     # the baselines on 100 random orders
-python src/worst_stored.py abalone                   # their designs on the stored tables
 python src/weighted.py --budgets 1000000 abalone     # violation weights
 python src/drift.py abalone                          # drift
 python src/hit.py --core --time 3600 abalone         # Hit (--weights: violation weights)
@@ -184,13 +182,6 @@ with up to 32 concurrent clients; the paper does not report it.
   every subset sum of the weights. All designs are evaluated on the updates of seeds 1 to 5.
 - Under drift, the attribute of an update follows (1 − α)·uniform + α·Zipf(s) over a random permutation of the
   non-constant attributes, for s ∈ {1, 2} and α ∈ {0.25, 0.5, 0.75, 1}, with ten permutations of 10,000 updates each.
-- The baselines leave choices open: the order in which 3NF synthesis removes redundant FDs (for iCONF, only among FDs
-  of equal rank) and the minimal key of R it adds, and the violating FD on which a BCNF decomposition splits.
-  `worst_case.py` runs iCONF, the classical 3NF synthesis and both BCNF decompositions on 100 orders: run 0 is the
-  order of E1 and reproduces its design on every set, run r > 0 relabels the attributes and lists Σ_a in an order
-  drawn with seed r. Every distinct design is evaluated on the updates of seeds 1 to 5, and Fig. 2b shows the highest
-  risk of every baseline. `worst_stored.py` replays the same updates on the stored tables of these designs, and
-  Tab. 7 shows, for iCONF and the classical BCNF decomposition, the split of the design with the highest risk there.
 
 ### Hit, independence and the stored tables
 
