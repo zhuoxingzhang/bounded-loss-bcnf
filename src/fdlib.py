@@ -13,7 +13,7 @@ Contents
   minimal keys        : Lucchesi-Osborn enumeration of all minimal keys of (S, F[S])
   atomic cover        : all minimal FDs X -> A of F^+ (minimal keys of F + A -> R, per attribute A)
   criticality         : violators of a schema, critical / uncritical minimal FDs
-  enforceability      : Theorem 3.17: the uncritical minimal FDs of E must cover E
+  enforceability      : Theorem 3.18: the uncritical minimal FDs of E must cover E
   designs             : BCNF design from an enforceable set, enforced FDs, loss, local enforcement, chase
   classical baselines : minimal cover, BCNF decomposition (the 3NF syntheses are in iconf.py)
   I/O                 : the JSON format of the FD files in data/fds and the Metanome text format
@@ -358,7 +358,7 @@ def split_critical(Fa):
     return unc, crit
 
 def enforceable(Fa):
-    """Theorem 3.17: E is enforceable iff its uncritical minimal FDs cover E.
+    """Theorem 3.18: E is enforceable iff its uncritical minimal FDs cover E.
     Returns (bool, U) with U the FDSet of uncritical minimal FDs."""
     unc, crit = split_critical(Fa)
     U = FDSet(Fa.n, unc)

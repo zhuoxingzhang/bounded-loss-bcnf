@@ -3,7 +3,7 @@ r"""drop.py: the exact algorithm Drop(R, Sigma, w) of the paper (Alg. 1), on top
 Drop enumerates the sets Delta of minimal FDs to leave unenforced in increasing order of weight, skips the
 sets that are not closed choices (some element implied by the rest) and the sets that fail the cover
 condition of Lemma 5.3, and for each remaining Delta searches a set W of weakened FDs such that
-E = (Psi cup W)^+ with Psi = Sigma_a - Delta avoids Delta and is enforceable (Theorem 3.17). The search
+E = (Psi cup W)^+ with Psi = Sigma_a - Delta avoids Delta and is enforceable (Theorem 3.18). The search
 over W is an iterative-deepening search over candidate weakened FDs with the monotone pruning "E already
 implies an element of Delta"; local weakened FDs are tried first.
 
@@ -292,7 +292,7 @@ def greedy_restarts(n, Da, w, R, deadline, stats, restarts=20, seed=0):
 
 def uncritical_fixpoint(n, Da, w, R, deadline, stats):
     """The mass version of the greedy for large schemata: drop every obstruction at once and repeat,
-    E_0 = Sigma^+ and E_{i+1} = (uncritical minimal FDs of E_i)^+, until E_i is enforceable (Theorem 3.17).
+    E_0 = Sigma^+ and E_{i+1} = (uncritical minimal FDs of E_i)^+, until E_i is enforceable (Theorem 3.18).
     Every round costs one atomic cover; the sequence decreases and stops at an enforceable subset of Sigma^+.
     Returns (Delta, Psi, Pa, U) like greedy_plain (Pa the atomic cover of the enforced set, U its uncritical
     minimal FDs, Delta the minimal FDs of Sigma it does not imply), or None at the deadline, also when an atomic

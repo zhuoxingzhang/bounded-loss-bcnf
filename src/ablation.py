@@ -1,4 +1,4 @@
-"""ablation.py: the branches of Repair (Algorithm 3) on the FD sets with positive loss, from the E1 records.
+"""ablation.py: the branches of Repair (Alg. 2) on the FD sets with positive loss, from the E1 records.
 
     python src/ablation.py [--tex]        # --tex also writes results/table_ablation.tex
 

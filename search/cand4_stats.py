@@ -1,4 +1,4 @@
-r"""Cover condition (Lemma 5.5 in the draft) and its pruning power.
+r"""Cover condition (Lem. 5.3 of the paper) and its pruning power.
 
 U(D): uncritical minimal FDs of D.  C(Delta): critical minimal FDs X->A of D with a violator of XA in Delta.
 NC(Delta): U cup C(Delta) cup Delta is a cover of D.

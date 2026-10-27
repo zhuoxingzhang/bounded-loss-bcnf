@@ -499,6 +499,44 @@ def table_ops(e3recs, fkrecs, qrecs, size=10000):
     out += [r"\bottomrule", r"\end{tabular}"]
     return "\n".join(out)
 
+SUMMARY_MODES = [("3nf", "iC"), ("repair", r"\repair")]
+
+def table_summary(e4recs, fkrecs, qrecs, srecs, size=10000):
+    """per data set, the keys of iConf (iC) against Repair: the loss, the mean seconds for inserting `size` records
+    with foreign keys (e3pg.py --fks), the mean milliseconds of Q_point (queries.py), the integrity risk on the
+    universal relation (e4.py), below 0.1 per cent as in Fig. 2b, and the harmful updates that Repair misses on the
+    stored tables, split as in table_stored (stored_risk.py)"""
+    import statistics
+
+    def cell(t):
+        return "--" if t is None else ("%.2f" % t if t < 10 else ("%.1f" % t if t < 100 else "{:,.0f}".format(t)))
+
+    def pct(x):
+        return "--" if x is None else (r"$<$0.1" if x < 0.1 else "%.1f" % x)
+
+    out = [r"\begin{tabular}{l" + "r" * 10 + "}", r"\toprule",
+           r" & \multicolumn{2}{c}{loss} & \multicolumn{2}{c}{+FK (s)} & \multicolumn{2}{c}{query (ms)} & \multicolumn{2}{c}{risk (\%)} & \multicolumn{2}{c}{stored (\%)}\\",
+           "".join(r"\cmidrule(lr){%d-%d}" % (2 + 2 * i, 3 + 2 * i) for i in range(5)),
+           "Data set & " + " & ".join([" & ".join(l for _, l in SUMMARY_MODES)] * 4) + r" & viol. & anom.\\",
+           r"\midrule"]
+    ruled = False
+    for name, recs in e4recs.items():
+        if name not in fkrecs or name not in qrecs or name not in srecs:
+            continue
+        rule, ruled = documented_rule(name, ruled)
+        out += rule
+        cells = [num(recs[0]["modes"][m]["loss"]) for m, _ in SUMMARY_MODES]
+        cells += [cell(e3_mean(fkrecs[name], m, size)[0]) for m, _ in SUMMARY_MODES]
+        cells += [cell(qrecs[name][m]["q_point_mean"] if qrecs[name].get(m) else None) for m, _ in SUMMARY_MODES]
+        cells += [pct(e4_risk(recs, m)[0]) for m, _ in SUMMARY_MODES]
+        s = srecs[name]
+        local = statistics.mean(100.0 * r["modes"]["repair"]["missed_stored_local"] / r["harmful"] for r in s)
+        stored = statistics.mean(100.0 * r["modes"]["repair"]["missed_stored"] / r["harmful"] for r in s)
+        cells += ["%.1f" % local, "%.1f" % (stored - local)]
+        out.append("%s & %s\\\\" % (e3_label(name), " & ".join(cells)))
+    out += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(out)
+
 def load_weighted():
     """the records of weighted.py per set: {set: record} (results/weighted_<set>.jsonl)"""
     import e3
@@ -582,13 +620,13 @@ def fig_teaser(recs, risks, size=10000):
         r"\nextgroupplot[ybar, xtick align=inside, title={(a) inserting %s customers}, ylabel={ms}, ymax=%d," % ("{:,}".format(size), 50 * (int(max(ms.values()) * 1.25) // 50 + 1)),
         r"  nodes near coords={\pgfmathprintnumber[fixed, precision=0]{\pgfplotspointmeta}}, nodes near coords style={font=\tiny, black}]",
         r"\addplot[blue, fill=blue!30] coordinates {%s};" % pts(ms),
-        r"\nextgroupplot[ybar stacked, title={(b) harmful updates missed}, ylabel={\%}, ymax=100,",
+        r"\nextgroupplot[ybar stacked, title={(b) harmful updates not caught}, ylabel={\%}, ymax=100,",
         r"  legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},",
         r"  legend style={font=\tiny, at={(0.99,0.99)}, anchor=north east, draw=none, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt, row sep=-2pt}, legend cell align=left]",
         r"\addplot[red!70!black, fill=red!35] coordinates {%s};" % pts(viol),
-        r"\addlegendentry{violation stays}",
-        r"\addplot[orange!80!black, fill=orange!35] coordinates {%s};" % pts(anom),
-        r"\addlegendentry{other records change}",
+        r"\addlegendentry{violation left}",
+        r"\addplot[orange!80!black, densely dashed, fill=orange!12] coordinates {%s};" % pts(anom),
+        r"\addlegendentry{other records changed}",
         r"\end{groupplot}",
         r"\end{tikzpicture}"])
 
@@ -606,6 +644,7 @@ if __name__ == "__main__":
                   ("table_e3_full.tex", table_e3(e3recs, e4recs)),
                   ("table_e4.tex", table_e4(e4recs)), ("table_stored.tex", table_stored(load_stored())),
                   ("table_ops.tex", table_ops(e3recs, *load_ops())),
+                  ("table_summary.tex", table_summary(e4recs, *load_ops(), load_stored())),
                   ("table_weighted.tex", table_weighted(load_weighted(), drift=load_drift())),
                   ("table_weighted_full.tex", table_weighted(load_weighted(), ("repair", "drop"), drift=load_drift())),
                   ("fig_teaser.tex", fig_teaser(*teaser) if all(teaser) else "")):

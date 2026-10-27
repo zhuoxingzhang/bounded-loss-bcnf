@@ -1,4 +1,4 @@
-r"""ascend_baseline.py: Ascend (Alg. 2) from the obstruction design alone, without the local repairs of Repair, on the
+r"""ascend_baseline.py: Ascend (Alg. 4) from the obstruction design alone, without the local repairs of Repair, on the
 FD sets with positive loss (runs on the server, one process per set).
 
 The atomic cover is that of E1 (experiments.sigma_a). The ascent starts from the uncritical minimal FDs of Sigma, as

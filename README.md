@@ -1,12 +1,12 @@
 # Boyce-Codd Normal Form with Bounded Dependency Loss
 
-> **Full paper: [k-loss-BCNF(full).pdf](k-loss-BCNF(full).pdf)**, with Appendix A (further results) and Appendix B (all proofs).
+> **Full paper: [k-loss-BCNF(full).pdf](k-loss-BCNF(full).pdf)**, the paper with its Supplementary Material: Supp. A (further results) and Supp. B (all proofs).
 
 Code, FD sets and experiment records of the paper "Boyce-Codd Normal Form with Bounded Dependency Loss".
 
 ## Requirements
 
-Python 3.13. The algorithms use the standard library only. `fdlib.py` compiles the closures of `src/closure.c` with
+Python 3.14. The algorithms use the standard library only. `fdlib.py` compiles the closures of `src/closure.c` with
 gcc at its first import and otherwise runs them in Python (also on Windows, above 64 attributes, or with
 `FDLIB_PYTHON=1`). The database experiments need PostgreSQL 18 with `btree_gist` and `pg_prewarm`, psycopg2 and
 NumPy, and MySQL 8 with pymysql for staging the source tables. `pgdb.py` reads `PGHOST`, `PGPORT` and `PGDATABASE`;
@@ -22,7 +22,7 @@ NumPy, and MySQL 8 with pymysql for staging the source tables. `pgdb.py` reads `
 | `logs/` | the validation runs |
 | `search/` | the random and exhaustive searches behind the counterexamples of the paper, with their logs |
 | `e8/` | the machine checks of the theory (`e8/run_validation.sh`), with their logs in `results/e8/` |
-| `iconf/` | Java drivers that run the original iCONF and DecompAlg4 for the cross-checks (`iconf/README.md`) |
+| `iconf/` | Java drivers that run the original iConf and DecompAlg4 for the cross-checks (`iconf/README.md`) |
 
 Every script states its purpose and options in its docstring and runs from the repository root. The main ones:
 
@@ -30,7 +30,7 @@ Every script states its purpose and options in its docstring and runs from the r
 |---|---|
 | `fdlib.py`, `closure.c` | closures, minimal keys, atomic cover Σ_a, enforceability test, BCNF designs, dependency loss, classical BCNF decomposition |
 | `drop.py`, `ascend.py`, `repair.py`, `hit.py` | the algorithms Drop, Ascend, Repair and Hit |
-| `iconf.py`, `gbcnf.py`, `hybrid.py` | competitors: iCONF and the classical 3NF synthesis DecompAlg4, the greedy BCNF decomposition, Opt and Hybrid of Wei and Link |
+| `iconf.py`, `gbcnf.py`, `hybrid.py` | competitors: iConf and the classical 3NF synthesis DecompAlg4, the greedy BCNF decomposition, Opt and Hybrid of Wei and Link |
 | `experiments.py`, `meaningful.py` | E1 and E2 on the discovered and on the meaningful FD sets |
 | `documented.py` | the data of the meaningful FD sets for E3 and E4 |
 | `e3load.py`, `pgload.py`, `e3pg.py`, `e3_report.py` | E3: source tables in MySQL and PostgreSQL, insertion times, summary |
@@ -42,10 +42,29 @@ Every script states its purpose and options in its docstring and runs from the r
 | `closure_check.py`, `iconf_check.py`, `decomp4_check.py` | C against Python closures, the ports against the Java originals |
 | `hardness_check.py`, `obstruction_stats.py` | the reduction of the hardness theorem for atomic covers, the bounds on every FD set |
 | `paper_tables.py`, `paper_figures.py`, `embedded_loss.py`, `ablation.py` | the tables and figures |
-| `run_*.sh`, `rerun_constants.sh`, `e1_relaunch.sh` | the server drivers of the final runs |
+| `run_v2.sh` | every experiment of the paper, in the order of their dependencies |
 
 The remaining scripts are diagnostics, prototypes, and earlier MySQL variants of E3 that the paper does not report
 (`e3.py`, `triggers.py`).
+
+## Tables and figures of the paper
+
+The experiments E1 to E4 of the records answer the research questions RQ1 to RQ4 of the paper.
+
+| paper | records of | written by | in `results/` |
+|---|---|---|---|
+| Fig. 1 | `teaser_pg.py`, `teaser_risk.py` | `paper_tables.py` | `fig_teaser.tex` |
+| Tab. 2 | `experiments.py`, `meaningful.py`, `gbcnf.py`, `hybrid.py`, `hit.py` | `paper_tables.py` | `table_e12.tex` |
+| Fig. 2 | `e3pg.py`, `e4.py` | `paper_figures.py` | `fig_results.tex` |
+| Tab. 3 | `e3pg.py --fks`, `queries.py`, `e4.py`, `stored_risk.py` | `paper_tables.py` | `table_summary.tex` |
+| Tab. 5 | `experiments.py` | `ablation.py --tex` | `table_ablation.tex` |
+| Tab. 6 | `experiments.py`, `independence.py` | `embedded_loss.py --tex` | `table_embedded.tex` |
+| Tab. 7 | `e3pg.py`, `e4.py` | `paper_tables.py` | `table_e3.tex` |
+| Tab. 8 | `weighted.py`, `drift.py` | `paper_tables.py` | `table_weighted.tex` |
+| Tab. 9 | `meaningful.py`, `documented.py` | `meaningful.py --tex` | `table_documented.tex` |
+| Tab. 10 | `e3pg.py`, `e3pg.py --fks`, `queries.py` | `paper_tables.py` | `table_ops.tex` |
+| Tab. 11 | `stored_risk.py` | `paper_tables.py` | `table_stored.tex` |
+| Fig. 3 | `experiments.py`, `e3pg.py` | `paper_figures.py` | `fig_tradeoff.tex` |
 
 ## Reproducing
 

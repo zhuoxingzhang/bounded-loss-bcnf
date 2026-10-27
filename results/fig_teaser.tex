@@ -7,12 +7,12 @@
 \nextgroupplot[ybar, xtick align=inside, title={(a) inserting 10,000 customers}, ylabel={ms}, ymax=300,
   nodes near coords={\pgfmathprintnumber[fixed, precision=0]{\pgfplotspointmeta}}, nodes near coords style={font=\tiny, black}]
 \addplot[blue, fill=blue!30] coordinates {(D1,43.6) (D2,64.4) (D4,81.8) (D5,213.8)};
-\nextgroupplot[ybar stacked, title={(b) harmful updates missed}, ylabel={\%}, ymax=100,
+\nextgroupplot[ybar stacked, title={(b) harmful updates not caught}, ylabel={\%}, ymax=100,
   legend image code/.code={\draw[#1] (0cm,-0.07cm) rectangle (0.32cm,0.07cm);},
   legend style={font=\tiny, at={(0.99,0.99)}, anchor=north east, draw=none, fill=white, fill opacity=0.8, text opacity=1, inner sep=1pt, row sep=-2pt}, legend cell align=left]
 \addplot[red!70!black, fill=red!35] coordinates {(D1,74.1) (D2,22.8) (D4,0.0) (D5,0.0)};
-\addlegendentry{violation stays}
-\addplot[orange!80!black, fill=orange!35] coordinates {(D1,0.0) (D2,25.7) (D4,22.5) (D5,0.1)};
-\addlegendentry{other records change}
+\addlegendentry{violation left}
+\addplot[orange!80!black, densely dashed, fill=orange!12] coordinates {(D1,0.0) (D2,25.7) (D4,22.5) (D5,0.1)};
+\addlegendentry{other records changed}
 \end{groupplot}
 \end{tikzpicture}
